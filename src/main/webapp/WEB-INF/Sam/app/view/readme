@@ -1,0 +1,6 @@
+In the view folder we will create all view classes, also known as the UI
+Components (User Interface Components), such as the Grid panel, the Tree
+panel, the Menu, the Form panel, the Window, and so on. In these classes we
+will only code what the user will see on the screen; we will not handle the
+events fired by a component (the Grid panel, the Tree panel, the Menu, the
+Form panel, the Window are subclasses of the Component class).

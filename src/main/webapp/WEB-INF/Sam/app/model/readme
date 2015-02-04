@@ -1,0 +1,5 @@
+In the model folder we will create all files that represent a Model, which
+is an Ext JS class that represents a set of fields, meaning an Object that our
+application manages (Actor, Country, Film). It is similar to a class on the
+server side with only the attributes of the class plus getter and setter methods
+used to represent a table from the database.s

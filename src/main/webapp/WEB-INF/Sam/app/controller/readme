@@ -1,0 +1,5 @@
+And finally, in the controller folder we will handle all the events fired by
+the components (events fired because of the life cycle of the component or
+because of some interaction of the user with a component). We always need
+to remember that Ext JS is event driven, and on the Controller classes we
+will control these events and update any Model, View, or Store (if needed).

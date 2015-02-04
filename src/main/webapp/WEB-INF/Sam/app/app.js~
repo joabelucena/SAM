@@ -1,0 +1,20 @@
+Ext.application({
+	name: 'Sam',
+
+	launch: function() {
+		
+	},
+
+	requires: [
+		'Sam.view.Login'
+	],
+
+	views: [
+		'Login'
+	],
+
+	controllers: [
+		'Login'
+	]
+
+});

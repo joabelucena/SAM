@@ -1,0 +1,7 @@
+In the store folder we will create all the store classes, which is a cache of a
+collection of Models. They are very similar to DAO (Data Access Object);
+classes used on server-side languages to perform CRUD operations on the
+database. And as Ext JS does not communicate directly with databases, the
+store classes are used to communicate with the server side or a local storage
+used with a proxy (Proxies are used by Stores to handle the loading and
+saving of the Model data).
