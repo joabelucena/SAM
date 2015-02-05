@@ -29,7 +29,8 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/resources/**" 	location="/resources/" />
+	<mvc:resources mapping="/app/**" 		location="/app/" />
 
 
 	<!-- Hibernate + JDBC Configuration -->
@@ -68,10 +69,10 @@
 		in the /WEB-INF/views directory -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/sam/" />
+		<property name="prefix" value="/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-
+ 	
 	<!-- i18n Configuration. Default language is english. Change language using 
 		?language=en -->
 	<bean id="localeChangeInterceptor"

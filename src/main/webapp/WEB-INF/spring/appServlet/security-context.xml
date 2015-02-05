@@ -9,11 +9,9 @@
 
 	<http auto-config="true" use-expressions="true">
 		
-		<intercept-url pattern="/sam/resources/**"	access="permitAll"		   />
 		
-		<intercept-url pattern="/eventsService/**"	access="permitAll"		   />
-		<intercept-url pattern="/index"				access="isAuthenticated()" />
-		<intercept-url pattern="/"					access="isAuthenticated()" />
+		<intercept-url pattern="/"		access="isAuthenticated()"	/>
+		<intercept-url pattern="/eventsService/**"	access="permitAll"	/>
 		
 		<!-- 
 		<intercept-url pattern="/resources/**"		access="permitAll" />
