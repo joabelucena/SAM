@@ -15,7 +15,7 @@ public class LoginController {
 			@RequestParam(value = "logout", required = false) String logout) {
 
 		ModelAndView model = new ModelAndView();
-		System.out.println(error);
+		
 		if (error != null) {
 			model.addObject("error", "Invalid username and password!");
 		}
