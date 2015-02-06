@@ -1,15 +1,13 @@
-Ext.application({
-	name   : 'Sam',
+Ext.define('Sam.view.Home', {
+	extend: 'Ext.window.Window',
+	alias: 'widget.home',
+	
 
-	launch : function() 
-	{
-		
-	Ext.create('Ext.container.Viewport', {
         layout: 'border',
 		id: 'viewport',
         items: [{
             region: 'north',
-	    	title: "<img border='0' width='15%' height='15%' align='right' src='./resources/resources/img/logo-vlt-emtu.png' />",
+	    	title: "<img border='0' width='15%' height='15%' align='right' src='./resources/img/logo-vlt-emtu.png' />",
             margins: '5 5 5 5'
         }, {
             region: 'west',
@@ -88,7 +86,7 @@ Ext.application({
         renderTo: Ext.getBody(),
 		listeners: {
         itemclick: function(s,r) {
-                //alert(s.data.text);
+                // alert(s.data.text);
 
 				if(r.get('id')=='EventsMenu') {
 

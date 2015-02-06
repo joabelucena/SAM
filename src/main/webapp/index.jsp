@@ -14,7 +14,6 @@
 		<script src="<c:url value="/app/app.js" />"></script>
  		
  		
- 		
 	</head>
 	<body></body>
 </html>
