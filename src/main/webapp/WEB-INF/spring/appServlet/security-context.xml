@@ -6,33 +6,51 @@
                     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<!-- We will be defining all security related configurations in this file -->
-
+	<!--
 	<http auto-config="true" use-expressions="true">
 		
+		<intercept-url pattern="/app/**"			access="permitAll"			/>
+		<intercept-url pattern="/resources/**"		access="permitAll"			/>
+		<intercept-url pattern="/"					access="isAuthenticated()"	/>
+		<intercept-url pattern="/index*"			access="isAuthenticated()"	/>
 		
-		<intercept-url pattern="/"		access="isAuthenticated()"	/>
 		<intercept-url pattern="/eventsService/**"	access="permitAll"	/>
-		
-		<!-- 
-		<intercept-url pattern="/resources/**"		access="permitAll" />
-		<intercept-url pattern="/login"				access="permitAll" />
-		<intercept-url pattern="/eventsService/**"	access="permitAll" />
-		<intercept-url pattern="/events/eventsrestservice/**" access="permitAll" />
-		 -->
-		
-		 
-		<!-- <form-login/> -->
 		
 		<form-login login-page="/login"
 					authentication-failure-url="/login?error=true"
-					default-target-url="/main"
+					default-target-url="/index"
 					username-parameter="username"
 					password-parameter="password"/>
- 		 
-
-		<!-- We will just use the built-in form login page in Spring -->
-		<logout logout-url="/logout" logout-success-url="/logout" /><!-- the logout url we will use in JSP -->
+					
+		<logout logout-url="/logout" logout-success-url="/login" />
 	</http>
+	-->
+	<http use-expressions="true">
+		
+		<intercept-url pattern="/app/**"			access="permitAll"			/>
+		<intercept-url pattern="/resources/**"		access="permitAll"			/>
+		<intercept-url pattern="/"					access="isAuthenticated()"	/>
+		<intercept-url pattern="/index*"			access="isAuthenticated()"	/>
+      	
+      	<form-login login-page="/login"
+                authentication-success-handler-ref="loginSuccessHandler"
+                authentication-failure-handler-ref="loginFailureHandler"
+                username-parameter="username"
+				password-parameter="password" />
+      
+      <!--logout invalidate-session="true" logout-success-url="/" logout-url="/j_spring_security_logout"/-->
+      <logout logout-url="/logout" logout-success-url="/login" />
+      
+      <session-management session-fixation-protection="newSession" >
+          <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
+      </session-management>
+	</http>
+	
+	
+	 
+	<beans:bean id="loginSuccessHandler" class="br.com.ttrans.samapp.security.LoginSuccessHandler" />
+	<beans:bean id="loginFailureHandler" class="br.com.ttrans.samapp.security.LoginFailureHandler" />
+	
 	
 	
 	<!-- <http use-expressions="true"> <intercept-url pattern="/student**" access="ROLE_USER" 

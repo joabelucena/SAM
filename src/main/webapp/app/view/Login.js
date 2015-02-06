@@ -12,9 +12,11 @@ Ext.define('Sam.view.Login', {
 	title: "SAM - Login",
 	closeAction: 'hide',
 	closable: false,
-
+	
 	items: [
 		{
+			id: 'formPanel',
+			name: 'formPanel',
 			xtype: 'form',
 			frame: false,
 			bodyPadding: 15,
@@ -23,19 +25,21 @@ Ext.define('Sam.view.Login', {
 				anchor: '100%',
 				labelWidth: 60,
 				allowBlank :false,
-				vtype: 'alphanum',
 				minLength: 3,
 				msgTarget: 'under'			
 			},
 			items: [
 				{
-					name: 'user',
+					id: 'username',
+					name: 'username',
 					fieldLabel: "Usuário",
+					vtype: 'alphanum',
 					maxLength: 45
 				},			
 				{
-					inputType: 'password',
+					id: 'password',
 					name: 'password',
+					inputType: 'password',
 					fieldLabel: "Senha",
 					maxLength: 45
 				}		

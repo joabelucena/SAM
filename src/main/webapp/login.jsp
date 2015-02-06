@@ -3,12 +3,12 @@
 
 <html>
 	<head>
-		<title>pagina login</title>
+		<title>Login</title>
 		
 		<link  href="<c:url value="/resources/packages/ext-theme-classic/build/resources/ext-theme-classic-all.css" />" rel="stylesheet"> 
 		<script src="<c:url value="/resources/packages/ext-theme-classic/build/ext-theme-classic.js" />"></script>
 		<script src="<c:url value="/resources/ext/ext-all.js" />"></script>
-		<script src="<c:url value="/app/app.js" />"></script>
+		<script src="<c:url value="/app/login.js" />"></script>
 		
 		
 		
