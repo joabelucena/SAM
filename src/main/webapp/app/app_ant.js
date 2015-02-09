@@ -1,13 +1,15 @@
-Ext.define('Sam.view.Home', {
-	extend: 'Ext.window.Window',
-	alias: 'widget.home',
-	
+Ext.application({
+	name   : 'Sam',
 
+	launch : function() 
+	{
+		
+	Ext.create('Ext.container.Viewport', {
         layout: 'border',
 		id: 'viewport',
         items: [{
             region: 'north',
-	    	title: "<img border='0' width='15%' height='15%' align='right' src='./resources/img/logo-vlt-emtu.png' />",
+	    	title: "<img border='0' width='15%' height='15%' align='right' src='./resources/resources/img/logo-vlt-emtu.png' />",
             margins: '5 5 5 5'
         }, {
             region: 'west',
@@ -86,16 +88,68 @@ Ext.define('Sam.view.Home', {
         renderTo: Ext.getBody(),
 		listeners: {
         itemclick: function(s,r) {
-                // alert(s.data.text);
-				
-				if(r.get('id')=='AlarmsMenu') {
-					var contentEl = Ext.create('Ext.grid.Panel', {
-						xtype: 'alarmpanel'
+                //alert(s.data.text);
+
+				if(r.get('id')=='EventsMenu') {
+
+					Ext.define('User', {
+    				extend: 'Ext.data.Model',
+    				fields: [ 'name', 'email', 'phone' ]
 					});
+
+					var userStore = Ext.create('Ext.data.Store', {
+    				model: 'User',
+    data: [
+        { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
+        { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
+        { name: 'Homer', email: 'homer@simpsons.com', phone: '555-222-1244' },
+        { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
+    ]
+});
+
+	var contentEl = Ext.create('Ext.grid.Panel', {
+		store: userStore,
+		width: 400,
+		height: 200,
+		title: 'Eventos',
+		closable: true,
+		plugins: 'gridfilters',
+		columns: [
+		    {
+		        text: 'Name',
+		        width: 100,
+		        sortable: false,
+		        hideable: false,
+		        dataIndex: 'name',
+				filter: {
+		         type: 'string'
+		     	}
+		    },
+		    {
+		        text: 'Email Address',
+		        width: 150,
+		        dataIndex: 'email',
+		        hidden: false
+		    },
+		    {
+		        text: 'Phone Number',
+		        flex: 1,
+		        dataIndex: 'phone',
+				filter: {
+					type: 'number'
+				}
+		    }
+    	]
+	});
 					
-					var viewportcenter = Ext.getCmp('centerPanel');
+				var viewportcenter = Ext.getCmp('centerPanel');
 					viewportcenter.add(contentEl);			
    				 }
+
+				
+				if(r.get('id')=='AlarmsMenu') {
+					alert(r.data.text);
+				}
 
 				if(r.get('id')=='EquipmentsMenu') {
 					alert(r.data.text);
