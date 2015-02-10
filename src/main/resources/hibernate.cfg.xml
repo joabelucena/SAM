@@ -8,6 +8,7 @@
         <mapping class="br.com.ttrans.samapp.model.Parameters" />
         <mapping class="br.com.ttrans.samapp.model.Users" />
         <mapping class="br.com.ttrans.samapp.model.Role" />
+        <mapping class="br.com.ttrans.samapp.model.Menu" />
         <mapping class="br.com.ttrans.samapp.model.Event" />
         <mapping class="br.com.ttrans.samapp.model.Site" />
         <mapping class="br.com.ttrans.samapp.model.SiteType" />

@@ -31,7 +31,6 @@ public class Users implements Serializable{
 	private UserStatus status;
 	
 	public Users(){}
-
 	public Users(int id, String username, String password, List<Role> roles,
 			UserStatus status) {
 		super();
