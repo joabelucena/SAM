@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.UserDao;
 import br.com.ttrans.samapp.model.Role;
-import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.model.UserStatus;
+import br.com.ttrans.samapp.model.Users;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -50,8 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			
 			
 			//Now let's create Spring Security Users object
-			org.springframework.security.core.userdetails.User securityUser = new 
-					org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 			return securityUser;
 		}else{
 			

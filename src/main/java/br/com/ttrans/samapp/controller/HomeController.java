@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,9 @@ public class HomeController {
 	
 	@Autowired
 	private MenuService service;
+	
+	@Autowired
+	private JSon json;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -50,14 +54,15 @@ public class HomeController {
 	
 	@RequestMapping(value = {"/test"}, method = RequestMethod.GET)
 	@ResponseBody
-	public String testStuff(Locale locale, Model model) {
-		JSon json = new JSon();
+	public String testStuff(Locale locale, Model model, Authentication authentication) {
+		
+		
 		String test = "";
 				
 		List<Menu> menu = service.loadMenu(null);
 		
 		try {
-			test += json.toJson(menu);
+			test += json.toJson(menu, (List) authentication.getAuthorities());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +70,4 @@ public class HomeController {
 		
 		return test;
 	}
-	
-	
 }
