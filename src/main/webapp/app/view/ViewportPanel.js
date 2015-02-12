@@ -4,4 +4,5 @@ Ext.define('Sam.view.ViewportPanel', {
 	
 	activeTab : 0,
 	id : 'viewportpanel'
+		
 });

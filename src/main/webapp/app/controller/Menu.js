@@ -46,7 +46,7 @@ Ext.define('Sam.controller.Menu', {
 							leaf: true,
 							iconCls: item.get('iconCls'),
 							id: item.get('id'),
-							className: item.get('classname')
+							classname: item.get('classname')
 							
 						});
 					});

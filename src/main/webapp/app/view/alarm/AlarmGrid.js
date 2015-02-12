@@ -2,18 +2,15 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.alarmgrid',
 	
-	title: 'Alarmes',
+	frame: true,
+	store: Ext.create('Sam.store.Alarms'),
 	
 	viewConfig: {
 		stripeRows: true	
 	},
 	
-	initComponent: function() {
-		this.store = 'Alarms';
-		
-		this.columns = [
+	columns : [
 		{
-			
 			text: '#',
 			flex: 1,
 			sortable: true,
@@ -88,6 +85,5 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 		}
 			
 		
-		];
-	}
+		],
 });

@@ -1,7 +1,15 @@
 Ext.define('Sam.view.alarm.AlarmPanel', {
-	extend: 'Ext.tab.Tab',
+	extend: 'Ext.TabPanel',
 	alias:  'widget.alarmpanel',
 	
-	title: 'Alarmes',
-	closable: true
+	requires: ['Sam.view.alarm.AlarmGrid'],
+	
+	
+	layout:{
+		type: 'fit',
+	},
+	
+	items: [{
+		xtype: 'alarmgrid'
+	}]
 });

@@ -4,7 +4,6 @@ Ext.application({
 	launch : function() 
 	{
 		Ext.widget('mainviewport');
-		
 	},
 	
 	views:[
@@ -12,6 +11,7 @@ Ext.application({
 	   ],
 
 	controllers : [ 
-	   'Menu'
+	   'Menu',
+	   'Alarms'
 	   ]
 });

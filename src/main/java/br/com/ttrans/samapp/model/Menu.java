@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OrderBy;
+
 @Entity
 public class Menu implements Serializable {
 	/**
@@ -29,12 +31,14 @@ public class Menu implements Serializable {
 	private Menu parent;
 	
 	@OneToMany(mappedBy="parent",targetEntity=Menu.class,fetch=FetchType.EAGER)
+	@OrderBy(clause="id")
 	private Set<Menu> children;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="permissions",
 			joinColumns=@JoinColumn(name="menu_id"),
 			inverseJoinColumns=@JoinColumn(name="role_id"))
+	@OrderBy(clause="role_id")
 	private Set<Role> roles;
 	
 	private String className;

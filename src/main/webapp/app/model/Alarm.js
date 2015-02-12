@@ -1,22 +1,18 @@
-/**
- * 
- */
-
 Ext.define('Sam.model.Alarm', {
 	extend: 'Ext.data.Model',
 	fields:[
 	        
-	        {name: 'id'},
-	        {name: 'severity'},
-	        {name: 'severity_color'},
-	        {name: 'equipment_id'},
-	        {name: 'equipment_model'},
-	        {name: 'alarm_id'},
-	        {name: 'alarm_description'},
-	        {name: 'site_description'},
-	        {name: 'sub_system_id'},
-	        {name: 'sub_system_description'},
-	        {name: 'alarm_datetime'}
+	        {name: 'id', type: 'number'},
+	        {name: 'severity', type: 'string'},
+	        {name: 'severity_color', type: 'string'},
+	        {name: 'equipment_id', type: 'string'},
+	        {name: 'equipment_model', type: 'string'},
+	        {name: 'alarm_id', type: 'string'},
+	        {name: 'alarm_description', type: 'string'},
+	        {name: 'site_description', type: 'string'},
+	        {name: 'sub_system_id', type: 'string'},
+	        {name: 'sub_system_description', type: 'string'},
+	        {name: 'alarm_datetime', type: 'date'}
 	]
 	
 });
