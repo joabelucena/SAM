@@ -1,16 +1,24 @@
 package br.com.ttrans.samapp.model;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Menu {
+public class Menu implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	private int id;
 	private String text;
@@ -21,25 +29,25 @@ public class Menu {
 	private Menu parent;
 	
 	@OneToMany(mappedBy="parent",targetEntity=Menu.class,fetch=FetchType.EAGER)
-	private List<Menu> children;
+	private Set<Menu> children;
 	
-	/*
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="permissions",
 			joinColumns=@JoinColumn(name="menu_id"),
 			inverseJoinColumns=@JoinColumn(name="role_id"))
-	private List<Role> roles;
-	*/
+	private Set<Role> roles;
+	
 	private String className;
 	public Menu(){}
 	public Menu(int id, String text, String iconCls, Menu parent,
-			List<Menu> children, List<Role> roles, String className) {
+			Set<Menu> children, Set<Role> roles, String className) {
 		super();
 		this.id = id;
 		this.text = text;
 		this.iconCls = iconCls;
 		this.parent = parent;
 		this.children = children;
-		//this.roles = roles;
+		this.roles = roles;
 		this.className = className;
 	}
 	public int getId() {
@@ -66,29 +74,24 @@ public class Menu {
 	public void setParent(Menu parent) {
 		this.parent = parent;
 	}
-	public List<Menu> getChildren() {
+	public Set<Menu> getChildren() {
 		return children;
 	}
-	public void setChildren(List<Menu> children) {
+	public void setChildren(Set<Menu> children) {
 		this.children = children;
 	}
-	/*
-	public List<Role> getRoles() {
+	
+	public Set<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	*/
+	
 	public String getClassName() {
 		return className;
 	}
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	@Override
-	public String toString() {
-		return "Menu [id=" + id + ", children=" + children + "]";
-	}
-	
 }
