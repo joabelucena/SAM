@@ -1,20 +1,17 @@
-/**
- * 
- */
-
 Ext.application({
 	name : 'Sam',
 	
 	launch : function() 
 	{
-		Ext.widget('viewport');
+		Ext.widget('mainviewport');
+		
 	},
 	
 	views:[
-	       'Viewport'
+	       'MainViewport'
 	   ],
 
 	controllers : [ 
-	   'Alarms' 
+	   'Menu'
 	   ]
-})
+});

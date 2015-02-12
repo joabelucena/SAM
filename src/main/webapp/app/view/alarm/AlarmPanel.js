@@ -1,14 +1,7 @@
 Ext.define('Sam.view.alarm.AlarmPanel', {
-	extend: 'Ext.form.Panel',
+	extend: 'Ext.tab.Tab',
 	alias:  'widget.alarmpanel',
 	
-	frame: true,
 	title: 'Alarmes',
-	bodyPadding: 5,
-	layout: 'column',
-	
-	fieldDefaults: {
-		labelAlign: 'left',
-		msgTarget: 'side'
-	}
+	closable: true
 });

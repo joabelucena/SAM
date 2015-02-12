@@ -30,13 +30,13 @@ public class JSon {
 		JSONObject json = new JSONObject();
 
 		for (int i = 0; i < menu.size(); i++) {
-			if(menu.get(i).getChildren().size() > 0){
+			if (menu.get(i).getChildren().size() > 0) {
 				array.put(toJson(menu.get(i)));
-				//System.out.println(menu.get(i).getText());
+				// System.out.println(menu.get(i).getText());
 			}
 		}
 
-		//json.put("items", true);
+		// json.put("items", true);
 		json.put("items", array);
 
 		return json.toString();
@@ -48,19 +48,26 @@ public class JSon {
 		JSONArray array = new JSONArray();
 
 		if (menu != null) {
-			
+
+			// comum
 			json.put("iconCls", menu.getIconCls());
-			if(menu.getParent() != null) json.put("menu_id", menu.getParent().getId());
+			if (menu.getParent() != null)
+				json.put("menu_id", menu.getParent().getId());
 			json.put("id", menu.getId());
 
+			// pai
 			if (menu.getChildren().size() > 0) {
+
 				json.put("title", menu.getText());
+
 				for (int i = 0; i < menu.getChildren().size(); i++) {
 					// EoF
 					array.put(toJson(menu.getChildren().get(i)));
 				}
-				
+
+				// filho
 			} else {
+				json.put("classname", menu.getClassName());
 				json.put("text", menu.getText());
 			}
 		}

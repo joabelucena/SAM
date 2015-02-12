@@ -1,6 +1,6 @@
 Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.stockgrid',
+	alias: 'widget.alarmgrid',
 	
 	title: 'Alarmes',
 	
