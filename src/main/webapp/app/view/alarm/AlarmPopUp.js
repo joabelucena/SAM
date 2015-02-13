@@ -4,8 +4,7 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 	
 	width: 800,
     height: 600,
-    title: 'Ação',
     floating: true,
-    closable : true
+    closable : true,
 	
 });

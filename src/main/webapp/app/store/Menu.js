@@ -10,7 +10,7 @@ Ext.define('Sam.store.Menu', {
 	
 	proxy: {
 		type: 'ajax',
-		url: 'menu/load',
+		url: 'test',
 		
 		reader: {
 			type: 'json',

@@ -25,6 +25,13 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
     listeners : {
         itemdblclick: function(dv, record, item, index, e) {
         	var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
+        	
+        	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('site_description');
+        	
+        	alarmPopUp.setData({
+        	    equipment : record.get('equipment_model')
+        	});
+        	
         	alarmPopUp.show();
         }
     },
