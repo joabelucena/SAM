@@ -52,22 +52,20 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = {"/test"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/menu/load"}, method = RequestMethod.GET)
 	@ResponseBody
 	public String testStuff(Locale locale, Model model, Authentication authentication) {
 		
-		
-		String test = "";
+		String result = "";
 				
 		List<Menu> menu = service.loadMenu(null);
 		
 		try {
-			test += json.toJson(menu, (List) authentication.getAuthorities());
+			result += json.toJson(menu, (List) authentication.getAuthorities());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return test;
+		return result;
 	}
 }
