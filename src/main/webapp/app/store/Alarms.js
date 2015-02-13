@@ -15,5 +15,9 @@ Ext.define('Sam.store.Alarms', {
 			type: 'json',
 			root: 'data'
 		}
-	}
+	},
+	
+	sortOnLoad: true,
+	sorters: { property: 'severity', direction: 'DESC'}
+	
 });

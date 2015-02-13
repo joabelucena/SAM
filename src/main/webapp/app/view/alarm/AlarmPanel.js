@@ -4,6 +4,7 @@ Ext.define('Sam.view.alarm.AlarmPanel', {
 	
 	requires: ['Sam.view.alarm.AlarmGrid'],
 	
+	closable: true,
 	
 	layout:{
 		type: 'fit',

@@ -4,6 +4,7 @@ Ext.define('Sam.model.Alarm', {
 	        
 	        {name: 'id', type: 'number'},
 	        {name: 'severity', type: 'string'},
+	        {name: 'severity_id', type: 'string'},
 	        {name: 'severity_color', type: 'string'},
 	        {name: 'equipment_id', type: 'string'},
 	        {name: 'equipment_model', type: 'string'},

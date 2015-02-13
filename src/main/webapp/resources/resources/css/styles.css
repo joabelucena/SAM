@@ -1,0 +1,93 @@
+.severity3 {
+	-webkit-animation-name: blinker3;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker3;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker3;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes blinker3 {
+    from { background: red; color: yellow; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes blinker3 {
+    from { background: red; color: #FFCC00; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes blinker3 {
+    from { background: red; color: #FFCC00; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes blinker3 {
+    from { background: red; color: #FFCC00; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes blinker3 {
+    from { background: red; color: #FFCC00; }
+    to   { background: #dedede; color: black; }
+}
+
+.severity2 {
+	-webkit-animation-name: blinker2;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker2;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker2;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes blinker2 {
+    from { background: #FFCC00; color: red; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes blinker2 {
+    from { background: #FFCC00; color: red; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes blinker2 {
+    from { background: #FFCC00; color: red; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes blinker2 {
+    from { background: #FFCC00; color: red; }
+    to   { background: #dedede; color: black; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes blinker2 {
+    from { background: #FFCC00; color: red; }
+    to   { background: #dedede; color: black; }
+}

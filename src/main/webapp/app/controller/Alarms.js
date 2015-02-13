@@ -8,21 +8,28 @@ Ext.define('Sam.controller.Alarms', {
 		this.control({
 			'alarmgrid': {
 				render: this.onRender
-				//,selectionchange: this.gridSelectionchange
+				// ,selectionchange: this.gridSelectionchange
 			}
 		});
 	},
 	
 	onRender: function(component, options) {
-		component.getStore().load();
-	},
+		var task = 
+		{
+		   run : function() 
+		   {
+			   component.getStore().load();
+			   component.getView().setLoading(false);
+		   },
+		   interval: 2000 //(1 second = 1000)
+		};
+
+		Ext.TaskManager.start(task);
+	}
 	
 	/*
-	gridSelectionChange: function(model, records) {
-		
-		if (records[0]) {
-			//TODO Verificar Seleção de Grid
-		}
-	}
-	*/
+	 * gridSelectionChange: function(model, records) {
+	 * 
+	 * if (records[0]) { //TODO Verificar Seleção de Grid } }
+	 */
 });

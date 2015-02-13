@@ -2,12 +2,32 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.alarmgrid',
 	
-	frame: true,
+	id: 'alarmgrid',
+
 	store: Ext.create('Sam.store.Alarms'),
 	
 	viewConfig: {
 		stripeRows: true	
 	},
+	
+	viewConfig: {
+        //Return CSS class to apply to rows depending upon data values
+        getRowClass: function(record, index) {
+            var c = record.get('severity_id');
+            if (c == '3') {
+                return 'severity3';
+            } else if (c == 2) {
+            	return 'severity2';
+            }
+        }
+    },
+    
+    listeners : {
+        itemdblclick: function(dv, record, item, index, e) {
+        	var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
+        	alarmPopUp.show();
+        }
+    },
 	
 	columns : [
 		{
@@ -15,6 +35,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 			flex: 1,
 			sortable: true,
 			dataIndex: 'id',
+			
 			filter: {
 				type: 'number'
 			}
@@ -82,8 +103,5 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 			filter: {
 				type: 'string'
 			}
-		}
-			
-		
-		],
+		}]
 });

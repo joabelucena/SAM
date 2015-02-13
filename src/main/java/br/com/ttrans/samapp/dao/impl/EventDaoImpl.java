@@ -58,6 +58,7 @@ public class EventDaoImpl implements EventDao {
 		cQuery = "SELECT";
 		cQuery +="	THIS.EVE_ID				AS ID,";
 		cQuery +="	B.SLE_DESCRIPTION		AS SEVERITY,";
+		cQuery +="	B.SLE_ID				AS SEVERITY_ID,";
 		cQuery +="	B.SLE_DISPLAY_COLOR		AS SEVERITY_COLOR,";
 		cQuery +="	THIS.EVE_EQUIPMENT_ID	AS EQUIP_ID,";
 		cQuery +="	D.EMO_DESCRIPTION		AS QUIP_MODEL,";
