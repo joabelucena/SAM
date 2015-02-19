@@ -26,7 +26,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
         itemdblclick: function(dv, record, item, index, e) {
         	var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
         	
-        	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('site_description');
+        	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
         	
         	alarmPopUp.setData({
         	    equipment : record.get('equipment_model')
