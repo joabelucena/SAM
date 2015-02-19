@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -40,10 +41,12 @@ public class Event {
 	@Column
 	private Date eve_datetime;
 
+	@Transient
 	@Column(insertable=false, updatable=false)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private String eve_date;
 	
+	@Transient
 	@Column(insertable=false, updatable=false)
 	@DateTimeFormat(pattern="hh:mm:ss")
 	private String eve_time;

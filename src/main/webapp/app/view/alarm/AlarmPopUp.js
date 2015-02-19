@@ -1,28 +1,47 @@
 Ext.define('Sam.view.alarm.AlarmPopUp', {
-	extend: 'Ext.form.Panel',
-	alias: 'widget.alarmpopup',
-	
-	width: 800,
-    height: 600,
-    bodyPadding: 5,
-    floating: true,
-    closable : true,
-	
-	items: [
-			{
-				id: 'formPanel',
-				name: 'formPanel',
-				xtype: 'form',
-				frame: false,
-				bodyPadding: 15,
-				defaults: {
-					xtype: 'textfield',
-					anchor: '100%',
-					labelWidth: 60,
-					allowBlank :false,
-					minLength: 3,
-					msgTarget: 'under'			
-				}	
-			}
-		]
+	extend : 'Ext.form.Panel',
+	alias : 'widget.alarmpopup',
+
+	requires : [ 'Ext.Ajax.request' ],
+
+	width : 800,
+	height : 600,
+	bodyPadding : 10,
+	type : 'hbox',
+	floating : true,
+	closable : true,
+
+	items : [ {
+		layout : {
+			type : 'vbox',
+			align : 'stretch',
+			margin : '10 10 10 10',
+		},
+		defaults : {
+			xtype : 'label',
+			anchor : '100%',
+			allowBlank : false,
+			minLength : 3,
+			margin : '10 10 10 10'
+		},
+		items : [ {
+			text : 'My Awesome Field',
+		}, {
+
+			text : 'My Awesome Field',
+		}, {
+			xtype : 'button',
+			text : 'Reconhecer Alarme',
+			handler : ajaxButton1Function
+		} ]
+	} ]
+
 });
+
+function ajaxButton1Function() {
+
+	Ext.Ajax.request({
+		url : 'events/events/recognize/168',
+		method : 'POST'
+	});
+}
