@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EquipmentService;
@@ -69,8 +70,8 @@ public class SnmpServer implements CommandResponder {
 		try {
 			test = dao.GetMv("IPSERVER_SNMP", true, "");
 			System.out.println("####  " + test);
-			System.out.println("#### " + dao.GetMv("IPSERVER_SNMP",true,"") +
-			 "/" + dao.GetMv("PORTSERVER_SNMP",true,""));
+			System.out.println("#### " + dao.GetMv("IPSERVER_SNMP", true, "")
+					+ "/" + dao.GetMv("PORTSERVER_SNMP", true, ""));
 
 			System.out.println("## Initializing Snmp Server...");
 			init();
@@ -159,7 +160,7 @@ public class SnmpServer implements CommandResponder {
 
 			Event eventdb = new Event();
 			Equipment equipment = equipmentService.getEquipment(Ip);
-			
+
 			String eve_site = equipment.getSite().getSit_description();
 			String eve_model = equipment.getModel().getEmo_description();
 
@@ -167,19 +168,21 @@ public class SnmpServer implements CommandResponder {
 			Date eve_datetime = new Date();
 
 			oid = equipmentService.getOidByIp(Ip);
-			
+
 			boolean lAchou = !oid.equals(null);
 
-			//Grava dados do trap
-			if(lAchou){
-				
+			// Grava dados do trap
+			if (lAchou) {
+
 				for (int i = 0; i < recVBs.size(); i++) {
 					VariableBinding recVB = recVBs.elementAt(i);
 
-					if (oid.equals(recVB.getOid().toString()) && !recVB.getVariable().equals(null)) {
+					if (oid.equals(recVB.getOid().toString())
+							&& !recVB.getVariable().equals(null)) {
 
-						eventdb.setEve_equipment_id(Ip);
-						eventdb.setEve_alarm_id(recVB.getVariable().toString());
+						eventdb.setEquipment(new Equipment(Ip));
+						eventdb.setAlarm(new Alarm(recVB.getVariable()
+								.toString()));
 						eventdb.setEve_datetime(eve_datetime);
 						eventdb.setEve_site(eve_site);
 						eventdb.setEve_model(eve_model);
@@ -190,25 +193,21 @@ public class SnmpServer implements CommandResponder {
 					}
 
 				}
-			
-			//Equipamento não encontrado, grava alarme do SAM
-			}else{
-				
-				eventdb.setEve_equipment_id(Ip);
-				eventdb.setEve_alarm_id("NI"); //Equipamento não cadastrado
+
+				// Equipamento não encontrado, grava alarme do SAM
+			} else {
+
+				eventdb.setEquipment(new Equipment(Ip));
+				eventdb.setAlarm(new Alarm("NI"));// Equipamento não cadastrado
 				eventdb.setEve_datetime(eve_datetime);
 				eventdb.setEve_site(eve_site);
 				eventdb.setEve_model(eve_model);
 				eventdb.setUsr_insert("SAM_SNMP");
 
-				eventService.add(eventdb);				
+				eventService.add(eventdb);
 			}
-
 
 		}
 
-		System.out.println(event.getPDU());
-
 	}
-
 }

@@ -31,6 +31,9 @@ public class OperationalState {
 	private String deleted="";
 
 	public OperationalState(){}
+	public OperationalState(String id){
+		this.ost_id = id;
+	}
 	public OperationalState(String ost_id, EquipmentModel model,
 			String ost_description, String usr_insert, String usr_update,
 			String deleted) {
@@ -90,6 +93,4 @@ public class OperationalState {
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
-	
-	
 }

@@ -48,7 +48,12 @@ public class Alarm {
 	
 	@Column(columnDefinition="char(1)")
 	private String deleted="";
-
+	
+	public Alarm(){}
+	public Alarm(String alm_id){
+		super();
+		this.alm_id = alm_id;
+	}
 	public Alarm(String alm_id, String alm_description, Alarm alarm,
 			AlarmGroup group, AlarmType type, EquipmentModel model,
 			SeverityLevel severity, int alm_counter_inc, String usr_insert,

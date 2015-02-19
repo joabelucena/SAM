@@ -1,21 +1,22 @@
 package br.com.ttrans.samapp.ws;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-
-import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.model.Event;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.xpath.XPath;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.Equipment;
+import br.com.ttrans.samapp.model.Event;
+import br.com.ttrans.samapp.model.OperationalState;
+import br.com.ttrans.samapp.service.EventService;
 
 @Endpoint
 @SuppressWarnings("deprecation")
@@ -84,11 +85,11 @@ public class EventsEndpoint {
 		
 		String usr_insert = "SAM_WS";
 
-		event.setEve_equipment_id(eve_equipment_id);
+		event.setEquipment(new Equipment(eve_equipment_id));
 		event.setEve_model(eve_model);
 		event.setEve_site(eve_site);
-		event.setEve_oper_state_id(eve_oper_state_id);
-		event.setEve_alarm_id(eve_alarm_id);
+		event.setState(new OperationalState(eve_oper_state_id));
+		event.setAlarm(new Alarm(eve_alarm_id));
 		event.setEve_datetime(eve_datetime);
 		event.setUsr_insert(usr_insert);
 				

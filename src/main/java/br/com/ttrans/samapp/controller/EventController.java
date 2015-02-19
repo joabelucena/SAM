@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,14 +40,9 @@ public class EventController {
 	@Autowired
 	private EquipmentService equipmentService;
 	
-	/*
-	@Autowired
-	private EventValidator validator;
-	*/
-	
-	
 	private String eventDatetime;
 	
+	@Deprecated
 	@RequestMapping("/events/")
 	public ModelAndView events(Map<String, Object> map){
 		
@@ -73,30 +69,22 @@ public class EventController {
 				
 		return result;
 	}
-	@RequestMapping(value = "/events/recognize/{id}", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/recognize/{id}", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
 	public void doActions(
 			@PathVariable("id") int id
 			,Authentication authentication) {
 		
 		Event event = eventService.getEvent(id);
 		
-		if (!event.equals(null)){
+		if (!event.equals(null) && event.getEve_reco_user().equals(null)){
 			
 			event.setEve_reco_user(authentication.getName());
 			event.setEve_reco_date(new Date());
 			
 			eventService.edit(event);
 		}
-	}
-	@RequestMapping("/events/getInfo/{id}")
-	public void getEquipInfo(Map<String, Object> map
-							,@PathVariable("id") String id){
-		
-		map.put("equipment"	, this.equipmentService.getEquipment(id));
-		map.put("mtbf"		, 0);
-		map.put("mttr"		, 0);
-		map.put("urlVideo"	, "");
-		map.put("urlManual"	, "");
 	}
 	
 	@ResponseBody
