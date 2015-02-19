@@ -43,6 +43,7 @@ public class ServiceOrderController {
 			ServiceOrder so = new ServiceOrder();
 			
 			so.setEquipment(event.getEquipment());
+			so.setEquipment(event.getEquipment());
 			
 		}
 		
