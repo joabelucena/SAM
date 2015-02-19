@@ -29,7 +29,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
         	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
         	
         	alarmPopUp.setData({
-        	    equipment : record.get('equipment_model')
+        	    id : record.get('id')
         	});
         	
         	alarmPopUp.show();

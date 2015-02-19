@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="EQUIPMENTS")
+@Table(name="Equipments")
 public class Equipment {
 
 	@Id
@@ -90,6 +90,9 @@ public class Equipment {
 	private String deleted = "";
 
 	public Equipment(){}
+	public Equipment(String id){
+		this.equ_id = id;
+	}
 	public Equipment(String equ_id, String equ_fixed_asset,
 			String equ_service_tag, String equ_ip, EquipmentType type,
 			EquipmentModel model, EquipmentManufacturer manufacturer,

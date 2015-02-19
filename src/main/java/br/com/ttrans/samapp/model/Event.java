@@ -7,15 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+/**
+ * This class has no relations because this one has to accept any incoming entry.
+ * 
+ * @author Joabe
+ * 
+ */
 @Entity
 @Table(name="events")
 @SequenceGenerator(name = "INC_EVENTS", sequenceName="GEN_EVE_ID")
@@ -25,18 +30,17 @@ public class Event {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EVENTS")
 	private int eve_id;
 	
-	@NotEmpty
-	@NotNull
-	@Column
-	private String eve_equipment_id;
+	@ManyToOne
+	@JoinColumn(name="eve_equipment_id")
+	private Equipment equipment;
 	
-	@NotEmpty
-	@NotNull
-	@Column
-	private String eve_alarm_id;
+	@ManyToOne
+	@JoinColumn(name="eve_alarm_id")
+	private Alarm alarm;
 	
-	@Column
-	private String eve_oper_state_id;
+	@ManyToOne
+	@JoinColumn(name="eve_oper_state_id")
+	private OperationalState state;
 	
 	@Column
 	private Date eve_datetime;
@@ -79,17 +83,21 @@ public class Event {
 	private String deleted="";
 
 	public Event(){}
-	public Event(int eve_id, String eve_equipment_id, String eve_alarm_id,
-			String eve_oper_state_id, Date eve_datetime,
-			String eve_solv_user, Date eve_solv_date, String eve_reco_user,
-			Date eve_reco_date, String eve_site, String eve_model,
-			String usr_insert, String usr_update, String deleted) {
+
+	public Event(int eve_id, Equipment equipment, Alarm alarm,
+			OperationalState state, Date eve_datetime, String eve_date,
+			String eve_time, String eve_solv_user, Date eve_solv_date,
+			String eve_reco_user, Date eve_reco_date, String eve_site,
+			String eve_model, String usr_insert, String usr_update,
+			String deleted) {
 		super();
 		this.eve_id = eve_id;
-		this.eve_equipment_id = eve_equipment_id;
-		this.eve_alarm_id = eve_alarm_id;
-		this.eve_oper_state_id = eve_oper_state_id;
+		this.equipment = equipment;
+		this.alarm = alarm;
+		this.state = state;
 		this.eve_datetime = eve_datetime;
+		this.eve_date = eve_date;
+		this.eve_time = eve_time;
 		this.eve_solv_user = eve_solv_user;
 		this.eve_solv_date = eve_solv_date;
 		this.eve_reco_user = eve_reco_user;
@@ -109,35 +117,52 @@ public class Event {
 		this.eve_id = eve_id;
 	}
 
-	public String getEve_equipment_id() {
-		return eve_equipment_id;
+	public Equipment getEquipment() {
+		return equipment;
 	}
 
-	public void setEve_equipment_id(String eve_equipment_id) {
-		this.eve_equipment_id = eve_equipment_id;
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
 	}
 
-	public String getEve_alarm_id() {
-		return eve_alarm_id;
+	public Alarm getAlarm() {
+		return alarm;
 	}
 
-	public void setEve_alarm_id(String eve_alarm_id) {
-		this.eve_alarm_id = eve_alarm_id;
+	public void setAlarm(Alarm alarm) {
+		this.alarm = alarm;
 	}
 
-	public String getEve_oper_state_id() {
-		return eve_oper_state_id;
+	public OperationalState getState() {
+		return state;
 	}
-	public void setEve_oper_state_id(String eve_oper_state_id) {
-		this.eve_oper_state_id = eve_oper_state_id;
+
+	public void setState(OperationalState state) {
+		this.state = state;
 	}
 
 	public Date getEve_datetime() {
 		return eve_datetime;
 	}
-	
+
 	public void setEve_datetime(Date eve_datetime) {
 		this.eve_datetime = eve_datetime;
+	}
+
+	public String getEve_date() {
+		return eve_date;
+	}
+
+	public void setEve_date(String eve_date) {
+		this.eve_date = eve_date;
+	}
+
+	public String getEve_time() {
+		return eve_time;
+	}
+
+	public void setEve_time(String eve_time) {
+		this.eve_time = eve_time;
 	}
 
 	public String getEve_solv_user() {
@@ -211,17 +236,4 @@ public class Event {
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
-	public String getEve_date() {
-		return eve_date;
-	}
-	public void setEve_date(String eve_date) {
-		this.eve_date = eve_date;
-	}
-	public String getEve_time() {
-		return eve_time;
-	}
-	public void setEve_time(String eve_time) {
-		this.eve_time = eve_time;
-	}
-
 }

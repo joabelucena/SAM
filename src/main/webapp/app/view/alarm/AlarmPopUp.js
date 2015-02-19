@@ -25,7 +25,7 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 			margin : '10 10 10 10'
 		},
 		items : [ {
-			text : 'My Awesome Field',
+			text : tpl: 'id :{id}',
 		}, {
 
 			text : 'My Awesome Field',
@@ -41,7 +41,7 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 function ajaxButton1Function() {
 
 	Ext.Ajax.request({
-		url : 'events/events/recognize/168',
+		url : 'events/events/recognize/',
 		method : 'POST'
 	});
 }
