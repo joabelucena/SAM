@@ -2,9 +2,6 @@ package br.com.ttrans.samapp.snmp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Vector;
 
@@ -35,9 +32,6 @@ import org.snmp4j.util.ThreadPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ibm.icu.util.Calendar;
-
-import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
@@ -75,8 +69,8 @@ public class SnmpServer implements CommandResponder {
 		try {
 			test = dao.GetMv("IPSERVER_SNMP", true, "");
 			System.out.println("####  " + test);
-			// System.out.println("#### " + dao.GetMv("IPSERVER_SNMP",true,"") +
-			// "/" + dao.GetMv("PORTSERVER_SNMP",true,""));
+			System.out.println("#### " + dao.GetMv("IPSERVER_SNMP",true,"") +
+			 "/" + dao.GetMv("PORTSERVER_SNMP",true,""));
 
 			System.out.println("## Initializing Snmp Server...");
 			init();

@@ -20,18 +20,6 @@ public class JSon {
 	@Autowired
 	private RoleService service;
 	
-	/*
-	 * public String toJson(List<Site> site) throws JSONException{
-	 * 
-	 * JSONArray array = new JSONArray(); JSONObject json = new JSONObject();
-	 * 
-	 * for(int i = 0; i < site.size(); i++){ array.put(toJson(site.get(i))); }
-	 * 
-	 * json.put("success", true); json.put("children", array);
-	 * 
-	 * return json.toString(); }
-	 */
-
 	public String toJson(List<Menu> menu, List roles) throws JSONException {
 
 		JSONArray array = new JSONArray();
@@ -43,8 +31,6 @@ public class JSon {
 			rolesList.add(service.findByDesc(roles.get(i).toString()));
 		}
 		
-		
-		//menu.get(1).getRoles().contains()
 		for (int i = 0; i < menu.size(); i++) {
 			if (menu.get(i).getChildren().size() > 0) {
 				for(Role role : rolesList){
@@ -56,7 +42,6 @@ public class JSon {
 			}
 		}
 		
-		// json.put("items", true);
 		json.put("items", array);
 
 		return json.toString();
@@ -64,22 +49,10 @@ public class JSon {
 
 	protected static JSONObject toJson(Menu menu, List<Role> roles) throws JSONException {
 		
-		boolean lJSon = true;
-		
-		/*
-		//Percorre Roles do Menu
-		for(Role role : roles){
-			if(menu.getRoles().contains(role)){
-				lJSon = true;
-				break;
-			}
-		}
-		*/
-
 		JSONObject json = new JSONObject();
 		JSONArray array = new JSONArray();
 		
-		if (menu != null && lJSon) {
+		if (menu != null) {
 
 			// comum
 			json.put("iconCls", menu.getIconCls());
@@ -105,7 +78,6 @@ public class JSon {
 						}
 					}
 				}
-
 
 			// filho
 			} else {
