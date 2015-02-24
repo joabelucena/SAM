@@ -38,6 +38,11 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 		session.getCurrentSession().update(status);
 
 	}
+	
+	@Override
+	public ServiceOrderStatus get(int id){
+		return (ServiceOrderStatus) session.getCurrentSession().get(ServiceOrderStatus.class, id);
+	}
 
 	@Override
 	public ServiceOrderStatus findByName(String desc) {

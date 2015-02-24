@@ -34,6 +34,11 @@ public class ServiceOrderStatusServiceImpl implements ServiceOrderStatusService 
 	}
 	
 	@Transactional
+	public ServiceOrderStatus get(int id){
+		return dao.get(id);
+	}
+	
+	@Transactional
 	public ServiceOrderStatus findByName(String desc) {
 		return dao.findByName(desc);
 	}

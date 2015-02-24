@@ -43,11 +43,12 @@ public class ServiceOrder {
 	@JoinColumn(name = "sor_parent_id")
 	private ServiceOrder parent;
 
-	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderOccurrence.class, fetch = FetchType.LAZY)
+	@Cascade({CascadeType.SAVE_UPDATE})
+	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderOccurrence.class, fetch = FetchType.EAGER)
 	private Set<ServiceOrderOccurrence> occurrences;
 
 	@Cascade({CascadeType.SAVE_UPDATE})
-	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.EAGER)
 	private Set<ServiceOrderLog> log;
 
 	@ManyToOne
