@@ -13,7 +13,8 @@ Ext.define('Sam.model.Alarm', {
 	        {name: 'site_description', type: 'string'},
 	        {name: 'sub_system_id', type: 'string'},
 	        {name: 'sub_system_description', type: 'string'},
-	        {name: 'alarm_datetime', type: 'date'}
+	        {name: 'alarm_datetime', type: 'date'},
+	        {name: 'check', type: 'boolean'},
 	]
 	
 });

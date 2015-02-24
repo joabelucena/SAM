@@ -168,6 +168,8 @@ public class SnmpServer implements CommandResponder {
 			Date eve_datetime = new Date();
 
 			oid = equipmentService.getOidByIp(Ip);
+			
+			System.out.println(oid);
 
 			boolean lAchou = !oid.equals(null);
 

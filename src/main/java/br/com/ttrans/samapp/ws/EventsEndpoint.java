@@ -22,7 +22,7 @@ import br.com.ttrans.samapp.service.EventService;
 @SuppressWarnings("deprecation")
 public class EventsEndpoint {
 	
-	private static final String NAMESPACE_URI = "http://201.64.138.34/eventsService";
+	private static final String NAMESPACE_URI = "http://localhost/eventsService";
 	
 	private XPath equipmentID;
 	private XPath equipmentModel;

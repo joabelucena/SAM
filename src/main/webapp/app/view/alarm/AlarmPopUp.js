@@ -3,13 +3,14 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 	alias : 'widget.alarmpopup',
 
 	requires : [ 'Ext.Ajax.request' ],
-
+	tpl: '{event_id}',
 	width : 800,
 	height : 600,
 	bodyPadding : 10,
 	type : 'hbox',
 	floating : true,
 	closable : true,
+	id: 'AlarmPopUpPanel',
 
 	items : [ {
 		layout : {
@@ -25,7 +26,7 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 			margin : '10 10 10 10'
 		},
 		items : [ {
-			text : tpl: 'id :{id}',
+			text : 'OK',
 		}, {
 
 			text : 'My Awesome Field',
@@ -39,9 +40,9 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 });
 
 function ajaxButton1Function() {
-
+	
 	Ext.Ajax.request({
-		url : 'events/events/recognize/',
+		url : 'events/recognize/',
 		method : 'POST'
 	});
 }

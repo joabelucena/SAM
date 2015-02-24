@@ -2,21 +2,20 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.alarmgrid',
 	
+	requires: ['Ext.ux.CheckColumn'],
+	
 	id: 'alarmgrid',
 
 	store: Ext.create('Sam.store.Alarms'),
 	
 	viewConfig: {
-		stripeRows: true	
-	},
-	
-	viewConfig: {
-        //Return CSS class to apply to rows depending upon data values
+		preserveScrollOnRefresh: true,
+		
         getRowClass: function(record, index) {
             var c = record.get('severity_id');
             if (c == '3') {
                 return 'severity3';
-            } else if (c == 2) {
+            } else if (c == '2') {
             	return 'severity2';
             }
         }
@@ -29,7 +28,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
         	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
         	
         	alarmPopUp.setData({
-        	    id : record.get('id')
+        	    event_id : record.get('id')
         	});
         	
         	alarmPopUp.show();
@@ -38,36 +37,34 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	
 	columns : [
 		{
-			text: '#',
-			flex: 1,
-			sortable: true,
-			dataIndex: 'id',
-			
-			filter: {
-				type: 'number'
-			}
-		},{
-			text: 'Severidade',
-			flex: 1,
-			sortable:true,
-			dataIndex: 'severity',
-			filter: {
-				type: 'string'
-			}
+			xtype: 'checkcolumn',
+			text: 'Reconhecer',
+			dataIndex: 'check',
+			sortable: false,
+			// TODO  Retornar Boolean do Reconhecimento e Normalização na consulta 
 		},{
 			text: 'Data/Hora',
 			flex: 1,
 			sortable: true,
 			dataIndex: 'alarm_datetime',
+			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
 			filter: {
 				type: 'date'
 			}
 		},{
-			text: 'Local',
+			text: 'ID Alarme',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'site_description',
-			filter:{
+			dataIndex: 'alarm_id',
+			filter: {
+				type: 'string'
+			}
+		},{
+			text: 'Alarme',
+			flex: 1,
+			sortable: true,
+			dataIndex: 'alarm_description',
+			filter: {
 				type: 'string'
 			}
 		},{
@@ -87,19 +84,11 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 				type: 'string'
 			}
 		},{
-			text: 'ID Alarme',
+			text: 'Local',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'alarm_id',
-			filter: {
-				type: 'string'
-			}
-		},{
-			text: 'Alarme',
-			flex: 1,
-			sortable: true,
-			dataIndex: 'alarm_description',
-			filter: {
+			dataIndex: 'site_description',
+			filter:{
 				type: 'string'
 			}
 		},{
@@ -107,6 +96,14 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 			flex: 1,
 			sortable: true,
 			dataIndex: 'sub_system_id',
+			filter: {
+				type: 'string'
+			}
+		},{
+			text: 'Severidade',
+			flex: 1,
+			sortable:true,
+			dataIndex: 'severity',
 			filter: {
 				type: 'string'
 			}

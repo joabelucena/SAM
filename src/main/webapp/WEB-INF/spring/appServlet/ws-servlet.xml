@@ -12,7 +12,7 @@
 
 	<sws:dynamic-wsdl id="events" portTypeName="Events"
 		locationUri="/eventsService/" 
-		targetNamespace="http://201.64.138.34/eventsService">
+		targetNamespace="http://localhost/eventsService">
 		<sws:xsd location="/WEB-INF/events.xsd" />
 	</sws:dynamic-wsdl>
 

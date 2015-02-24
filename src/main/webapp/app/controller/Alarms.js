@@ -20,8 +20,9 @@ Ext.define('Sam.controller.Alarms', {
 		   {
 			   component.getStore().load();
 			   component.getView().setLoading(false);
+			   component.refresh();
 		   },
-		   interval: 2000 //(1 second = 1000)
+		   interval: 2000000 //(1 second = 1000)
 		};
 
 		Ext.TaskManager.start(task);
