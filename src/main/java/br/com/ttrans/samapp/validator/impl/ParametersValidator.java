@@ -1,11 +1,13 @@
 package br.com.ttrans.samapp.validator.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.validator.Validator;
 
+@Component
 public class ParametersValidator extends Validator {
 
 	@Autowired

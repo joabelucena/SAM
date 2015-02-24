@@ -10,7 +10,6 @@ import org.springframework.validation.Errors;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Site;
 import br.com.ttrans.samapp.model.SiteType;
-import br.com.ttrans.samapp.service.SiteService;
 import br.com.ttrans.samapp.service.SiteTypeService;
 import br.com.ttrans.samapp.validator.Validator;
 
