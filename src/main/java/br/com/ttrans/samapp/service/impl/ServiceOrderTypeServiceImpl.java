@@ -35,6 +35,11 @@ dao.add(type);
 	}
 
 	@Transactional
+	public ServiceOrderType findByName(String desc) {
+		return dao.findByName(desc);
+	}
+	
+	@Transactional
 	public List loadData() {
 		return dao.loadData();
 	}

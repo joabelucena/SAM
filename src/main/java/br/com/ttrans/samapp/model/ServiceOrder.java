@@ -1,7 +1,7 @@
 package br.com.ttrans.samapp.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "Service_Order")
@@ -40,14 +43,12 @@ public class ServiceOrder {
 	@JoinColumn(name = "sor_parent_id")
 	private ServiceOrder parent;
 
-	/*
-	 * Occurrences Log
-	 */
 	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderOccurrence.class, fetch = FetchType.LAZY)
-	private List<ServiceOrderOccurrence> occurrences;
+	private Set<ServiceOrderOccurrence> occurrences;
 
+	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.LAZY)
-	private List<ServiceOrderLog> log;
+	private Set<ServiceOrderLog> log;
 
 	@ManyToOne
 	@JoinColumn(name = "sor_technician_id")
@@ -55,7 +56,7 @@ public class ServiceOrder {
 
 	@ManyToOne
 	@JoinColumn(name = "sor_priority_id")
-	private SeverityLevel severity;
+	private SeverityLevel priority;
 
 	@ManyToOne
 	@JoinColumn(name = "sor_equipment_id")
@@ -88,12 +89,12 @@ public class ServiceOrder {
 	@Column(columnDefinition = "char(1)")
 	private String deleted = "";
 
-	public ServiceOrder() {
-	}
+	public ServiceOrder(){}
 
 	public ServiceOrder(int sor_id, ServiceOrderType type,
 			ServiceOrderStatus status, Event event, ServiceOrder parent,
-			Technician technician, SeverityLevel severity, Equipment equipment,
+			Set<ServiceOrderOccurrence> occurrences, Set<ServiceOrderLog> log,
+			Technician technician, SeverityLevel priority, Equipment equipment,
 			Date sor_start_forecast, Date sor_start, Date sor_end_forecast,
 			Date sor_end, String sor_remarks, String sor_equipment_stop,
 			String usr_insert, String usr_update, String deleted) {
@@ -103,8 +104,10 @@ public class ServiceOrder {
 		this.status = status;
 		this.event = event;
 		this.parent = parent;
+		this.occurrences = occurrences;
+		this.log = log;
 		this.technician = technician;
-		this.severity = severity;
+		this.priority = priority;
 		this.equipment = equipment;
 		this.sor_start_forecast = sor_start_forecast;
 		this.sor_start = sor_start;
@@ -157,6 +160,22 @@ public class ServiceOrder {
 		this.parent = parent;
 	}
 
+	public Set<ServiceOrderOccurrence> getOccurrences() {
+		return occurrences;
+	}
+
+	public void setOccurrences(Set<ServiceOrderOccurrence> occurrences) {
+		this.occurrences = occurrences;
+	}
+
+	public Set<ServiceOrderLog> getLog() {
+		return log;
+	}
+
+	public void setLog(Set<ServiceOrderLog> log) {
+		this.log = log;
+	}
+
 	public Technician getTechnician() {
 		return technician;
 	}
@@ -165,12 +184,12 @@ public class ServiceOrder {
 		this.technician = technician;
 	}
 
-	public SeverityLevel getSeverity() {
-		return severity;
+	public SeverityLevel getPriority() {
+		return priority;
 	}
 
-	public void setSeverity(SeverityLevel severity) {
-		this.severity = severity;
+	public void setPriority(SeverityLevel priority) {
+		this.priority = priority;
 	}
 
 	public Equipment getEquipment() {
@@ -251,5 +270,5 @@ public class ServiceOrder {
 
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
-	}
+	}	
 }

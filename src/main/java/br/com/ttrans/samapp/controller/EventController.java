@@ -78,7 +78,7 @@ public class EventController {
 		
 		Event event = eventService.getEvent(id);
 		
-		if (!event.equals(null) && event.getEve_reco_user().equals(null)){
+		if (!(event == null) && event.getEve_reco_user() == null){
 			
 			event.setEve_reco_user(authentication.getName());
 			event.setEve_reco_date(new Date());

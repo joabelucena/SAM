@@ -8,5 +8,6 @@ public interface ServiceOrderTypeDao {
 	public void add(ServiceOrderType type);
 	public void edit(ServiceOrderType type);
 	public void delete(ServiceOrderType type);
+	public ServiceOrderType findByName(String desc);
 	public List loadData();
 }

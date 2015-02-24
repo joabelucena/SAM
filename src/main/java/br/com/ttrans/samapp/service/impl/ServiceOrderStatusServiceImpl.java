@@ -31,7 +31,11 @@ public class ServiceOrderStatusServiceImpl implements ServiceOrderStatusService 
 	@Transactional
 	public void delete(ServiceOrderStatus status) {
 		dao.delete(status);
-
+	}
+	
+	@Transactional
+	public ServiceOrderStatus findByName(String desc) {
+		return dao.findByName(desc);
 	}
 
 	@Transactional

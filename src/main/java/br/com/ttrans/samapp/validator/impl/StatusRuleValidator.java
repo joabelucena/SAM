@@ -10,7 +10,7 @@ public class StatusRuleValidator extends Validator {
 
 	@Autowired
 	private DAO dao;
-	
+
 	@Override
 	protected void validAdd(Object obj, Errors e) {
 		// TODO Auto-generated method stub

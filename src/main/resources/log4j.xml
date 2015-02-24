@@ -31,6 +31,15 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	<logger name="org.hibernate.SQL">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.hibernate.type">
+		<level value="info" />
+	</logger>
+	
 
 	<!-- Root Logger -->
 	<root>

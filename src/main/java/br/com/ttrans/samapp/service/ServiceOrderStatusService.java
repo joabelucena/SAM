@@ -8,5 +8,6 @@ public interface ServiceOrderStatusService {
 	public void add(ServiceOrderStatus status);
 	public void edit(ServiceOrderStatus status);
 	public void delete(ServiceOrderStatus status);
+	public ServiceOrderStatus findByName(String desc);
 	public List loadData();
 }

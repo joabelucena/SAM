@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
+import br.com.ttrans.samapp.model.ServiceOrderType;
 
 @Repository
 public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
@@ -38,6 +39,16 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 
 	}
 
+	@Override
+	public ServiceOrderStatus findByName(String desc) {
+		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderStatus.class);
+		crit.add(Restrictions.eq("sos_description", desc));
+		crit.add(Restrictions.ne("deleted", "*"));
+		
+		return (ServiceOrderStatus) crit.uniqueResult();
+	}
+
+	
 	@Override
 	public List loadData() {
 

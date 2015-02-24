@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderTypeDao;
 import br.com.ttrans.samapp.model.ServiceOrderType;
+import br.com.ttrans.samapp.model.SiteType;
 
 @Repository
 public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
@@ -28,7 +29,15 @@ public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
 	@Override
 	public void edit(ServiceOrderType type) {
 		session.getCurrentSession().update(type);
-
+	}
+	
+	@Override
+	public ServiceOrderType findByName(String desc) {
+		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderType.class);
+		crit.add(Restrictions.eq("sot_description", desc));
+		crit.add(Restrictions.ne("deleted", "*"));
+		
+		return (ServiceOrderType) crit.uniqueResult();
 	}
 
 	@Override

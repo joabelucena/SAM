@@ -15,7 +15,7 @@ public class SeverityLevel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SEVERITY_LEVEL")
-	private int sle_id;
+	private String sle_id;
 
 	@Column
 	private String sle_description;
@@ -38,7 +38,7 @@ public class SeverityLevel {
 	public SeverityLevel() {
 	}
 
-	public SeverityLevel(int sle_id, String sle_description,
+	public SeverityLevel(String sle_id, String sle_description,
 			String sle_display_color, int sle_time_service, String usr_insert,
 			String usr_update, String deleted) {
 		super();
@@ -51,11 +51,11 @@ public class SeverityLevel {
 		this.deleted = deleted;
 	}
 
-	public int getSle_id() {
+	public String getSle_id() {
 		return sle_id;
 	}
 
-	public void setSle_id(int sle_id) {
+	public void setSle_id(String sle_id) {
 		this.sle_id = sle_id;
 	}
 
@@ -106,5 +106,4 @@ public class SeverityLevel {
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
-
 }

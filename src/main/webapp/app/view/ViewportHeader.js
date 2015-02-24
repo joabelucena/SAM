@@ -15,6 +15,9 @@ Ext.define('Sam.view.ViewportHeader', {
 		},{
 			xtype: 'button',
 			itemId: 'logout',
+			handler: function() {
+				window.location = 'logout';
+		    },
 			text: 'Sair'
 		}
 	]

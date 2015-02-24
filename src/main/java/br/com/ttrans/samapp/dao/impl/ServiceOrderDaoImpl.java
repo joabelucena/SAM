@@ -22,7 +22,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	
 	@Override
 	public void add(ServiceOrder serviceorder) {
-		session.getCurrentSession().save(serviceorder);
+		session.getCurrentSession().persist(serviceorder);
 
 	}
 
@@ -36,7 +36,12 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	public void delete(ServiceOrder serviceorder) {
 		serviceorder.setDeleted("*");
 		session.getCurrentSession().update(serviceorder);
+	}
+	
 
+	@Override
+	public ServiceOrder get(int id) {
+		return (ServiceOrder) session.getCurrentSession().get(ServiceOrder.class, id);
 	}
 
 	@Override
@@ -84,11 +89,10 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		crit.add(Restrictions.ne("serviceorder_technician.deleted","*"));
 		crit.add(Restrictions.ne("serviceorder_severity.deleted","*"));
 		crit.add(Restrictions.ne("serviceorder_equipment.deleted","*"));
-				
+		
 		List resultsList = crit.list();
 		
 		return resultsList;		
 
 	}
-
 }

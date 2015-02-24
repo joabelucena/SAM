@@ -53,6 +53,19 @@ public class ServiceOrderLog {
 	private String deleted="";
 
 	public ServiceOrderLog(){}
+	
+	public ServiceOrderLog(ServiceOrderStatus prevstatus, ServiceOrderStatus curstatus,
+			String sol_user_id, Date sol_datetime, String sol_remarks,
+			String usr_insert){
+		super();
+		this.prevstatus = prevstatus;
+		this.curstatus = curstatus;
+		this.sol_user_id = sol_user_id;
+		this.sol_datetime = sol_datetime;
+		this.sol_remarks = sol_remarks;
+		this.usr_insert = usr_insert;
+	}
+	
 	public ServiceOrderLog(int sol_id, ServiceOrder serviceorder,
 			ServiceOrderStatus prevstatus, ServiceOrderStatus curstatus,
 			String sol_user_id, Date sol_datetime, String sol_remarks,

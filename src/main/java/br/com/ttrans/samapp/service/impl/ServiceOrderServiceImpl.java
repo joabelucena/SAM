@@ -33,11 +33,14 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 		dao.delete(serviceorder);
 		
 	}
+	
+	@Transactional
+	public ServiceOrder get(int id) {
+		return dao.get(id);
+	}
 
 	@Transactional
 	public List loadData() {
 		return dao.loadData();
 	}
-
-	
 }
