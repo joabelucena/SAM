@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.ttrans.samapp.model.Event;
-import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
+import br.com.ttrans.samapp.validator.ResponseStatus;
 
 import com.google.gson.Gson;
 
@@ -71,8 +70,8 @@ public class EventController {
 	}
 	
 	@RequestMapping(value = "/recognize/{id}", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void doActions(
+	
+	public ResponseStatus recognize(
 			@PathVariable("id") int id
 			,Authentication authentication) {
 		
@@ -84,7 +83,11 @@ public class EventController {
 			event.setEve_reco_date(new Date());
 			
 			eventService.edit(event, authentication);
+			
+			return ResponseStatus.OK;
 		}
+		
+		return ResponseStatus.TEST;
 	}
 	
 	@ResponseBody
