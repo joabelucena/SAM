@@ -3,6 +3,7 @@ Ext.define('Sam.model.Alarm', {
 	fields:[
 	        
 	        {name: 'id', type: 'number'},
+	        {name: 'knowledge_user', type: 'boolean'},
 	        {name: 'severity', type: 'string'},
 	        {name: 'severity_id', type: 'string'},
 	        {name: 'severity_color', type: 'string'},
