@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.ttrans.samapp.model.Event;
+import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.validator.impl.EventValidator;
 
 import com.google.gson.Gson;
 
@@ -57,7 +57,7 @@ public class EventController {
 	public String loadData(Map<String, Object> map) {
 		
 		@SuppressWarnings("unchecked")
-		List<Event> eventList = eventService.loadData();
+		List eventList = eventService.loadData();
 		
 		Gson gson = new Gson();
 		
@@ -76,14 +76,14 @@ public class EventController {
 			@PathVariable("id") int id
 			,Authentication authentication) {
 		
-		Event event = eventService.getEvent(id);
+		Event event = eventService.get(id);
 		
 		if (!(event == null) && event.getEve_reco_user() == null){
 			
 			event.setEve_reco_user(authentication.getName());
 			event.setEve_reco_date(new Date());
 			
-			eventService.edit(event);
+			eventService.edit(event, authentication);
 		}
 	}
 	

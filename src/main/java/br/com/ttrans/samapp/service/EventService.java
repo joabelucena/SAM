@@ -2,13 +2,15 @@ package br.com.ttrans.samapp.service;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
 import br.com.ttrans.samapp.model.Event;
 
 public interface EventService {
 	public void add(Event event);
-	public void edit(Event event);
-	public void delete(int eveId);
-	public Event getEvent(int eveId); 
-	public List getAllEvent();
+	public void edit(Event event, Authentication authentication);
+	public void delete(Event event, Authentication authentication);
+	public Event get(int id); 
+	public List getAll();
 	public List loadData();
 }

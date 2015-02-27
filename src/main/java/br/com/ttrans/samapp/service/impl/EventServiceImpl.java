@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,34 +20,30 @@ public class EventServiceImpl implements EventService {
 	@Transactional
 	public void add(Event event) {
 		eventDao.add(event);
-
 	}
 
 	@Transactional
-	public void edit(Event event) {
-		eventDao.edit(event);
-
+	public void edit(Event event, Authentication authentication) {
+		eventDao.edit(event, authentication);
 	}
 
 	@Transactional
-	public void delete(int eveId) {
-		eventDao.delete(eveId);
-
+	public void delete(Event event, Authentication authentication) {
+		eventDao.delete(event, authentication);
 	}
 
 	@Transactional
-	public Event getEvent(int eveId) {
-		return eventDao.getEvent(eveId);
+	public Event get(int id) {
+		return eventDao.get(id);
 	}
 
 	@Transactional
-	public List getAllEvent() {
-		return eventDao.getAllEvent();
+	public List getAll() {
+		return eventDao.getAll();
 	}
 	
 	@Transactional
 	public List loadData(){
 		return eventDao.loadData();
 	}
-
 }
