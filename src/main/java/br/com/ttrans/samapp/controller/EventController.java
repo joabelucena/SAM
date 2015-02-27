@@ -4,11 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,10 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.validator.ResponseStatus;
 
 import com.google.gson.Gson;
-
 
 @RestController
 @RequestMapping("/events")
@@ -38,6 +38,9 @@ public class EventController {
 	
 	@Autowired
 	private EquipmentService equipmentService;
+	
+	@Autowired
+	private  MessageSource messageSource;
 	
 	private String eventDatetime;
 	
@@ -55,7 +58,6 @@ public class EventController {
 	@ResponseBody
 	public String loadData(Map<String, Object> map) {
 		
-		@SuppressWarnings("unchecked")
 		List eventList = eventService.loadData();
 		
 		Gson gson = new Gson();
@@ -71,23 +73,24 @@ public class EventController {
 	
 	@RequestMapping(value = "/recognize/{id}", method = RequestMethod.POST)
 	
-	public ResponseStatus recognize(
+	public String recognize(
 			@PathVariable("id") int id
-			,Authentication authentication) {
+			,Authentication authentication
+			,Locale locale) {
 		
 		Event event = eventService.get(id);
 		
-		if (!(event == null) && event.getEve_reco_user() == null){
+		if (!(event == null)){
 			
 			event.setEve_reco_user(authentication.getName());
 			event.setEve_reco_date(new Date());
 			
 			eventService.edit(event, authentication);
 			
-			return ResponseStatus.OK;
+			return messageSource.getMessage("responseStatus.Ok", null,locale);
 		}
 		
-		return ResponseStatus.TEST;
+		return messageSource.getMessage("responseStatus.Failure", null,locale);
 	}
 	
 	@ResponseBody
