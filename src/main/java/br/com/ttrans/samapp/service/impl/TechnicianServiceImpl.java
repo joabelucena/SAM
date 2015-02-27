@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,26 +18,27 @@ public class TechnicianServiceImpl implements TechnicianService {
 	private TechnicianDao dao;
 	
 	@Transactional
-	public void add(Technician technician) {
-		dao.add(technician);
-
+	public void add(Technician technician, Authentication authentication) {
+		dao.add(technician, authentication);
 	}
 
 	@Transactional
-	public void edit(Technician technician) {
-		dao.edit(technician);
-
+	public void edit(Technician technician, Authentication authentication) {
+		dao.edit(technician, authentication);
 	}
 
 	@Transactional
-	public void delete(Technician technician) {
-		dao.delete(technician);
-
+	public void delete(Technician technician, Authentication authentication) {
+		dao.delete(technician, authentication);
+	}
+	
+	@Transactional
+	public Technician get(String id) {
+		return dao.get(id); 
 	}
 
 	@Transactional
 	public List loadData() {
 		return dao.loadData();
 	}
-
 }

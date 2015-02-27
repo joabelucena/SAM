@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,18 @@ public class EquipmentProtocolServiceImpl implements EquipmentProtocolService {
 	private EquipmentProtocolDao dao;
 
 	@Transactional
-	public void add(EquipmentProtocol protocol) {
-		dao.add(protocol);
+	public void add(EquipmentProtocol protocol, Authentication authentication) {
+		dao.add(protocol, authentication);
 	}
 
 	@Transactional
-	public void edit(EquipmentProtocol protocol) {
-		dao.edit(protocol);
+	public void edit(EquipmentProtocol protocol, Authentication authentication) {
+		dao.edit(protocol, authentication);
 	}
 
 	@Transactional
-	public void delete(EquipmentProtocol protocol) {
-		dao.delete(protocol);
+	public void delete(EquipmentProtocol protocol, Authentication authentication) {
+		dao.delete(protocol, authentication);
 	}
 
 	@Transactional

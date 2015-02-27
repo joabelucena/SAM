@@ -8,6 +8,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.SiteTypeDao;
@@ -20,23 +21,27 @@ public class SiteTypeDaoImpl implements SiteTypeDao {
 	private SessionFactory session;
 
 	@Override
-	public void add(SiteType siteType) {
+	public void add(SiteType siteType, Authentication authentication) {
+		siteType.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(siteType);
 	}
 
 	@Override
-	public void edit(SiteType siteType) {
+	public void edit(SiteType siteType, Authentication authentication) {
+		siteType.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(siteType);
 	}
 
 	@Override
-	public void delete(int styId) {
-		session.getCurrentSession().delete(getSiteType(styId));
+	public void delete(SiteType siteType, Authentication authentication) {
+		siteType.setUsr_update(authentication.getName());
+		siteType.setDeleted("*");
+		session.getCurrentSession().update(siteType);
 	}
 
 	@Override
-	public SiteType getSiteType(int styId) {
-		return (SiteType)session.getCurrentSession().get(SiteType.class, styId);
+	public SiteType get(int id) {
+		return (SiteType)session.getCurrentSession().get(SiteType.class, id);
 	}
 	
 	@Override
@@ -49,7 +54,7 @@ public class SiteTypeDaoImpl implements SiteTypeDao {
 	}
 
 	@Override
-	public List getAllSiteType() {
+	public List getAll() {
 		return session.getCurrentSession().createQuery("from SitesType where deleted <> '*'").list();
 	}
 

@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,18 @@ public class SubSystemServiceImpl implements SubSystemService {
 	private SubSystemDao dao;
 
 	@Transactional
-	public void add(SubSystem system) {
-		dao.add(system);
+	public void add(SubSystem system, Authentication authentication) {
+		dao.add(system, authentication);
 	}
 
 	@Transactional
-	public void edit(SubSystem system) {
-		dao.edit(system);
+	public void edit(SubSystem system, Authentication authentication) {
+		dao.edit(system, authentication);
 	}
 
 	@Transactional
-	public void delete(SubSystem system) {
-		dao.delete(system);
+	public void delete(SubSystem system, Authentication authentication) {
+		dao.delete(system, authentication);
 	}
 
 	@Transactional

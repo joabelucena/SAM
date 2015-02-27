@@ -2,13 +2,15 @@ package br.com.ttrans.samapp.service;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
 import br.com.ttrans.samapp.model.Equipment;
 
 public interface EquipmentService {
-	public void add(Equipment equipment);
-	public void edit(Equipment equipment);
-	public void delete(Equipment equipment);
+	public void add(Equipment equipment, Authentication authentication);
+	public void edit(Equipment equipment, Authentication authentication);
+	public void delete(Equipment equipment, Authentication authentication);
 	public List loadData();
 	public String getOidByIp(String ip);
-	public Equipment getEquipment(String id);
+	public Equipment get(String id);
 }

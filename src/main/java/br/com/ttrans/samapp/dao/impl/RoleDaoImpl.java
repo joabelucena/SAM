@@ -32,7 +32,7 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public Role find(int id) {
+	public Role get(int id) {
 		return (Role) session.getCurrentSession().get(Role.class, id);
 	}
 
@@ -45,7 +45,7 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public List<Role> getAllRoles() {
+	public List<Role> getAll() {
 		return session.getCurrentSession().createSQLQuery("from Role").list();
 	}
 

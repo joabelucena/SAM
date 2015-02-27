@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private EquipmentDao dao;
 
 	@Transactional
-	public void add(Equipment equipment) {
-		dao.add(equipment);
+	public void add(Equipment equipment, Authentication authentication) {
+		dao.add(equipment, authentication);
 	}
 
 	@Transactional
-	public void edit(Equipment equipment) {
-		dao.edit(equipment);
+	public void edit(Equipment equipment, Authentication authentication) {
+		dao.edit(equipment, authentication);
 	}
 
 	@Transactional
-	public void delete(Equipment equipment) {
-		dao.delete(equipment);
+	public void delete(Equipment equipment, Authentication authentication) {
+		dao.delete(equipment, authentication);
 	}
 
 	@Transactional
@@ -42,8 +43,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Transactional
-	public Equipment getEquipment(String id) {
-		return dao.getEquipment(id);
+	public Equipment get(String id) {
+		return dao.get(id);
 	}
 
 }

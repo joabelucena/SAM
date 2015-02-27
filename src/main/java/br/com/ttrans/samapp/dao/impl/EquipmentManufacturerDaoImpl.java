@@ -8,6 +8,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.EquipmentManufacturerDao;
@@ -20,17 +21,20 @@ public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(EquipmentManufacturer manufacturer) {
+	public void add(EquipmentManufacturer manufacturer, Authentication authentication) {
+		manufacturer.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(manufacturer);
 	}
 
 	@Override
-	public void edit(EquipmentManufacturer manufacturer) {
+	public void edit(EquipmentManufacturer manufacturer, Authentication authentication) {
+		manufacturer.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(manufacturer);
 	}
 
 	@Override
-	public void delete(EquipmentManufacturer manufacturer) {
+	public void delete(EquipmentManufacturer manufacturer, Authentication authentication) {
+		manufacturer.setUsr_update(authentication.getName());
 		manufacturer.setDeleted("*");
 		session.getCurrentSession().update(manufacturer);
 	}

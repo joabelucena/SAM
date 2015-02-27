@@ -9,10 +9,10 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.StatusRuleDao;
-import br.com.ttrans.samapp.model.Site;
 import br.com.ttrans.samapp.model.StatusRule;
 
 @Repository
@@ -22,22 +22,31 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(StatusRule rule) {
+	public void add(StatusRule rule, Authentication authentication) {
+		rule.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(rule);
 
 	}
 
 	@Override
-	public void edit(StatusRule rule) {
+	public void edit(StatusRule rule, Authentication authentication) {
+		rule.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(rule);
 
 	}
 
 	@Override
-	public void delete(StatusRule rule) {
+	public void delete(StatusRule rule, Authentication authentication) {
+		rule.setUsr_update(authentication.getName());
 		rule.setDeleted("*");
 		session.getCurrentSession().update(rule);
 
+	}
+	
+	@Override
+	public StatusRule get(int id) {
+		return (StatusRule) session.getCurrentSession().get(StatusRule.class, id);
+		
 	}
 
 	@Override
@@ -70,11 +79,4 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		
 		return resultsList;
 	}
-
-	@Override
-	public StatusRule getRule(int id) {
-		return (StatusRule) session.getCurrentSession().get(StatusRule.class, id);
-		
-	}
-
 }

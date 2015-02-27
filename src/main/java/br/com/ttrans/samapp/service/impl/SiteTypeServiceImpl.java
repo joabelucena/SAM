@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,24 +18,23 @@ public class SiteTypeServiceImpl implements SiteTypeService {
 	private SiteTypeDao siteTypeDao;
 	
 	@Transactional
-	public void add(SiteType siteType) {
-		siteTypeDao.add(siteType);
+	public void add(SiteType siteType, Authentication authentication) {
+		siteTypeDao.add(siteType, authentication);
 	}
 
 	@Transactional
-	public void edit(SiteType siteType) {
-		siteTypeDao.edit(siteType);
-
+	public void edit(SiteType siteType, Authentication authentication) {
+		siteTypeDao.edit(siteType, authentication);
 	}
 
 	@Transactional
-	public void delete(int styId) {
-		siteTypeDao.delete(styId);
+	public void delete(SiteType siteType, Authentication authentication) {
+		siteTypeDao.delete(siteType, authentication);
 	}
 
 	@Transactional
-	public SiteType getSiteType(int styId) {
-		return siteTypeDao.getSiteType(styId);
+	public SiteType get(int id) {
+		return siteTypeDao.get(id);
 	}
 	
 	@Transactional
@@ -43,13 +43,12 @@ public class SiteTypeServiceImpl implements SiteTypeService {
 	}
 
 	@Transactional
-	public List getAllSiteType() {
-		return siteTypeDao.getAllSiteType();
+	public List getAll() {
+		return siteTypeDao.getAll();
 	}
 	
 	@Transactional
 	public List loadData() {
 		return siteTypeDao.loadData();
 	}
-
 }

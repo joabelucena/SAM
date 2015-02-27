@@ -8,11 +8,11 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
-import br.com.ttrans.samapp.model.ServiceOrderType;
 
 @Repository
 public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
@@ -21,19 +21,22 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(ServiceOrderStatus status) {
+	public void add(ServiceOrderStatus status, Authentication authentication) {
+		status.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(status);
 
 	}
 
 	@Override
-	public void edit(ServiceOrderStatus status) {
+	public void edit(ServiceOrderStatus status, Authentication authentication) {
+		status.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(status);
 
 	}
 
 	@Override
-	public void delete(ServiceOrderStatus status) {
+	public void delete(ServiceOrderStatus status, Authentication authentication) {
+		status.setUsr_update(authentication.getName());
 		status.setDeleted("*");
 		session.getCurrentSession().update(status);
 

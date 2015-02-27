@@ -20,7 +20,6 @@ public class MenuServiceImpl implements MenuService {
 	@Transactional
 	public void add(Menu menu) {
 		dao.add(menu);
-
 	}
 
 	@Transactional

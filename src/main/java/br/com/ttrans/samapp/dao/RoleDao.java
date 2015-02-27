@@ -9,7 +9,7 @@ public interface RoleDao {
 	void add(Role role);
 	void edit(Role role);
 	void delete(Role role);
-	Role find(int id);
+	Role get(int id);
 	Role findByDesc(String text);
-	List<Role> getAllRoles();
+	List<Role> getAll();
 }

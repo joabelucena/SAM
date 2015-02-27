@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,21 +19,18 @@ public class ServiceOrderOccurrenceServiceImpl implements
 	private ServiceOrderOccurrenceDao dao;
 	
 	@Transactional
-	public void add(ServiceOrderOccurrence occurrence) {
-		dao.add(occurrence);
-
+	public void add(ServiceOrderOccurrence occurrence, Authentication authentication) {
+		dao.add(occurrence, authentication);
 	}
 
 	@Transactional
-	public void edit(ServiceOrderOccurrence occurrence) {
-		dao.edit(occurrence);
-
+	public void edit(ServiceOrderOccurrence occurrence, Authentication authentication) {
+		dao.edit(occurrence, authentication);
 	}
 
 	@Transactional
-	public void delete(ServiceOrderOccurrence occurrence) {
-		dao.delete(occurrence);
-
+	public void delete(ServiceOrderOccurrence occurrence, Authentication authentication) {
+		dao.delete(occurrence, authentication);
 	}
 
 	@Transactional

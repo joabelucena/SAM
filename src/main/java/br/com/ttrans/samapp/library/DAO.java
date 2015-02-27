@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.model.Parameters;
-import br.com.ttrans.samapp.model.Equipment;
 
 @Repository
 public class DAO {

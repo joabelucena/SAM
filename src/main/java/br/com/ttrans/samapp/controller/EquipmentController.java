@@ -20,7 +20,7 @@ public class EquipmentController {
 	public void getEquipInfo(Map<String, Object> map
 							,@PathVariable("id") String id){
 		
-		map.put("equipment"	, this.service.getEquipment(id));
+		map.put("equipment"	, this.service.get(id));
 		map.put("mtbf"		, 0);
 		map.put("mttr"		, 0);
 		map.put("urlVideo"	, "");

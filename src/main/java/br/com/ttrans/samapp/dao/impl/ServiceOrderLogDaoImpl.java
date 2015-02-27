@@ -9,10 +9,10 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderLogDao;
-import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 
 @Repository
@@ -22,19 +22,22 @@ public class ServiceOrderLogDaoImpl implements ServiceOrderLogDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(ServiceOrderLog log) {
+	public void add(ServiceOrderLog log, Authentication authentication) {
+		log.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(log);
 
 	}
 
 	@Override
-	public void edit(ServiceOrderLog log) {
+	public void edit(ServiceOrderLog log, Authentication authentication) {
+		log.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(log);
 
 	}
 
 	@Override
-	public void delete(ServiceOrderLog log) {
+	public void delete(ServiceOrderLog log, Authentication authentication) {
+		log.setUsr_update(authentication.getName());
 		log.setDeleted("*");
 		session.getCurrentSession().update(log);
 

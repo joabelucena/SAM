@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,21 +18,18 @@ public class AlarmGroupServiceImpl implements AlarmGroupService {
 	private AlarmGroupDao dao;
 	
 	@Transactional
-	public void add(AlarmGroup group) {
-		dao.add(group);
-
+	public void add(AlarmGroup group, Authentication authentication) {
+		dao.add(group, authentication);
 	}
 
 	@Transactional
-	public void edit(AlarmGroup group) {
-		dao.edit(group);
-
+	public void edit(AlarmGroup group, Authentication authentication) {
+		dao.edit(group, authentication);
 	}
 
 	@Transactional
-	public void delete(AlarmGroup group) {
-		dao.delete(group);
-
+	public void delete(AlarmGroup group, Authentication authentication) {
+		dao.delete(group, authentication);
 	}
 
 	@Transactional

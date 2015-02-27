@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,23 +18,27 @@ public class OperationalStateServiceImpl implements OperationalStateService {
 	private OperationalStateDao dao;
 
 	@Transactional
-	public void add(OperationalState state) {
-		dao.add(state);
+	public void add(OperationalState state, Authentication authentication) {
+		dao.add(state, authentication);
 	}
 
 	@Transactional
-	public void edit(OperationalState state) {
-		dao.edit(state);
+	public void edit(OperationalState state, Authentication authentication) {
+		dao.edit(state, authentication);
 	}
 
 	@Transactional
-	public void delete(OperationalState state) {
-		dao.delete(state);
+	public void delete(OperationalState state, Authentication authentication) {
+		dao.delete(state, authentication);
+	}
+	
+	@Transactional
+	public OperationalState get(String id) {
+		return dao.get(id);
 	}
 
 	@Transactional
 	public List loadData() {
 		return dao.loadData();
 	}
-
 }

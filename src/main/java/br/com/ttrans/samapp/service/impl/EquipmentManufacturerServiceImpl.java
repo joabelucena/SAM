@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +19,18 @@ public class EquipmentManufacturerServiceImpl implements
 	private EquipmentManufacturerDao dao; 
 	
 	@Transactional
-	public void add(EquipmentManufacturer manufacturer) {
-		dao.add(manufacturer);
+	public void add(EquipmentManufacturer manufacturer, Authentication authentication) {
+		dao.add(manufacturer, authentication);
 	}
 
 	@Transactional
-	public void edit(EquipmentManufacturer manufacturer) {
-		dao.edit(manufacturer);
+	public void edit(EquipmentManufacturer manufacturer, Authentication authentication) {
+		dao.edit(manufacturer, authentication);
 	}
 
 	@Transactional
-	public void delete(EquipmentManufacturer manufacturer) {
-		dao.delete(manufacturer);
+	public void delete(EquipmentManufacturer manufacturer, Authentication authentication) {
+		dao.delete(manufacturer, authentication);
 	}
 
 	@Transactional

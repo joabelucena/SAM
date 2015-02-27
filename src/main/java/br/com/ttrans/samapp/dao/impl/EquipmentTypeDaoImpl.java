@@ -8,6 +8,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.EquipmentTypeDao;
@@ -20,17 +21,20 @@ public class EquipmentTypeDaoImpl implements EquipmentTypeDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(EquipmentType type) {
+	public void add(EquipmentType type, Authentication authentication) {
+		type.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(type);
 	}
 
 	@Override
-	public void edit(EquipmentType type) {
+	public void edit(EquipmentType type, Authentication authentication) {
+		type.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(type);
 	}
 
 	@Override
-	public void delete(EquipmentType type) {
+	public void delete(EquipmentType type, Authentication authentication) {
+		type.setUsr_update(authentication.getName());
 		type.setDeleted("*");
 		session.getCurrentSession().update(type);
 	}

@@ -8,11 +8,11 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderTypeDao;
 import br.com.ttrans.samapp.model.ServiceOrderType;
-import br.com.ttrans.samapp.model.SiteType;
 
 @Repository
 public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
@@ -21,14 +21,24 @@ public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(ServiceOrderType type) {
+	public void add(ServiceOrderType type, Authentication authentication) {
+		type.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(type);
 
 	}
 
 	@Override
-	public void edit(ServiceOrderType type) {
+	public void edit(ServiceOrderType type, Authentication authentication) {
+		type.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(type);
+	}
+
+	@Override
+	public void delete(ServiceOrderType type, Authentication authentication) {
+		type.setUsr_update(authentication.getName());
+		type.setDeleted("*");
+		session.getCurrentSession().update(type);
+
 	}
 	
 	@Override
@@ -38,13 +48,6 @@ public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
 		crit.add(Restrictions.ne("deleted", "*"));
 		
 		return (ServiceOrderType) crit.uniqueResult();
-	}
-
-	@Override
-	public void delete(ServiceOrderType type) {
-		type.setDeleted("*");
-		session.getCurrentSession().update(type);
-
 	}
 
 	@Override

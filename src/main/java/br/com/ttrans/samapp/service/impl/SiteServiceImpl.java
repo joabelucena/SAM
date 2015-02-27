@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,30 +18,28 @@ public class SiteServiceImpl implements SiteService {
 	private SiteDao siteDao;
 	
 	@Transactional
-	public void add(Site site) {
-		siteDao.add(site);
+	public void add(Site site, Authentication authentication) {
+		siteDao.add(site, authentication);
 	}
 
 	@Transactional
-	public void edit(Site site) {
-		siteDao.edit(site);
-
+	public void edit(Site site, Authentication authentication) {
+		siteDao.edit(site, authentication);
 	}
 
 	@Transactional
-	public void delete(int sitId) {
-		siteDao.delete(sitId);
-
+	public void delete(Site site, Authentication authentication) {
+		siteDao.delete(site, authentication);
 	}
 
 	@Transactional
-	public Site getSite(int sitId) {
-		return siteDao.getSite(sitId);
+	public Site get(int id) {
+		return siteDao.get(id);
 	}
 
 	@Transactional
-	public List getAllSite() {
-		return siteDao.getAllSite();
+	public List getAll() {
+		return siteDao.getAll();
 	}
 	
 	@Transactional

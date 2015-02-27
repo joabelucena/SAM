@@ -12,8 +12,8 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.library.DAO;
@@ -28,17 +28,20 @@ public class EquipmentDaoImpl implements EquipmentDao {
 	private static final Logger logger = LoggerFactory.getLogger(DAO.class);
 
 	@Override
-	public void add(Equipment equipment) {
+	public void add(Equipment equipment, Authentication authentication) {
+		equipment.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(equipment);
 	}
 
 	@Override
-	public void edit(Equipment equipment) {
+	public void edit(Equipment equipment, Authentication authentication) {
+		equipment.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(equipment);
 	}
 
 	@Override
-	public void delete(Equipment equipment) {
+	public void delete(Equipment equipment, Authentication authentication) {
+		equipment.setUsr_update(authentication.getName());
 		equipment.setDeleted("*");
 		session.getCurrentSession().update(equipment);
 	}
@@ -131,7 +134,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 	}
 
 	@Override
-	public Equipment getEquipment(String id) {
+	public Equipment get(String id) {
 		return (Equipment) session.getCurrentSession().get(Equipment.class, id);
 	}
 

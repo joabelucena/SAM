@@ -13,6 +13,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -32,14 +34,17 @@ public class Event {
 	
 	@ManyToOne
 	@JoinColumn(name="eve_equipment_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	private Equipment equipment;
 	
 	@ManyToOne
 	@JoinColumn(name="eve_alarm_id")
-	private Alarm alarm;
+	@NotFound(action=NotFoundAction.IGNORE)
+	private Alarm alarm; 
 	
 	@ManyToOne
 	@JoinColumn(name="eve_oper_state_id")
+	@NotFound(action=NotFoundAction.IGNORE)
 	private OperationalState state;
 	
 	@Column

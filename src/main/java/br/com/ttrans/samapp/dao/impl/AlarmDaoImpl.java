@@ -9,6 +9,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.AlarmDao;
@@ -21,22 +22,30 @@ public class AlarmDaoImpl implements AlarmDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(Alarm alarm) {
+	public void add(Alarm alarm, Authentication authentication) {
+		alarm.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(alarm);
 
 	}
 
 	@Override
-	public void edit(Alarm alarm) {
+	public void edit(Alarm alarm, Authentication authentication) {
+		alarm.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(alarm);
 
 	}
 
 	@Override
-	public void delete(Alarm alarm) {
+	public void delete(Alarm alarm, Authentication authentication) {
+		alarm.setUsr_update(authentication.getName());
 		alarm.setDeleted("*");
 		session.getCurrentSession().update(alarm);
 
+	}
+	
+	@Override
+	public Alarm get(String id){
+		return (Alarm) session.getCurrentSession().get(Alarm.class, id);
 	}
 
 	@Override

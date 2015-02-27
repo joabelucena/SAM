@@ -8,6 +8,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.SeverityLevelDao;
@@ -20,19 +21,22 @@ public class SeverityLevelDaoImpl implements SeverityLevelDao {
 	private SessionFactory session;
 
 	@Override
-	public void add(SeverityLevel severity) {
+	public void add(SeverityLevel severity, Authentication authentication) {
+		severity.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(severity);
 
 	}
 
 	@Override
-	public void edit(SeverityLevel severity) {
+	public void edit(SeverityLevel severity, Authentication authentication) {
+		severity.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(severity);
 
 	}
 
 	@Override
-	public void delete(SeverityLevel severity) {
+	public void delete(SeverityLevel severity, Authentication authentication) {
+		severity.setUsr_update(authentication.getName());
 		severity.setDeleted("*");
 		session.getCurrentSession().update(severity);
 

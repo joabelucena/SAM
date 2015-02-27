@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,31 +18,27 @@ public class StatusRuleServiceImpl implements StatusRuleService {
 	private StatusRuleDao dao;
 	
 	@Transactional
-	public void add(StatusRule rule) {
-		dao.add(rule);
-
+	public void add(StatusRule rule, Authentication authentication) {
+		dao.add(rule, authentication);
 	}
 
 	@Transactional
-	public void edit(StatusRule rule) {
-		dao.edit(rule);
-
+	public void edit(StatusRule rule, Authentication authentication) {
+		dao.edit(rule, authentication);
 	}
 
 	@Transactional
-	public void delete(StatusRule rule) {
-		dao.delete(rule);
-
+	public void delete(StatusRule rule, Authentication authentication) {
+		dao.delete(rule, authentication);
 	}
-
+	
+	@Transactional
+	public StatusRule get(int id) {
+		return dao.get(id);
+	}
+	
 	@Transactional
 	public List loadData() {
 		return dao.loadData();
 	}
-
-	@Override
-	public StatusRule getRule(int id) {
-		return dao.getRule(id);
-	}
-
 }

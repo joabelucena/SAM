@@ -8,6 +8,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.AlarmGroupDao;
@@ -20,19 +21,22 @@ public class AlarmGroupDaoImpl implements AlarmGroupDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(AlarmGroup group) {
+	public void add(AlarmGroup group, Authentication authentication) {
+		group.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(group);
 
 	}
 
 	@Override
-	public void edit(AlarmGroup group) {
+	public void edit(AlarmGroup group, Authentication authentication) {
+		group.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(group);
 
 	}
 
 	@Override
-	public void delete(AlarmGroup group) {
+	public void delete(AlarmGroup group, Authentication authentication) {
+		group.setUsr_update(authentication.getName());
 		group.setDeleted("*");
 		session.getCurrentSession().update(group);
 

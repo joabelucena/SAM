@@ -32,8 +32,8 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Transactional
-	public Role find(int id) {
-		return dao.find(id);
+	public Role get(int id) {
+		return dao.get(id);
 	}
 
 	@Transactional
@@ -42,8 +42,8 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Transactional
-	public List<Role> getAllRoles() {
-		return dao.getAllRoles();
+	public List<Role> getAll() {
+		return dao.getAll();
 	}
 
 }

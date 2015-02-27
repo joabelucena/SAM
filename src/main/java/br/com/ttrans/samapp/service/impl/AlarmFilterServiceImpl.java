@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,21 +18,18 @@ public class AlarmFilterServiceImpl implements AlarmFilterService {
 	private AlarmFilterDao dao;
 
 	@Transactional
-	public void add(AlarmFilter filter) {
-		dao.add(filter);
-
+	public void add(AlarmFilter filter, Authentication authentication) {
+		dao.add(filter, authentication);
 	}
 
 	@Transactional
-	public void edit(AlarmFilter filter) {
-		dao.edit(filter);
-
+	public void edit(AlarmFilter filter, Authentication authentication) {
+		dao.edit(filter, authentication);
 	}
 
 	@Transactional
-	public void delete(AlarmFilter filter) {
-		dao.delete(filter);
-
+	public void delete(AlarmFilter filter, Authentication authentication) {
+		dao.delete(filter, authentication);
 	}
 
 	@Transactional

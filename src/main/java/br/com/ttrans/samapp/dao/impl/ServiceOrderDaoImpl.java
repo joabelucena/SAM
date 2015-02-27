@@ -9,6 +9,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ServiceOrderDao;
@@ -21,19 +22,22 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(ServiceOrder serviceorder) {
+	public void add(ServiceOrder serviceorder, Authentication authentication) {
+		serviceorder.setUsr_insert(authentication.getName());
 		session.getCurrentSession().persist(serviceorder);
 
 	}
 
 	@Override
-	public void edit(ServiceOrder serviceorder) {
+	public void edit(ServiceOrder serviceorder, Authentication authentication) {
+		serviceorder.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(serviceorder);
 
 	}
 
 	@Override
-	public void delete(ServiceOrder serviceorder) {
+	public void delete(ServiceOrder serviceorder, Authentication authentication) {
+		serviceorder.setUsr_update(authentication.getName());
 		serviceorder.setDeleted("*");
 		session.getCurrentSession().update(serviceorder);
 	}

@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,21 +18,18 @@ public class SeverityLevelServiceImpl implements SeverityLevelService {
 	private SeverityLevelDao dao;
 
 	@Transactional
-	public void add(SeverityLevel severity) {
-		dao.add(severity);
-
+	public void add(SeverityLevel severity, Authentication authentication) {
+		dao.add(severity, authentication);
 	}
 
 	@Transactional
-	public void edit(SeverityLevel severity) {
-		dao.edit(severity);
-
+	public void edit(SeverityLevel severity, Authentication authentication) {
+		dao.edit(severity, authentication);
 	}
 
 	@Transactional
-	public void delete(SeverityLevel severity) {
-		dao.delete(severity);
-
+	public void delete(SeverityLevel severity, Authentication authentication) {
+		dao.delete(severity, authentication);
 	}
 
 	@Transactional

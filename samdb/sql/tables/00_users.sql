@@ -7,6 +7,11 @@ CREATE TABLE role (
 );
 COMMIT;
 
+-- Constraint
+ALTER TABLE role 
+ADD CONSTRAINT uk_role_UNIQUE1 UNIQUE (roleName);
+COMMIT;
+
 -- Popula tabela de perfis
 INSERT INTO role VALUES (1,'ROOT');
 INSERT INTO role VALUES (2,'ADMINISTRADOR');
@@ -22,6 +27,11 @@ CREATE TABLE users (
   status varchar(45) DEFAULT NULL,
   PRIMARY KEY (id)
 );
+COMMIT;
+
+-- Constraint
+ALTER TABLE users 
+ADD CONSTRAINT uk_users_UNIQUE1 UNIQUE (username);
 COMMIT;
 
 -- Popula tabela de usuarios (Criptografia MD5)
@@ -47,6 +57,11 @@ CREATE TABLE MENU (
   className VARCHAR(45) NOT NULL,
   PRIMARY KEY (id)
 );
+COMMIT;
+
+-- Constraint
+ALTER TABLE MENU 
+ADD CONSTRAINT uk_MENU_UNIQUE1 UNIQUE (id,parent_id);
 COMMIT;
 
 CREATE TABLE PERMISSIONS (

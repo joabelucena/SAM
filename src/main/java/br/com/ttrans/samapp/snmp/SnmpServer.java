@@ -159,7 +159,7 @@ public class SnmpServer implements CommandResponder {
 			String Ip = IpParts[0];
 
 			Event eventdb = new Event();
-			Equipment equipment = equipmentService.getEquipment(Ip);
+			Equipment equipment = equipmentService.get(Ip);
 
 			String eve_site = equipment.getSite().getSit_description();
 			String eve_model = equipment.getModel().getEmo_description();

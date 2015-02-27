@@ -9,6 +9,7 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.OperationalStateDao;
@@ -21,19 +22,28 @@ public class OperationalStateDaoImpl implements OperationalStateDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(OperationalState state) {
+	public void add(OperationalState state, Authentication authentication) {
+		state.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(state);
 	}
 
 	@Override
-	public void edit(OperationalState state) {
+	public void edit(OperationalState state, Authentication authentication) {
+		state.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(state);
 	}
 
 	@Override
-	public void delete(OperationalState state) {
+	public void delete(OperationalState state, Authentication authentication) {
+		state.setUsr_update(authentication.getName());
 		state.setDeleted("*");
 		session.getCurrentSession().update(state);
+	}
+	
+	@Override
+	public OperationalState get(String id){
+		return (OperationalState) session.getCurrentSession().get(OperationalState.class, id);
+		
 	}
 
 	@Override

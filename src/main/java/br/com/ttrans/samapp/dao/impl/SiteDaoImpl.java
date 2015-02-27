@@ -3,19 +3,17 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.SiteDao;
-import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.Site;
-import br.com.ttrans.samapp.model.SiteType;
 
 @Repository
 public class SiteDaoImpl implements SiteDao {
@@ -24,30 +22,34 @@ public class SiteDaoImpl implements SiteDao {
 	private SessionFactory session;
 
 	@Override
-	public void add(Site site) {
+	public void add(Site site, Authentication authentication) {
+		site.setUsr_insert(authentication.getName());
 		session.getCurrentSession().save(site);
 
 	}
 
 	@Override
-	public void edit(Site site) {
+	public void edit(Site site, Authentication authentication) {
+		site.setUsr_update(authentication.getName());
 		session.getCurrentSession().update(site);
 
 	}
 
 	@Override
-	public void delete(int sitId) {
-		session.getCurrentSession().delete(getSite(sitId));
+	public void delete(Site site, Authentication authentication) {
+		site.setUsr_update(authentication.getName());
+		site.setDeleted("*");
+		session.getCurrentSession().update(site);
 
 	}
 
 	@Override
-	public Site getSite(int sitId) {
-		return (Site) session.getCurrentSession().get(Site.class, sitId);
+	public Site get(int id) {
+		return (Site) session.getCurrentSession().get(Site.class, id);
 	}
 
 	@Override
-	public List getAllSite() {
+	public List getAll() {
 		return session.getCurrentSession()
 				.createQuery("from Sites where deleted <> '*'").list();
 	}
