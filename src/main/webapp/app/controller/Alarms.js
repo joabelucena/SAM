@@ -36,7 +36,7 @@ Ext.define('Sam.controller.Alarms', {
 		            		async: false,
 		            		
 		            		params: {
-		            			recognizeId: Ext.encode(Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id')),
+		            			recognizeId: Ext.getCmp('alarmgridpanel').getStore().getData('id'),
 		            		},
 
 		            		success: function (result, request) {
