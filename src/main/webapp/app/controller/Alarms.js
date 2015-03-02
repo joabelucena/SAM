@@ -31,12 +31,12 @@ Ext.define('Sam.controller.Alarms', {
 		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
 		            	
 		            	Ext.Ajax.request({
-		            		url : 'events/recognize/' + Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id'),
+		            		url : 'events/recognize',
 		            		method : 'POST',
 		            		async: false,
 		            		
 		            		params: {
-		            			recognizeAll: 'OBA'
+		            			recognizeId: Ext.encode(Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id')),
 		            		},
 
 		            		success: function (result, request) {
