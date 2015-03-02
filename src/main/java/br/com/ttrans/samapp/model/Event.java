@@ -30,7 +30,7 @@ public class Event {
 	@Id
 	@Column
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EVENTS")
-	private int eve_id;
+	private long eve_id;
 	
 	@ManyToOne
 	@JoinColumn(name="eve_equipment_id")
@@ -89,7 +89,7 @@ public class Event {
 
 	public Event(){}
 
-	public Event(int eve_id, Equipment equipment, Alarm alarm,
+	public Event(long eve_id, Equipment equipment, Alarm alarm,
 			OperationalState state, Date eve_datetime, String eve_date,
 			String eve_time, String eve_solv_user, Date eve_solv_date,
 			String eve_reco_user, Date eve_reco_date, String eve_site,
@@ -114,11 +114,11 @@ public class Event {
 		this.deleted = deleted;
 	}
 
-	public int getEve_id() {
+	public long getEve_id() {
 		return eve_id;
 	}
 
-	public void setEve_id(int eve_id) {
+	public void setEve_id(long eve_id) {
 		this.eve_id = eve_id;
 	}
 

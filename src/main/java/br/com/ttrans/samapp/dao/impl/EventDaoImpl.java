@@ -40,7 +40,7 @@ public class EventDaoImpl implements EventDao {
 	}
 
 	@Override
-	public Event get(int id) {
+	public Event get(long id) {
 		return (Event) session.getCurrentSession().get(Event.class, id);
 	}
 

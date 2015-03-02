@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
+import br.com.ttrans.samapp.model.OperationalState;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
 
@@ -53,7 +56,6 @@ public class EventController {
 		return model;
 	}
 	
-	
 	@RequestMapping("/load")
 	@ResponseBody
 	public String loadData(Map<String, Object> map) {
@@ -72,9 +74,8 @@ public class EventController {
 	}
 	
 	@RequestMapping(value = "/recognize/{id}", method = RequestMethod.POST)
-	
 	public String recognize(
-			@PathVariable("id") int id
+			@PathVariable("id") long id
 			,Authentication authentication
 			,Locale locale) {
 		

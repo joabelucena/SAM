@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Transactional
-	public Event get(int id) {
+	public Event get(long id) {
 		return eventDao.get(id);
 	}
 
