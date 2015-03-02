@@ -29,18 +29,41 @@ Ext.define('Sam.controller.Alarms', {
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
 		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
+		            	
 		            	Ext.Ajax.request({
 		            		url : 'events/recognize/' + Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id'),
-		            		method : 'POST'
+		            		method : 'POST',
+		            		async: false,
+		            		
+		            		params: {
+		            			recognizeAll: 'OBA'
+		            		},
+
+		            		success: function (result, request) {
+		                             
+			                    if (result.responseText != "SUCCESS") {
+			                    	Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.responseText);        	 
+			                    }
+		                             
+		            		},
+		                    
+		            		failure: function (result, request) {
+		            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+		                    }		
+		            			
 		            	});
+		            	
 		            } else if(btn == 'cancel') {
 		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
 		            }
 		        }
 			});
-		 } else {
-         	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
-		 }
+		 
+		} else {
+         	
+			Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
+		 
+		}
 
 	},
 	

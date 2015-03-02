@@ -55,9 +55,13 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 	
 	columns : [
 	   {
+		   text: 'id',
+		   dataIndex: 'id',
+		   flex: 1,
+       },{
 		   xtype: 'checkcolumn',
 		   id: 'knowledge_check',
-		   text: 'Reconhecer',
+		   text: 'Reconhece',
 		   flex: 1,
 		   dataIndex: 'knowledge_user',
 	   },{
