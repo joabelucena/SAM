@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,85 +36,94 @@ import com.google.gson.Gson;
 @RestController
 @RequestMapping("/events")
 public class EventController {
-	
+
 	@Autowired
 	private EventService eventService;
-	
+
 	@Autowired
 	private EquipmentService equipmentService;
-	
+
 	@Autowired
-	private  MessageSource messageSource;
-	
+	private MessageSource messageSource;
+
 	private String eventDatetime;
-	
+
 	@Deprecated
 	@RequestMapping("/events/")
-	public ModelAndView events(Map<String, Object> map){
-		
+	public ModelAndView events(Map<String, Object> map) {
+
 		ModelAndView model = new ModelAndView("events/events/show");
-		
+
 		return model;
 	}
-	
+
 	@RequestMapping("/load")
 	@ResponseBody
 	public String loadData(Map<String, Object> map) {
-		
+
 		List eventList = eventService.loadData();
-		
+
 		Gson gson = new Gson();
-		
+
 		String json = gson.toJson(eventList);
-		
-		String result = "{\"data\":"+json +"}";
-		
+
+		String result = "{\"data\":" + json + "}";
+
 		System.out.println(result);
-				
+
 		return result;
 	}
-	
-	@RequestMapping(value = "/recognize/{id}", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/recognize", method = RequestMethod.POST)
 	public String recognize(
-			@PathVariable("id") long id
-			,Authentication authentication
-			,Locale locale) {
-		
-		Event event = eventService.get(id);
-		
-		if (!(event == null)){
-			
-			event.setEve_reco_user(authentication.getName());
-			event.setEve_reco_date(new Date());
-			
-			eventService.edit(event, authentication);
-			
-			return messageSource.getMessage("responseStatus.Ok", null,locale);
+			@RequestParam(value = "recognizeId", required = false) long[] ids,
+			Authentication authentication, Locale locale){
+
+		for (int i = 0; i < ids.length; i++) {
+
+			Event event = eventService.get(ids[i]);
+
+			//Verifica se achou o evento
+			if (event != null) {
+
+				//Verifica se ja foi reconhecido
+				if (event.getEve_reco_user() == null) {
+
+					event.setEve_reco_user(authentication.getName());
+					event.setEve_reco_date(new Date());
+
+					eventService.edit(event, authentication);
+				}
+
+			}
 		}
-		
-		return messageSource.getMessage("responseStatus.Failure", null,locale);
+
+		return messageSource.getMessage("responseStatus.Ok", null, locale);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/eventsrestservice", method = RequestMethod.POST)
-	public ResponseEntity<Event> get(@Valid @RequestBody Event eventJson, BindingResult result) throws ParseException{
-		
+	public ResponseEntity<Event> get(@Valid @RequestBody Event eventJson,
+			BindingResult result) throws ParseException {
+
 		String usr_insert = "SAM_JSON";
 		eventJson.setUsr_insert(usr_insert);
-		
-		//validator.validate(eventJson, result, "add");
-		
+
+		// validator.validate(eventJson, result, "add");
+
 		if (!result.hasErrors()) {
-				
-			eventDatetime = eventJson.getEve_date() + " " + eventJson.getEve_time();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+			eventDatetime = eventJson.getEve_date() + " "
+					+ eventJson.getEve_time();
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd hh:mm:ss");
 			Date eve_datetime = dateFormat.parse(eventDatetime);
 			eventJson.setEve_datetime(eve_datetime);
-						
+
 			eventService.add(eventJson);
-	 
+
 			return new ResponseEntity<Event>(HttpStatus.OK);
-		
+
 		} else {
 			return new ResponseEntity<Event>(HttpStatus.NOT_ACCEPTABLE);
 		}
