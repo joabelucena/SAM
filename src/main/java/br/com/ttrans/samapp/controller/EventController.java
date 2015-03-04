@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,12 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.ttrans.samapp.model.Alarm;
-import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
-import br.com.ttrans.samapp.model.OperationalState;
+import br.com.ttrans.samapp.model.ServiceOrderType;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
+import br.com.ttrans.samapp.service.ServiceOrderTypeService;
 
 import com.google.gson.Gson;
 
@@ -44,7 +43,11 @@ public class EventController {
 	private EquipmentService equipmentService;
 
 	@Autowired
+	private ServiceOrderTypeService serviceOrderTypeService;
+	
+	@Autowired
 	private MessageSource messageSource;
+	
 
 	private String eventDatetime;
 
@@ -74,6 +77,25 @@ public class EventController {
 		return result;
 	}
 
+	@RequestMapping(value = "/getinfo", method = RequestMethod.POST)
+	public Map<String,Object> getInfo(
+			@RequestParam(value = "eveId", required = true) long id,
+			Authentication authentication, Locale locale){
+		
+		Event ev = eventService.get(id);
+		
+		List type = serviceOrderTypeService.loadData();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("id"			, "XPTO");
+		map.put("model"			, "ZKPK12H");
+		map.put("fabricante"	, "cisco");
+		
+		return map;
+	}
+	
+	
 	@RequestMapping(value = "/recognize", method = RequestMethod.POST)
 	public String recognize(
 			@RequestParam(value = "recognizeId", required = false) long[] ids,

@@ -19,8 +19,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
@@ -59,21 +61,28 @@ public class ServiceOrderController {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private DAO dao;
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 
-	@RequestMapping(value = "/new/{eveId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseStatus newSo(@PathVariable("eveId") int eveId,
+	public ResponseStatus newSo(
+			@RequestParam(value = "eveId" , required = true) long eveId,
+			@RequestParam(value = "obs" , required = false) String obs,
+			@RequestParam(value = "stop" , required = false) String stop,
 			Authentication authentication) {
 
-		String obs = "Aguardar a compra do componente xpto";
-
 		Event event = eventService.get(eveId);
+		
+		String cNewSts = dao.GetMv("SAM_SOSTATUS", true, "");
+		
+		ServiceOrderStatus sNewSts = soStatusService.findByName(cNewSts); 
 
 		ServiceOrderLog log = new ServiceOrderLog(
-				soStatusService.findByName("NOVA"),
-				soStatusService.findByName("NOVA"), authentication.getName(),
+				sNewSts, sNewSts, authentication.getName(),
 				new Date(), obs, authentication.getName());
 
 		Set<ServiceOrderLog> logSet = new HashSet<ServiceOrderLog>();
@@ -87,13 +96,13 @@ public class ServiceOrderController {
 			so.setEquipment(event.getEquipment());				// Equipamento
 			so.setType(soTypeService.findByName("CORRETIVA"));	// Tipo de Os (VERIFICAR)
 			so.setEvent(event);									// Evento
-			so.setStatus(soStatusService.findByName("NOVA"));	// Status
+			so.setStatus(sNewSts);								// Status
 			so.setSor_start_forecast(new Date());				// Previsao de Inicio (VERIFICAR)
 			so.setSor_end_forecast(new Date());					// Previsao de Termino (VERIFICAR)
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setSor_remarks(obs);								// Observação
-			so.setSor_equipment_stop("S");						// Equipamento parado (VERIFICAR)
+			so.setSor_equipment_stop(stop);						// Equipamento parado
 
 			soService.add(so, authentication);
 
