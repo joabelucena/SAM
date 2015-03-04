@@ -68,10 +68,10 @@ public class SnmpServer implements CommandResponder {
 
 	public void run() {
 		try {
-			test = dao.GetMv("IPSERVER_SNMP", true, "");
+			test = dao.GetMv("SYS_IPSNMP", true, "");
 			System.out.println("####  " + test);
-			System.out.println("#### " + dao.GetMv("IPSERVER_SNMP", true, "")
-					+ "/" + dao.GetMv("PORTSERVER_SNMP", true, ""));
+			System.out.println("#### " + dao.GetMv("SYS_IPSNMP", true, "")
+					+ "/" + dao.GetMv("SYS_PORTSNMP", true, ""));
 
 			System.out.println("## Initializing Snmp Server...");
 			init();
@@ -96,8 +96,8 @@ public class SnmpServer implements CommandResponder {
 				new MessageDispatcherImpl());
 		listenAddress = GenericAddress.parse(System.getProperty(
 				"snmp4j.listenAddress",
-				"udp:" + dao.GetMv("IPSERVER_SNMP", true, "") + "/"
-						+ dao.GetMv("PORTSERVER_SNMP", true, "")));
+				"udp:" + dao.GetMv("SYS_IPSNMP", true, "") + "/"
+						+ dao.GetMv("SYS_PORTSNMP", true, "")));
 
 		TransportMapping transport;
 		if (listenAddress instanceof UdpAddress) {

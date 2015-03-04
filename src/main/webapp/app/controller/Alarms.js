@@ -1,7 +1,7 @@
 Ext.define('Sam.controller.Alarms', {
 	extend: 'Ext.app.Controller',
 	 
-	views: ['alarm.AlarmPanel','alarm.AlarmGrid'],
+	views: ['alarm.AlarmPanel','alarm.AlarmGrid','alarm.AlarmPopUp'],
 	
 	init: function() {
 		
@@ -11,6 +11,15 @@ Ext.define('Sam.controller.Alarms', {
 			},
 			'checkcolumn': {
 				checkchange: this.checkboxChanged,
+			 },
+			 'toolbar #recognizeallbutton': {
+				 click: this.recognizeAll,
+			 },
+			 '#openso': {
+				 click: this.openSO,
+			 },
+			 '#alarmgridpanel' : {
+				 itemdblclick: this.openPopUp
 			 }
 		});
 	},
@@ -36,7 +45,7 @@ Ext.define('Sam.controller.Alarms', {
 		            		async: false,
 		            		
 		            		params: {
-		            			recognizeId: Ext.getCmp('alarmgridpanel').getStore().getData('id'),
+		            			recognizeId: Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id'),
 		            		},
 
 		            		success: function (result, request) {
@@ -67,6 +76,63 @@ Ext.define('Sam.controller.Alarms', {
 
 	},
 	
+	recognizeAll: function() {
+		
+		Ext.MessageBox.show({
+	        title: 'Reconhecimento de Alarmes',
+	        msg: 'Deseja reconhecer todos os alarmes?',
+	        buttons: Ext.MessageBox.OKCANCEL,
+	        icon: Ext.MessageBox.WARNING,
+	        fn: function(btn,  knowId, knowCheck){
+	            if(btn == 'ok'){
+	            	
+	            	Ext.Ajax.request({
+	            		url : 'events/recognize',
+	            		method : 'POST',
+	            		async: false,
+	            		
+	            		params: {
+	            			recognizeId: Ext.pluck(Ext.getCmp('alarmgridpanel').getStore().getData('id').items,'id'),
+	            		},
+
+	            		success: function (result, request) {
+	                             
+		                    if (result.responseText != "SUCCESS") {
+		                    	Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.responseText);        	 
+		                    }
+	                             
+	            		},
+	                    
+	            		failure: function (result, request) {
+	            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+	                    }		
+	            			
+	            	});
+	            	
+	            } else if(btn == 'cancel') {
+	            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
+	            }
+	        }
+		});
+	},
+	
+	openPopUp: function(dv, record, item, index, e) {
+		
+		var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
+    	
+    	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
+    	
+    	alarmPopUp.setData({
+    	    event_id : record.get('id')
+    	});
+    	
+    	alarmPopUp.show();
+	},
+
+	openSO: function() {		
+		Ext.Msg.alert("OPA");
+	},
+	
 	onRender: function(component, options) {
 	
 		var loading = false;
@@ -92,6 +158,6 @@ Ext.define('Sam.controller.Alarms', {
 		};
 
 		Ext.TaskManager.start(task);
-	},
+	}
 	
 });

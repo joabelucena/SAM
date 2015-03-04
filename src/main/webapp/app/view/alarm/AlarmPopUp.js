@@ -2,7 +2,7 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 	extend : 'Ext.form.Panel',
 	alias : 'widget.alarmpopup',
 
-	requires : [ 'Ext.Ajax.request' ],
+	requires : ['Ext.Ajax.request'],
 	tpl: '{event_id}',
 	width : 800,
 	height : 600,
@@ -26,23 +26,11 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 			margin : '10 10 10 10'
 		},
 		items : [ {
-			text : 'OK',
-		}, {
-
-			text : 'My Awesome Field',
-		}, {
 			xtype : 'button',
-			text : 'Reconhecer Alarme',
-			handler : ajaxButton1Function
+			text : 'Abrir Ordem de Serviço',
+			id: 'openso'
 		} ]
 	} ]
 
 });
 
-function ajaxButton1Function() {
-	
-	Ext.Ajax.request({
-		url : 'events/recognize/',
-		method : 'POST'
-	});
-}

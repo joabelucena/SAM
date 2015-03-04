@@ -1,8 +1,9 @@
-Ext.define('Sam.view.alarm.AlarmGrid' ,{
+Ext.define('Sam.view.alarm.AlarmGrid' , {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.alarmgrid',
 	
-	requires: ['Ext.grid.column.Check'],
+	requires: ['Ext.grid.column.Check',
+	           'Ext.grid.filters.Filters'],
 		
 	id: 'alarmgridpanel',
 	
@@ -13,7 +14,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 
         getRowClass: function(record, index) {
             var s = record.get('severity_id');
-            var r = record.get('knowledge_user')
+            var r = record.get('knowledge_user');
             
             if (s == '3' && r == false) {
             
@@ -35,24 +36,14 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
     },
     
     listeners : {
-      	
-    	itemdblclick: function(dv, record, item, index, e) {
-        	var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
-        	
-        	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
-        	
-        	alarmPopUp.setData({
-        	    event_id : record.get('id')
-        	});
-        	
-        	alarmPopUp.show();
-        },
         
         beforeclose: function() {
         	Ext.TaskManager.stopAll();
         }
     },
 	
+    plugins: 'gridfilters',
+    
 	columns : [
 	   {
 		   text: 'id',
@@ -124,10 +115,19 @@ Ext.define('Sam.view.alarm.AlarmGrid' ,{
 		},{
 			text: 'Severidade',
 			flex: 1,
-			sortable:true,
+			sortable: true,
 			dataIndex: 'severity',
 			filter: {
 				type: 'string'
 			}
-		}]
+		}],
+		
+		dockedItems: [{
+            xtype: 'toolbar',
+            items: [{
+                id:'recognizeallbutton',
+            	text:'Reconhecer Todos',
+                tooltip:'Reconhece todos os Alarmes',
+            }]
+        }]
 });
