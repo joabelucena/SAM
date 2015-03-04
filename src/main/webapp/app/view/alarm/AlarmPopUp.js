@@ -3,7 +3,6 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 	alias : 'widget.alarmpopup',
 
 	requires : ['Ext.Ajax.request'],
-	tpl: '{event_id}',
 	width : 800,
 	height : 600,
 	bodyPadding : 10,

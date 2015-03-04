@@ -36,7 +36,6 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
     },
     
     listeners : {
-        
         beforeclose: function() {
         	Ext.TaskManager.stopAll();
         }

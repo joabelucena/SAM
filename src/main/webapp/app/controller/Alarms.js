@@ -3,6 +3,8 @@ Ext.define('Sam.controller.Alarms', {
 	 
 	views: ['alarm.AlarmPanel','alarm.AlarmGrid','alarm.AlarmPopUp'],
 	
+	eventID: 'null',
+	
 	init: function() {
 		
 		this.control({
@@ -120,17 +122,33 @@ Ext.define('Sam.controller.Alarms', {
 		
 		var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
     	
-    	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('sub_system_description');
+    	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('alarm_description');
     	
-    	alarmPopUp.setData({
-    	    event_id : record.get('id')
-    	});
+    	this.eventID = record.get('id');
     	
     	alarmPopUp.show();
 	},
 
 	openSO: function() {		
-		Ext.Msg.alert("OPA");
+		Ext.Ajax.request({
+    		url : 'events/getinfo',
+    		method : 'POST',
+    		
+    		params: {
+    			eveId: this.eventId 
+    		},
+    		
+    		success: function (result, request) {
+                
+    			 var jsonResp = Ext.util.JSON.decode(result.responseText);
+            	 Ext.Msg.alert("Chupa 0b44","id: "+jsonResp.id+" modelo do barato: "+jsonResp.model+" quem fez essa merda: "+jsonResp.fabricante);
+                     
+    		},
+            
+    		failure: function (result, request) {
+    			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+            }	
+		});
 	},
 	
 	onRender: function(component, options) {
