@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 

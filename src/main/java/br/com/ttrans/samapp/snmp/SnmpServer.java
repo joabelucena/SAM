@@ -5,6 +5,8 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.snmp4j.CommandResponder;
 import org.snmp4j.CommandResponderEvent;
 import org.snmp4j.MessageDispatcherImpl;
@@ -48,7 +50,6 @@ public class SnmpServer implements CommandResponder {
 	private ThreadPool threadPool;
 	private int n = 0;
 	private long start = -1;
-	private String test;
 
 	@Autowired
 	private DAO dao;
@@ -58,6 +59,8 @@ public class SnmpServer implements CommandResponder {
 
 	@Autowired
 	private EventService eventService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(SnmpServer.class);
 
 	public SnmpServer() {
 	}
@@ -68,12 +71,8 @@ public class SnmpServer implements CommandResponder {
 
 	public void run() {
 		try {
-			test = dao.GetMv("SYS_IPSNMP", true, "");
-			System.out.println("####  " + test);
-			System.out.println("#### " + dao.GetMv("SYS_IPSNMP", true, "")
-					+ "/" + dao.GetMv("SYS_PORTSNMP", true, ""));
-
-			System.out.println("## Initializing Snmp Server...");
+			
+			logger.info("Initializing Snmp Server...");			
 			init();
 			snmp.addCommandResponder(this);
 		} catch (Exception ex) {
@@ -96,8 +95,8 @@ public class SnmpServer implements CommandResponder {
 				new MessageDispatcherImpl());
 		listenAddress = GenericAddress.parse(System.getProperty(
 				"snmp4j.listenAddress",
-				"udp:" + dao.GetMv("SYS_IPSNMP", true, "") + "/"
-						+ dao.GetMv("SYS_PORTSNMP", true, "")));
+				"udp:" + dao.GetMv("SYS_IPSNMP", "") + "/"
+						+ dao.GetMv("SYS_PORTSNMP", "")));
 
 		TransportMapping transport;
 		if (listenAddress instanceof UdpAddress) {
@@ -150,8 +149,6 @@ public class SnmpServer implements CommandResponder {
 		if (event != null && event.getPDU() != null) {
 			Vector<? extends VariableBinding> recVBs = event.getPDU()
 					.getVariableBindings();
-
-			String alarmId = "";
 
 			// Parsing Trap IP
 			String PeerAddress = event.getPeerAddress().toString();

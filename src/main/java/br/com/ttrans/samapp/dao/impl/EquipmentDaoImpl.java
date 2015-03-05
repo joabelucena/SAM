@@ -19,6 +19,7 @@ import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class EquipmentDaoImpl implements EquipmentDao {
 

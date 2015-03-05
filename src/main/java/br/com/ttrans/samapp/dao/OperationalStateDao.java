@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.OperationalState;
 
+@SuppressWarnings("rawtypes")
 public interface OperationalStateDao {
 	public void add(OperationalState state, Authentication authentication);
 	public void edit(OperationalState state, Authentication authentication);

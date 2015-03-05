@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderJobDao;
 import br.com.ttrans.samapp.model.ServiceOrderJob;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderJobDaoImpl implements ServiceOrderJobDao {
 

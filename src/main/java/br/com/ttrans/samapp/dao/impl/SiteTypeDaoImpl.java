@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.SiteTypeDao;
 import br.com.ttrans.samapp.model.SiteType;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class SiteTypeDaoImpl implements SiteTypeDao {
 	

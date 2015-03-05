@@ -1,9 +1,8 @@
 package br.com.ttrans.samapp.dao.impl;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +58,11 @@ public class EventDaoImpl implements EventDao {
 
 		cQuery = "SELECT";
 		cQuery += "	THIS.EVE_ID				AS ID,";
-		cQuery += "	TRIM(CAST(CASE";
+		cQuery += "	CASE";
 		cQuery += "		WHEN THIS.EVE_RECO_USER IS NULL"
 				+ "		THEN 'false'";
 		cQuery += "		ELSE 'true'"
-				+ "		END AS VARCHAR(5)))	AS RECO_USER,";
+				+ "		END					AS RECO_USER,";
 		cQuery += "	B.SLE_DESCRIPTION		AS SEVERITY,";
 		cQuery += "	B.SLE_ID				AS SEVERITY_ID,";
 		cQuery += "	B.SLE_DISPLAY_COLOR		AS SEVERITY_COLOR,";
@@ -107,6 +106,21 @@ public class EventDaoImpl implements EventDao {
 		cQuery += "     AND G.DELETED <> '*'";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
+		
+		
+		qQuery.addScalar("ID"			, Hibernate.STRING);
+		qQuery.addScalar("RECO_USER"	, Hibernate.BOOLEAN);
+		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);	
+		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);	
+		qQuery.addScalar("SEVERITY_COLOR", Hibernate.STRING);	
+		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);	
+		qQuery.addScalar("QUIP_MODEL"	, Hibernate.STRING);	
+		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING);
+		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING);	
+		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);	
+		qQuery.addScalar("SYS"			, Hibernate.STRING);	
+		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);	
+		qQuery.addScalar("DATETIME"		, Hibernate.STRING);
 		
 		return qQuery.list();
 

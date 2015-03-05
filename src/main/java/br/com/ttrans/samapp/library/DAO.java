@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.model.Parameters;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class DAO {
 
@@ -23,14 +24,40 @@ public class DAO {
 	private SessionFactory session;
 
 	private static final Logger logger = LoggerFactory.getLogger(DAO.class);
-	
+
 	@Transactional
-	public boolean ExistCPO(@SuppressWarnings("rawtypes") Class alias,
-			Map<String, Object> map) {
+	public boolean ExistCPO(Class alias, Map<String, Object> map) {
 
 		boolean lReturn = false;
 
 		try {
+			Criteria crit = session.getCurrentSession().createCriteria(alias);
+
+			crit.add(Restrictions.ne("deleted", "*"));
+
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+
+				if (entry.getValue() != null) {
+					crit.add(Restrictions.eq(entry.getKey(),
+							entry.getValue() instanceof String ? entry
+									.getValue().toString() : entry.getValue()));
+				}
+			}
+
+			lReturn = (crit.list().size() > 0);
+
+		} catch (QueryException e) {
+			logger.error(e.getMessage());
+		}
+
+		return lReturn;
+	}
+
+	@Transactional
+	public Object get(Class alias,
+			Map<String, Object> map) {
+
+			try {
 			Criteria crit = session.getCurrentSession().createCriteria(alias);
 
 			crit.add(Restrictions.ne("deleted", "*"));
@@ -44,17 +71,17 @@ public class DAO {
 				}
 			}
 			
-			lReturn = (crit.list().size() > 0);
+			return crit.uniqueResult();
+			
 			
 		} catch (QueryException e) {
 			logger.error(e.getMessage());
+			return null;
 		}
-
-		return lReturn;
 	}
 
 	@Transactional
-	public String GetMv(String xParameter, boolean lSearch, String xDefault) {
+	public String GetMv(String xParameter, String xDefault) {
 
 		String cReturn = "";
 
@@ -71,7 +98,12 @@ public class DAO {
 			crit.add(Restrictions.ne("deleted", "*"));
 			crit.add(Restrictions.eq("par_name", xParameter));
 
-			cReturn = crit.uniqueResult().toString();
+			if (crit.uniqueResult() != null) {
+				cReturn = crit.uniqueResult().toString();
+			} else {
+				cReturn = xDefault;
+				logger.info("Parameter: " + xParameter + " doesn't exist.");
+			}
 
 		} catch (QueryException e) {
 			logger.error(e.getMessage());
@@ -79,5 +111,5 @@ public class DAO {
 
 		return cReturn;
 	}
-	
+
 }

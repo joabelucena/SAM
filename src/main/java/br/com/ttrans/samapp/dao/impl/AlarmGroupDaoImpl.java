@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.AlarmGroupDao;
 import br.com.ttrans.samapp.model.AlarmGroup;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class AlarmGroupDaoImpl implements AlarmGroupDao {
 

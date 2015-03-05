@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @SequenceGenerator(name="INC_FORECAST",sequenceName="GEN_SOF_ID")
+@Table(name="Service_Order_Forecast")
 public class ServiceOrderForecast {
 	
 	@Id

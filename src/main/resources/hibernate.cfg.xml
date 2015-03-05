@@ -30,6 +30,7 @@
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderOccurrence" />
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderStatus" />
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderType" />
+        <mapping class="br.com.ttrans.samapp.model.ServiceOrderForecast" />
         <mapping class="br.com.ttrans.samapp.model.SeverityLevel" />
 		<mapping class="br.com.ttrans.samapp.model.StatusRule" />
 		<mapping class="br.com.ttrans.samapp.model.Technician" />        

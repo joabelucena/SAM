@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.StatusRuleDao;
 import br.com.ttrans.samapp.model.StatusRule;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class StatusRuleDaoImpl implements StatusRuleDao {
 

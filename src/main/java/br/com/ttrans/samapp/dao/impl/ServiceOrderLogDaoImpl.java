@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderLogDao;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderLogDaoImpl implements ServiceOrderLogDao {
 

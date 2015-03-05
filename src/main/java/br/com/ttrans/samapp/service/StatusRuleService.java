@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.StatusRule;
 
+@SuppressWarnings("rawtypes")
 public interface StatusRuleService {
 	public void add(StatusRule rule, Authentication authentication);
 	public void edit(StatusRule rule, Authentication authentication);

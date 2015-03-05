@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.model.Counter;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class CounterDaoImpl implements CounterDao {
 

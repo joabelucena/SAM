@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.TechnicianDao;
 import br.com.ttrans.samapp.model.Technician;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class TechnicianDaoImpl implements TechnicianDao {
 

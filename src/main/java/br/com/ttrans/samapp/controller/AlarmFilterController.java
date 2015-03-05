@@ -56,16 +56,10 @@ public class AlarmFilterController {
 		return ResponseStatus.OK;
 	}
 	
-	@RequestMapping("/del/{afiId}")
-	@ResponseBody
+	@RequestMapping("/del")
 	public ResponseStatus delAlarmFilter(
-			@PathVariable("afiId") String afiId,
 			Authentication authentication) {
 		
-		//Recupera alarme
-		Alarm alarm = alarmService.get(afiId);
-		
-		//Recupera equipamentoqui 
 		
 		
 		return ResponseStatus.OK;

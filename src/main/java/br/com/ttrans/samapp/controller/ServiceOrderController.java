@@ -39,6 +39,7 @@ import br.com.ttrans.samapp.validator.impl.StatusRuleValidator;
 
 @Controller
 @RequestMapping("/so")
+@SuppressWarnings("rawtypes")
 public class ServiceOrderController {
 
 	@Autowired
@@ -77,7 +78,7 @@ public class ServiceOrderController {
 
 		Event event = eventService.get(eveId);
 		
-		String cNewSts = dao.GetMv("SAM_SOSTATUS", true, "");
+		String cNewSts = dao.GetMv("SAM_SOSTATUS", "");
 		
 		ServiceOrderStatus sNewSts = soStatusService.findByName(cNewSts); 
 

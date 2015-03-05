@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.Equipment;
 
+@SuppressWarnings("rawtypes")
 public interface EquipmentService {
 	public void add(Equipment equipment, Authentication authentication);
 	public void edit(Equipment equipment, Authentication authentication);

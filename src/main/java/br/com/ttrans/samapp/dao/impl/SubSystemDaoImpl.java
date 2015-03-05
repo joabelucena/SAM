@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.SubSystemDao;
 import br.com.ttrans.samapp.model.SubSystem;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class SubSystemDaoImpl implements SubSystemDao {
 

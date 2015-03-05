@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.EquipmentManufacturerDao;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 

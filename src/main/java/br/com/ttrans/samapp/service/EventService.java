@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.Event;
 
+@SuppressWarnings("rawtypes")
 public interface EventService {
 	public void add(Event event);
 	public void edit(Event event, Authentication authentication);

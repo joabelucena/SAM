@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table(name="Sites")
 @SequenceGenerator(name = "INC_SITE", sequenceName = "GEN_SIT_ID")

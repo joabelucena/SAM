@@ -14,6 +14,7 @@ import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.service.RoleService;
 
+@SuppressWarnings("rawtypes")
 @Component
 public class JSon {
 

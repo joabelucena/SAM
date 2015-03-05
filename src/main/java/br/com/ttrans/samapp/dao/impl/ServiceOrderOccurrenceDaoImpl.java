@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderOccurrenceDao;
 import br.com.ttrans.samapp.model.ServiceOrderOccurrence;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderOccurrenceDaoImpl implements ServiceOrderOccurrenceDao {
 

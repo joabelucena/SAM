@@ -38,7 +38,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 	@Transactional
-	public List getAll() {
+	public List<Parameters>  getAll() {
 		return parameterDao.getAll();
 	}
 

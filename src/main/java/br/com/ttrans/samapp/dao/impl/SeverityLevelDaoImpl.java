@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.SeverityLevelDao;
 import br.com.ttrans.samapp.model.SeverityLevel;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class SeverityLevelDaoImpl implements SeverityLevelDao {
 

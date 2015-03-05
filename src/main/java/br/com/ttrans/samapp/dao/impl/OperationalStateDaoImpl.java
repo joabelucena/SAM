@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.OperationalStateDao;
 import br.com.ttrans.samapp.model.OperationalState;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class OperationalStateDaoImpl implements OperationalStateDao {
 

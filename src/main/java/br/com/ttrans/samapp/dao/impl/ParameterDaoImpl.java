@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ParameterDao;
 import br.com.ttrans.samapp.model.Parameters;
 
+
 @Repository
 public class ParameterDaoImpl implements ParameterDao {
 	@Autowired
@@ -40,7 +41,7 @@ public class ParameterDaoImpl implements ParameterDao {
 	}
 
 	@Override
-	public List getAll() {
+	public List<Parameters> getAll() {
 		return session.getCurrentSession().createQuery("from Parameters where deleted <> '*'").list();
 	}
 

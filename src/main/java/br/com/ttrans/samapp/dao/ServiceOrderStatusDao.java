@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 
+@SuppressWarnings("rawtypes")
 public interface ServiceOrderStatusDao {
 	public void add(ServiceOrderStatus status, Authentication authentication);
 	public void edit(ServiceOrderStatus status, Authentication authentication);

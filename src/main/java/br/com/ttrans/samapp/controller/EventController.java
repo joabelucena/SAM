@@ -1,10 +1,11 @@
 package br.com.ttrans.samapp.controller;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,16 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
+import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
-import br.com.ttrans.samapp.model.ServiceOrderType;
+import br.com.ttrans.samapp.model.ServiceOrderForecast;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.service.ServiceOrderTypeService;
 
-import com.google.gson.Gson;
-
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/events")
 public class EventController {
@@ -41,58 +40,112 @@ public class EventController {
 
 	@Autowired
 	private EquipmentService equipmentService;
-
+	
 	@Autowired
-	private ServiceOrderTypeService serviceOrderTypeService;
+	private DAO dao;
 	
 	@Autowired
 	private MessageSource messageSource;
 	
-
 	private String eventDatetime;
-
-	@Deprecated
-	@RequestMapping("/events/")
-	public ModelAndView events(Map<String, Object> map) {
-
-		ModelAndView model = new ModelAndView("events/events/show");
-
-		return model;
-	}
-
+	
 	@RequestMapping("/load")
 	@ResponseBody
-	public String loadData(Map<String, Object> map) {
+	public Map loadData() {
 
-		List eventList = eventService.loadData();
-
-		Gson gson = new Gson();
-
-		String json = gson.toJson(eventList);
-
-		String result = "{\"data\":" + json + "}";
-
-		System.out.println(result);
-
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", eventService.loadData());
+		
 		return result;
 	}
+	
+
 
 	@RequestMapping(value = "/getinfo", method = RequestMethod.POST)
 	public Map<String,Object> getInfo(
 			@RequestParam(value = "eveId", required = true) long id,
 			Authentication authentication, Locale locale){
 		
-		Event ev = eventService.get(id);
+		//Instancia Evento
+		Event event = eventService.get(id);
 		
-		List type = serviceOrderTypeService.loadData();
+		//Instancia Vetor de Tipos de OS permitidos para abertura na tela de Alarmes.
+		String[] vType = dao.GetMv("SAM_EVESOTYPE", "").split(";");
 		
-		Map<String,Object> map = new HashMap<String, Object>();
+		//Instancia variaveis de data 
+		Calendar start_forecast = Calendar.getInstance();
+		Calendar end_forecast = Calendar.getInstance();
 		
-		map.put("id"			, "XPTO");
-		map.put("model"			, "ZKPK12H");
-		map.put("fabricante"	, "cisco");
+		//Instancia 'formatador' de data
+		Format formato = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		
-		return map;
+		//Instancia os mapas de retorno e criterio para previsão de datas de OS.
+		Map<String,Object> result = new HashMap<String, Object>();
+		Map<String,Object> crit = new HashMap<String, Object>();
+		
+		//Mapa de retorno
+		result.put("id"					, "");
+		result.put("model"				, "");
+		result.put("manufacturer"		, "");
+		result.put("subsystem"			, "");
+		result.put("severity"			, "");
+		result.put("datetime"			, "");
+		result.put("site"				, "");
+		result.put("reco_time"			, "");
+		result.put("reco_user"			, "");
+		result.put("start_forecast"		, "");
+		result.put("end_forecast"		, "");
+		result.put("so_type"			, "");
+		
+		
+		
+		if(event != null){
+			
+			//Retorna previsões da OS
+			crit.put("system"	, event.getEquipment().getSystem());
+			crit.put("severity"	, event.getAlarm().getSeverity());
+			
+			ServiceOrderForecast forecast = (ServiceOrderForecast) dao.get(ServiceOrderForecast.class, crit);
+						
+			//Forecast
+			if(forecast != null){
+				start_forecast.add(Calendar.MINUTE, forecast.getSof_start_forecast());
+				end_forecast.add(Calendar.MINUTE, forecast.getSof_end_forecast());
+				
+				result.put("start_forecast"		, formato.format(start_forecast.getTime()));
+				result.put("end_forecast"		, formato.format(end_forecast.getTime()));
+			}else{
+				result.put("start_forecast"		, formato.format(start_forecast.getTime()));
+				result.put("end_forecast"		, formato.format(end_forecast.getTime()));
+			}
+			
+			//Equipment
+			if(event.getEquipment() != null){
+				result.put("id"					, event.getEquipment().getEqu_id());
+				result.put("model"				, event.getEquipment().getModel().getEmo_description());
+				result.put("manufacturer"		, event.getEquipment().getManufacturer().getEma_description());
+				result.put("subsystem"			, event.getEquipment().getSystem().getSsy_description());
+				result.put("site"				, event.getEquipment().getSite().getSit_description());
+			}
+			
+			//Alarm
+			if(event.getAlarm() != null){
+				result.put("severity"			, event.getAlarm().getSeverity().getSle_description());				
+			}
+			
+			//SO Types
+			if(vType.length > 0){
+				result.put("so_type"			, vType);
+			}
+			
+			//Event
+			result.put("datetime"			, formato.format(event.getEve_datetime()));
+			result.put("reco_time"			, formato.format(event.getEve_reco_date()));
+			result.put("reco_user"			, event.getEve_reco_user());
+			
+		}
+		return result;
 	}
 	
 	

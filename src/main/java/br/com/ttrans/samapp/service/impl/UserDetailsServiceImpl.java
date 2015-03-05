@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +17,7 @@ import br.com.ttrans.samapp.dao.UserDao;
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.UserStatus;
 import br.com.ttrans.samapp.model.Users;
+
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -45,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			for(Role role : user.getRoles()){
-				authorities.add(new GrantedAuthorityImpl(role.getRoleName()));
+				authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 			}
 			
 			

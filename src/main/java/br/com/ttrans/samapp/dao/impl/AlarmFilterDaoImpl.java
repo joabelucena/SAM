@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.AlarmFilterDao;
 import br.com.ttrans.samapp.model.AlarmFilter;
 
+@SuppressWarnings("rawtypes")
 @Repository
 public class AlarmFilterDaoImpl implements AlarmFilterDao {
 

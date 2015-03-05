@@ -24,6 +24,7 @@ import br.com.ttrans.samapp.service.MenuService;
  * Handles requests for the application home page.
  */
 @Controller
+@SuppressWarnings("rawtypes")
 public class HomeController {
 	
 	@Autowired

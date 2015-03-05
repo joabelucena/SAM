@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.Technician;
 
+@SuppressWarnings("rawtypes")
 public interface TechnicianDao {
 	public void add(Technician technician, Authentication authentication);
 	public void edit(Technician technician, Authentication authentication);

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.SiteType;
 
+@SuppressWarnings("rawtypes")
 public interface SiteTypeService {
 	public void add(SiteType siteType, Authentication authentication);
 	public void edit(SiteType siteType, Authentication authentication);

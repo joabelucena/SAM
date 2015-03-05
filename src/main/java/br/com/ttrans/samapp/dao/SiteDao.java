@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.Site;
 
+@SuppressWarnings("rawtypes")
 public interface SiteDao {
 	public void add(Site site, Authentication authentication);
 	public void edit(Site site, Authentication authentication);

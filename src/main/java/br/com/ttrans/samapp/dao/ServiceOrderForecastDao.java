@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.ServiceOrderForecast;
 
+@SuppressWarnings("rawtypes")
 public interface ServiceOrderForecastDao {
 	public void add(ServiceOrderForecast forecast, Authentication authentication);
 	public void edit(ServiceOrderForecast forecast, Authentication authentication);

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.ServiceOrder;
 
+@SuppressWarnings("rawtypes")
 public interface ServiceOrderService {
 	public void add(ServiceOrder serviceorder, Authentication authentication);
 	public void edit(ServiceOrder serviceorder, Authentication authentication);
