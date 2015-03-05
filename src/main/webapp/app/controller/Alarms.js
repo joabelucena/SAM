@@ -126,7 +126,12 @@ Ext.define('Sam.controller.Alarms', {
     	
     	this.eventID = record.get('id');
     	
-    	alarmPopUp.show();
+    	if (record.get('knowledge_user')){
+    		alarmPopUp.show();
+    	} else {
+    		Ext.Msg.alert('', 'É necessário reconhecer o alarme primeiro');
+    	}
+    	
 	},
 
 	openSO: function() {		
@@ -135,13 +140,13 @@ Ext.define('Sam.controller.Alarms', {
     		method : 'POST',
     		
     		params: {
-    			eveId: this.eventId 
+    			eveId: this.eventID 
     		},
     		
     		success: function (result, request) {
                 
     			 var jsonResp = Ext.util.JSON.decode(result.responseText);
-            	 Ext.Msg.alert("Chupa 0b44","id: "+jsonResp.id+" modelo do barato: "+jsonResp.model+" quem fez essa merda: "+jsonResp.fabricante);
+            	 Ext.Msg.alert("titulo","id: "+jsonResp.id+" modelo: "+jsonResp.model+" Fabricantet: "+jsonResp.fabricante);
                      
     		},
             

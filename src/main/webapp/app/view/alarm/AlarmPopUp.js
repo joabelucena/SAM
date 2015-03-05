@@ -25,6 +25,22 @@ Ext.define('Sam.view.alarm.AlarmPopUp', {
 			margin : '10 10 10 10'
 		},
 		items : [ {
+            xtype: 'displayfield',
+            fieldLabel: 'Element',                
+            value: 'elementname'
+        }, {
+            xtype: 'displayfield',
+            fieldLabel: 'Expression',
+            value: 's.expressionName' // s.expressionName
+        }, {
+            xtype: 'displayfield',
+            fieldLabel: 'Profile',
+            value: 's.profileName'      // s.profileName
+        }, {
+            xtype: 'displayfield',
+            fieldLabel: 'Time',
+            value: 'time'
+        }, {
 			xtype : 'button',
 			text : 'Abrir Ordem de Serviço',
 			id: 'openso'

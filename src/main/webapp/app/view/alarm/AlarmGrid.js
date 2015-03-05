@@ -6,10 +6,10 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 	           'Ext.grid.filters.Filters'],
 		
 	id: 'alarmgridpanel',
-	
+
 	store: Ext.create('Sam.store.Alarms'),
 	
-	viewConfig: {
+	viewConfig: {		
 		preserveScrollOnRefresh: true,
 
         getRowClass: function(record, index) {
