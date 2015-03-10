@@ -1,22 +1,25 @@
 package br.com.ttrans.samapp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
-import org.hibernate.ObjectNotFoundException;
 import org.hibernate.QueryException;
+import org.hibernate.exception.GenericJDBCException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +37,6 @@ import br.com.ttrans.samapp.service.RoleService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
 import br.com.ttrans.samapp.service.ServiceOrderTypeService;
-import br.com.ttrans.samapp.validator.ResponseStatus;
 import br.com.ttrans.samapp.validator.impl.StatusRuleValidator;
 
 @Controller
@@ -65,27 +67,40 @@ public class ServiceOrderController {
 	
 	@Autowired
 	private DAO dao;
+	
+	@Autowired
+	private MessageSource messageSource;
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseStatus newSo(
-			@RequestParam(value = "eveId" , required = true) long eveId,
-			@RequestParam(value = "obs" , required = false) String obs,
-			@RequestParam(value = "stop" , required = false) String stop,
-			Authentication authentication) {
+	public String newSo(
+			@RequestParam(value = "eveId"			, required = true) long eveId,
+			@RequestParam(value = "startForecast"	, required = true) String startForecast,
+			@RequestParam(value = "endForecast"		, required = true) String endForecast,
+			@RequestParam(value = "type"			, required = true) String type,
+			@RequestParam(value = "obs"				, required = true) String obs,
+			Authentication authentication,
+			Locale locale) {
 
+		//Retorna evento
 		Event event = eventService.get(eveId);
 		
-		String cNewSts = dao.GetMv("SAM_SOSTATUS", "");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
 		
-		ServiceOrderStatus sNewSts = soStatusService.findByName(cNewSts); 
+		//Retorna status inicial cadastrado em parametro		
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
 
-		ServiceOrderLog log = new ServiceOrderLog(
-				sNewSts, sNewSts, authentication.getName(),
-				new Date(), obs, authentication.getName());
+		//Cria objeto de log
+		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
+													sNewSts,					//Status Para	
+													authentication.getName(),	//Usuario
+													new Date(),					//Data/Hora
+													obs,						//Observacao						
+													authentication.getName());	//Usuario inserção (USR_INSERT)
 
+		//Instancia LogSet
 		Set<ServiceOrderLog> logSet = new HashSet<ServiceOrderLog>();
 
 		try {
@@ -94,43 +109,59 @@ public class ServiceOrderController {
 			log.setServiceorder(so);
 			logSet.add(log);
 
-			so.setEquipment(event.getEquipment());				// Equipamento
-			so.setType(soTypeService.findByName("CORRETIVA"));	// Tipo de Os (VERIFICAR)
-			so.setEvent(event);									// Evento
-			so.setStatus(sNewSts);								// Status
-			so.setSor_start_forecast(new Date());				// Previsao de Inicio (VERIFICAR)
-			so.setSor_end_forecast(new Date());					// Previsao de Termino (VERIFICAR)
-			so.setLog(logSet);									// Log Inicial
-			so.setPriority(event.getAlarm().getSeverity());		// Severidade
-			so.setSor_remarks(obs);								// Observação
-			so.setSor_equipment_stop(stop);						// Equipamento parado
+			so.setEquipment(event.getEquipment());					// Equipamento
+			so.setType(soTypeService.findByName(type));				// Tipo de Os (VERIFICAR)
+			so.setEvent(event);										// Evento
+			so.setStatus(sNewSts);									// Status
+			so.setSor_start_forecast(formato.parse(startForecast));	// Previsao de Inicio
+			so.setSor_end_forecast(formato.parse(endForecast));		// Previsao de Termino
+			so.setLog(logSet);										// Log Inicial
+			so.setPriority(event.getAlarm().getSeverity());			// Severidade
+			so.setSor_remarks(obs);									// Observação
 
 			soService.add(so, authentication);
 
-			return ResponseStatus.OK;
-
+			return messageSource.getMessage("response.Ok", null, locale);
+		
+		// Date Format
+		}catch (ParseException e){
+			logger.error(e.getMessage());
+			
+			return messageSource.getMessage("response.so.ParseException", null, locale);
+		
+		//Query Errors
 		} catch (QueryException e) {
 			
 			logger.error(e.getMessage());
-			return ResponseStatus.NOTFOUND;
+			return messageSource.getMessage("response.Failure", null, locale);
 
-		} catch (ObjectNotFoundException e) {
-
-			logger.error(e.getMessage());
-			return ResponseStatus.TEST;
-
+		//Not Found Objects
 		} catch (NullPointerException e) {
 			logger.error(e.getMessage());
-			return ResponseStatus.NULLPOINTER;
+			
+			return messageSource.getMessage("response.Failure", null, locale);
+		
+		//Erros genericos
+		} catch (GenericJDBCException e){
+			//logger.error(e.getMessage());
+			
+			return messageSource.getMessage("response.Failure", null, locale);
+		} catch(Exception e){
+			//logger.error(e.getMessage());
+			
+			return messageSource.getMessage("response.Failure", null, locale);
 		}
 
 	}
 
-	@RequestMapping(value = "/changeStatus/{soId}/{stsId}", method = RequestMethod.POST)
-	public ResponseEntity<String> changeStatus(@PathVariable("soId") int soId,
-			@PathVariable("stsId") int stsId, Authentication authentication) {
-
-		String obs = "Aguardar a compra do componente xpto";
+	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
+	public ResponseEntity<String> changeStatus(
+			@RequestParam(value = "soId"	, required = true)	int soId,
+			@RequestParam(value = "stsId"	, required = true)	int stsId,
+			@RequestParam(value = "stop"	, required = false)	String stop,
+			@RequestParam(value = "obs"		, required = true)	String obs,
+			Authentication authentication,
+			Locale locale) {
 
 		// Retorna OS
 		ServiceOrder so = soService.get(soId);
@@ -144,9 +175,13 @@ public class ServiceOrderController {
 		ServiceOrderStatus newStatus = soStatusService.get(stsId);
 
 		// Monta Objeto do Log
-		ServiceOrderLog log = new ServiceOrderLog(so.getStatus(), newStatus,
-				authentication.getName(), new Date(), obs,
-				authentication.getName());
+		ServiceOrderLog log = new ServiceOrderLog(so.getStatus(),				// Status De
+													newStatus,					// Status Para
+													authentication.getName(),	// Usuario
+													new Date(),					// Data/Hore
+													obs,						// Observacao
+													authentication.getName());	// Usuario inserção (USR_INSERT)
+		
 		// Atribui ordem de servico no Log
 		log.setServiceorder(so);
 

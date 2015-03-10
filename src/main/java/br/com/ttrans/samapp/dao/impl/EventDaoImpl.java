@@ -75,7 +75,7 @@ public class EventDaoImpl implements EventDao {
 		cQuery += "	F.SSY_DESCRIPTION		AS SYS_DESC,";
 		cQuery += "	THIS.EVE_DATETIME		AS DATETIME";
 		cQuery += " FROM";
-		cQuery += "	EVENTS THIS";
+		cQuery += "		EVENTS THIS";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " ALARMS A";
 		cQuery += "    ON THIS.EVE_ALARM_ID=A.ALM_ID";
@@ -104,6 +104,9 @@ public class EventDaoImpl implements EventDao {
 		cQuery += " OPERATIONAL_STATE G";
 		cQuery += "     ON THIS.EVE_OPER_STATE_ID=G.OST_ID";
 		cQuery += "     AND G.DELETED <> '*'";
+		cQuery += " WHERE";
+		cQuery += " THIS.DELETED <> '*'";
+		cQuery += " AND THIS.EVE_SOLV_USER IS NULL";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		

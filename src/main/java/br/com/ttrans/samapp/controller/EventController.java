@@ -60,8 +60,6 @@ public class EventController {
 		return result;
 	}
 	
-
-
 	@RequestMapping(value = "/getinfo", method = RequestMethod.POST)
 	public Map<String,Object> getInfo(
 			@RequestParam(value = "eveId", required = true) long id,
@@ -98,16 +96,14 @@ public class EventController {
 		result.put("end_forecast"		, "");
 		result.put("so_type"			, "");
 		
-		
-		
 		if(event != null){
 			
 			//Retorna previsões da OS
 			crit.put("system"	, event.getEquipment().getSystem());
 			crit.put("severity"	, event.getAlarm().getSeverity());
-			
+
 			ServiceOrderForecast forecast = (ServiceOrderForecast) dao.get(ServiceOrderForecast.class, crit);
-						
+
 			//Forecast
 			if(forecast != null){
 				start_forecast.add(Calendar.MINUTE, forecast.getSof_start_forecast());
@@ -173,7 +169,7 @@ public class EventController {
 			}
 		}
 
-		return messageSource.getMessage("responseStatus.Ok", null, locale);
+		return messageSource.getMessage("response.Ok", null, locale);
 	}
 
 	@ResponseBody
