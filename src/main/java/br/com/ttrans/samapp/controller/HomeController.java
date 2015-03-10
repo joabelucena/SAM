@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -42,18 +43,11 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-				
+	
 		return "index";
 	}
 	
-	@RequestMapping(value = {"/menu/load"}, method = RequestMethod.GET)
+	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
 	public String testStuff(Locale locale, Model model, Authentication authentication) {
 		
@@ -68,5 +62,15 @@ public class HomeController {
 		}
 		
 		return result;
+	}
+	
+	
+	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
+	@ResponseBody
+	public String getTime(){
+		Date date = new Date();
+		Format formato = new SimpleDateFormat("hh:mm:ss a");
+		
+		return formato.format(date);
 	}
 }
