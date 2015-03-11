@@ -1,11 +1,49 @@
+/****************************************************/
+-- Log da OS
+SELECT
+	A.SOL_ID
+	,A.SOL_SERVICE_ORDER_ID
+	,DE.SOS_DESCRIPTION
+	,PARA.SOS_DESCRIPTION
+FROM
+	SERVICE_ORDER_LOG AS A
+LEFT JOIN
+	SERVICE_ORDER_STATUS AS DE
+ON
+	A.SOL_PRE_STATUS_ID = DE.SOS_ID
+	AND
+	DE.DELETED <> '*'
+LEFT JOIN
+	SERVICE_ORDER_STATUS AS PARA
+ON
+	A.SOL_CUR_STATUS_ID = PARA.SOS_ID
+	AND
+	DE.DELETED <> '*'
+WHERE
+	A.SOL_SERVICE_ORDER_ID = 1;
+
+
+/****************************************************/
+--POSIÇÃO
+ALTER TABLE SERVICE_ORDER ALTER SOR_EQUIPMENT_STOP POSITION 13;
+
+-- ALTERANDO DE NOT NULL PRA NULL
+ALTER TABLE SERVICE_ORDER
+DROP SOR_EQUIPMENT_STOP ;
+
+ALTER TABLE SERVICE_ORDER
+ADD SOR_EQUIPMENT_STOP CHAR(1);
+
 
 --ALTERANDO TAMANHO DE COLUNAS
 ALTER TABLE PARAMETERS
 ALTER COLUMN PAR_DESC TYPE VARCHAR(255)
+/****************************************************/
 
+
+
+/****************************************************/
 /*INSERINDO ALARMES*/
-
-
 INSERT INTO ALARMS (ALM_ID,ALM_DESCRIPTION,ALM_GROUP_ID, ALM_TYPE_ID, ALM_MODEL_ID, ALM_SEVERITY_ID, ALM_COUNTER_INC, USR_INSERT)
 VALUES
 ('XPTOSEM','ALARME SEVERIDADE: -',1,1,1,0,1,'JOABRE');
@@ -23,6 +61,8 @@ VALUES
 ('XPTOGRAVE','ALARME SEVERIDADE: GRAVE',1,1,1,3,1,'JOABRE');
 
 
+
+/****************************************************/
 /**
  * adicionar colunas
  */
@@ -32,6 +72,8 @@ ADD ETY_DAILY_HOURS INT NOT NULL;
 -- Alterando posição de coluna
 ALTER TABLE EQUIPMENTS_TYPE ALTER ETY_DAILY_HOURS POSITION 3;
 
+
+/****************************************************/
 /* EXTRAINDO INFORMACOES DE UM TIMESTAMP 
  *
  */
@@ -92,7 +134,7 @@ GROUP BY
 	,B.ETY_DAILY_HOURS
 
 
-
+/****************************************************/
 --inserir nova ordem de servico
 INSERT INTO SERVICE_ORDER(SOR_TYPE_ID
 ,SOR_STATUS_ID
@@ -107,6 +149,7 @@ VALUES
 (1,1,'T00001'
 ,CAST('2015-01-22 17:30:00.0' AS TIMESTAMP)
 ,CAST('2015-01-22 17:30:00.0' AS TIMESTAMP),1,'10.114.0.150','S','TESTE')
+
 
 
 --inserir nova ocorrencia da ordem de serviço
@@ -133,7 +176,7 @@ INSERT INTO SERVICE_ORDER_JOBS (SOJ_ID,SOJ_DESCRIPTION,USR_INSERT) VALUES ('01',
 
 --inserir novo tecnico
 INSERT INTO TECHNICIAN (TEC_ID,TEC_NAME,TEC_SITE_ID,USR_INSERT) VALUES ('T00001','RIDELSON',1,'TESTE');
-
+/****************************************************/
 
 --asdasdasd
 

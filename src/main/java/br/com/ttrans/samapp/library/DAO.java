@@ -25,6 +25,13 @@ public class DAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(DAO.class);
 
+	/**
+	 * This function checks if the passed entity contains an object that meets the restrictions.
+	 * 
+	 * @param alias Entity class
+	 * @param map Map with searching Restrictions
+	 * @return boolean
+	 */
 	@Transactional
 	public boolean ExistCPO(Class alias, Map<String, Object> map) {
 
@@ -53,6 +60,14 @@ public class DAO {
 		return lReturn;
 	}
 
+	/**
+	 * This function returns any object from any entity, you just have to pass this entity alias (Class) and a map with
+	 * Restrictions. Cast is necessary after return.
+	 * 
+	 * @param alias Entity class
+	 * @param map Map with searching Restrictions
+	 * @return Object
+	 */
 	@Transactional
 	public Object get(Class alias,
 			Map<String, Object> map) {
@@ -80,10 +95,17 @@ public class DAO {
 		}
 	}
 
+	/**
+	 * This function returns the Parameter content if exists or xDefault value if doesn't.
+	 * 
+	 * @param xParameter Parameter name
+	 * @param xDefault Default value if not find.
+	 * @return Parameter content
+	 */
 	@Transactional
 	public String GetMv(String xParameter, String xDefault) {
 
-		String cReturn = "";
+		String cReturn = xDefault;
 
 		try {
 			Criteria crit = session.getCurrentSession().createCriteria(
@@ -101,7 +123,6 @@ public class DAO {
 			if (crit.uniqueResult() != null) {
 				cReturn = crit.uniqueResult().toString();
 			} else {
-				cReturn = xDefault;
 				logger.info("Parameter: " + xParameter + " doesn't exist.");
 			}
 

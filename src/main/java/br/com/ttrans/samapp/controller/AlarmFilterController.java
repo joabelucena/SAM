@@ -3,8 +3,8 @@ package br.com.ttrans.samapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.model.Alarm;
@@ -16,7 +16,7 @@ import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.validator.ResponseStatus;
 
 @Controller
-@RequestMapping("/alarmFilter")
+@RequestMapping("/alarmfilter")
 public class AlarmFilterController {
 	
 	@Autowired
@@ -28,11 +28,11 @@ public class AlarmFilterController {
 	@Autowired
 	private AlarmService alarmService;
 	
-	@RequestMapping("/new/{almId}/{equId}")
+	@RequestMapping("/new")
 	@ResponseBody
 	public ResponseStatus newAlarmFilter(
-			@PathVariable("almId") String almId,
-			@PathVariable("equId") String equId,
+			@RequestParam(value="almId", required = true) String almId,
+			@RequestParam(value="equId", required = true) String equId,
 			Authentication authentication) {
 		
 		//Recupera alarme

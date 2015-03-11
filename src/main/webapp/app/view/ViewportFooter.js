@@ -12,12 +12,27 @@ Ext.define('Sam.view.ViewportFooter', {
 		},{
 			xtype: 'label',
 			html: "<div id='barclock'>_</div>",
-			width: 70,
+			width: 80,
 			
 			listeners: {
 		    	afterrender: function() {
 		        	var updateClock = function () {
-						Ext.fly('barclock').setHtml(Ext.Date.format(new Date(), 'g:i:s A'));
+						
+		        		Ext.Ajax.request({
+		            		url : 'gettime',
+		            		method : 'POST',
+		            		
+		            		success: function (result, request) {
+		            			 Ext.fly('barclock').setHtml(result.responseText);
+		            			 console.log(result.responseText);
+		            		},
+		                    
+		            		failure: function (result, request) {
+		            			Ext.fly('barclock').setHtml(Ext.Date.format(new Date(), 'g:i:s A'));
+		            			console.log('CLOCK ERROR');
+		                    }	
+		        		});
+		        		
 					};
 
 					var runner = new Ext.util.TaskRunner(),
