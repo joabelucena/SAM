@@ -11,6 +11,9 @@ Ext.define('Sam.controller.Alarms', {
 			'alarmgrid': {
 				render: this.onRender,
 			},
+			'alarmpopup': {
+				render: this.openSO,
+			},
 			'checkcolumn': {
 				checkchange: this.checkboxChanged,
 			 },
@@ -121,9 +124,7 @@ Ext.define('Sam.controller.Alarms', {
 	openPopUp: function(dv, record, item, index, e) {
 		
 		var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
-    	
-    	alarmPopUp.title = record.get('equipment_model') + " - " + record.get('alarm_description');
-    	
+    	    	
     	this.eventID = record.get('id');
     	
     	if (record.get('knowledge_user')){
@@ -146,7 +147,17 @@ Ext.define('Sam.controller.Alarms', {
     		success: function (result, request) {
                 
     			 var jsonResp = Ext.util.JSON.decode(result.responseText);
-            	 Ext.Msg.alert("titulo","id: "+jsonResp.id+" modelo: "+jsonResp.model+" Fabricantet: "+jsonResp.fabricante);
+
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
+    			 Ext.getCmp('alarmpopup_form').getForm().findField('alarmpopup_so_type').setStore(jsonResp.so_type);
                      
     		},
             

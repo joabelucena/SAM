@@ -5,7 +5,6 @@ Ext.application({
 		
 			Ext.create('Ext.window.Window',{
 			
-
 			autoShow: true,
 			height: 170,
 			width: 360,
@@ -30,7 +29,19 @@ Ext.application({
 						labelWidth: 60,
 						allowBlank :false,
 						minLength: 3,
-						msgTarget: 'under'			
+						msgTarget: 'under',
+						enableKeyEvents: true,
+					    listeners: {
+					        keyup: function(form, e) {
+					        	//Enter
+					            if(e.getKey() == 13){
+					            	submit();
+					            //Esc
+					            }else if(e.getKey() == 27){
+					            	fnResetForm(Ext.getCmp('formPanel'))
+					            }
+					        }
+					    }
 					},
 					items: [
 						{
@@ -47,7 +58,7 @@ Ext.application({
 							fieldLabel: "Senha",
 							maxLength: 45
 						}		
-					]		
+					]
 				}
 			],
 
@@ -110,4 +121,4 @@ function submit(){
 
 function fnResetForm(theForm) {
 	theForm.getForm().reset();
-} // end fnResetForm
+}
