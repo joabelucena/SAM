@@ -8,7 +8,7 @@ var equipmentInfo = {
 	        },
 		    
 	        items: [{
-	            fieldLabel: 'ID',
+	            fieldLabel: 'Código',
 	            name: 'alarmpopup_id',
 	            readOnly: true,
 	        }, {
@@ -52,7 +52,7 @@ var eventInfo = {
 	    	id: 'alarmpopup_reco_user',
 	    	readOnly: true,
 	    }, {
-	    	fieldLabel: 'Data/Hora ',
+	    	fieldLabel: 'Data/Hora do Reconhecimento',
 	    	id: 'alarmpopup_reco_time',
 	    	readOnly: true,
 	    }]
@@ -80,13 +80,12 @@ var soInfo = {
 	    },{
 	    	fieldLabel: 'Observação',
 	    	id: 'alarmpopup_obs_os',
-	    	xtype: 'textareafield',
-	    	allowBlank: false	        
+	    	xtype: 'textareafield'
 	    }]
 };
 
 Ext.define('Sam.view.alarm.AlarmPopUp', {
-	extend: 'Ext.window.Window',
+	extend: 'Ext.tab.Panel',
 	alias : 'widget.alarmpopup',
 
 	    xtype: 'form-vboxlayout',
