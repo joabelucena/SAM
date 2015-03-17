@@ -23,7 +23,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
@@ -74,8 +73,7 @@ public class ServiceOrderController {
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	@ResponseBody
-	public String newSo(
+	public ResponseEntity<String> newSo(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
 			@RequestParam(value = "startForecast"	, required = true) String startForecast,
 			@RequestParam(value = "endForecast"		, required = true) String endForecast,
@@ -121,35 +119,44 @@ public class ServiceOrderController {
 
 			soService.add(so, authentication);
 
-			return messageSource.getMessage("response.Ok", null, locale);
+			return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale)
+											, HttpStatus.OK);
+			
+			
 		
 		// Date Format
 		}catch (ParseException e){
 			logger.error(e.getMessage());
-			
-			return messageSource.getMessage("response.so.ParseException", null, locale);
+			return new ResponseEntity<String>(messageSource.getMessage("response.so.ParseException", null, locale)
+											, HttpStatus.OK);
 		
 		//Query Errors
 		} catch (QueryException e) {
 			
 			logger.error(e.getMessage());
-			return messageSource.getMessage("response.Failure", null, locale);
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+					, HttpStatus.OK);
 
 		//Not Found Objects
 		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
 			
-			return messageSource.getMessage("response.Failure", null, locale);
+			logger.error(e.getMessage());
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+					, HttpStatus.OK);
 		
 		//Erros genericos
 		} catch (GenericJDBCException e){
-			//logger.error(e.getMessage());
 			
-			return messageSource.getMessage("response.Failure", null, locale);
+			logger.error(e.getMessage());
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+					, HttpStatus.OK);
+			
 		} catch(Exception e){
-			//logger.error(e.getMessage());
 			
-			return messageSource.getMessage("response.Failure", null, locale);
+			logger.error(e.getMessage());
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+					, HttpStatus.OK);
+			
 		}
 
 	}
@@ -211,17 +218,19 @@ public class ServiceOrderController {
 				try {
 
 					soService.edit(so,authentication);
-					return new ResponseEntity<String>(HttpStatus.OK);
+					return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale)
+							, HttpStatus.OK);
 
 				} catch (QueryException e) {
 
 					logger.error(e.getMessage());
-					return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-
+					return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+							, HttpStatus.OK);
 				}
 			}
 		}
 
-		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+				, HttpStatus.OK);
 	}
 }

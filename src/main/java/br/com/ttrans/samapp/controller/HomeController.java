@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +51,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public String testStuff(Locale locale, Model model, Authentication authentication) {
+	public String menuLoad(Locale locale, Model model, Authentication authentication) {
 		
 		String result = "";
 				
@@ -66,11 +68,10 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
-	@ResponseBody
-	public String getTime(){
+	public ResponseEntity<String> getTime(){
 		Date date = new Date();
 		Format formato = new SimpleDateFormat("hh:mm:ss a");
 		
-		return formato.format(date);
+		return new ResponseEntity<String>(formato.format(date), HttpStatus.OK);
 	}
 }

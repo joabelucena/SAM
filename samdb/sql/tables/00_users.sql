@@ -35,9 +35,9 @@ ADD CONSTRAINT uk_users_UNIQUE1 UNIQUE (username);
 COMMIT;
 
 -- Popula tabela de usuarios (Criptografia MD5)
-INSERT INTO users VALUES (1,'master','440e22afa3f863cb77844777f9f386e6','ACTIVE');
+INSERT INTO users VALUES (1,'SYSTEM','440e22afa3f863cb77844777f9f386e6','ACTIVE');
 
--- Cria tabela de relacionamentos
+-- Cria tabelas de relacionamentos
 CREATE TABLE usersandroles (
   user_id INTEGER NOT NULL,
   role_id INTEGER NOT NULL,
@@ -47,6 +47,11 @@ COMMIT;
 
 -- Popula tabela de relacionamentos
 INSERT INTO usersandroles VALUES (1,1);
+
+CREATE TABLE usersandstations (
+  userId	INT NOT NULL,
+  stationId	INT NOT NULL);
+COMMIT;
 
 
 CREATE TABLE MENU (

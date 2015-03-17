@@ -15,7 +15,7 @@ public class LoginController {
 			@RequestParam(value = "logout", required = false) String logout) {
 
 		ModelAndView model = new ModelAndView();
-		
+
 		if (error != null) {
 			model.addObject("error", "Invalid username and password!");
 		}
@@ -28,20 +28,12 @@ public class LoginController {
 		return model;
 
 	}
-	/*public String getLoginPage(
-			@RequestParam(value = "error", required = false) boolean error,
-			ModelMap model) {
 
-		return "login";
-	}*/
-	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String getLogoutPage(
 			@RequestParam(value = "error", required = false) boolean error,
 			ModelMap model) {
 
 		return "login";
-	}
-	
-		
+	}		
 }

@@ -29,8 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		
-		System.out.println("###"+ username);
-		
 		Users user = userDao.findUserByName(username); //our own Users model class
 		
 		if(user!=null){
@@ -41,7 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			boolean accountNonExpired = user.getStatus().equals(UserStatus.ACTIVE);
 			boolean credentialsNonExpired = user.getStatus().equals(UserStatus.ACTIVE);
 			boolean accountNonLocked = user.getStatus().equals(UserStatus.ACTIVE);
-			
 			
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
