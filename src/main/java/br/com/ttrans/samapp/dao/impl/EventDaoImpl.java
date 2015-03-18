@@ -65,7 +65,6 @@ public class EventDaoImpl implements EventDao {
 				+ "		END					AS RECO_USER,";
 		cQuery += "	B.SLE_DESCRIPTION		AS SEVERITY,";
 		cQuery += "	B.SLE_ID				AS SEVERITY_ID,";
-		cQuery += "	B.SLE_DISPLAY_COLOR		AS SEVERITY_COLOR,";
 		cQuery += "	THIS.EVE_EQUIPMENT_ID	AS EQUIP_ID,";
 		cQuery += "	D.EMO_DESCRIPTION		AS QUIP_MODEL,";
 		cQuery += "	THIS.EVE_ALARM_ID		AS ALARM_ID,";
@@ -115,7 +114,6 @@ public class EventDaoImpl implements EventDao {
 		qQuery.addScalar("RECO_USER"	, Hibernate.BOOLEAN);
 		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);	
 		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);	
-		qQuery.addScalar("SEVERITY_COLOR", Hibernate.STRING);	
 		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);	
 		qQuery.addScalar("QUIP_MODEL"	, Hibernate.STRING);	
 		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING);
