@@ -21,9 +21,6 @@ public class SeverityLevel {
 	private String sle_description;
 
 	@Column
-	private String sle_display_color;
-
-	@Column
 	private int sle_time_service;
 
 	@Column(updatable = false)
@@ -39,12 +36,11 @@ public class SeverityLevel {
 	}
 
 	public SeverityLevel(String sle_id, String sle_description,
-			String sle_display_color, int sle_time_service, String usr_insert,
+			int sle_time_service, String usr_insert,
 			String usr_update, String deleted) {
 		super();
 		this.sle_id = sle_id;
 		this.sle_description = sle_description;
-		this.sle_display_color = sle_display_color;
 		this.sle_time_service = sle_time_service;
 		this.usr_insert = usr_insert;
 		this.usr_update = usr_update;
@@ -65,14 +61,6 @@ public class SeverityLevel {
 
 	public void setSle_description(String sle_description) {
 		this.sle_description = sle_description;
-	}
-
-	public String getSle_display_color() {
-		return sle_display_color;
-	}
-
-	public void setSle_display_color(String sle_display_color) {
-		this.sle_display_color = sle_display_color;
 	}
 
 	public int getSle_time_service() {

@@ -74,4 +74,11 @@ public class HomeController {
 		
 		return new ResponseEntity<String>(formato.format(date), HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
+	public ResponseEntity<String> getUser(Authentication aut){
+		
+		return new ResponseEntity<String>(aut.getName(), HttpStatus.OK);
+	}
 }
