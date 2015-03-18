@@ -6,6 +6,10 @@ Ext.define('Sam.view.ViewportFooter', {
 	ui: 'footer',
 	items: [
 		{
+			xtype: 'label',
+			html: "<div id='username'>_</div>",
+			width: 120,
+		},{
 			xtype: 'tbfill'
 		},{
 			xtype: 'tbseparator'
@@ -24,12 +28,10 @@ Ext.define('Sam.view.ViewportFooter', {
 		            		
 		            		success: function (result, request) {
 		            			 Ext.fly('barclock').setHtml(result.responseText);
-		            			 console.log(result.responseText);
 		            		},
 		                    
 		            		failure: function (result, request) {
 		            			Ext.fly('barclock').setHtml(Ext.Date.format(new Date(), 'g:i:s A'));
-		            			console.log('CLOCK ERROR');
 		                    }	
 		        		});
 		        		

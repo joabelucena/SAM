@@ -123,10 +123,26 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 		
 		dockedItems: [{
             xtype: 'toolbar',
+            dock: 'bottom',
+            
             items: [{
-                id:'recognizeallbutton',
+                xtype:'button',
+            	id:'recognizeallbutton',
             	text:'Reconhecer Todos',
                 tooltip:'Reconhece todos os Alarmes',
-            }]
+                cls:'x-btn-default-small'
+            },{
+    			xtype: 'tbfill'
+    		},{
+                xtype:'button',
+            	text:'Fecha',
+                tooltip:'Fechar',
+                cls:'x-btn-default-small'
+    		},{
+                xtype:'button',
+            	text:'Confirma',
+                tooltip:'Confirma Alterações',
+                cls:'x-btn-default-small'
+    		}]
         }]
 });

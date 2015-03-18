@@ -9,12 +9,19 @@ Ext.define('Sam.view.ViewportHeader', {
 			xtype: 'label'
 		},{
 			xtype: 'tbfill',
-			html: "<img border='0' width='15%' height='15%' src='./resources/resources/img/logo-vlt-emtu.png' />"
+			html: "<img border='0' width='190px' height='37px' src='./resources/resources/img/logo-vlt-emtu.png' />"
 		},{
-			xtype: 'tbseparator'
+			xtype: 'tbfill',
+			html: '<center><span style="color:#444D50;font-size:20px;font-weight:bold;">SAM - Sistema de Apoio a Manutenção</span></center>'
+		},{
+			xtype: 'tbfill',
+			html: "<img border='0' width='108px' height='30px' align='right' src='./resources/resources/img/logo-ttrans.png' />"
+		},{
+			xtype: 'tbseparator',	
 		},{
 			xtype: 'button',
 			itemId: 'logout',
+			width: '45px',
 			handler: function() {
 				window.location = 'logout';
 		    },

@@ -85,7 +85,7 @@ var soInfo = {
 };
 
 Ext.define('Sam.view.alarm.AlarmPopUp', {
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.window.Window',
 	alias : 'widget.alarmpopup',
 
 	    xtype: 'form-vboxlayout',

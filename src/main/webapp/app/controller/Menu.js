@@ -77,10 +77,16 @@ Ext.define('Sam.controller.Menu', {
 		}
 		
 		mainPanel.setActiveTab(newTab);
+
 	},
 	
 	onTreepanelItemClick: function(view, record, item, index, event, options){
+		
 		this.onTreepanelSelect(view, record, index, options);
+		
+		var menuPanel = Ext.getCmp('viewportmenu');
+		menuPanel.toggleCollapse(true);
+
 	}
 
 });

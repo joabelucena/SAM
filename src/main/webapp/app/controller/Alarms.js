@@ -24,7 +24,7 @@ Ext.define('Sam.controller.Alarms', {
 				 click: this.openSO,
 			 },
 			 '#alarmgridpanel' : {
-				 itemdblclick: this.openPopUp
+				 itemdblclick: this.openPopUp,
 			 }
 		});
 	},
@@ -68,14 +68,14 @@ Ext.define('Sam.controller.Alarms', {
 		            	});
 		            	
 		            } else if(btn == 'cancel') {
-		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
+		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'false');
 		            }
 		        }
 			});
 		 
 		} else {
          	
-			Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
+			Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'true');
 		 
 		}
 
@@ -126,7 +126,7 @@ Ext.define('Sam.controller.Alarms', {
 		var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
     	    	
     	this.eventID = record.get('id');
-    	
+    	    	
     	if (record.get('knowledge_user')){
     		alarmPopUp.show();
     	} else {
@@ -187,7 +187,7 @@ Ext.define('Sam.controller.Alarms', {
 			   }
 		   },
 		   
-		   interval: 2000 // (1 second = 1000)
+		   interval: 2000 //(1 second = 1000)
 		
 		};
 
