@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -34,24 +32,16 @@ public class Menu implements Serializable {
 	@OrderBy(clause="id")
 	private Set<Menu> children;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="permissions",
-			joinColumns=@JoinColumn(name="menu_id"),
-			inverseJoinColumns=@JoinColumn(name="role_id"))
-	@OrderBy(clause="role_id")
-	private Set<Role> roles;
-	
 	private String className;
 	public Menu(){}
 	public Menu(int id, String text, String iconCls, Menu parent,
-			Set<Menu> children, Set<Role> roles, String className) {
+			Set<Menu> children, String className) {
 		super();
 		this.id = id;
 		this.text = text;
 		this.iconCls = iconCls;
 		this.parent = parent;
 		this.children = children;
-		this.roles = roles;
 		this.className = className;
 	}
 	public int getId() {
@@ -84,14 +74,6 @@ public class Menu implements Serializable {
 	public void setChildren(Set<Menu> children) {
 		this.children = children;
 	}
-	
-	public Set<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	
 	public String getClassName() {
 		return className;
 	}

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.UserDao;
-import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.UserStatus;
 import br.com.ttrans.samapp.model.Users;
 
@@ -42,11 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			
 			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			for(Role role : user.getRoles()){
-				authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-			}
 			
-			
+			//Single Role Addi'n
+			authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));			
 			
 			//Now let's create Spring Security Users object
 			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
@@ -56,5 +53,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException("Users Not Found!!!");
 		}
 	}
-
 }

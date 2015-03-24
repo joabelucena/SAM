@@ -1,8 +1,7 @@
 package br.com.ttrans.samapp.library;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.ttrans.samapp.model.Menu;
-import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.service.RoleService;
 
 @SuppressWarnings("rawtypes")
@@ -21,34 +19,29 @@ public class JSon {
 	@Autowired
 	private RoleService service;
 	
-	public String toJson(List<Menu> menu, List roles) throws JSONException {
+	public String toJson(Set<Menu> menus) throws JSONException {
 
 		JSONArray array = new JSONArray();
 		JSONObject json = new JSONObject();
 		
-		List<Role> rolesList = new ArrayList<Role>(roles.size());
+		Iterator i = menus.iterator();
 		
-		for(int i = 0; i < roles.size();i++){
-			rolesList.add(service.findByDesc(roles.get(i).toString()));
-		}
-		
-		for (int i = 0; i < menu.size(); i++) {
-			if (menu.get(i).getChildren().size() > 0) {
-				for(Role role : rolesList){
-					if(menu.get(i).getRoles().contains(role)){
-						array.put(toJson(menu.get(i),rolesList));						
-						break;
-					}
-				}		
+		while(i.hasNext()){
+			
+			Menu menu = (Menu) i.next();
+
+			//Processa somente os primeiros niveis de Menu
+			if (menu.getParent() == null){
+				array.put(toJson(menu));
 			}
 		}
-		
+
 		json.put("items", array);
 
 		return json.toString();
 	}
 
-	protected static JSONObject toJson(Menu menu, List<Role> roles) throws JSONException {
+	protected static JSONObject toJson(Menu menu) throws JSONException {
 		
 		JSONObject json = new JSONObject();
 		JSONArray array = new JSONArray();
@@ -72,12 +65,8 @@ public class JSon {
 					
 					Menu child = (Menu)it.next();
 					
-					for(Role role : roles){
-						if(child.getRoles().contains(role)){
-							array.put(toJson(child , roles));
-							break;
-						}
-					}
+					array.put(toJson(child ));
+					
 				}
 
 			// filho

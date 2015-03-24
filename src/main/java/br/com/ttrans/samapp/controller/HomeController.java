@@ -3,13 +3,15 @@ package br.com.ttrans.samapp.controller;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,18 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.JSon;
-import br.com.ttrans.samapp.model.Menu;
-import br.com.ttrans.samapp.service.MenuService;
+import br.com.ttrans.samapp.model.Users;
 
 /**
  * Handles requests for the application home page.
  */
+@Scope("session")
 @Controller
-@SuppressWarnings("rawtypes")
 public class HomeController {
-	
-	@Autowired
-	private MenuService service;
 	
 	@Autowired
 	private JSon json;
@@ -51,14 +49,14 @@ public class HomeController {
 	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public String menuLoad(Locale locale, Model model, Authentication authentication) {
+	public String menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+		
+		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
 		String result = "";
-				
-		List<Menu> menu = service.loadMenu(null);
 		
 		try {
-			result += json.toJson(menu, (List) authentication.getAuthorities());
+			result += json.toJson(user.getRole().getMenus());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +66,7 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
-	public ResponseEntity<String> getTime(){
+	public ResponseEntity<String> getTime(HttpServletRequest request, Authentication auth){
 		Date date = new Date();
 		Format formato = new SimpleDateFormat("hh:mm:ss a");
 		
@@ -77,8 +75,10 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
-	public ResponseEntity<String> getUser(Authentication aut){
+	public ResponseEntity<String> getUser(HttpServletRequest request, Authentication aut){
 		
-		return new ResponseEntity<String>(aut.getName(), HttpStatus.OK);
+		Users user = (Users) request.getSession().getAttribute("loggedUser");
+				
+		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
 	}
 }

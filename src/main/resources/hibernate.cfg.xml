@@ -5,6 +5,7 @@
     
 <hibernate-configuration>
     <session-factory>        
+        
         <mapping class="br.com.ttrans.samapp.model.Parameters" />
         <mapping class="br.com.ttrans.samapp.model.Users" />
         <mapping class="br.com.ttrans.samapp.model.Role" />
@@ -33,7 +34,9 @@
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderForecast" />
         <mapping class="br.com.ttrans.samapp.model.SeverityLevel" />
 		<mapping class="br.com.ttrans.samapp.model.StatusRule" />
-		<mapping class="br.com.ttrans.samapp.model.Technician" />        
-        
+		<mapping class="br.com.ttrans.samapp.model.Technician" />
+		<mapping class="br.com.ttrans.samapp.model.ServiceStation" />
+		<mapping class="br.com.ttrans.samapp.model.SystemFeature" />
+		        
     </session-factory>         
 </hibernate-configuration>

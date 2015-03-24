@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Sites")
+@Table(name = "Sites")
 @SequenceGenerator(name = "INC_SITE", sequenceName = "GEN_SIT_ID")
 public class Site {
 
@@ -33,6 +33,10 @@ public class Site {
 	@ManyToOne
 	@JoinColumn(name = "sit_type_id")
 	private SiteType type;
+
+	@ManyToOne
+	@JoinColumn(name = "sit_station_id")
+	private ServiceStation station;
 
 	@Column(updatable = false)
 	private String usr_insert;

@@ -8,14 +8,14 @@ Ext.application({
 			autoShow: true,
 			height: 170,
 			width: 360,
+			resizable: false,
 			layout: {
 				type: 'fit'
 			},
 			//iconCls: 'key',
 			title: "SAM - Login",
 			closeAction: 'hide',
-			closable: false,
-			
+			closable: false,			
 			items: [
 				{
 					id: 'formPanel',
@@ -49,7 +49,12 @@ Ext.application({
 							name: 'username',
 							fieldLabel: "Usuário",
 							vtype: 'alphanum',
-							maxLength: 45
+							maxLength: 45,
+							listeners: {
+						          afterrender: function(field) {
+						            field.focus();
+						          }
+						        }
 						},			
 						{
 							id: 'password',
@@ -72,7 +77,10 @@ Ext.application({
 						},{
 							xtype: 'button',
 							itemId: 'cancel',
-							text: 'Cancelar'
+							text: 'Cancelar',
+							handler: function() {
+								fnResetForm(Ext.getCmp('formPanel'));
+							}
 						},{
 							xtype: 'button',
 							itemId: 'submit',
@@ -112,7 +120,7 @@ function submit(){
 									+ action.response.responseText);
 	
 				}
-				form.reset();
+				fnResetForm(Ext.getCmp('formPanel'));
 			}
 	
 		});
@@ -121,4 +129,5 @@ function submit(){
 
 function fnResetForm(theForm) {
 	theForm.getForm().reset();
+	Ext.getCmp('username').focus();
 }
