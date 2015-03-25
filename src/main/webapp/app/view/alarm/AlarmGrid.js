@@ -119,6 +119,15 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			filter: {
 				type: 'string'
 			}
+		},{
+			xtype: 'actioncolumn',
+			width: 100,
+			items: [{
+				iconCls: 'tag',
+				handler: function(grid, rowIndex, colindex) {
+                    alert('click!');
+                }
+			}]
 		}],
 		
 		dockedItems: [{
@@ -130,7 +139,8 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
             	id:'recognizeallbutton',
             	text:'Reconhecer Todos',
                 tooltip:'Reconhece todos os Alarmes',
-                cls:'x-btn-default-small'
+                cls:'x-btn-default-small',
+                iconCls: 'tag'
             },{
     			xtype: 'tbfill'
     		},{

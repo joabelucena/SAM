@@ -123,15 +123,7 @@ Ext.define('Sam.controller.Alarms', {
 	
 	openPopUp: function(dv, record, item, index, e) {
 		
-		var alarmPopUp = Ext.create('Sam.view.alarm.AlarmPopUp');
-    	    	
-    	this.eventID = record.get('id');
-    	    	
-    	if (record.get('knowledge_user')){
-    		alarmPopUp.show();
-    	} else {
-    		Ext.Msg.alert('', 'É necessário reconhecer o alarme primeiro');
-    	}
+		Ext.Msg.alert('', 'É necessário reconhecer o alarme primeiro');
     	
 	},
 
