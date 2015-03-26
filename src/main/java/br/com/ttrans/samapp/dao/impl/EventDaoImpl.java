@@ -109,7 +109,6 @@ public class EventDaoImpl implements EventDao {
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		
-		
 		qQuery.addScalar("ID"			, Hibernate.STRING);
 		qQuery.addScalar("RECO_USER"	, Hibernate.BOOLEAN);
 		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);	
@@ -126,5 +125,4 @@ public class EventDaoImpl implements EventDao {
 		return qQuery.list();
 
 	}
-
 }

@@ -52,4 +52,9 @@ public class SiteServiceImpl implements SiteService {
 		return siteDao.findByName(styDesc);
 	}
 
+	@Transactional
+	public List trackIt(int id) {
+		return siteDao.trackIt(id);
+	}
+
 }

@@ -1,4 +1,71 @@
 /****************************************************/
+
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (1,'ITEM 1',NULL);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (2,'ITEM 1.1',1);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (3,'ITEM 1.2',1);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (4,'ITEM 1.2.1',3);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (5,'ITEM 1.2.2',3);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (6,'ITEM 1.2.1.1',4);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (7,'ITEM 1.2.2.1',5);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (8,'ITEM 1.2.2.2',5);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (9,'ITEM 1.2.2.2.1',8);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (10,'ITEM 1.2.2.2.2',8);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (11,'ITEM 1.2.2.2.1.1',9);
+----------------------------------------------------------------------
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (12,'ITEM 1.2.2.2.1.1.1',11);
+
+INSERT INTO SITES (SIT_ID,SIT_DESCRIPTION,SIT_PARENT_ID)
+VALUES (13,'ITEM 1.2.2.2.1.1.2',11);
+
+WITH RECURSIVE link_tree AS (
+
+   -- Nó inicial
+   SELECT
+   	SIT_ID
+   	,SIT_PARENT_ID
+   	,SIT_DESCRIPTION
+   FROM
+   	SITES
+   WHERE
+   	SIT_ID = 12  -- change this to change your starting node
+   UNION ALL 
+   SELECT
+   	c.SIT_ID
+   	, c.SIT_PARENT_ID
+   	, c.SIT_DESCRIPTION
+   FROM
+	SITES c
+   JOIN
+   	link_tree p
+   ON
+   	p.SIT_PARENT_ID = c.SIT_ID
+)
+SELECT * FROM link_tree ORDER BY SIT_ID;
+
+/****************************************************/
 -- Log da OS
 SELECT
 	A.SOL_ID

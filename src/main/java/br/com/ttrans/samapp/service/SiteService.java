@@ -15,4 +15,5 @@ public interface SiteService {
 	public Site findByName(String styDesc);
 	public List getAll();
 	public List loadData();
+	public List trackIt(int id);
 }

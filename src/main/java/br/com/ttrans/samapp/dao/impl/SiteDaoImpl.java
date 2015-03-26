@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
@@ -88,5 +89,39 @@ public class SiteDaoImpl implements SiteDao {
 		crit.add(Restrictions.ne("deleted", "*"));
 		
 		return (Site)crit.uniqueResult();
+	}
+	
+	@Override
+	public List trackIt(int id){
+		String cQuery;
+
+		SQLQuery qQuery;
+		
+		cQuery = "WITH RECURSIVE link_tree AS (";
+		cQuery += "	SELECT";
+		cQuery += "		SIT_ID";
+		cQuery += "		,SIT_PARENT_ID";
+		cQuery += "		,SIT_DESCRIPTION";
+		cQuery += "	FROM";
+		cQuery += "		SITES";
+		cQuery += "	WHERE";
+		cQuery += "		SIT_ID = " + id;
+		cQuery += "	UNION ALL"; 
+		cQuery += "	SELECT";
+		cQuery += "		c.SIT_ID";
+		cQuery += "		,c.SIT_PARENT_ID";
+		cQuery += "		,c.SIT_DESCRIPTION";
+		cQuery += "	FROM";
+		cQuery += "		SITES c";
+		cQuery += "	JOIN";
+		cQuery += "		link_tree p";
+		cQuery += "	ON";
+		cQuery += "	p.SIT_PARENT_ID = c.SIT_ID)";
+		cQuery += "SELECT * FROM link_tree ORDER BY SIT_ID";
+
+		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
+				
+		return qQuery.list();
+		
 	}
 }

@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.controller;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,20 +20,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.JSon;
 import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.service.SiteService;
 
 /**
  * Handles requests for the application home page.
  */
+@SuppressWarnings("rawtypes")
 @Scope("session")
 @Controller
 public class HomeController {
 	
 	@Autowired
 	private JSon json;
+	
+	@Autowired
+	private SiteService siteService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -53,10 +60,10 @@ public class HomeController {
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
-		String result = "";
+		String result = null;
 		
 		try {
-			result += json.toJson(user.getRole().getMenus());
+			result = json.toJson(user.getRole().getMenus());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -73,12 +80,19 @@ public class HomeController {
 		return new ResponseEntity<String>(formato.format(date), HttpStatus.OK);
 	}
 	
-	
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
 	public ResponseEntity<String> getUser(HttpServletRequest request, Authentication aut){
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 				
 		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	@ResponseBody
+	public List test(HttpServletRequest request, Authentication aut,
+			@RequestParam(value="siteId", required = false) int id){
+				
+		return siteService.trackIt(id);
 	}
 }
