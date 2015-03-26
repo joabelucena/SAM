@@ -78,6 +78,7 @@ Ext.application({
 							xtype: 'button',
 							itemId: 'cancel',
 							text: 'Cancelar',
+							cls:'x-btn-default-small',
 							handler: function() {
 								fnResetForm(Ext.getCmp('formPanel'));
 							}
@@ -86,6 +87,7 @@ Ext.application({
 							itemId: 'submit',
 							formBind: true,
 							text: 'Login',
+							cls:'x-btn-default-small',
 							handler: function() {
 								submit();
 							}

@@ -6,7 +6,6 @@ Ext.define('Sam.model.Alarm', {
 	        {name: 'knowledge_user', type: 'boolean'},
 	        {name: 'severity', type: 'string'},
 	        {name: 'severity_id', type: 'string'},
-	        {name: 'severity_color', type: 'string'},
 	        {name: 'equipment_id', type: 'string'},
 	        {name: 'equipment_model', type: 'string'},
 	        {name: 'alarm_id', type: 'string'},

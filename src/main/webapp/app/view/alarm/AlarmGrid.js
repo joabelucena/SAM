@@ -122,11 +122,23 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 		},{
 			xtype: 'actioncolumn',
 			width: 100,
+			text: 'Ações',
+			align: 'center',
+			sortable: false,
 			items: [{
-				iconCls: 'tag',
-				handler: function(grid, rowIndex, colindex) {
-                    alert('click!');
-                }
+					iconCls: 'notebook-plus-icon',
+					tooltip: 'Abrir O.S.',
+					handler: function(grid, rowIndex, colindex) {
+						alert('click!');
+					}
+			},{
+					xtype: 'tbfill'
+			},{
+    				iconCls: 'tick-shield',
+    				tooltip: 'Normalizar',
+    				handler: function(grid, rowIndex, colindex) {
+                        alert('Normalizado! Implementar Depois');
+    				}
 			}]
 		}],
 		
@@ -140,7 +152,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
             	text:'Reconhecer Todos',
                 tooltip:'Reconhece todos os Alarmes',
                 cls:'x-btn-default-small',
-                iconCls: 'tag'
+                iconCls: 'tick-button'
             },{
     			xtype: 'tbfill'
     		},{
