@@ -78,6 +78,9 @@ public class EventController {
 		//Instancia 'formatador' de data
 		Format formato = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		
+		//Instancia objeto para previsoes da OS
+		ServiceOrderForecast forecast = null;
+		
 		//Instancia os mapas de retorno e criterio para previsão de datas de OS.
 		Map<String,Object> result = new HashMap<String, Object>();
 		Map<String,Object> crit = new HashMap<String, Object>();
@@ -97,12 +100,16 @@ public class EventController {
 		result.put("so_type"			, "");
 		
 		if(event != null){
-			
-			//Retorna previsões da OS
-			crit.put("system"	, event.getEquipment().getSystem());
-			crit.put("severity"	, event.getAlarm().getSeverity());
 
-			ServiceOrderForecast forecast = (ServiceOrderForecast) dao.get(ServiceOrderForecast.class, crit);
+			try{
+				//Retorna previsões da OS
+				crit.put("system"	, event.getEquipment().getSystem());
+				crit.put("severity"	, event.getAlarm().getSeverity());
+	
+				forecast = (ServiceOrderForecast) dao.get(ServiceOrderForecast.class, crit);
+			}catch(Exception e){
+				
+			}
 
 			//Forecast
 			if(forecast != null){
