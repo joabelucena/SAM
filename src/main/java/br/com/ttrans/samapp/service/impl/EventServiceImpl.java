@@ -31,6 +31,16 @@ public class EventServiceImpl implements EventService {
 	public void delete(Event event, Authentication authentication) {
 		eventDao.delete(event, authentication);
 	}
+	
+	@Transactional
+	public int recognize(Long[] ids, Authentication authentication){
+		return eventDao.recognize(ids, authentication);
+	}
+	
+	@Transactional
+	public int normalize(Long id, Authentication authentication){
+		return eventDao.normalize(id, authentication);
+	}
 
 	@Transactional
 	public Event get(long id) {
