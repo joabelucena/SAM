@@ -125,20 +125,22 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			text: 'Ações',
 			align: 'center',
 			sortable: false,
+			//1 - Abrir OS
+			//2 - Normalizar
 			items: [{
 					iconCls: 'notebook-plus-icon',
 					tooltip: 'Abrir O.S.',
-					handler: function(grid, rowIndex, colindex) {
-						alert('click!');
+					handler: function(view, rowIndex, colIndex, item, e, record, row) {
+						 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 1);
 					}
 			},{
 					xtype: 'tbfill'
 			},{
     				iconCls: 'tick-shield',
     				tooltip: 'Normalizar',
-    				handler: function(grid, rowIndex, colindex) {
-                        alert('Normalizado! Implementar Depois');
-    				}
+    				handler: function(view, rowIndex, colIndex, item, e, record, row) {
+						 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 2);
+					}
 			}]
 		}],
 		

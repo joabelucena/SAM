@@ -43,7 +43,7 @@ Ext.define('Sam.controller.Menu', {
 						menu.getRootNode().appendChild({
 							
 							text: item.get('text'),
-							leaf: true,
+							//leaf: true,
 							iconCls: item.get('iconCls'),
 							id: item.get('id'),
 							classname: item.get('classname')

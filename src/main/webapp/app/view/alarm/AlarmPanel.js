@@ -8,9 +8,6 @@ Ext.define('Sam.view.alarm.AlarmPanel', {
 	
 	layout:{
 		type: 'fit',
-	},
+	}
 	
-	items: [{
-		xtype: 'alarmgrid'
-	}]
 });

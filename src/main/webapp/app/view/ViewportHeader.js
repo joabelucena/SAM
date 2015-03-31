@@ -21,7 +21,6 @@ Ext.define('Sam.view.ViewportHeader', {
 		},{
 			xtype: 'button',
 			itemId: 'logout',
-			iconCls: 'door-open-out',
 			width: '55px',
 			handler: function() {
 				window.location = 'logout';
