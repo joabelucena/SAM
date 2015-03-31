@@ -61,7 +61,7 @@ public class EventController {
 	}
 	
 	@RequestMapping(value = "/getinfo", method = RequestMethod.POST)
-	public Map<String,Object> getInfo(
+	public ResponseEntity< Map<String,Object> >getInfo(
 			@RequestParam(value = "eveId", required = true) long id,
 			Authentication authentication, Locale locale){
 		
@@ -148,41 +148,44 @@ public class EventController {
 			result.put("reco_user"			, event.getEve_reco_user());
 			
 		}
-		return result;
+		
+		return new ResponseEntity< Map<String,Object> >(result, HttpStatus.OK);
+		
 	}
 	
 	
 	@RequestMapping(value = "/recognize", method = RequestMethod.POST)
-	public String recognize(
-			@RequestParam(value = "recognizeId", required = false) long[] ids,
+	public ResponseEntity<String> recognize(
+			@RequestParam(value = "recognizeId", required = false) Long[] ids,
 			Authentication authentication, Locale locale){
 
-		for (int i = 0; i < ids.length; i++) {
-
-			Event event = eventService.get(ids[i]);
-
-			//Verifica se achou o evento
-			if (event != null) {
-
-				//Verifica se ja foi reconhecido
-				if (event.getEve_reco_user() == null) {
-
-					event.setEve_reco_user(authentication.getName());
-					event.setEve_reco_date(new Date());
-
-					eventService.edit(event, authentication);
-				}
-
-			}
+		try{
+			eventService.recognize(ids, authentication);
+		}catch(Exception e){
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
 		}
-
-		return messageSource.getMessage("response.Ok", null, locale);
+				
+		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
 	}
-
+	
+	@RequestMapping(value = "/normalize", method = RequestMethod.POST)
+	public ResponseEntity<String> normalize(
+			@RequestParam(value = "normalizeId", required = false) Long id,
+			Authentication authentication, Locale locale){
+		
+		try{
+			eventService.normalize(id, authentication);
+		}catch(Exception e){
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/eventsrestservice", method = RequestMethod.POST)
-	public ResponseEntity<Event> get(@Valid @RequestBody Event eventJson,
-			BindingResult result) throws ParseException {
+	public ResponseEntity<String> get(@Valid @RequestBody Event eventJson,
+			BindingResult result, Locale locale) throws ParseException {
 
 		String usr_insert = "SAM_JSON";
 		eventJson.setUsr_insert(usr_insert);
@@ -200,10 +203,12 @@ public class EventController {
 
 			eventService.add(eventJson);
 
-			return new ResponseEntity<Event>(HttpStatus.OK);
+			return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale) , HttpStatus.BAD_REQUEST);
+
+			
 
 		} else {
-			return new ResponseEntity<Event>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
 		}
 	}
 }

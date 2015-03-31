@@ -1,8 +1,10 @@
 package br.com.ttrans.samapp.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,45 @@ public class EventDaoImpl implements EventDao {
 		event.setDeleted("*");				
 		session.getCurrentSession().update(event);
 	}
+	
+	@Override
+	public int recognize(Long[] ids, Authentication authentication){
+		
+		String cQuery = null;
+		
+		cQuery = "UPDATE Event "
+				+ "SET EVE_RECO_USER = :USER, "
+				+ "EVE_RECO_DATE = :DATE "
+				+ "WHERE EVE_ID IN (:IDS) "
+				+ "AND EVE_RECO_USER IS NULL";
 
+		Query qQuery = session.getCurrentSession().createQuery(cQuery);
+		qQuery.setParameter("USER", authentication.getName());
+		qQuery.setParameter("DATE", new Date());
+		qQuery.setParameterList("IDS", ids );
+
+		return qQuery.executeUpdate();
+	}
+	
+	@Override
+	public int normalize(Long id, Authentication authentication){
+		
+		String cQuery = null;
+		
+		cQuery = "UPDATE Event "
+				+ "SET EVE_SOLV_USER = :USER, "
+				+ "EVE_SOLV_DATE = :DATE "
+				+ "WHERE EVE_ID = :ID ";
+
+		Query qQuery = session.getCurrentSession().createQuery(cQuery);
+		qQuery.setParameter("USER", authentication.getName());
+		qQuery.setParameter("DATE", new Date());
+		qQuery.setParameter("ID", id );
+
+		return qQuery.executeUpdate();
+	}
+	
+	
 	@Override
 	public Event get(long id) {
 		return (Event) session.getCurrentSession().get(Event.class, id);

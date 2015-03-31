@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,10 +33,10 @@ public class Event {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EVENTS")
 	private long eve_id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="eve_equipment_id")
 	@NotFound(action=NotFoundAction.IGNORE)
-	private Equipment equipment;
+	private Equipment equipment = new Equipment();
 	
 	@ManyToOne
 	@JoinColumn(name="eve_alarm_id")

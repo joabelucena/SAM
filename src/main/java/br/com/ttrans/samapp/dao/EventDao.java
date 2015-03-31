@@ -11,7 +11,9 @@ public interface EventDao {
 	public void add(Event event);
 	public void edit(Event event, Authentication authentication);
 	public void delete(Event event, Authentication authentication);
+	public int recognize(Long[] ids, Authentication authentication);
+	public int normalize(Long id, Authentication authentication);
 	public Event get(long id); 
-	public List getAll();
+	public List getAll();	
 	public List loadData();
 }
