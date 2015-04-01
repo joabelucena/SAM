@@ -84,6 +84,9 @@ public class EventController {
 		//Instancia os mapas de retorno e criterio para previsão de datas de OS.
 		Map<String,Object> result = new HashMap<String, Object>();
 		Map<String,Object> crit = new HashMap<String, Object>();
+		Map<String,Object> types = new HashMap<String, Object>();
+		
+		for(int i = 0; i < vType.length; i++) types.put("type", vType[i]);
 		
 		//Mapa de retorno
 		result.put("id"					, "");
@@ -138,9 +141,7 @@ public class EventController {
 			}
 			
 			//SO Types
-			if(vType.length > 0){
-				result.put("so_type"			, vType);
-			}
+			result.put("so_type"			, types);
 			
 			//Event
 			result.put("datetime"			, formato.format(event.getEve_datetime()));
@@ -154,7 +155,7 @@ public class EventController {
 	}
 	
 	
-	@RequestMapping(value = "/recognize", method = RequestMethod.POST)
+	@RequestMapping(value = "action/recognize", method = RequestMethod.POST)
 	public ResponseEntity<String> recognize(
 			@RequestParam(value = "recognizeId", required = false) Long[] ids,
 			Authentication authentication, Locale locale){
@@ -168,7 +169,7 @@ public class EventController {
 		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/normalize", method = RequestMethod.POST)
+	@RequestMapping(value = "action/normalize", method = RequestMethod.POST)
 	public ResponseEntity<String> normalize(
 			@RequestParam(value = "normalizeId", required = false) Long id,
 			Authentication authentication, Locale locale){
