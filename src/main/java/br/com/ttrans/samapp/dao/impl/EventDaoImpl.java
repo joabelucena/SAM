@@ -67,8 +67,9 @@ public class EventDaoImpl implements EventDao {
 		cQuery = "UPDATE Event "
 				+ "SET EVE_SOLV_USER = :USER, "
 				+ "EVE_SOLV_DATE = :DATE "
-				+ "WHERE EVE_ID = :ID ";
-
+				+ "WHERE EVE_ID = :ID "
+				+ "AND EVE_RECO_USER IS NOT NULL";
+		
 		Query qQuery = session.getCurrentSession().createQuery(cQuery);
 		qQuery.setParameter("USER", authentication.getName());
 		qQuery.setParameter("DATE", new Date());
