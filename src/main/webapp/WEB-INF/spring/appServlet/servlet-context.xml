@@ -82,7 +82,7 @@
 
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="br" />
+		<property name="defaultLocale" value="pt_BR"/>
 	</bean>
 
 	<!-- Message text files. This is set UTF-8 to display Arabic UTF correctly. -->
@@ -99,6 +99,12 @@
 		</property>
 	</bean>
 	
-
+	<!-- Request Interceptors -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+		<mvc:mapping path="/**/action/**" />
+			<bean class="br.com.ttrans.samapp.security.RequestInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>
