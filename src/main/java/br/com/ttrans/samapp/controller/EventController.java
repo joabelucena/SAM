@@ -103,9 +103,9 @@ public class EventController {
 		result.put("so_type"			, "");
 		
 		if(event != null){
-
+			
+			//Retorna previsões da OS
 			try{
-				//Retorna previsões da OS
 				crit.put("system"	, event.getEquipment().getSystem());
 				crit.put("severity"	, event.getAlarm().getSeverity());
 	
@@ -114,39 +114,54 @@ public class EventController {
 				
 			}
 
-			//Forecast
-			if(forecast != null){
-				start_forecast.add(Calendar.MINUTE, forecast.getSof_start_forecast());
-				end_forecast.add(Calendar.MINUTE, forecast.getSof_end_forecast());
+			
+			try{
+				//Forecast
+				if(forecast != null){
+					start_forecast.add(Calendar.MINUTE, forecast.getSof_start_forecast());
+					end_forecast.add(Calendar.MINUTE, forecast.getSof_end_forecast());
+					
+					result.put("start_forecast"		, formato.format(start_forecast.getTime()));
+					result.put("end_forecast"		, formato.format(end_forecast.getTime()));
+				}else{
+					result.put("start_forecast"		, formato.format(start_forecast.getTime()));
+					result.put("end_forecast"		, formato.format(end_forecast.getTime()));
+				}
+			}catch(Exception e){
 				
-				result.put("start_forecast"		, formato.format(start_forecast.getTime()));
-				result.put("end_forecast"		, formato.format(end_forecast.getTime()));
-			}else{
-				result.put("start_forecast"		, formato.format(start_forecast.getTime()));
-				result.put("end_forecast"		, formato.format(end_forecast.getTime()));
 			}
 			
-			//Equipment
-			if(event.getEquipment() != null){
+			//Equipment			
+			try{
 				result.put("id"					, event.getEquipment().getEqu_id());
 				result.put("model"				, event.getEquipment().getModel().getEmo_description());
 				result.put("manufacturer"		, event.getEquipment().getManufacturer().getEma_description());
 				result.put("subsystem"			, event.getEquipment().getSystem().getSsy_description());
 				result.put("site"				, event.getEquipment().getSite().getSit_description());
+			}catch(Exception e){
+				
 			}
+			
 			
 			//Alarm
-			if(event.getAlarm() != null){
+			try{
 				result.put("severity"			, event.getAlarm().getSeverity().getSle_description());				
-			}
 			
+			}catch(Exception e){
+				
+			}
+						
 			//SO Types
 			result.put("so_type"			, types);
 			
 			//Event
-			result.put("datetime"			, formato.format(event.getEve_datetime()));
-			result.put("reco_time"			, formato.format(event.getEve_reco_date()));
-			result.put("reco_user"			, event.getEve_reco_user());
+			try{
+				result.put("datetime"			, formato.format(event.getEve_datetime()));
+				result.put("reco_time"			, formato.format(event.getEve_reco_date()));
+				result.put("reco_user"			, event.getEve_reco_user());
+			}catch(Exception e){
+				
+			}
 			
 		}
 		
