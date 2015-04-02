@@ -8,7 +8,7 @@ Ext.define('Sam.view.ViewportFooter', {
 		{
 			xtype: 'label',
 			html: "<div id='username'>_</div>",
-			width: 120,
+			width: 300,
 		},{
 			xtype: 'tbfill'
 		},{
@@ -20,6 +20,23 @@ Ext.define('Sam.view.ViewportFooter', {
 			
 			listeners: {
 		    	afterrender: function() {
+		    		
+		    		//Carrega Usuario | Perfil
+		    		Ext.Ajax.request({
+	            		url : 'getuser',
+	            		method : 'POST',
+	            		
+	            		success: function (result, request) {
+	            			 Ext.fly('username').setHtml(result.responseText);
+	            		},
+	                    
+	            		failure: function (result, request) {
+	            			Ext.fly('username').setHtml('Error!');
+	                    }	
+	        		});
+		    		
+		    		
+		    		//Componente para retornar hora do servidor
 		        	var updateClock = function () {
 						
 		        		Ext.Ajax.request({

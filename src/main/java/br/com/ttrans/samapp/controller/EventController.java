@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.validation.Valid;
 
@@ -52,7 +53,7 @@ public class EventController {
 	@RequestMapping("/load")
 	@ResponseBody
 	public Map loadData() {
-
+		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		result.put("data", eventService.loadData());
@@ -82,11 +83,13 @@ public class EventController {
 		ServiceOrderForecast forecast = null;
 		
 		//Instancia os mapas de retorno e criterio para previsão de datas de OS.
-		Map<String,Object> result = new HashMap<String, Object>();
-		Map<String,Object> crit = new HashMap<String, Object>();
-		Map<String,Object> types = new HashMap<String, Object>();
+		Map<String,Object> result 	= new HashMap<String, Object>();
+		Map<String,Object> crit 	= new HashMap<String, Object>();
+		Map<String,Object> types 	= new TreeMap<String, Object>();
 		
-		for(int i = 0; i < vType.length; i++) types.put("type", vType[i]);
+		for(int i = 0; i < vType.length; i++){
+			types.put("type", vType[i]);
+		}
 		
 		//Mapa de retorno
 		result.put("id"					, "");
