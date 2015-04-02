@@ -21,7 +21,7 @@ Ext.define('Sam.controller.Alarms', {
 			'alarmpopup': {
 				render: this.openSO,
 			},
-			'alarmpopup': {
+			'checkcolumn': {
 				checkchange: this.checkboxChanged,
 			 },
 			 'toolbar #recognizeallbutton': {
@@ -102,7 +102,7 @@ Ext.define('Sam.controller.Alarms', {
 		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
 		            	
 		            	Ext.Ajax.request({
-		            		url : 'events/recognize',
+		            		url : 'events/action/recognize',
 		            		method : 'POST',
 		            		async: false,
 		            		
@@ -149,7 +149,7 @@ Ext.define('Sam.controller.Alarms', {
 	            if(btn == 'ok'){
 	            	
 	            	Ext.Ajax.request({
-	            		url : 'events/recognize',
+	            		url : 'events/action/recognize',
 	            		method : 'POST',
 	            		async: false,
 	            		
@@ -198,7 +198,7 @@ Ext.define('Sam.controller.Alarms', {
 			   }
 		   },
 		   
-		   interval: 200000 //(1 second = 1000)
+		   interval: 2000 //(1 second = 1000)
 		
 		};
 

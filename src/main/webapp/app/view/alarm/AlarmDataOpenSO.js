@@ -1,4 +1,3 @@
-
 var eventInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -33,18 +32,52 @@ var soInfo = {
 	title : 'Informação da OS',
 	layout : {
 		type : 'vbox',
-		align : 'stretch'
+		align : 'stretch',
 	},
 	items : [ {
-		fieldLabel : 'Previsão de Início ',
-		id : 'alarmpopup_time_alarmaa',
-		xtype: 'datetimepicker'
+		xtype: 'container',
+		
+		layout: {
+			   type: 'hbox',
+			   padding: '0 0 5 0',
+			   margin: '0 0 0 0'
+		},
+		items : [{
+			xtype:'datefield',
+			fieldLabel: 'Data de Início Prevista',
+			labelAlign: 'left',
+			margin: '0 0 0 0'
+		},{
+			xtype:'timefield',
+			fieldLabel: 'Hora de Início Prevista',
+			labelAlign: 'right',
+			margin: '0 0 0 0'		
+		}]
+	
 	}, {
-		fieldLabel : 'Previsão de Término ',
-		id : 'alarmpopup_time_alarmab',
+		xtype: 'container',
+		
+		layout: {
+			   type: 'hbox',
+			   padding: '0 0 5 0',
+			   margin: '0 0 0 0'
+		},
+		items : [{
+			xtype:'datefield',
+			fieldLabel: 'Data de Término Prevista',
+			labelAlign: 'left',
+			margin: '0 0 0 0'
+		},{
+			xtype:'timefield',
+			fieldLabel: 'Hora de Término Prevista',
+			labelAlign: 'right',
+			margin: '0 0 0 0'		
+		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
 		id : 'alarmpopup_so_type',
+		valueField: 'values',
+		autocomplete: true,
 		xtype : 'combobox',
 		allowBlank : false
 	}, {

@@ -4,7 +4,7 @@ var equipmentInfo = {
 	title : 'Informações do Equipamento',
 	layout : {
 		type : 'vbox',
-		align : 'stretch'
+		align : 'stretch',
 	},
 
 	items : [ {
@@ -26,7 +26,7 @@ var equipmentInfo = {
 	}, {
 		fieldLabel : 'Local de Instalação',
 		id : 'alarmpopup_site',
-		readOnly : true
+		readOnly : true,
 	} ],
 };
 
@@ -53,7 +53,7 @@ Ext.define('Sam.view.alarm.AlarmInfoEqto', {
 
 		layout : {
 			type : 'vbox',
-			align : 'stretch'
+			align : 'stretch',
 		},
 
 		bodyPadding : 10,

@@ -3,23 +3,13 @@ Ext.define('Sam.view.components.TimePickerField', {
 	  alias: 'widget.uxtimepicker',
 	  requires: ['Ext.form.field.Number'],
 
-	  // 隐藏BaseField的输入框 , hidden basefield's input
 	  inputType: 'hidden',
 
 	  style: 'padding:4px 0 0 0;margin-bottom:0px',
 
 	  msgTarget: 'none',
 
-	  /**
-	   * @cfg {String} value
-	   * initValue, format: 'H:i:s'
-	   */
 	  value: null,
-
-	  /**
-	  * @cfg {Object} spinnerCfg
-	  * 数字输入框参数, number input config
-	  */
 
 	  /** Override. */
 	  initComponent: function() {
@@ -54,7 +44,6 @@ Ext.define('Sam.view.components.TimePickerField', {
 			      minValue: 0,
 			      maxValue: 59
 		      }));
-		  // TODO 使用timeformat 判断是否创建秒输入框, maybe second field is not always need.
 		  me.secondsSpinner = Ext.create('Ext.form.field.Number', Ext.apply({}, cfg, {
 			      minValue: 0,
 			      maxValue: 59
@@ -106,13 +95,13 @@ Ext.define('Sam.view.components.TimePickerField', {
 		  }
 		  this.fireEvent('change', this, this.getValue(), this.getRawValue());
 	  },
-	  // 依次调用各输入框函数, call each spinner's function
+
 	  callSpinnersFunction: function(funName, args) {
 		  for(var i = 0; i < this.spinners.length; i++) {
 			  this.spinners[i][funName](args);
 		  }
 	  },
-	  // @private get time as object,
+
 	  getRawValue: function() {
 		  if(!this.rendered) {
 			  var date = this.value || new Date();
