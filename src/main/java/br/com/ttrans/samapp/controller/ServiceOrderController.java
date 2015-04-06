@@ -3,9 +3,11 @@ package br.com.ttrans.samapp.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.QueryException;
@@ -23,6 +25,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
@@ -71,6 +74,17 @@ public class ServiceOrderController {
 	private MessageSource messageSource;
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
+	
+	@RequestMapping("/load")
+	@ResponseBody
+	public Map loadData() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", soService.loadData());
+		
+		return result;
+	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public ResponseEntity<String> newSo(

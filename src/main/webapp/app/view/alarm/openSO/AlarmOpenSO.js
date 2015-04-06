@@ -1,8 +1,10 @@
-Ext.define('Sam.view.alarm.AlarmOpenSO', {
+Ext.define('Sam.view.alarm.openSO.AlarmOpenSO', {
 	extend: 'Ext.TabPanel',
 	alias:  'widget.alarmopenso',
 	
-	requires: ['Sam.view.alarm.AlarmOpenSO'],
+	requires: ['Sam.view.alarm.openSO.AlarmDataOpenSO',
+	           'Sam.view.alarm.openSO.AlarmInfoEqto',
+	           'Sam.view.alarm.openSO.histSO.AlarmHistSO'],
 	
 	closable: true,
 	
@@ -20,7 +22,7 @@ Ext.define('Sam.view.alarm.AlarmOpenSO', {
 		closable: false	
 	},{
 		xtype: 'alarmhistso',
-		title: 'Histórico da OS',
+		title: 'Histórico de OSs',
 		closable: false
 	}]
 

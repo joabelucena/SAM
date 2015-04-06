@@ -73,10 +73,18 @@ public class EventController {
 		//Instancia Vetor de Tipos de OS permitidos para abertura na tela de Alarmes.
 		String[] vType = dao.GetMv("SAM_EVESOTYPE", "").split(";");
 		
+		String[][] types = new String[vType.length][1];
+		
+		for (int i=0; i<types.length; i++){
+			types[i][0] = vType[i];
+		}
+
+		     
+	
 		//Instancia variaveis de data 
 		Calendar start_forecast = Calendar.getInstance();
 		Calendar end_forecast = Calendar.getInstance();
-		
+				
 		//Instancia 'formatador' de data
 		Format formato = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		
@@ -160,7 +168,7 @@ public class EventController {
 			}
 						
 			//SO Types
-			result.put("so_type"			, vType);
+			result.put("so_type"			, types);
 			
 			//Event
 			try{

@@ -59,7 +59,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		crit.createAlias("serviceorder.event"		,"serviceorder_event",CriteriaSpecification.LEFT_JOIN);
 		crit.createAlias("serviceorder.parent"		,"serviceorder_parent",CriteriaSpecification.LEFT_JOIN);
 		crit.createAlias("serviceorder.technician"	,"serviceorder_technician",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.severity"	,"serviceorder_severity",CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.priority"	,"serviceorder_priority",CriteriaSpecification.LEFT_JOIN);
 		crit.createAlias("serviceorder.equipment"	,"serviceorder_equipment",CriteriaSpecification.LEFT_JOIN);
 		
 		
@@ -67,33 +67,28 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		
 		projList.add(Projections.property("serviceorder.sor_id"));
 		
+		projList.add(Projections.property("serviceorder_equipment.equ_id"));
+		
+		
 		projList.add(Projections.property("serviceorder_type.sot_description"));
 		projList.add(Projections.property("serviceorder_status.sos_description"));
 		projList.add(Projections.property("serviceorder_event.eve_id"));
 		projList.add(Projections.property("serviceorder_parent.sor_id"));
 		projList.add(Projections.property("serviceorder_technician.tec_name"));
-		projList.add(Projections.property("serviceorder_severity.sle_description"));
-		projList.add(Projections.property("serviceorder_equipment.equ_fixed_asset"));
+		projList.add(Projections.property("serviceorder_priority.sle_description"));
 		
 		projList.add(Projections.property("serviceorder.sor_start_forecast"));
 		projList.add(Projections.property("serviceorder.sor_start"));
 		projList.add(Projections.property("serviceorder.sor_end_forecast"));
 		projList.add(Projections.property("serviceorder.sor_end"));
+		
 		projList.add(Projections.property("sor_equipment_stop"));
-		projList.add(Projections.property("sor_remark"));
+		projList.add(Projections.property("sor_remarks"));
 		
 						
 		crit.setProjection(projList);
 		
 		crit.add(Restrictions.ne("serviceorder.deleted","*"));
-		
-		crit.add(Restrictions.ne("serviceorder_type.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_status.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_event.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_parent.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_technician.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_severity.deleted","*"));
-		crit.add(Restrictions.ne("serviceorder_equipment.deleted","*"));
 		
 		List resultsList = crit.list();
 		

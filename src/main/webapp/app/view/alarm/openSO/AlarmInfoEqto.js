@@ -30,11 +30,11 @@ var equipmentInfo = {
 	} ],
 };
 
-Ext.define('Sam.view.alarm.AlarmInfoEqto', {
+Ext.define('Sam.view.alarm.openSO.AlarmInfoEqto', {
 	extend: 'Ext.Panel',
 	alias:  'widget.alarminfoeqto',
 	
-	requires: ['Sam.view.alarm.AlarmInfoEqto'],
+	requires: ['Sam.view.alarm.openSO.AlarmInfoEqto'],
 	
 	closable: true,
 	

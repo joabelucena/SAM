@@ -76,11 +76,13 @@ var soInfo = {
 	}, {
 		fieldLabel : 'Tipo da OS',
 		id : 'alarmpopup_so_type',
-		valueField: 'values',
-		autocomplete: true,
+		valueField: 'type',
+        displayField: 'type',
 		xtype : 'combobox',
-		allowBlank : false
-	}, {
+		selectOnFocus: true,
+        autoSelect:true,
+        forceSelection:true
+	},{
 		fieldLabel : 'Observação',
 		id : 'alarmpopup_obs_os',
 		xtype : 'textareafield',
@@ -88,12 +90,11 @@ var soInfo = {
 	} ]
 };
 
-Ext.define('Sam.view.alarm.AlarmDataOpenSO', {
+Ext.define('Sam.view.alarm.openSO.AlarmDataOpenSO', {
 	extend : 'Ext.Panel',
 	alias : 'widget.alarmdataopenso',
 
-	requires : [ 'Sam.view.alarm.AlarmDataOpenSO',
-	             'Sam.view.components.DateTimePicker'],
+	requires : [ 'Sam.view.alarm.openSO.AlarmDataOpenSO'],
 
 	closable : true,
 
@@ -120,6 +121,7 @@ Ext.define('Sam.view.alarm.AlarmDataOpenSO', {
 		items : [ eventInfo, soInfo ],
 
 		buttons : [ {
+			id: 'openSoButtom',
 			text : 'Abrir Ordem de Serviço'
 		} ],
 	} ],
