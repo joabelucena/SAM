@@ -6,9 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.validation.Valid;
 
@@ -49,7 +50,7 @@ public class EventController {
 	private MessageSource messageSource;
 	
 	private String eventDatetime;
-	
+
 	@RequestMapping("/load")
 	@ResponseBody
 	public Map loadData() {
@@ -85,10 +86,14 @@ public class EventController {
 		//Instancia os mapas de retorno e criterio para previsão de datas de OS.
 		Map<String,Object> result 	= new HashMap<String, Object>();
 		Map<String,Object> crit 	= new HashMap<String, Object>();
-		Map<String,Object> types 	= new TreeMap<String, Object>();
+		
+		List<HashMap> a = new LinkedList<HashMap>();
+		
+		HashMap<String,Object> typeAux 	= new HashMap<String, Object>();
 		
 		for(int i = 0; i < vType.length; i++){
-			types.put("type", vType[i]);
+			typeAux.put("type", vType[i]);
+			a.add(typeAux);
 		}
 		
 		//Mapa de retorno
@@ -155,7 +160,7 @@ public class EventController {
 			}
 						
 			//SO Types
-			result.put("so_type"			, types);
+			result.put("so_type"			, vType);
 			
 			//Event
 			try{
