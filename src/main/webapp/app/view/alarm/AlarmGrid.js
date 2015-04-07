@@ -45,7 +45,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
     
 	columns : [
 	   {
-		   text: 'id',
+		   text: 'ID',
 		   dataIndex: 'id',
 		   flex: 1,
        },{
@@ -155,18 +155,6 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
                 tooltip:'Reconhece todos os Alarmes',
                 cls:'x-btn-default-small',
                 iconCls: 'tick-button'
-            },{
-    			xtype: 'tbfill'
-    		},{
-                xtype:'button',
-            	text:'Fecha',
-                tooltip:'Fechar',
-                cls:'x-btn-default-small'
-    		},{
-                xtype:'button',
-            	text:'Confirma',
-                tooltip:'Confirma Alterações',
-                cls:'x-btn-default-small'
-    		}]
+            }]
         }]
 });

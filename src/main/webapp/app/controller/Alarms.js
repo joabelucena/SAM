@@ -21,34 +21,90 @@ Ext.define('Sam.controller.Alarms', {
 			},
 			'checkcolumn': {
 				checkchange: this.checkboxChanged,
-			 },
-			 'toolbar #recognizeallbutton': {
-				 click: this.recognizeAll,
-			 },
-			 '#openso': {
-				 click: this.openSO,
-			 },
-			 '#alarmgridpanel' : {
-				 itemdblclick: this.openPopUp,
-			 },
-			 'actioncolumn' : {
-				 itemClick: this.onActionColumnItemClick,
-			 },
-			 'alarmhistsogrid' : {
-				 itemmouseup: this.onItemMouseUp,
-			 },
-			 'toolbar #openSoButtom' : {
-				 click: this.onOpenSoButtomClick,
-			 },
-			 
+			},
+			'toolbar #recognizeallbutton': {
+				click: this.recognizeAll,
+			},
+			'#openso': {
+				click: this.openSO,
+			},
+			'#alarmgridpanel' : {
+				itemdblclick: this.openPopUp,
+			},
+			'actioncolumn' : {
+				itemClick: this.onActionColumnItemClick,
+			},
+			'alarmhistsogrid' : {
+				itemmouseup: this.onItemMouseUp,
+			},
+			'toolbar #openSoButtom' : {
+				click: this.onOpenSoButtomClick,
+			},
 		});
 	},
 	
-	onOpenSoButtomClick : function(  ){
+	onOpenSoButtomClick : function(){
 		
-		var mainPanel = Ext.getCmp('viewportpanel');
+		//Objeto Form
+		var form = Ext.getCmp('alarmdataopensoform').getForm();
 		
-		alert('O Homem Nao chora');
+		//Verifica se o form eh valido
+		if(form.isValid()){
+			var mainPanel = Ext.getCmp('viewportpanel');
+			
+			Ext.MessageBox.show({
+		        title: 'Abertura de OS',
+		        msg: 'Confirma a Abertura da OS?',
+		        buttons: Ext.MessageBox.OKCANCEL,
+		        icon: Ext.MessageBox.WARNING,
+		        fn: function(btn,  knowId, knowCheck){
+		            if(btn == 'ok'){
+		            	
+		            	alert('Envia Ajax.');
+		            	
+		            	console.log('startForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue());
+						console.log('endForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue());
+						console.log('type: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue());
+						console.log('obs: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue());
+		            	/*
+		            	Ext.Ajax.request({
+		            		url : 'so/new',
+		            		method : 'POST',
+		            		async: false,
+		            		
+		            		params: {
+		            			eveId: 1,
+		            			startForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue(),
+		            			endForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue(),
+		            			type: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue(),
+		            			obs: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue()	            			
+		            			
+		            		},
+	
+		            		success: function (result, request) {
+	
+			                    if (result.responseText != "SUCCESS") {
+			                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
+			                    }
+		                             
+		            		},
+		                    
+		            		failure: function (result, request) {
+		            			Ext.Msg.alert('Falha de Normalização de Alarme', result.status); 
+		                    }		
+		            			
+		            	});
+		            	*/
+		            } else if(btn == 'cancel') {
+		            	
+		            }
+		        }
+			});
+		}
+		
+		
+		
+		
 	},
 	
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){

@@ -34,9 +34,13 @@ var soInfo = {
 		type : 'vbox',
 		align : 'stretch',
 	},
+
+	
 	items : [ {
 		xtype: 'container',
-		
+		defaults:{
+			allowBlank : false
+		},
 		layout: {
 			   type: 'hbox',
 			   padding: '0 0 5 0',
@@ -45,33 +49,43 @@ var soInfo = {
 		items : [{
 			xtype:'datefield',
 			fieldLabel: 'Data de Início Prevista',
+			id: 'alarmpopup_start_date',
 			labelAlign: 'left',
-			margin: '0 0 0 0'
+			format: 'd/m/Y',
+			margin: '0 0 0 0',
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
+			id: 'alarmpopup_start_hour',
 			labelAlign: 'right',
 			margin: '0 0 0 0'		
 		}]
 	
 	}, {
 		xtype: 'container',
-		
+		defaults:{
+			allowBlank : false
+		},
 		layout: {
 			   type: 'hbox',
 			   padding: '0 0 5 0',
-			   margin: '0 0 0 0'
+			   margin: '0 0 0 0',
 		},
 		items : [{
+			
+			
 			xtype:'datefield',
 			fieldLabel: 'Data de Término Prevista',
+			id: 'alarmpopup_end_date',
+			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0'
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
+			id: 'alarmpopup_end_hour',
 			labelAlign: 'right',
-			margin: '0 0 0 0'		
+			margin: '0 0 0 0'
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
@@ -79,9 +93,8 @@ var soInfo = {
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
-		selectOnFocus: true,
-        autoSelect:true,
-        forceSelection:true
+		allowBlank : false
+		
 	},{
 		fieldLabel : 'Observação',
 		id : 'alarmpopup_obs_os',
@@ -109,6 +122,9 @@ Ext.define('Sam.view.alarm.openSO.AlarmDataOpenSO', {
 		id : 'alarmdataopensoform',
 		fieldDefaults : {
 			labelWidth : 180
+		},
+		defaults:{
+			allowBlank : false
 		},
 
 		layout : {
