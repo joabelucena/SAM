@@ -3,11 +3,18 @@ Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSOGrid' , {
 	alias: 'widget.alarmhistsogrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
-		
-	id: 'alarmhistsogrid',
 	
+	id: 'alarmhistsogrid',
+	/*
+	store: Ext.create('Sam.store.ServiceOrder').setFilters([{
+        property: 'id',
+        value: 5
+    	}
+	]),
+	*/
 	store: Ext.create('Sam.store.ServiceOrder'),
 	
+    
 	plugins: 'gridfilters',
     
 	columns : [

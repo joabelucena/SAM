@@ -150,24 +150,34 @@ Ext.define('Sam.controller.Alarms', {
 	    		},
 	    		
 	    		success: function (result, request) {
-	                
-	    			 var jsonResp = Ext.util.JSON.decode(result.responseText);
+	    			
+	    			var jsonResp = Ext.util.JSON.decode(result.responseText);
 	
-	    			 Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
-	    			 Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
-	    			 Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
-	    			 Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
-	    			 Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
-	    			 Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
-	    			 Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
-	    			 Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
-	    			 Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
-	    			 Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
-	    			        fields: ['type'],
-	    			        data : jsonResp.so_type
-	    			    }));    
-	    			 
-	    			 
+	    			//Abertura OS: Info Eqto.
+	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
+	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
+	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
+	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
+	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
+	    			
+	    			//Abertura OS: Dados(OS)
+	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
+	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
+	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
+	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
+	    			
+	    			//Abertura OS: Dados(OS) : ComboBox
+	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
+	    				fields: ['type'],
+	    				data : jsonResp.so_type
+	    			}));    
+
+	    			//Abertura OS: Hist OS : Grid (filtro)
+	    			Ext.getCmp('alarmhistsogrid').getStore().setFilters([{
+	    					property: 'equipment_id',
+	    					value: jsonResp.id
+	    				}
+	    			]);
 	    			 
 	    		},
 	            

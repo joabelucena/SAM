@@ -3,7 +3,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	alias: 'widget.serviceordergrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
-		
+	
 	id: 'serviceordergridpanel',
 	
 	store: Ext.create('Sam.store.ServiceOrder'),
