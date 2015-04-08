@@ -8,7 +8,8 @@ Ext.define('Sam.view.MainViewport', {
 	           'Sam.view.ViewportMenu',
 	           'Sam.view.ViewportPanel',
 	           'Sam.view.alarm.AlarmGrid',
-	           'Sam.view.alarm.AlarmShow'
+	           'Sam.view.alarm.AlarmShow',
+	           'Sam.view.serviceOrder.ServiceOrderGrid'
 	],
 	
 	layout: 'border',

@@ -8,10 +8,11 @@ Ext.application({
 	
 	views:[
 	       'MainViewport'
-	   ],
+	       ],
 
 	controllers : [ 
 	   'Menu',
-	   'Alarms'
+	   'Alarms',
+	   'ServiceOrder'
 	   ]
 });
