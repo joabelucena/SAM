@@ -8,7 +8,7 @@ import br.com.ttrans.samapp.model.ServiceOrder;
 
 @SuppressWarnings("rawtypes")
 public interface ServiceOrderService {
-	public void add(ServiceOrder serviceorder, Authentication authentication);
+	public int add(ServiceOrder serviceorder, Authentication authentication);
 	public void edit(ServiceOrder serviceorder, Authentication authentication);
 	public void delete(ServiceOrder serviceorder, Authentication authentication);
 	public ServiceOrder get(int id);

@@ -1,7 +1,7 @@
 var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
-	title : 'Informações do Equipamento',
+	title : 'Informações da Ordem de Serviço',
 	layout : {
 		type : 'vbox',
 		align : 'stretch',

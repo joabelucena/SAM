@@ -15,24 +15,20 @@ public class ServiceOrderValidator extends Validator {
 
 	@Autowired
 	private DAO dao;
-
+	
 	@Override
-	protected void validAdd(Object obj, Errors e) {
+	protected void validAdd(Object obj, Errors e){
 		ServiceOrder so = (ServiceOrder) obj;
 		
-		//SimpleDateFormat fm = new SimpleDateFormat("yyyy/MM/dd");
-		
-		//Inicio nao pode ser depois do terminio 
-		if(so.getSor_start_forecast().after(so.getSor_end_forecast())){
-			
+		// Inicio nao pode ser depois do terminio
+		if (so.getSor_start_forecast().after(so.getSor_end_forecast())) {
 			e.reject("response.so.NonSequenceDate");
 		}
-		
-		//Inicio nao pode ser antes de hoje
-		if(so.getSor_start_forecast().before(new Date())){
-			e.reject("response.so.PastDate");	
+
+		// Inicio nao pode ser antes de hoje
+		if (so.getSor_start_forecast().before(new Date())) {
+			e.reject("response.so.PastDate");
 		}
-		
 		
 	}
 

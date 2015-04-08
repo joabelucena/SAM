@@ -18,8 +18,8 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	private ServiceOrderDao dao;
 
 	@Transactional
-	public void add(ServiceOrder serviceorder, Authentication authentication) {
-		dao.add(serviceorder, authentication);		
+	public int add(ServiceOrder serviceorder, Authentication authentication) {
+		return dao.add(serviceorder, authentication);		
 	}
 
 	@Transactional

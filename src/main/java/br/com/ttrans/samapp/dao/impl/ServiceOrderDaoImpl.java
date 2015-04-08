@@ -23,9 +23,10 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(ServiceOrder serviceorder, Authentication authentication) {
+	public int add(ServiceOrder serviceorder, Authentication authentication) {
 		serviceorder.setUsr_insert(authentication.getName());
 		session.getCurrentSession().persist(serviceorder);
+		return serviceorder.getSor_id();
 
 	}
 

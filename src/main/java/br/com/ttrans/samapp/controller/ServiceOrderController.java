@@ -96,7 +96,7 @@ public class ServiceOrderController {
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ResponseEntity<String> newSo(
+	public ResponseEntity<Map> newSo(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
 			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
 			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
@@ -104,12 +104,17 @@ public class ServiceOrderController {
 			@RequestParam(value = "obs"				, required = true) String obs,
 			Authentication authentication,
 			Locale locale) {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("result"	,"");
+		result.put("soId"	, 0);
+		
 
 		//Instancia objeto para tratamento com o banco
 		ServiceOrder so = new ServiceOrder();
 		
 		//Instancia objeto para tratamento de erros
-		Errors result = new BindException(so, "serviceorder");
+		Errors err = new BindException(so, "serviceorder");
 		
 		//Retorna evento
 		Event event = eventService.get(eveId);
@@ -145,50 +150,50 @@ public class ServiceOrderController {
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setSor_remarks(obs);								// Observação
 
-			serviceOrderValidator.validate(so, result, "add");
+			serviceOrderValidator.validate(so, err, "add");
 			
-			if(!result.hasErrors()){
+			if(!err.hasErrors()){
 				
-				soService.add(so, authentication);
-				return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
+				int id = soService.add(so, authentication);
+				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
+				result.put("soId"	, id);
+				
+				return new ResponseEntity<Map>(result, HttpStatus.OK);
 				
 			}else{
 				
-				return new ResponseEntity<String>(messageSource.getMessage("response.so.Failure", null, locale)+
-				errorMessageHandler.toStringList(result, locale) , HttpStatus.OK);
+				//Erros nas validacoes de negocio
+				result.put("result"	,messageSource.getMessage("response.so.Failure", null, locale)+
+						errorMessageHandler.toStringList(err, locale));
+				
+				return new ResponseEntity<Map>( result, HttpStatus.OK);
 			}
-			
-
-			
 			
 		//Query Errors
 		} catch (QueryException e) {
 			
 			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
-					, HttpStatus.OK);
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
 
 		//Not Found Objects
 		} catch (NullPointerException e) {
 			
 			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.so.NullPointer", null, locale)
-					, HttpStatus.OK);
+			result.put("result"	,messageSource.getMessage("response.so.NullPointer", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
 		
 		//Erros genericos
 		} catch (GenericJDBCException e){
 			
 			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
-					, HttpStatus.OK);
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-		} catch(Exception e){
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
 			
-			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
-					, HttpStatus.OK);
-			
-		}
+		} 
 
 	}
 
