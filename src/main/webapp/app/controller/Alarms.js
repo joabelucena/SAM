@@ -50,7 +50,10 @@ Ext.define('Sam.controller.Alarms', {
 		
 		//Verifica se o form eh valido
 		if(form.isValid()){
-			var mainPanel = Ext.getCmp('viewportpanel');
+			var openSOTab = Ext.getCmp('viewportpanel').items.findBy(
+					function(tab){
+						return tab.title === 'Abertura de OS';
+					});
 			
 			Ext.MessageBox.show({
 		        title: 'Abertura de OS',
@@ -59,13 +62,6 @@ Ext.define('Sam.controller.Alarms', {
 		        icon: Ext.MessageBox.WARNING,
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
-		            	
-		            	/*
-		            	console.log('startForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue());
-						console.log('endForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue());
-						console.log('type: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue());
-						console.log('obs: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue());
-		            	*/
 		            	
 		            	Ext.Ajax.request({
 		            		url : 'so/new',
@@ -81,16 +77,30 @@ Ext.define('Sam.controller.Alarms', {
 		            		},
 	
 		            		success: function (result, request) {
+		            			
+		            			var jsonResp = Ext.util.JSON.decode(result.responseText);
 	
-			                    if (result.responseText != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha na Abertura da OS', result.responseText);        	 
+			                    if (jsonResp.result != "SUCCESS") {
+			                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
+			                    }else{
+			                    	
+			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
+			                    	
+			                    	//Recarrega Store do 
+			                    	Ext.getCmp('alarmhistsogrid').getStore().load()
+			                    	
+			                    	//Fecha aba de abertura de OS
+			                    	if(openSOTab){
+			                    		openSOTab.close();
+			                    	}
+			                    	
 			                    }
 		                             
 		            		},
 		                    
 		            		failure: function (result, request) {
 		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
-		                    }		
+		                    }
 		            			
 		            	});
 		            	
@@ -351,7 +361,7 @@ Ext.define('Sam.controller.Alarms', {
 			   }
 		   },
 		   
-		   interval: 2000 //(1 second = 1000)
+		   interval: 30000 //(1 second = 1000)
 		
 		};
 
