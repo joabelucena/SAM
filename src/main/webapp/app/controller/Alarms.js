@@ -45,10 +45,10 @@ Ext.define('Sam.controller.Alarms', {
 	
 	onOpenSoButtomClick : function(){
 		
-		//Objeto Form
+		// Objeto Form
 		var form = Ext.getCmp('alarmdataopensoform').getForm();
 		
-		//Verifica se o form eh valido
+		// Verifica se o form eh valido
 		if(form.isValid()){
 			var mainPanel = Ext.getCmp('viewportpanel');
 			
@@ -61,11 +61,17 @@ Ext.define('Sam.controller.Alarms', {
 		            if(btn == 'ok'){
 		            	
 		            	/*
-		            	console.log('startForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue());
-						console.log('endForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue());
-						console.log('type: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue());
-						console.log('obs: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue());
-		            	*/
+						 * console.log('startForecast:
+						 * '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " +
+						 * Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue());
+						 * console.log('endForecast:
+						 * '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " +
+						 * Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue());
+						 * console.log('type:
+						 * '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue());
+						 * console.log('obs:
+						 * '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue());
+						 */
 		            	
 		            	Ext.Ajax.request({
 		            		url : 'so/new',
@@ -114,10 +120,10 @@ Ext.define('Sam.controller.Alarms', {
 	},
 
 	onActionColumnItemClick : function(view, rowIndex, colIndex, item, e, record, row, action) {
-		//Abrir OS
+		// Abrir OS
 		if(action == 1){
 			
-			//Verifica se o Alarme esta reconhecido
+			// Verifica se o Alarme esta reconhecido
 			if(!record.get('knowledge_user')){
 				Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.'); 
 			}else{
@@ -154,27 +160,27 @@ Ext.define('Sam.controller.Alarms', {
 		    			
 		    			var jsonResp = Ext.util.JSON.decode(result.responseText);
 		
-		    			//Abertura OS: Dados(OS)
+		    			// Abertura OS: Dados(OS)
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_event_id').setValue(eventID);
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
 		    			
-		    			//Abertura OS: Info Eqto.
+		    			// Abertura OS: Info Eqto.
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
 		    			
-		    			//Abertura OS: Dados(OS) : ComboBox
+		    			// Abertura OS: Dados(OS) : ComboBox
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
 		    				fields: ['type'],
 		    				data : jsonResp.so_type
 		    			}));
 	
-		    			//Abertura OS: Hist OS : Grid (filtro)
+		    			// Abertura OS: Hist OS : Grid (filtro)
 		    			Ext.getCmp('alarmhistsogrid').getStore().setFilters([{
 		    					property: 'equipment_id',
 		    					value: jsonResp.id
@@ -188,7 +194,7 @@ Ext.define('Sam.controller.Alarms', {
 		            }	
 				});
 			}
-		//Normalizar alarme
+		// Normalizar alarme
 		} else if (action ==2) {
 			if(!record.get('knowledge_user')){
 				Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de normalizar.'); 
@@ -251,6 +257,42 @@ Ext.define('Sam.controller.Alarms', {
 			}
 			
 			mainPanel.setActiveTab(newTab);
+			
+			eventID = record.get('id');
+			
+			Ext.Ajax.request({
+	    		url : 'events/getinfo',
+	    		method : 'POST',
+	    		
+	    		params: {
+	    			eveId: eventID
+	    		},
+	    		
+	    		success: function (result, request) {
+	    			
+	    			var jsonResp = Ext.util.JSON.decode(result.responseText);
+			
+			
+					// Abertura OS: Dados(OS)
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_event_id').setValue(eventID);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_time_alarm').setValue(jsonResp.datetime);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_severity').setValue(jsonResp.severity);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_reco_user').setValue(jsonResp.reco_user);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_reco_time').setValue(jsonResp.reco_time);
+					
+					// Abertura OS: Info Eqto.
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_id').setValue(jsonResp.id);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_model').setValue(jsonResp.model);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_manufacturer').setValue(jsonResp.manufacturer);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_subsystem').setValue(jsonResp.subsystem);
+					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_site').setValue(jsonResp.site);
+	    		},
+	    		
+	    		failure: function (result, request) {
+	    			Ext.Msg.alert('Falha ao pegar dados do Alarme', result.status); 
+	            }
+			
+			});
 			
 		}
 
@@ -368,7 +410,7 @@ Ext.define('Sam.controller.Alarms', {
 			   }
 		   },
 		   
-		   interval: 2000 //(1 second = 1000)
+		   interval: 2000 // (1 second = 1000)
 		
 		};
 
