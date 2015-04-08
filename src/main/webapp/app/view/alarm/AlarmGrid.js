@@ -127,6 +127,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			sortable: false,
 			//1 - Abrir OS
 			//2 - Normalizar
+			//3 - Visualizar Alarme
 			items: [{
 					iconCls: 'notebook-plus-icon',
 					tooltip: 'Abrir O.S.',
@@ -141,6 +142,14 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
     				handler: function(view, rowIndex, colIndex, item, e, record, row) {
 						 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 2);
 					}
+			},{
+					xtype: 'tbfill'
+			},{
+				iconCls: 'magnifier-zoom',
+				tooltip: 'Visualizar Alarme',
+				handler: function(view, rowIndex, colIndex, item, e, record, row) {
+					 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 3);
+				}
 			}]
 		}],
 		

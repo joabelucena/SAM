@@ -101,9 +101,6 @@ Ext.define('Sam.controller.Alarms', {
 			});
 		}
 		
-		
-		
-		
 	},
 	
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
@@ -164,7 +161,6 @@ Ext.define('Sam.controller.Alarms', {
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
 		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
 		    			
-		    			
 		    			//Abertura OS: Info Eqto.
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
 		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
@@ -193,13 +189,13 @@ Ext.define('Sam.controller.Alarms', {
 				});
 			}
 		//Normalizar alarme
-		}else if(action ==2){
+		} else if (action ==2) {
 			if(!record.get('knowledge_user')){
 				Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de normalizar.'); 
-			}else{
+			} else {
 			
 				Ext.MessageBox.show({
-			        title: 'Normalizçaão de Alarme',
+			        title: 'Normalização de Alarme',
 			        msg: 'Deseja normalizar este alarme?',
 			        buttons: Ext.MessageBox.OKCANCEL,
 			        icon: Ext.MessageBox.WARNING,
@@ -235,6 +231,27 @@ Ext.define('Sam.controller.Alarms', {
 			        }
 				});
 			}
+		
+		} else if (action == 3) {
+			
+			var mainPanel = Ext.getCmp('viewportpanel');
+			
+			var newTab = mainPanel.items.findBy(
+					function(tab){
+						return tab.title === 'Visualiza Alarme';
+					});
+			
+			if (!newTab) {
+				newTab = mainPanel.add({
+					xtype: 'alarmshow',
+					closable: true,
+					iconCls: 'magnifier-zoom',
+					title: 'Visualiza Alarme'
+				});
+			}
+			
+			mainPanel.setActiveTab(newTab);
+			
 		}
 
 	},
