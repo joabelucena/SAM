@@ -60,22 +60,21 @@ Ext.define('Sam.controller.Alarms', {
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
 		            	
-		            	alert('Envia Ajax.');
-		            	
+		            	/*
 		            	console.log('startForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue());
 						console.log('endForecast: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue());
 						console.log('type: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue());
 						console.log('obs: '+Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue());
-		            	/*
+		            	*/
+		            	
 		            	Ext.Ajax.request({
 		            		url : 'so/new',
 		            		method : 'POST',
-		            		async: false,
 		            		
 		            		params: {
-		            			eveId: 1,
-		            			startForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue(),
-		            			endForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue(),
+		            			eveId: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_event_id').getRawValue(),
+		            			startForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue(),
+		            			endForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue(),
 		            			type: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue(),
 		            			obs: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue()	            			
 		            			
@@ -84,17 +83,17 @@ Ext.define('Sam.controller.Alarms', {
 		            		success: function (result, request) {
 	
 			                    if (result.responseText != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
+			                    	Ext.Msg.alert('Falha na Abertura da OS', result.responseText);        	 
 			                    }
 		                             
 		            		},
 		                    
 		            		failure: function (result, request) {
-		            			Ext.Msg.alert('Falha de Normalização de Alarme', result.status); 
+		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
 		                    }		
 		            			
 		            	});
-		            	*/
+		            	
 		            } else if(btn == 'cancel') {
 		            	
 		            }
@@ -121,108 +120,121 @@ Ext.define('Sam.controller.Alarms', {
 		//Abrir OS
 		if(action == 1){
 			
-			var mainPanel = Ext.getCmp('viewportpanel');
-			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.title === 'Abertura de OS';
+			//Verifica se o Alarme esta reconhecido
+			if(!record.get('knowledge_user')){
+				Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.'); 
+			}else{
+				
+				var mainPanel = Ext.getCmp('viewportpanel');
+				
+				var newTab = mainPanel.items.findBy(
+						function(tab){
+							return tab.title === 'Abertura de OS';
+						});
+				
+				if (!newTab) {
+					newTab = mainPanel.add({
+						xtype: 'alarmopenso',
+						closable: true,
+						iconCls: 'notebook-plus-icon',
+						title: 'Abertura de OS'
 					});
-			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					xtype: 'alarmopenso',
-					closable: true,
-					iconCls: 'notebook-plus-icon',
-					title: 'Abertura de OS'
+				}
+				
+				mainPanel.setActiveTab(newTab);
+				
+				eventID = record.get('id');
+				
+				Ext.Ajax.request({
+		    		url : 'events/getinfo',
+		    		method : 'POST',
+		    		
+		    		params: {
+		    			eveId: eventID
+		    		},
+		    		
+		    		success: function (result, request) {
+		    			
+		    			var jsonResp = Ext.util.JSON.decode(result.responseText);
+		
+		    			//Abertura OS: Dados(OS)
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_event_id').setValue(eventID);
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
+		    			
+		    			
+		    			//Abertura OS: Info Eqto.
+		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
+		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
+		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
+		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
+		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
+		    			
+		    			//Abertura OS: Dados(OS) : ComboBox
+		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
+		    				fields: ['type'],
+		    				data : jsonResp.so_type
+		    			}));
+	
+		    			//Abertura OS: Hist OS : Grid (filtro)
+		    			Ext.getCmp('alarmhistsogrid').getStore().setFilters([{
+		    					property: 'equipment_id',
+		    					value: jsonResp.id
+		    				}
+		    			]);
+		    			 
+		    		},
+		            
+		    		failure: function (result, request) {
+		    			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+		            }	
 				});
 			}
-			
-			mainPanel.setActiveTab(newTab);
-			
-			eventID = record.get('id');
-			
-			Ext.Ajax.request({
-	    		url : 'events/getinfo',
-	    		method : 'POST',
-	    		
-	    		params: {
-	    			eveId: eventID
-	    		},
-	    		
-	    		success: function (result, request) {
-	    			
-	    			var jsonResp = Ext.util.JSON.decode(result.responseText);
-	
-	    			//Abertura OS: Info Eqto.
-	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
-	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
-	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
-	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
-	    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
-	    			
-	    			//Abertura OS: Dados(OS)
-	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
-	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
-	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
-	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
-	    			
-	    			//Abertura OS: Dados(OS) : ComboBox
-	    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
-	    				fields: ['type'],
-	    				data : jsonResp.so_type
-	    			}));    
-
-	    			//Abertura OS: Hist OS : Grid (filtro)
-	    			Ext.getCmp('alarmhistsogrid').getStore().setFilters([{
-	    					property: 'equipment_id',
-	    					value: jsonResp.id
-	    				}
-	    			]);
-	    			 
-	    		},
-	            
-	    		failure: function (result, request) {
-	    			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
-	            }	
-			});
 		//Normalizar alarme
 		}else if(action ==2){
-			Ext.MessageBox.show({
-		        title: 'Normalizçaão de Alarme',
-		        msg: 'Deseja normalizar este alarme?',
-		        buttons: Ext.MessageBox.OKCANCEL,
-		        icon: Ext.MessageBox.WARNING,
-		        fn: function(btn,  knowId, knowCheck){
-		            if(btn == 'ok'){
-		            	
-		            	Ext.Ajax.request({
-		            		url : 'events/action/normalize',
-		            		method : 'POST',
-		            		async: false,
-		            		
-		            		params: {
-		            			normalizeId: record.get('id') 
-		            		},
-
-		            		success: function (result, request) {
-		                             
-			                    if (result.responseText != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
-			                    }
-		                             
-		            		},
-		                    
-		            		failure: function (result, request) {
-		            			Ext.Msg.alert('Falha de Normalização de Alarme', result.status); 
-		                    }		
-		            			
-		            	});
-		            	
-		            } else if(btn == 'cancel') {
-		            	
-		            }
-		        }
-			});
+			if(!record.get('knowledge_user')){
+				Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de normalizar.'); 
+			}else{
+			
+				Ext.MessageBox.show({
+			        title: 'Normalizçaão de Alarme',
+			        msg: 'Deseja normalizar este alarme?',
+			        buttons: Ext.MessageBox.OKCANCEL,
+			        icon: Ext.MessageBox.WARNING,
+			        fn: function(btn,  knowId, knowCheck){
+			            if(btn == 'ok'){
+			            	
+			            	Ext.Ajax.request({
+			            		url : 'events/action/normalize',
+			            		method : 'POST',
+			            		async: false,
+			            		
+			            		params: {
+			            			normalizeId: record.get('id') 
+			            		},
+	
+			            		success: function (result, request) {
+			                             
+				                    if (result.responseText != "SUCCESS") {
+				                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
+				                    }
+			                             
+			            		},
+			                    
+			            		failure: function (result, request) {
+			            			Ext.Msg.alert('Falha de Normalização de Alarme', result.status); 
+			                    }		
+			            			
+			            	});
+			            	
+			            } else if(btn == 'cancel') {
+			            	
+			            }
+			        }
+				});
+			}
 		}
 
 	},

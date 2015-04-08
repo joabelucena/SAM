@@ -172,7 +172,11 @@ public class EventController {
 			
 			//Event
 			try{
-				result.put("datetime"			, formato.format(event.getEve_datetime()));
+				result.put("datetime", formato.format(event.getEve_datetime()));
+			} catch (Exception e) {
+
+			}
+			try{
 				result.put("reco_time"			, formato.format(event.getEve_reco_date()));
 				result.put("reco_user"			, event.getEve_reco_user());
 			}catch(Exception e){

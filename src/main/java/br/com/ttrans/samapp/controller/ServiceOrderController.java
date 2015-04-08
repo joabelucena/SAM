@@ -1,14 +1,13 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.QueryException;
 import org.hibernate.exception.GenericJDBCException;
@@ -16,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,12 +33,15 @@ import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.StatusRule;
+import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.RoleService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
 import br.com.ttrans.samapp.service.ServiceOrderTypeService;
+import br.com.ttrans.samapp.validator.ErrorMessageHandler;
+import br.com.ttrans.samapp.validator.impl.ServiceOrderValidator;
 import br.com.ttrans.samapp.validator.impl.StatusRuleValidator;
 
 @Controller
@@ -63,6 +66,9 @@ public class ServiceOrderController {
 
 	@Autowired
 	private StatusRuleValidator statusRuleValidator;
+	
+	@Autowired
+	private ServiceOrderValidator serviceOrderValidator;
 
 	@Autowired
 	private RoleService roleService;
@@ -72,6 +78,9 @@ public class ServiceOrderController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private ErrorMessageHandler errorMessageHandler;
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 	
@@ -89,17 +98,21 @@ public class ServiceOrderController {
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public ResponseEntity<String> newSo(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
-			@RequestParam(value = "startForecast"	, required = true) String startForecast,
-			@RequestParam(value = "endForecast"		, required = true) String endForecast,
+			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
+			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
 			@RequestParam(value = "type"			, required = true) String type,
 			@RequestParam(value = "obs"				, required = true) String obs,
 			Authentication authentication,
 			Locale locale) {
 
+		//Instancia objeto para tratamento com o banco
+		ServiceOrder so = new ServiceOrder();
+		
+		//Instancia objeto para tratamento de erros
+		Errors result = new BindException(so, "serviceorder");
+		
 		//Retorna evento
 		Event event = eventService.get(eveId);
-		
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss");
 		
 		//Retorna status inicial cadastrado em parametro		
 		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
@@ -116,34 +129,38 @@ public class ServiceOrderController {
 		Set<ServiceOrderLog> logSet = new HashSet<ServiceOrderLog>();
 
 		try {
-			ServiceOrder so = new ServiceOrder();
 
+			//Log da OS
 			log.setServiceorder(so);
 			logSet.add(log);
 
-			so.setEquipment(event.getEquipment());					// Equipamento
-			so.setType(soTypeService.findByName(type));				// Tipo de Os (VERIFICAR)
-			so.setEvent(event);										// Evento
-			so.setStatus(sNewSts);									// Status
-			so.setSor_start_forecast(formato.parse(startForecast));	// Previsao de Inicio
-			so.setSor_end_forecast(formato.parse(endForecast));		// Previsao de Termino
-			so.setLog(logSet);										// Log Inicial
-			so.setPriority(event.getAlarm().getSeverity());			// Severidade
-			so.setSor_remarks(obs);									// Observação
+			//OS
+			so.setEquipment(event.getEquipment());				// Equipamento
+			so.setType(soTypeService.findByName(type));			// Tipo de Os (VERIFICAR)
+			so.setEvent(event);									// Evento
+			so.setStatus(sNewSts);								// Status
+			so.setSor_start_forecast(startForecast);			// Previsao de Inicio
+			so.setSor_end_forecast(endForecast);				// Previsao de Termino
+			so.setLog(logSet);									// Log Inicial
+			so.setPriority(event.getAlarm().getSeverity());		// Severidade
+			so.setSor_remarks(obs);								// Observação
 
-			soService.add(so, authentication);
+			serviceOrderValidator.validate(so, result, "add");
+			
+			if(!result.hasErrors()){
+				
+				soService.add(so, authentication);
+				return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
+				
+			}else{
+				
+				return new ResponseEntity<String>(messageSource.getMessage("response.so.Failure", null, locale)+
+				errorMessageHandler.toStringList(result, locale) , HttpStatus.OK);
+			}
+			
 
-			return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale)
-											, HttpStatus.OK);
 			
 			
-		
-		// Date Format
-		}catch (ParseException e){
-			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.so.ParseException", null, locale)
-											, HttpStatus.OK);
-		
 		//Query Errors
 		} catch (QueryException e) {
 			
@@ -155,7 +172,7 @@ public class ServiceOrderController {
 		} catch (NullPointerException e) {
 			
 			logger.error(e.getMessage());
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
+			return new ResponseEntity<String>(messageSource.getMessage("response.so.NullPointer", null, locale)
 					, HttpStatus.OK);
 		
 		//Erros genericos
@@ -182,7 +199,11 @@ public class ServiceOrderController {
 			@RequestParam(value = "stop"	, required = false)	String stop,
 			@RequestParam(value = "obs"		, required = true)	String obs,
 			Authentication authentication,
-			Locale locale) {
+			Locale locale,
+			HttpServletRequest request) {
+		
+		//Retorna usuario logado na secao
+		Users user = (Users) request.getSession().getAttribute("loggedUser");
 
 		// Retorna OS
 		ServiceOrder so = soService.get(soId);
@@ -212,36 +233,35 @@ public class ServiceOrderController {
 		// Adiciona novo registro no log
 		so.getLog().add(log);
 
-		List aut = (List) authentication.getAuthorities();
-
 		// Percorre os perfis do usuario para verificar se algum possui
 		// permissao pra realizar a alteração
-		for (int i = 0; i < aut.size(); i++) {
 
-			StatusRule rule = new StatusRule();
+		StatusRule rule = new StatusRule();
 
-			rule.setCurstatus(curStatus);
-			rule.setNxtstatus(newStatus);
-			rule.setRole(roleService.findByDesc(aut.get(i).toString()));
-			rule.setSru_log_remark(!obs.isEmpty() ? "S" : "N");
+		rule.setCurstatus(curStatus);
+		rule.setNxtstatus(newStatus);
+		
+		rule.setRole(user.getRole());
+		rule.setSru_log_remark(!obs.isEmpty() ? "S" : "N");
 
-			statusRuleValidator.validate(rule, result, "edit");
+		statusRuleValidator.validate(rule, result, "edit");
 
-			if (!result.hasErrors()) {
+		if (!result.hasErrors()) {
 
-				try {
+			try {
 
-					soService.edit(so,authentication);
-					return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale)
-							, HttpStatus.OK);
+				soService.edit(so, authentication);
+				return new ResponseEntity<String>(messageSource.getMessage(
+						"response.Ok", null, locale), HttpStatus.OK);
 
-				} catch (QueryException e) {
+			} catch (QueryException e) {
 
-					logger.error(e.getMessage());
-					return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
-							, HttpStatus.OK);
-				}
+				logger.error(e.getMessage());
+				return new ResponseEntity<String>(messageSource.getMessage(
+						"response.Failure", null, locale), HttpStatus.OK);
 			}
+		}else{
+			
 		}
 
 		return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)

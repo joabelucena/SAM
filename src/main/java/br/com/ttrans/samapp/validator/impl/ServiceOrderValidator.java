@@ -1,10 +1,13 @@
 package br.com.ttrans.samapp.validator.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.validator.Validator;
 
 @Component
@@ -15,8 +18,22 @@ public class ServiceOrderValidator extends Validator {
 
 	@Override
 	protected void validAdd(Object obj, Errors e) {
-		// TODO Auto-generated method stub
-		super.validAdd(obj, e);
+		ServiceOrder so = (ServiceOrder) obj;
+		
+		//SimpleDateFormat fm = new SimpleDateFormat("yyyy/MM/dd");
+		
+		//Inicio nao pode ser depois do terminio 
+		if(so.getSor_start_forecast().after(so.getSor_end_forecast())){
+			
+			e.reject("response.so.NonSequenceDate");
+		}
+		
+		//Inicio nao pode ser antes de hoje
+		if(so.getSor_start_forecast().before(new Date())){
+			e.reject("response.so.PastDate");	
+		}
+		
+		
 	}
 
 	@Override

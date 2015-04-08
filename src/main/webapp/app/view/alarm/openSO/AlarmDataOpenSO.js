@@ -8,6 +8,10 @@ var eventInfo = {
 	},
 
 	items : [ {
+		fieldLabel : 'ID Alarme',
+		id : 'alarmpopup_event_id',
+		readOnly : true,
+	}, {
 		fieldLabel : 'Data/Hora Alarme',
 		id : 'alarmpopup_time_alarm',
 		readOnly : true,
@@ -58,6 +62,7 @@ var soInfo = {
 			fieldLabel: 'Hora de Início Prevista',
 			id: 'alarmpopup_start_hour',
 			labelAlign: 'right',
+			format: 'H:i',
 			margin: '0 0 0 0'		
 		}]
 	
@@ -85,6 +90,7 @@ var soInfo = {
 			fieldLabel: 'Hora de Término Prevista',
 			id: 'alarmpopup_end_hour',
 			labelAlign: 'right',
+			format: 'H:i',
 			margin: '0 0 0 0'
 		}]
 	}, {
