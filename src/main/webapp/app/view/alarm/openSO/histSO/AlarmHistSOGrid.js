@@ -5,16 +5,9 @@ Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSOGrid' , {
 	requires: ['Ext.grid.filters.Filters'],
 	
 	id: 'alarmhistsogrid',
-	/*
-	store: Ext.create('Sam.store.ServiceOrder').setFilters([{
-        property: 'id',
-        value: 5
-    	}
-	]),
-	*/
+	
 	store: Ext.create('Sam.store.ServiceOrder'),
 	
-    
 	plugins: 'gridfilters',
     
 	columns : [
@@ -29,6 +22,24 @@ Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSOGrid' , {
 			dataIndex: 'equipment_id',
 			filter: {
 				type: 'string'
+			}
+		},{
+			text: 'Inicio',
+			flex: 1,
+			sortable: true,
+			dataIndex: 'start',
+			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			filter: {
+				type: 'date'
+			}
+		},{
+			text: 'Termino',
+			flex: 1,
+			sortable: true,
+			dataIndex: 'end',
+			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			filter: {
+				type: 'date'
 			}
 		},{
 			text: 'Tipo',

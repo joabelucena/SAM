@@ -20,7 +20,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	},
 	
 	onRender: function(component, options) {
-		
+		component.getStore().load();
 	},
 	
 	onButtonAClick: function() {

@@ -226,7 +226,6 @@ Ext.define('Sam.controller.Alarms', {
 				                    if (result.responseText != "SUCCESS") {
 				                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
 				                    }
-			                             
 			            		},
 			                    
 			            		failure: function (result, request) {

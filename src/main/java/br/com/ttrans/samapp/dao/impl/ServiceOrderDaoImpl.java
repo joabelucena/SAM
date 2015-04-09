@@ -90,7 +90,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		crit.setProjection(projList);
 		
 		crit.add(Restrictions.ne("serviceorder.deleted","*"));
-		
+				
 		List resultsList = crit.list();
 		
 		return resultsList;		

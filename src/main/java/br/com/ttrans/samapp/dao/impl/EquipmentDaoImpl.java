@@ -9,6 +9,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,14 +69,13 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 		ProjectionList projList = Projections.projectionList();
 
-		projList.add(Projections.property("equipment.equ_id"));
+		projList.add(Projections.property("equipment.equ_id"),"equ_id");
 		projList.add(Projections.property("equipment.equ_fixed_asset"));
 		projList.add(Projections.property("equipment.equ_service_tag"));
 		projList.add(Projections.property("equipment.equ_ip"));
 		projList.add(Projections.property("equipment_type.ety_description"));
 		projList.add(Projections.property("equipment_model.emo_description"));
-		projList.add(Projections
-				.property("equipment_manufacturer.ema_description"));
+		projList.add(Projections.property("equipment_manufacturer.ema_description"));
 		projList.add(Projections.property("equipment_site.sit_description"));
 		projList.add(Projections.property("equipment_counter.cty_description"));
 		projList.add(Projections.property("equipment_system.ssy_description"));
@@ -88,7 +88,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		projList.add(Projections.property("equipment.equ_mtbf_manf"));
 		projList.add(Projections.property("equipment.equ_install_date"));
 		projList.add(Projections.property("equipment.equ_manufacture_date"));
-		projList.add(Projections.property("equipment.equ_acquired_date"));
+		projList.add(Projections.property("equipment.equ_acquired_date"),"equ_acquired_date");
 		projList.add(Projections.property("equipment.equ_remark"));
 
 		crit.setProjection(projList);
@@ -100,7 +100,9 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		crit.add(Restrictions.ne("equipment_site.deleted", "*"));
 		crit.add(Restrictions.ne("equipment_counter.deleted", "*"));
 		crit.add(Restrictions.ne("equipment_system.deleted", "*"));
-
+		
+		crit.setResultTransformer(Transformers.aliasToBean(Equipment.class));
+		
 		List resultsList = crit.list();
 
 		return resultsList;
