@@ -152,14 +152,14 @@ public class EventDaoImpl implements EventDao {
 		
 		qQuery.addScalar("ID"			, Hibernate.STRING);
 		qQuery.addScalar("RECO_USER"	, Hibernate.BOOLEAN);
-		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);	
-		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);	
-		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);	
-		qQuery.addScalar("QUIP_MODEL"	, Hibernate.STRING);	
+		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);
+		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);
+		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);
+		qQuery.addScalar("QUIP_MODEL"	, Hibernate.STRING);
 		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING);
-		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING);	
-		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);	
-		qQuery.addScalar("SYS"			, Hibernate.STRING);	
+		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING);
+		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);
+		qQuery.addScalar("SYS"			, Hibernate.STRING);
 		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);	
 		qQuery.addScalar("DATETIME"		, Hibernate.STRING);
 		

@@ -25,7 +25,33 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	onButtonAClick: function() {
 		
-		Ext.Msg.alert('botao1', 'botao1');
+		//Id
+		Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id');
+		
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		var newTab = mainPanel.items.findBy(
+				function(tab){
+					return tab.title === 'LOG da Os';
+				});
+		
+		if (!newTab) {
+			newTab = mainPanel.add({
+				/*
+				xtype: 'alarmshow',
+				closable: true,
+				iconCls: 'magnifier-zoom',
+				title: 'Visualiza Alarme'
+				*/
+			});
+		}
+		/*
+		mainPanel.setActiveTab(newTab);
+		
+		eventID = record.get('id');
+		
+		Ext.getCmp('alarmshowform').getForm().findField('alarmshow_site').setValue(jsonResp.site);
+		*/
 		
 	},
 	onButtonBClick: function() {
