@@ -15,5 +15,4 @@ Ext.define('Sam.model.Alarm', {
 	        {name: 'sub_system_description', type: 'string'},
 	        {name: 'alarm_datetime', type: 'date',  dateFormat: 'c'}
 	]
-	
 });

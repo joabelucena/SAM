@@ -9,10 +9,10 @@ Ext.define('Sam.model.ServiceOrder', {
 	        {name: 'parent_id'		, type: 'number'},
 	        {name: 'technician'		, type: 'string'},
 	        {name: 'priority'		, type: 'string'},
-	        {name: 'start_forecast'	, type: 'date'	, dateFormat: 'c'},
-	        {name: 'start'			, type: 'date'	, dateFormat: 'n'},
-	        {name: 'end_forecast'	, type: 'date'	, dateFormat: 'c'},
-	        {name: 'end'			, type: 'date'	, dateFormat: 'n'},
+	        {name: 'start_forecast'	, type: 'date'	, dateFormat: 'time'},
+	        {name: 'start'			, type: 'date'	, dateFormat: 'time'},
+	        {name: 'end_forecast'	, type: 'date'	, dateFormat: 'time'},
+	        {name: 'end'			, type: 'date'	, dateFormat: 'time'},
 	        {name: 'equipment_stop'	, type: 'string'},
 	        {name: 'remarks'		, type: 'string'}
 	]
