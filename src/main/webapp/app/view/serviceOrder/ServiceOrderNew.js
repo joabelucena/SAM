@@ -9,14 +9,14 @@ var equipmentInfo = {
 	},
 
 	items : [ {
-		xtype: 'trigger',
+		xtype: 'textfield',
 		fieldLabel : 'ID',
+		id: 'serviceordernew_id',
 		name : 'serviceordernew_id',
 		triggers: {
 	        f3: {
 	            handler: function() {
 	            	 this.fireEvent('click', 1);
-	            	
 	            }
 	        }
 		}

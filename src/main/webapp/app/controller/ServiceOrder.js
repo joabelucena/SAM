@@ -29,12 +29,13 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #logShowButton' :{
 				click: this.onlogShowButtonClick
 			},
-			'trigger' :{
+			'serviceordernew_id' :{
 				click: this.onTriggerClick
 			}
 				
 		});
 	},
+	
 	
 	onTriggerClick: function(action){
 		
@@ -55,11 +56,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		var newTab = mainPanel.items.findBy(
 				function(tab){
-					return tab.title === 'Nova OS';
+					return tab.id === 'showsoid: '+Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id');
 				});
 		
 		if (!newTab) {
 			newTab = mainPanel.add({
+				id: 'showsoid: '+Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id'),
 				xtype: 'serviceordernew',
 				closable: true,
 				iconCls: 'magnifier-zoom',
@@ -68,6 +70,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 		}
 		
 		mainPanel.setActiveTab(newTab);
+		
+		Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',2)});
 		/*
 		eventID = record.get('id');
 		
@@ -76,8 +80,22 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 	},
 	
-	onopenNewSoButtonClick: function(){
-		Ext.Msg.alert('Confirma Abertura de OS', 'Confirma Abertura de OS');
+	onopenNewSoButtonClick: function(action){
+		
+		//Visualiza
+		if(action == 1){
+			alert('Encerra Visualizacao da OS')
+		
+		//Confirma Abertura de OS
+		}else if(action == 2){
+			alert('Confirma Abertura de OS')
+		}else if (action == 3){
+			
+		}else{
+			
+		}
+		console.log('acao: '+action);
+		
 	},
 	
 	//Botao Visualizar OS
@@ -92,11 +110,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			var newTab = mainPanel.items.findBy(
 					function(tab){
-						return tab.title === 'Visualizar OS';
+						return tab.id === 'sotabid';
 					});
 			
 			if (!newTab) {
 				newTab = mainPanel.add({
+					id: 'sotabid',
 					xtype: 'serviceordernew',
 					closable: true,
 					iconCls: 'magnifier-zoom',
@@ -105,8 +124,16 @@ Ext.define('Sam.controller.ServiceOrder', {
 			}
 			
 			mainPanel.setActiveTab(newTab);
-			
-			
+			/*
+			 * Fields
+			 * Ext.getCmp('serviceordernewform').getForm().findField('serviceordernew_id').setReadOnly(true)
+			 * 
+			 * 
+			 * button
+			 * Ext.getCmp('serviceordernewform').query('#openNewSoButton')
+			 * 
+			 */
+			Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',1)});
 			
 			console.log('para');
 		}
