@@ -9,7 +9,6 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,8 +99,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		crit.add(Restrictions.ne("equipment_site.deleted", "*"));
 		crit.add(Restrictions.ne("equipment_counter.deleted", "*"));
 		crit.add(Restrictions.ne("equipment_system.deleted", "*"));
-		
-		crit.setResultTransformer(Transformers.aliasToBean(Equipment.class));
 		
 		List resultsList = crit.list();
 

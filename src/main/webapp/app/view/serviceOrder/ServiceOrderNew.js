@@ -15,9 +15,8 @@ var equipmentInfo = {
 		triggers: {
 	        f3: {
 	            handler: function() {
+	            	 this.fireEvent('click', 1);
 	            	
-	            	var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');         	
-	            	equipmentsPopUp.show();
 	            }
 	        }
 		}

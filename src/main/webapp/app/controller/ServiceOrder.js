@@ -28,8 +28,18 @@ Ext.define('Sam.controller.ServiceOrder', {
 			},
 			'toolbar #logShowButton' :{
 				click: this.onlogShowButtonClick
+			},
+			'trigger' :{
+				click: this.onTriggerClick
 			}
+				
 		});
+	},
+	
+	onTriggerClick: function(action){
+		
+		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');         	
+    	equipmentsPopUp.show();
 	},
 	
 	onRender: function(component, options) {

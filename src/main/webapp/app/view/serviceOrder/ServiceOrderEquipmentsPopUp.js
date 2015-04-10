@@ -5,6 +5,8 @@ var EquipmentsGrid = Ext.create('Ext.grid.Panel', {
 	requires: ['Ext.grid.filters.Filters'],
 	
 	plugins: 'gridfilters',
+	
+	id: 'equipmentspopupgridpanel',
 		
 	columns : [ {
 		text : 'Id',
