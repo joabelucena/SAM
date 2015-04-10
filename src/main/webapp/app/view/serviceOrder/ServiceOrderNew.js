@@ -1,3 +1,4 @@
+
 var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -8,9 +9,18 @@ var equipmentInfo = {
 	},
 
 	items : [ {
+		xtype: 'trigger',
 		fieldLabel : 'ID',
 		name : 'serviceordernew_id',
-		readOnly : true,
+		triggers: {
+	        f3: {
+	            handler: function() {
+	            	
+	            	var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');         	
+	            	equipmentsPopUp.show();
+	            }
+	        }
+		}
 	}, {
 		fieldLabel : 'Modelo',
 		id : 'serviceordernew_model',
