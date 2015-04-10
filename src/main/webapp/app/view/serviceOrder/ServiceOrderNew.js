@@ -143,10 +143,20 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    xtype: 'toolbar',
 		    dock: 'bottom',
 		    
-		    items: [{
+		    items: [
+		    {
+		        xtype:'button',
+		    	id:'logShowButton',
+		    	text:'Visualizar LOG',
+		        tooltip:'Vizualiza Log da Ordem de Serviço',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    },{
+		    	xtype: 'tbfill'
+		    },{
 		        xtype:'button',
 		    	id:'openNewSoButton',
-		    	text:'Abrir Ordem de Serviço',
+		    	text:'Confirma',
 		        tooltip:'Abre Nova Ordem de Serviço',
 		        cls:'x-btn-default-small',
 		        iconCls: 'tick-button'

@@ -18,11 +18,9 @@ Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSO', {
     defaults: {
         collapsible: false,
         split: true
-        //bodyPadding: 10
     },
 
     items: [
-
             {
                 title: 'Detalhes da Ordem de Servico',
                 xtype: 'alarmhistsoform',

@@ -7,11 +7,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	id: 'serviceordergridpanel',
 	
 	store: Ext.create('Sam.store.ServiceOrder'),
-	
-	layout:{
-		type: 'fit'
-	},
-	
+
 	plugins: 'gridfilters',
 	
 	scrollable: true,
@@ -21,12 +17,16 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		   text: 'Ordem de Servico',
 		   dataIndex: 'id',
 		   flex: 1,
+		   minWidth: 200,
+		   width: 200
        },
        {
 			text: 'Equipamento',
 			flex: 1,
 			sortable: true,
 			dataIndex: 'equipment_id',
+			minWidth: 200,
+		   width: 200,
 			filter: {
 				type: 'string'
 			}
@@ -35,7 +35,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			flex: 1,
 			sortable: true,
 			dataIndex: 'type',
-			width: 300,
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'string'
 			}
@@ -44,6 +45,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			flex: 1,
 			sortable: true,
 			dataIndex: 'status',
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'string'
 			}
@@ -52,6 +55,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			flex: 1,
 			sortable: true,
 			dataIndex: 'event_id',
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'number'
 			}
@@ -61,6 +66,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'start_forecast',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'date'
 			}
@@ -70,6 +77,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'start',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'date'
 			}
@@ -79,6 +88,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'end_forecast',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			minWidth: 200,
+			   width: 200,
 			filter: {
 				type: 'date'
 			}
@@ -88,6 +99,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'end',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			minWidth: 200,
+			width: 200,
 			filter: {
 				type: 'date'
 			}
@@ -98,9 +111,16 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		    
 		    items: [{
 		        xtype:'button',
-		    	id:'button1',
-		    	text:'Botao 1',
-		        tooltip:'Dica Botao 1',
+		    	id:'newSoButton',
+		    	text:'Nova OS',
+		        tooltip:'Abrir Nova Ordem de Serviço',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    },{
+		        xtype:'button',
+		    	id:'showSoButton',
+		    	text:'Visualizar',
+		        tooltip:'Visuzalizar Ordem de Serviço',
 		        cls:'x-btn-default-small',
 		        iconCls: 'tick-button'
 		    },{
