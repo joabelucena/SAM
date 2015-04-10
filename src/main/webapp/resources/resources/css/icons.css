@@ -6958,6 +6958,11 @@
 	background-image: url('../img/icons/magnifier-zoom.png') !important;
 }
 
+.magnifier-zoom-f3 {
+	background-image: url('../img/icons/magnifier-zoom.png') !important;
+	background-size: 30% 30%;
+}
+
 .mahjong-arrow-icon {
 	background-image: url('../img/icons/mahjong-arrow-icon.png') !important;
 }

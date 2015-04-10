@@ -2,7 +2,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 	extend: 'Ext.app.Controller',
 	
 	views: ['serviceOrder.ServiceOrderGrid',
-	        'serviceOrder.ServiceOrderPanel'],
+	        'serviceOrder.ServiceOrderPanel',
+	        'serviceOrder.ServiceOrderNew',
+	        'serviceOrder.ServiceOrderEquipmentsPopUp'],
 	
 	init: function() {
 		
