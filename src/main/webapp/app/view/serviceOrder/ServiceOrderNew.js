@@ -1,4 +1,3 @@
-
 var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -11,7 +10,7 @@ var equipmentInfo = {
 	items : [ {
 		xtype: 'textfield',
 		fieldLabel : 'ID',
-		id: 'serviceordernew_id',
+		itemId: 'serviceordernew_id',
 		name : 'serviceordernew_id',
 		triggers: {
 	        f3: {
@@ -22,19 +21,19 @@ var equipmentInfo = {
 		}
 	}, {
 		fieldLabel : 'Modelo',
-		id : 'serviceordernew_model',
+		itemId: 'serviceordernew_model',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Fabricante',
-		id : 'serviceordernew_manufacturer',
+		itemId: 'serviceordernew_manufacturer',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Sub-Sistema',
-		id : 'serviceordernew_subsystem',
+		itemId: 'serviceordernew_subsystem',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Local de Instalação',
-		id : 'serviceordernew_site',
+		itemId: 'serviceordernew_site',
 		readOnly : true,
 	} ],
 };
@@ -61,14 +60,14 @@ var soInfo = {
 		items : [{
 			xtype:'datefield',
 			fieldLabel: 'Data de Início Prevista',
-			id: 'serviceordernew_start_date',
+			itemId: 'serviceordernew_start_date',
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
-			id: 'serviceordernew_start_hour',
+			itemId: 'serviceordernew_start_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0'		
@@ -89,21 +88,21 @@ var soInfo = {
 			
 			xtype:'datefield',
 			fieldLabel: 'Data de Término Prevista',
-			id: 'serviceordernew_end_date',
+			itemId: 'serviceordernew_end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0'
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
-			id: 'serviceordernew_end_hour',
+			itemId: 'serviceordernew_end_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0'
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
-		id : 'serviceordernew_so_type',
+		itemId: 'serviceordernew_so_type',
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
@@ -111,7 +110,7 @@ var soInfo = {
 		
 	},{
 		fieldLabel : 'Observação',
-		id : 'serviceordernew_obs_os',
+		itemId: 'serviceordernew_obs_os',
 		xtype : 'textareafield',
 		allowBlank : false
 	} ]
@@ -131,7 +130,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'serviceordernewform',
+		itemId: 'serviceordernewform',
 		fieldDefaults : {
 			labelWidth : 180
 		},
@@ -155,7 +154,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    items: [
 		    {
 		        xtype:'button',
-		    	id:'logShowButton',
+		        itemId:'logShowButton',
 		    	text:'Visualizar LOG',
 		        tooltip:'Vizualiza Log da Ordem de Serviço',
 		        cls:'x-btn-default-small',
@@ -164,7 +163,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    	xtype: 'tbfill'
 		    },{
 		        xtype:'button',
-		    	id:'openNewSoButton',
+		    	itemId:'openNewSoButton',
 		    	text:'Confirma',
 		        tooltip:'Abre Nova Ordem de Serviço',
 		        cls:'x-btn-default-small',

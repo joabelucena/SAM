@@ -78,7 +78,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp', {
 
 	layout : 'fit',
 	
-	items : [ EquipmentsGrid ],
+	//items : [ EquipmentsGrid ],
 	
 	buttons : [ {
 		id: 'selectEquipmentNewSO',

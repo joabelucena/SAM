@@ -29,7 +29,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #logShowButton' :{
 				click: this.onlogShowButtonClick
 			},
-			'serviceordernew_id' :{
+			'#serviceordernew_id' :{
 				click: this.onTriggerClick
 			}
 				
@@ -39,8 +39,19 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	onTriggerClick: function(action){
 		
-		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');         	
-    	equipmentsPopUp.show();
+		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');
+		var grid = Ext.create('Sam.view.serviceOrder.ServiceOrderGrid');
+		var store = Ext.create('Sam.store.ServiceOrder');
+		
+		
+		
+		grid.setWidth(500);
+		grid.setHeight(500);
+		
+		grid.setStore(store);
+		
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
 	},
 	
 	onRender: function(component, options) {
@@ -56,12 +67,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		var newTab = mainPanel.items.findBy(
 				function(tab){
-					return tab.id === 'showsoid: '+Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id');
+					return tab.id === 'newso';
 				});
 		
 		if (!newTab) {
 			newTab = mainPanel.add({
-				id: 'showsoid: '+Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id'),
+				id: 'newso',
 				xtype: 'serviceordernew',
 				closable: true,
 				iconCls: 'magnifier-zoom',
@@ -71,7 +82,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		mainPanel.setActiveTab(newTab);
 		
-		Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',2)});
+		//Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',2)});
 		/*
 		eventID = record.get('id');
 		
@@ -133,7 +144,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			 * Ext.getCmp('serviceordernewform').query('#openNewSoButton')
 			 * 
 			 */
-			Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',1)});
+			//Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',1)});
 			
 			console.log('para');
 		}
