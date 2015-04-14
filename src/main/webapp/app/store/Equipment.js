@@ -15,6 +15,6 @@ Ext.define('Sam.store.Equipment', {
 			type: 'json',
 			root: 'data'
 		}
-	},
+	}
 	
 });
