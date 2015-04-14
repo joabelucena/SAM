@@ -56,11 +56,11 @@ public class ServiceOrderLogDaoImpl implements ServiceOrderLogDao {
 		ProjectionList projList = Projections.projectionList();
 		
 		projList.add(Projections.property("log.sol_id"));
-		projList.add(Projections.property("log.sol_user_id"));
-		projList.add(Projections.property("log.sol_datetime"));
 		projList.add(Projections.property("log_serviceorder.sor_id"));
 		projList.add(Projections.property("log_prevstatus.sos_description"));
 		projList.add(Projections.property("log_curstatus.sos_description"));
+		projList.add(Projections.property("log.sol_user_id"));
+		projList.add(Projections.property("log.sol_datetime"));		
 		projList.add(Projections.property("log.sol_remarks"));
 		
 		crit.setProjection(projList);

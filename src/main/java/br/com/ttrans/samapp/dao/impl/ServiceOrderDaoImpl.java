@@ -85,12 +85,13 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		
 		projList.add(Projections.property("sor_equipment_stop"));
 		projList.add(Projections.property("sor_remarks"));
-		
-						
+
 		crit.setProjection(projList);
 		
 		crit.add(Restrictions.ne("serviceorder.deleted","*"));
-				
+		
+		//crit.setResultTransformer(Transformers.aliasToBean(ServiceOrder.class));
+		
 		List resultsList = crit.list();
 		
 		return resultsList;		

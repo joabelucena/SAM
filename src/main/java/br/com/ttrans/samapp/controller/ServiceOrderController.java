@@ -37,6 +37,7 @@ import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.RoleService;
+import br.com.ttrans.samapp.service.ServiceOrderLogService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
 import br.com.ttrans.samapp.service.ServiceOrderTypeService;
@@ -60,6 +61,9 @@ public class ServiceOrderController {
 
 	@Autowired
 	private ServiceOrderStatusService soStatusService;
+	
+	@Autowired
+	private ServiceOrderLogService soLogService;
 
 	@Autowired
 	private EquipmentService equipmentService;
@@ -91,6 +95,17 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		result.put("data", soService.loadData());
+		
+		return result;
+	}
+	
+	@RequestMapping("/load/log")
+	@ResponseBody
+	public Map loadLog() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", soLogService.loadData());
 		
 		return result;
 	}
@@ -272,4 +287,32 @@ public class ServiceOrderController {
 		return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
 				, HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/get", method = RequestMethod.POST)
+	public ResponseEntity<Map> get(
+			@RequestParam(value = "soId"	, required = true)	int id,
+			Authentication authentication,
+			Locale locale,
+			HttpServletRequest request) {
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("result"	,"");
+		result.put("so"		, 0);
+		
+		ServiceOrder so = soService.get(id);
+		
+		System.out.println("para");
+		try{
+			result.put("result"	, messageSource.getMessage("response.Ok", null, locale));
+			result.put("so"		, so.getLog());
+		}catch(Exception e){
+			
+			result.put("result"	, messageSource.getMessage("response.Failure", null, locale));
+			logger.error(e.getMessage());
+			
+		}
+		return new ResponseEntity<Map>(result, HttpStatus.OK);
+		
+	}
+	
 }

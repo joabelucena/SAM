@@ -1,5 +1,6 @@
 package br.com.ttrans.samapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,8 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Service_Order_Log")
 @SequenceGenerator(name="INC_SERVICE_ORDER_LOG",sequenceName="GEN_SOL_ID")
-public class ServiceOrderLog {
+public class ServiceOrderLog implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_SERVICE_ORDER_LOG") 
 	private int sol_id;
