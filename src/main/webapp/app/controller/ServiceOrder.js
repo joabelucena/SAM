@@ -1,14 +1,16 @@
 Ext.define('Sam.controller.ServiceOrder', {
 	extend: 'Ext.app.Controller',
 	
+
 	views: ['serviceOrder.ServiceOrderGrid',
 	        'serviceOrder.ServiceOrderPanel',
 	        'serviceOrder.ServiceOrderNew',
 	        'serviceOrder.ServiceOrderEquipmentsPopUp',
 			'serviceOrder.serviceOrderLog.ServiceOrderLog',
 			'serviceOrder.serviceOrderLog.ServiceOrderLogGrid',
-	        'serviceOrder.serviceOrderLog.ServiceOrderLogForm'],
-	
+	        'serviceOrder.serviceOrderLog.ServiceOrderLogForm',
+	        'Sam.view.equipment.EquipmentsGrid'],
+
 	init: function() {
 		
 		this.control({
@@ -31,27 +33,27 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #logShowButton' :{
 				click: this.onlogShowButtonClick
 			},
-			'#serviceordernew_id' :{
-				click: this.onTriggerClick
+			'#serviceordernew_id' :{ 	click: this.onTriggerClick,
+				confirmClick: this.f3Confirm,
 			}
 				
 		});
 	},
 	
+	f3Confirm: function() {
+		
+		
+	},	
 	
-	onTriggerClick: function(action){
+	onTriggerClick: function(){
 		
 		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');
-		var grid = Ext.create('Sam.view.serviceOrder.ServiceOrderGrid');
-		var store = Ext.create('Sam.store.ServiceOrder');
-		
-		grid.setWidth(500);
-		grid.setHeight(500);
-		
-		grid.setStore(store);
-		
+
+		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
+	
 		equipmentsPopUp.add(grid);
 		equipmentsPopUp.show();
+		
 	},
 	
 	onRender: function(component, options) {

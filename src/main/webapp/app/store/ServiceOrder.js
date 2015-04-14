@@ -15,6 +15,6 @@ Ext.define('Sam.store.ServiceOrder', {
 			type: 'json',
 			root: 'data'
 		}
-	},
-	
+	}
+
 });
