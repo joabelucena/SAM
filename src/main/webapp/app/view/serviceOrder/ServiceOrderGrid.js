@@ -116,6 +116,13 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		        iconCls: 'tick-button'
 		    },{
 		        xtype:'button',
+		    	id:'btnChangeSts',
+		    	text:'Mudar Estado',
+		        tooltip:'Mudar Estado da Ordem de Serviço',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    },{
+		        xtype:'button',
 		    	id:'btnShowSo',
 		    	text:'Visualizar',
 		        tooltip:'Visuzalizar Ordem de Serviço',

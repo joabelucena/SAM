@@ -1,4 +1,25 @@
-	var equipmentInfo = {
+var newStatus = {
+	xtype : 'fieldset',
+	itemId: 'fldNewStatus',
+	defaultType : 'textfield',
+	title : 'Novo Estado',
+	layout : {
+		type : 'vbox',
+		align : 'stretch',
+	},
+
+	items : [{
+		fieldLabel : 'Estado',
+		itemId: 'newStatus',
+		valueField: 'type',
+        displayField: 'type',
+		xtype : 'combobox',
+		allowBlank : false,
+		editable: false
+	}],
+};
+
+var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
 	title : 'Informações do Equipamento',
@@ -83,13 +104,15 @@ var soInfo = {
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
+			editable: false
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
 			itemId: 'start_hour',
 			labelAlign: 'right',
 			format: 'H:i',
-			margin: '0 0 0 0'		
+			margin: '0 0 0 0',
+			editable: false
 		}]
 	
 	}, {
@@ -110,14 +133,16 @@ var soInfo = {
 			itemId: 'end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
-			margin: '0 0 0 0'
+			margin: '0 0 0 0',
+			editable: false
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
 			itemId: 'end_hour',
 			labelAlign: 'right',
 			format: 'H:i',
-			margin: '0 0 0 0'
+			margin: '0 0 0 0',
+			editable: false
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
@@ -125,7 +150,8 @@ var soInfo = {
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
-		allowBlank : false
+		allowBlank : false,
+		editable: false
 		
 	},{
 		fieldLabel : 'Observação',
@@ -164,7 +190,9 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ equipmentInfo, soInfo ],
+		items : [ newStatus, equipmentInfo, soInfo ],
+		
+		scrollable: true,
 		
 		dockedItems: [{
 		    xtype: 'toolbar',

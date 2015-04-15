@@ -31,6 +31,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #btnShowLog' :{
 				click: this.onBtnShowLogClick
 			},
+			'toolbar #btnChangeSts' :{
+				click: this.onBtnChangeStsClick
+			},
 			'#trg_equipment_id' :{
 				click: this.onTriggerClick,
 			},
@@ -125,6 +128,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Disabilia o campo 'Codigo da OS'
 		Ext.ComponentQuery.query('form #id',activeTab)[0].setDisabled(true);
 		
+		//Desabilita Novo Status
+		Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
+		
 		// Abertura OS: Dados(OS) : ComboBox
 		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
 			fields: ['type'],
@@ -137,13 +143,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 		         }
 		     },
 		}));
-		
-		
-		
-		
-		
-		
-		
 	},
 	
 	//ServiceOrder > form : btnOk button
@@ -168,6 +167,60 @@ Ext.define('Sam.controller.ServiceOrder', {
 			alert('Sem Acao selecionada');
 		}
 
+	},
+	
+	//ServiceOrder > grid : BtnChangeSts button
+	onBtnChangeStsClick:function(){
+		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		//Aba ativa
+		var activeTab = mainPanel.getActiveTab();
+		
+		//Linha selecionada
+		var row = activeTab.getSelection()[0];
+		
+		var tabId = 'cgsts-'+row.get('id');
+		
+		//Tem Registro Selecionado
+		if(typeof row !== 'undefined'){
+			
+			var newTab = mainPanel.items.findBy(
+					function(tab){
+						return tab.id === tabId;
+					});
+			
+			if (!newTab) {
+				newTab = mainPanel.add({
+					id: tabId,
+					xtype: 'serviceorderform',
+					closable: true,
+					iconCls: 'magnifier-zoom',
+					title: 'Mudar Estado OS: '+row.get('id')
+				});
+			}
+			
+			mainPanel.setActiveTab(newTab);
+			
+			/*** 'Seta funcao do botao ***/
+			activeTab = mainPanel.getActiveTab();
+			
+			//Seta Botão Confirma: Inlcuir
+			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',4)});
+			
+			
+			/**** Seta Campos do Form *****/
+			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
+			
+			
+			
+			
+			
+			
+			
+			/******************************/
+		}
 	},
 	
 	//ServiceOrder > grid : BtnShowSo button
@@ -210,12 +263,13 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Seta Botão Confirma: Inlcuir
 			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
 			
-			//Habilita exibicao do log
-			Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
-			
+			//Desabilita Novo Status
+			Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
 			
 			/**** Seta Campos do Form *****/
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
+			
+			
 			
 			
 			
