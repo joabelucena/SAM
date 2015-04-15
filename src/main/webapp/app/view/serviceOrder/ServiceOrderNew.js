@@ -12,6 +12,7 @@ var equipmentInfo = {
 		fieldLabel : 'ID',
 		itemId: 'serviceordernew_id',
 		name : 'serviceordernew_id',
+		editable : false,
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -153,13 +154,6 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    
 		    items: [
 		    {
-		        xtype:'button',
-		        itemId:'logShowButton',
-		    	text:'Visualizar LOG',
-		        tooltip:'Vizualiza Log da Ordem de Serviço',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
 		    	xtype: 'tbfill'
 		    },{
 		        xtype:'button',

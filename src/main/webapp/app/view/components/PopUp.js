@@ -1,8 +1,6 @@
-Ext.define('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp', {
+Ext.define('Sam.view.components.PopUp', {
 	extend : 'Ext.window.Window',
-	alias : 'widget.soequipmentspopup',
-
-	title : 'Selecionar Equipamento',
+	alias : 'widget.popup',
 
 	header : {
 		titlePosition : 2,
@@ -19,11 +17,12 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp', {
 	
 	buttons : [ {
 		text : 'Confirma',
+		itemId: 'popupConfirma',
 		tooltip:'Seleciona Equipamento',
         cls:'x-btn-default-small',
         iconCls: 'tick-button',
         handler: function() {
-        	this.fireEvent('confirmClick', 1);
+        	this.fireEvent('click', 1);
         }
 	} ],
 	

@@ -5,11 +5,11 @@ Ext.define('Sam.controller.ServiceOrder', {
 	views: ['serviceOrder.ServiceOrderGrid',
 	        'serviceOrder.ServiceOrderPanel',
 	        'serviceOrder.ServiceOrderNew',
-	        'serviceOrder.ServiceOrderEquipmentsPopUp',
 			'serviceOrder.serviceOrderLog.ServiceOrderLog',
 			'serviceOrder.serviceOrderLog.ServiceOrderLogGrid',
 	        'serviceOrder.serviceOrderLog.ServiceOrderLogForm',
-	        'Sam.view.equipment.EquipmentsGrid'],
+	        'Sam.view.components.PopUp',
+	        'Sam.view.equipments.EquipmentsGrid'],
 
 	init: function() {
 		
@@ -20,7 +20,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #newSoButton' :{
 				click: this.onnewSoButtonClick
 			},
-			
 			'toolbar #openNewSoButton' :{
 				click: this.onopenNewSoButtonClick
 			},
@@ -33,24 +32,38 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'toolbar #logShowButton' :{
 				click: this.onlogShowButtonClick
 			},
-			'#serviceordernew_id' :{ 	click: this.onTriggerClick,
-				confirmClick: this.f3Confirm,
+			'#serviceordernew_id' :{ 
+				click: this.onTriggerClick,
+			},
+			'toolbar #popupConfirma' :{ 
+				click: this.f3Confirm,
 			}
 				
 		});
 	},
 	
-	f3Confirm: function() {
+	f3Confirm: function(component) {
+		
+		var grid = Ext.ComponentQuery.query('popup grid')[0];
+		var equipmentId = grid.getSelection()[0].get('id');
 		
 		
+		Ext.ComponentQuery.query('form #serviceordernew_id')[0].setValue(grid.getSelection()[0].get('id'));
+		Ext.ComponentQuery.query('form #serviceordernew_model')[0].setValue(grid.getSelection()[0].get('model'));
+		Ext.ComponentQuery.query('form #serviceordernew_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
+		Ext.ComponentQuery.query('form #serviceordernew_subsystem')[0].setValue(grid.getSelection()[0].get('site'));
+		Ext.ComponentQuery.query('form #serviceordernew_site')[0].setValue(grid.getSelection()[0].get('system'));
+		
+		Ext.ComponentQuery.query('popup')[0].close();
+	
 	},	
 	
 	onTriggerClick: function(){
 		
-		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');
-
-		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
-	
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp');
+		var grid = Ext.create('Sam.view.equipments.EquipmentsGrid');
+		
+		equipmentsPopUp.setTitle('Selecionar Equipamento');
 		equipmentsPopUp.add(grid);
 		equipmentsPopUp.show();
 		
@@ -61,10 +74,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	},
 	
 	onnewSoButtonClick: function() {
-		
-		//Id
-		//Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id');
-		
+				
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
 		var newTab = mainPanel.items.findBy(
