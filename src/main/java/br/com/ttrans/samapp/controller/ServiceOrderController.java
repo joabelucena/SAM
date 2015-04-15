@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -301,7 +302,6 @@ public class ServiceOrderController {
 		
 		ServiceOrder so = soService.get(id);
 		
-		System.out.println("para");
 		try{
 			result.put("result"	, messageSource.getMessage("response.Ok", null, locale));
 			result.put("so"		, so.getLog());
@@ -312,7 +312,29 @@ public class ServiceOrderController {
 			
 		}
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
-		
 	}
 	
+	@RequestMapping(value = "/gettypes")
+	public ResponseEntity<Map> getTypes(
+			Authentication authentication, Locale locale,
+			HttpServletRequest request) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result", "");
+		result.put("type", "");
+		
+		List<Object[]> vType = soTypeService.loadData();
+		
+		String[][] types = new String[vType.size()][1];
+
+		for (int i = 0; i < types.length; i++) {
+			types[i][0] = vType.get(i)[1].toString();
+		}
+
+		result.put("result",messageSource.getMessage("response.Ok", null, locale));
+		result.put("type", types);
+		
+		return new ResponseEntity<Map>(result, HttpStatus.OK);
+
+	}
 }

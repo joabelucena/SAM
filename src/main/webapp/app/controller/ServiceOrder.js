@@ -125,6 +125,24 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Disabilia o campo 'Codigo da OS'
 		Ext.ComponentQuery.query('form #id',activeTab)[0].setDisabled(true);
 		
+		// Abertura OS: Dados(OS) : ComboBox
+		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
+			fields: ['type'],
+			proxy: {
+		         type: 'ajax',
+		         url: 'so/gettypes',
+		         reader: {
+		             type: 'json',
+		             root: 'type'
+		         }
+		     },
+		}));
+		
+		
+		
+		
+		
+		
 		
 	},
 	
