@@ -7,7 +7,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 	        'serviceOrder.log.ServiceOrderLog',
 			'serviceOrder.log.ServiceOrderLogGrid',
 	        'serviceOrder.log.ServiceOrderLogForm',
-	        'Sam.view.equipment.EquipmentsGrid'],
+	        'Sam.view.equipment.EquipmentsGrid',
+	        'Sam.view.components.PopUp'],
 
 	init: function() {
 		
@@ -32,52 +33,44 @@ Ext.define('Sam.controller.ServiceOrder', {
 			},
 			'#trg_equipment_id' :{
 				click: this.onTriggerClick,
-				confirmClick: this.f3Confirm,
-			}
-				
+			},
+			'toolbar #popupConfirma' :{ 
+				click: this.f3Confirm,
+			}				
 		});
 	},
 	
 	//ServiceOrder > Log > grid: itemMouseUp
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
-
-		/*
-		var form = Ext.ComponentQuery.query('serviceorderlogform')[0].down('form').getForm();
 		
-		Ext.ComponentQuery.query('#log_prevstatus')[0].setValue(record.get('prevstatus'));
-		Ext.ComponentQuery.query('#log_curstatus')[0].setValue(record.get('curstatus'));
-		
-		//Retorna Form
-		var form = Ext.ComponentQuery.query('form',tablala)[0]
-		*/
-
-		//Retorna Campo do Form: mod1
-		//Ext.ComponentQuery.query('#log_prevstatus',form)[0]
-		//Retorna Campo do Form: mod2
-		//Ext.ComponentQuery.query('form #log_prevstatus',tablala)
-
-		/*
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		var activeTab = mainPanel.getActiveTab()
-		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
-		//Filters Store
-		gridLog.getStore().setFilters([{
-			property: 'id',
-			value: 16
-		}
-		]);
-		*/
 	},
 
 	//ServiceOrder > form > trigger:equipment_id: confirm button
-	f3Confirm: function() {
+	f3Confirm: function(component) {
 		
+		var grid = Ext.ComponentQuery.query('popup grid')[0];
+		var equipmentId = grid.getSelection()[0].get('id');
+		
+		
+		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
+		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
+		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
+		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('site'));
+		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('system'));
+		Ext.ComponentQuery.query('popup')[0].close();
+	
 	},	
 	
 	//ServiceOrder > form > trigger:equipment_id: popup button
 	onTriggerClick: function(){
-		console.log('trigger clicked');
+	
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp');
+		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
+		
+		equipmentsPopUp.setTitle('Selecionar Equipamento');
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
+		
 	},
 	
 	//ServiceOrder > grid : onRender
@@ -106,6 +99,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 		}
 		
 		mainPanel.setActiveTab(newTab);
+		
+		//Habilita exibicao do log
+		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',0)});
 		
 	},
 	
@@ -173,67 +169,63 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Seta Botão Confirma: Inlcuir
 			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
 			
-			//Seta para nao exibir log
-			Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',0)});
+			//Habilita exibicao do log
+			Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
 			
 			
-			//Seta Campos do Form
+			/**** Seta Campos do Form *****/
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
 			
-			/*
-			 * Fields
-			 * Ext.getCmp('serviceordernewform').getForm().findField('serviceordernew_id').setReadOnly(true)
-			 * grid = algumacoisa.dowsn()
-			 *
-			 * button
-			 * Ext.getCmp('serviceordernewform').query('#openNewSoButton')
-			 *
-			 * Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',1)});
-			 * 
-			 */
+			
+			
+			
+			
+			/******************************/
 		}
 	},
 	
+	//ServiceOrder > form : BtnShowLog button
 	onBtnShowLogClick: function(action) {
 		
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		var activeTab = mainPanel.getActiveTab()
-		
-		var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0]
-		
-		var tabId = 'solog-'+fieldId.getRawValue();
-		
-		var newTab = mainPanel.items.findBy(
-				function(tab){
-					return tab.id === tabId;
+		//Exibe Log
+		if(action == 1){
+			var mainPanel = Ext.getCmp('viewportpanel');
+			
+			var activeTab = mainPanel.getActiveTab()
+			
+			var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0]
+			
+			var tabId = 'solog-'+fieldId.getRawValue();
+			
+			var newTab = mainPanel.items.findBy(
+					function(tab){
+						return tab.id === tabId;
+					});
+			
+			if (!newTab) {
+				newTab = mainPanel.add({
+					id: tabId,
+					xtype: 'serviceorderlog',
+					closable: true,
+					iconCls: 'magnifier-zoom',
+					title: 'Historico da OS: '+fieldId.getValue()
 				});
+			}
+			
+			
+			mainPanel.setActiveTab(newTab);
+			
+			activeTab = mainPanel.getActiveTab();
+			
+			var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
+			
+			//Filtra Store
+			gridLog.getStore().setFilters([{
+				property: 'serviceorder_id',
+				value: fieldId.getValue()
+				}
+			]);
 		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				id: tabId,
-				xtype: 'serviceorderlog',
-				closable: true,
-				iconCls: 'magnifier-zoom',
-				title: 'Historico da OS: '+fieldId.getValue()
-			});
 		}
-		
-		
-		mainPanel.setActiveTab(newTab);
-		
-		activeTab = mainPanel.getActiveTab();
-		
-		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
-		
-		//Filtra Store
-		gridLog.getStore().setFilters([{
-			property: 'serviceorder_id',
-			value: fieldId.getValue()
-		}
-	]);
-		
-		
-		
 	}
 });
