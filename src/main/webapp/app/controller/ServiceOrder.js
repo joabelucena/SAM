@@ -51,7 +51,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 		var grid = Ext.ComponentQuery.query('popup grid')[0];
 		var equipmentId = grid.getSelection()[0].get('id');
 		
-		
 		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
 		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
 		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));

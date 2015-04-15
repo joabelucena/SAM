@@ -1,4 +1,4 @@
-var equipmentInfo = {
+	var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
 	title : 'Informações do Equipamento',
@@ -11,6 +11,7 @@ var equipmentInfo = {
 		xtype: 'textfield',
 		fieldLabel : 'Codigo do Equipamento',
 		itemId: 'trg_equipment_id',
+		editable: false,
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -171,13 +172,6 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 		    
 		    items: [
 		    {
-		        xtype:'button',
-		        itemId:'btnShowLog',
-		    	text:'Visualizar LOG',
-		        tooltip:'Vizualiza Log da Ordem de Serviço',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
 		    	xtype: 'tbfill'
 		    },{
 		        xtype:'button',
