@@ -170,8 +170,14 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 		    xtype: 'toolbar',
 		    dock: 'bottom',
 		    
-		    items: [
-		    {
+		    items: [{
+		        xtype:'button',
+		        itemId:'btnShowLog',
+		    	text:'Visualizar LOG',
+		        tooltip:'Vizualiza Log da Ordem de Serviço',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    },{
 		    	xtype: 'tbfill'
 		    },{
 		        xtype:'button',

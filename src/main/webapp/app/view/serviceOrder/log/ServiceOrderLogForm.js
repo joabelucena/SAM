@@ -28,6 +28,7 @@ var logInfo = {
 		itemId: 'log_datetime',
 		readOnly : true,
 	},{
+		xtype: 'textareafield',
 		fieldLabel : 'Observação',
 		itemId: 'log_remark',
 		readOnly : true,
@@ -64,6 +65,8 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogForm', {
 			type : 'vbox',
 			align : 'stretch'
 		},
+		
+		scrollable: true,
 
 		bodyPadding : 10,
 		border : false,

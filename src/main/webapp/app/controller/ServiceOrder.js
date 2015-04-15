@@ -43,6 +43,20 @@ Ext.define('Sam.controller.ServiceOrder', {
 	//ServiceOrder > Log > grid: itemMouseUp
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
 		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		//Aba ativa
+		var activeTab = mainPanel.getActiveTab();
+		
+		//Seta Valores do grid no Form
+		Ext.ComponentQuery.query('form #log_os',activeTab)[0].setValue(record.get('serviceorder_id'));
+		Ext.ComponentQuery.query('form #log_prevstatus',activeTab)[0].setValue(record.get('prevstatus'));
+		Ext.ComponentQuery.query('form #log_curstatus',activeTab)[0].setValue(record.get('curstatus'));
+		Ext.ComponentQuery.query('form #log_user',activeTab)[0].setValue(record.get('user_id'));
+		Ext.ComponentQuery.query('form #log_datetime',activeTab)[0].setValue(Ext.Date.format(record.get('datetime'), 'm-d-Y g:i A'));
+		Ext.ComponentQuery.query('form #log_remark',activeTab)[0].setValue(record.get('remarks'));
+		
 	},
 
 	//ServiceOrder > form > trigger:equipment_id: confirm button
@@ -80,7 +94,11 @@ Ext.define('Sam.controller.ServiceOrder', {
 	//ServiceOrder > grid : btnNewSo button
 	onBtnNewSoClick: function() {
 		
+		//Aba Objecto Pai
 		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		//Aba ativa
+		var activeTab = mainPanel.getActiveTab();
 		
 		var newTab = mainPanel.items.findBy(
 				function(tab){
@@ -99,8 +117,14 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		mainPanel.setActiveTab(newTab);
 		
-		//Habilita exibicao do log
-		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',0)});
+		activeTab = mainPanel.getActiveTab();
+		
+		//Desabilita exibicao do log
+		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setVisible(false);
+		
+		//Disabilia o campo 'Codigo da OS'
+		Ext.ComponentQuery.query('form #id',activeTab)[0].setDisabled(true);
+		
 		
 	},
 	
@@ -135,7 +159,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
 		//Aba ativa
-		var activeTab = mainPanel.getActiveTab()
+		var activeTab = mainPanel.getActiveTab();
 		
 		//Linha selecionada
 		var row = activeTab.getSelection()[0];
@@ -163,7 +187,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			mainPanel.setActiveTab(newTab);
 			
 			/*** 'Seta funcao do botao ***/
-			activeTab = mainPanel.getActiveTab()
+			activeTab = mainPanel.getActiveTab();
 			
 			//Seta Botão Confirma: Inlcuir
 			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
@@ -185,46 +209,42 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	//ServiceOrder > form : BtnShowLog button
 	onBtnShowLogClick: function(action) {
+	
+		var mainPanel = Ext.getCmp('viewportpanel');
 		
-		//Exibe Log
-		if(action == 1){
-			var mainPanel = Ext.getCmp('viewportpanel');
-			
-			var activeTab = mainPanel.getActiveTab()
-			
-			var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0]
-			
-			var tabId = 'solog-'+fieldId.getRawValue();
-			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
-			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'serviceorderlog',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Historico da OS: '+fieldId.getValue()
+		var activeTab = mainPanel.getActiveTab();
+		
+		var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0];
+		
+		var tabId = 'solog-'+fieldId.getRawValue();
+		
+		var newTab = mainPanel.items.findBy(
+				function(tab){
+					return tab.id === tabId;
 				});
-			}
-			
-			
-			mainPanel.setActiveTab(newTab);
-			
-			activeTab = mainPanel.getActiveTab();
-			
-			var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
-			
-			//Filtra Store
-			gridLog.getStore().setFilters([{
-				property: 'serviceorder_id',
-				value: fieldId.getValue()
-				}
-			]);
 		
+		if (!newTab) {
+			newTab = mainPanel.add({
+				id: tabId,
+				xtype: 'serviceorderlog',
+				closable: true,
+				iconCls: 'magnifier-zoom',
+				title: 'Historico da OS: '+fieldId.getValue()
+			});
 		}
+		
+		
+		mainPanel.setActiveTab(newTab);
+		
+		activeTab = mainPanel.getActiveTab();
+		
+		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
+		
+		//Filtra Store
+		gridLog.getStore().setFilters([{
+			property: 'serviceorder_id',
+			value: fieldId.getValue()
+			}
+		]);
 	}
 });
