@@ -4,8 +4,6 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	
 	requires: ['Ext.grid.filters.Filters'],
 	
-	id: 'serviceordergridpanel',
-	
 	store: Ext.create('Sam.store.ServiceOrder'),
 
 	plugins: 'gridfilters',
@@ -111,23 +109,16 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		    
 		    items: [{
 		        xtype:'button',
-		    	id:'newSoButton',
+		    	id:'btnNewSo',
 		    	text:'Nova OS',
 		        tooltip:'Abrir Nova Ordem de Serviço',
 		        cls:'x-btn-default-small',
 		        iconCls: 'tick-button'
 		    },{
 		        xtype:'button',
-		    	id:'showSoButton',
+		    	id:'btnShowSo',
 		    	text:'Visualizar',
 		        tooltip:'Visuzalizar Ordem de Serviço',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	id:'button2',
-		    	text:'Botao 2',
-		        tooltip:'Dica Botao 2',
 		        cls:'x-btn-default-small',
 		        iconCls: 'tick-button'
 		    }]

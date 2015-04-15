@@ -3,12 +3,10 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 
 	views: ['serviceOrder.ServiceOrderGrid',
-	        'serviceOrder.ServiceOrderPanel',
-	        'serviceOrder.ServiceOrderNew',
-	        'serviceOrder.ServiceOrderEquipmentsPopUp',
-			'serviceOrder.serviceOrderLog.ServiceOrderLog',
-			'serviceOrder.serviceOrderLog.ServiceOrderLogGrid',
-	        'serviceOrder.serviceOrderLog.ServiceOrderLogForm',
+	        'serviceOrder.ServiceOrderForm',
+	        'serviceOrder.log.ServiceOrderLog',
+			'serviceOrder.log.ServiceOrderLogGrid',
+	        'serviceOrder.log.ServiceOrderLogForm',
 	        'Sam.view.equipment.EquipmentsGrid'],
 
 	init: function() {
@@ -17,53 +15,78 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'serviceordergrid': {
 				render: this.onRender,
 			},
-			'toolbar #newSoButton' :{
-				click: this.onnewSoButtonClick
+			'toolbar #btnNewSo' :{
+				click: this.onBtnNewSoClick
 			},
-			
-			'toolbar #openNewSoButton' :{
-				click: this.onopenNewSoButtonClick
+			'serviceorderloggrid':{
+				itemmouseup: this.onItemMouseUp,
 			},
-			'toolbar #showSoButton' :{
-				click: this.onshowSoButtonClick
+			'toolbar #btnOk' :{
+				click: this.onBtnOkClick
 			},
-			'toolbar #button2' :{
-				click: this.onButtonBClick
+			'toolbar #btnShowSo' :{
+				click: this.onBtnShowSoClick
 			},
-			'toolbar #logShowButton' :{
-				click: this.onlogShowButtonClick
+			'toolbar #btnShowLog' :{
+				click: this.onBtnShowLogClick
 			},
-			'#serviceordernew_id' :{ 	click: this.onTriggerClick,
+			'#trg_equipment_id' :{
+				click: this.onTriggerClick,
 				confirmClick: this.f3Confirm,
 			}
 				
 		});
 	},
 	
-	f3Confirm: function() {
+	//ServiceOrder > Log > grid: itemMouseUp
+	onItemMouseUp : function( me, record, item, index, e, eOpts ){
+
+		/*
+		var form = Ext.ComponentQuery.query('serviceorderlogform')[0].down('form').getForm();
 		
+		Ext.ComponentQuery.query('#log_prevstatus')[0].setValue(record.get('prevstatus'));
+		Ext.ComponentQuery.query('#log_curstatus')[0].setValue(record.get('curstatus'));
+		
+		//Retorna Form
+		var form = Ext.ComponentQuery.query('form',tablala)[0]
+		*/
+
+		//Retorna Campo do Form: mod1
+		//Ext.ComponentQuery.query('#log_prevstatus',form)[0]
+		//Retorna Campo do Form: mod2
+		//Ext.ComponentQuery.query('form #log_prevstatus',tablala)
+
+		/*
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		var activeTab = mainPanel.getActiveTab()
+		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
+		//Filters Store
+		gridLog.getStore().setFilters([{
+			property: 'id',
+			value: 16
+		}
+		]);
+		*/
+	},
+
+	//ServiceOrder > form > trigger:equipment_id: confirm button
+	f3Confirm: function() {
 		
 	},	
 	
+	//ServiceOrder > form > trigger:equipment_id: popup button
 	onTriggerClick: function(){
-		
-		var equipmentsPopUp = Ext.create('Sam.view.serviceOrder.ServiceOrderEquipmentsPopUp');
-
-		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
-	
-		equipmentsPopUp.add(grid);
-		equipmentsPopUp.show();
-		
+		console.log('trigger clicked');
 	},
 	
+	//ServiceOrder > grid : onRender
 	onRender: function(component, options) {
-		//component.getStore().load();
+
 	},
 	
-	onnewSoButtonClick: function() {
-		
-		//Id
-		//Ext.getCmp('serviceordergridpanel').getSelection()[0].get('id');
+	//ServiceOrder > grid : btnNewSo button
+	onBtnNewSoClick: function() {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
@@ -75,7 +98,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		if (!newTab) {
 			newTab = mainPanel.add({
 				id: 'newso',
-				xtype: 'serviceordernew',
+				xtype: 'serviceorderform',
 				closable: true,
 				iconCls: 'magnifier-zoom',
 				title: 'Nova OS'
@@ -84,44 +107,48 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		mainPanel.setActiveTab(newTab);
 		
-		//Ext.getCmp('serviceordernewform').query('#openNewSoButton')[0].setHandler(function() {this.fireEvent('click',2)});
-		/*
-		eventID = record.get('id');
-		
-		Ext.getCmp('alarmshowform').getForm().findField('alarmshow_site').setValue(jsonResp.site);
-		*/
-		
 	},
 	
-	onopenNewSoButtonClick: function(action){
+	//ServiceOrder > form : btnOk button
+	onBtnOkClick: function(action){
 		
-		//Visualiza
+		//1 - Visualiza
 		if(action == 1){
-			alert('Encerra Visualizacao da OS')
+			alert('Visualiza');
 		
-		//Confirma Abertura de OS
+		//2 - Incluir
 		}else if(action == 2){
-			alert('Confirma Abertura de OS')
+			alert('Inclui');
+			
+		//3 - Alterar
 		}else if (action == 3){
-			
+			alert('Altera');
+
+		//4 - Mudar Status 
+		}else if (action == 4){
+			alert('Muda Status');
 		}else{
-			
+			alert('Sem Acao selecionada');
 		}
-		console.log('acao: '+action);
-		
+
 	},
 	
-	//Botao Visualizar OS
-	onshowSoButtonClick:function(){
+	//ServiceOrder > grid : BtnShowSo button
+	onBtnShowSoClick:function(){
+		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		//Aba ativa
+		var activeTab = mainPanel.getActiveTab()
 		
 		//Linha selecionada
-		var row = Ext.getCmp('serviceordergridpanel').getSelection()[0];
+		var row = activeTab.getSelection()[0];
 		
-		var tabId = 'sotabid-'+row.get('id');
+		var tabId = 'show-'+row.get('id');
 		
 		//Tem Registro Selecionado
 		if(typeof row !== 'undefined'){
-			var mainPanel = Ext.getCmp('viewportpanel');
 			
 			var newTab = mainPanel.items.findBy(
 					function(tab){
@@ -131,26 +158,33 @@ Ext.define('Sam.controller.ServiceOrder', {
 			if (!newTab) {
 				newTab = mainPanel.add({
 					id: tabId,
-					xtype: 'serviceordernew',
+					xtype: 'serviceorderform',
 					closable: true,
 					iconCls: 'magnifier-zoom',
-					title: 'Visualizar OS'
+					title: 'Visualizar OS: '+row.get('id')
 				});
 			}
 			
 			mainPanel.setActiveTab(newTab);
+			
+			/*** 'Seta funcao do botao ***/
+			activeTab = mainPanel.getActiveTab()
+			
+			//Seta Botão Confirma: Inlcuir
+			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
+			
+			//Seta para nao exibir log
+			Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setHandler(function() {this.fireEvent('click',0)});
+			
+			
+			//Seta Campos do Form
+			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
+			
 			/*
 			 * Fields
 			 * Ext.getCmp('serviceordernewform').getForm().findField('serviceordernew_id').setReadOnly(true)
-			 * 
-			 * 
-			 * 
 			 * grid = algumacoisa.dowsn()
-			 * 
-			 * itemId: 'btnCancel'
-			 * 
-			 * grid.component('btnCancel')
-			 * 
+			 *
 			 * button
 			 * Ext.getCmp('serviceordernewform').query('#openNewSoButton')
 			 *
@@ -160,19 +194,15 @@ Ext.define('Sam.controller.ServiceOrder', {
 		}
 	},
 	
-	onButtonBClick: function() {
-		var store = Ext.create('Sam.store.ServiceOrder');
-		
-		store.load();
-		
-		Ext.Msg.alert('botao2', 'botao2');    
-	},
-	
-	onlogShowButtonClick: function() {
-		
-		var tabId = 'sologtabid-';
+	onBtnShowLogClick: function(action) {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		var activeTab = mainPanel.getActiveTab()
+		
+		var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0]
+		
+		var tabId = 'solog-'+fieldId.getRawValue();
 		
 		var newTab = mainPanel.items.findBy(
 				function(tab){
@@ -185,11 +215,25 @@ Ext.define('Sam.controller.ServiceOrder', {
 				xtype: 'serviceorderlog',
 				closable: true,
 				iconCls: 'magnifier-zoom',
-				title: 'Historico da OS: XXXXXX'
+				title: 'Historico da OS: '+fieldId.getValue()
 			});
 		}
 		
+		
 		mainPanel.setActiveTab(newTab);
+		
+		activeTab = mainPanel.getActiveTab();
+		
+		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
+		
+		//Filtra Store
+		gridLog.getStore().setFilters([{
+			property: 'serviceorder_id',
+			value: fieldId.getValue()
+		}
+	]);
+		
+		
 		
 	}
 });

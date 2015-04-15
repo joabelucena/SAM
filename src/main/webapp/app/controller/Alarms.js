@@ -1,8 +1,7 @@
 Ext.define('Sam.controller.Alarms', {
 	extend: 'Ext.app.Controller',
 	
-	views: ['alarm.AlarmPanel',
-	        'alarm.AlarmGrid',
+	views: ['alarm.AlarmGrid',
 	        'alarm.openSO.AlarmOpenSO',
 	        'alarm.openSO.AlarmDataOpenSO',
 	        'alarm.openSO.AlarmInfoEqto',

@@ -9,9 +9,8 @@ var equipmentInfo = {
 
 	items : [ {
 		xtype: 'textfield',
-		fieldLabel : 'ID',
-		itemId: 'serviceordernew_id',
-		name : 'serviceordernew_id',
+		fieldLabel : 'Codigo do Equipamento',
+		itemId: 'trg_equipment_id',
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -21,19 +20,19 @@ var equipmentInfo = {
 		}
 	}, {
 		fieldLabel : 'Modelo',
-		itemId: 'serviceordernew_model',
+		itemId: 'equipment_model',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Fabricante',
-		itemId: 'serviceordernew_manufacturer',
+		itemId: 'equipment_manufacturer',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Sub-Sistema',
-		itemId: 'serviceordernew_subsystem',
+		itemId: 'equipment_subsystem',
 		readOnly : true,
 	}, {
 		fieldLabel : 'Local de Instalação',
-		itemId: 'serviceordernew_site',
+		itemId: 'equipment_site',
 		readOnly : true,
 	} ],
 };
@@ -58,16 +57,35 @@ var soInfo = {
 			   margin: '0 0 0 0'
 		},
 		items : [{
+			xtype:'textfield',
+			fieldLabel: 'Codigo da Ordem de Servico',
+			itemId: 'id',
+			labelAlign: 'left',
+			format: 'd/m/Y',
+			margin: '0 0 0 0',
+		}]
+	
+	}, {
+		xtype: 'container',
+		defaults:{
+			allowBlank : false
+		},
+		layout: {
+			   type: 'hbox',
+			   padding: '0 0 5 0',
+			   margin: '0 0 0 0'
+		},
+		items : [{
 			xtype:'datefield',
 			fieldLabel: 'Data de Início Prevista',
-			itemId: 'serviceordernew_start_date',
+			itemId: 'start_date',
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
-			itemId: 'serviceordernew_start_hour',
+			itemId: 'start_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0'		
@@ -88,21 +106,21 @@ var soInfo = {
 			
 			xtype:'datefield',
 			fieldLabel: 'Data de Término Prevista',
-			itemId: 'serviceordernew_end_date',
+			itemId: 'end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0'
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
-			itemId: 'serviceordernew_end_hour',
+			itemId: 'end_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0'
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
-		itemId: 'serviceordernew_so_type',
+		itemId: 'type',
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
@@ -110,15 +128,15 @@ var soInfo = {
 		
 	},{
 		fieldLabel : 'Observação',
-		itemId: 'serviceordernew_obs_os',
+		itemId: 'remark',
 		xtype : 'textareafield',
 		allowBlank : false
 	} ]
 };
 
-Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
+Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	extend: 'Ext.Panel',
-	alias:  'widget.serviceordernew',
+	alias:  'widget.serviceorderform',
 	
 	closable: true,
 	
@@ -130,7 +148,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		itemId: 'serviceordernewform',
+
 		fieldDefaults : {
 			labelWidth : 180
 		},
@@ -154,7 +172,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    items: [
 		    {
 		        xtype:'button',
-		        itemId:'logShowButton',
+		        itemId:'btnShowLog',
 		    	text:'Visualizar LOG',
 		        tooltip:'Vizualiza Log da Ordem de Serviço',
 		        cls:'x-btn-default-small',
@@ -163,9 +181,9 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderNew', {
 		    	xtype: 'tbfill'
 		    },{
 		        xtype:'button',
-		    	itemId:'openNewSoButton',
+		    	itemId:'btnOk',
 		    	text:'Confirma',
-		        tooltip:'Abre Nova Ordem de Serviço',
+		        tooltip:'Confirma',
 		        cls:'x-btn-default-small',
 		        iconCls: 'tick-button'
 		    }]

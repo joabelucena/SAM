@@ -1,10 +1,8 @@
-Ext.define('Sam.view.serviceOrder.serviceOrderLog.ServiceOrderLogGrid' , {
+Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.serviceorderloggrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
-	
-	itemId: 'serviceorderloggrid',
 	
 	store: Ext.create('Sam.store.ServiceOrderLog'),
 	

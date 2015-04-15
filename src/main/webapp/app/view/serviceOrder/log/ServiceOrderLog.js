@@ -1,10 +1,10 @@
-Ext.define('Sam.view.serviceOrder.serviceOrderLog.ServiceOrderLog', {
+Ext.define('Sam.view.serviceOrder.log.ServiceOrderLog', {
 	extend: 'Ext.Panel',
 	alias:  'widget.serviceorderlog',
 
-	requires: ['Sam.view.serviceOrder.serviceOrderLog.ServiceOrderLog',
-	           'Sam.view.serviceOrder.serviceOrderLog.ServiceOrderLogGrid',
-	           'Sam.view.serviceOrder.serviceOrderLog.ServiceOrderLogForm',
+	requires: ['Sam.view.serviceOrder.log.ServiceOrderLog',
+	           'Sam.view.serviceOrder.log.ServiceOrderLogGrid',
+	           'Sam.view.serviceOrder.log.ServiceOrderLogForm',
 	           'Ext.layout.container.Border'],
 	
 
