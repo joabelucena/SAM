@@ -173,7 +173,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		            		method : 'POST',
 		            		
 		            		params: {
-		            			eveId: Ext.ComponentQuery.query('form #trg_equipment_id')[0].getRawValue(),
+		            			equipId: Ext.ComponentQuery.query('form #trg_equipment_id')[0].getRawValue(),
 		            			startForecast: Ext.ComponentQuery.query('form #start_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #start_hour')[0].getRawValue(),
 		            			endForecast: Ext.ComponentQuery.query('form #end_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #end_hour')[0].getRawValue(),
 		            			type: Ext.ComponentQuery.query('form #type')[0].getRawValue(),
