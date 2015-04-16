@@ -272,7 +272,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			
 			// MudarStatus: ComboBox
-			Ext.ComponentQuery.query('form #newStatus',activeTab)[0].setStore(Ext.data.Store({
+			Ext.ComponentQuery.query('form #n_cmbStatus',activeTab)[0].setStore(Ext.data.Store({
 				fields: ['rule'],
 				
 				proxy: {
@@ -289,6 +289,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 			         }
 			     },
 			}));
+			
+			//Campos a desabilitar
+			var fields = Ext.ComponentQuery.query('form #soInfo field, form #equipmentInfo field',activeTab)
+			
+			//Desabilita Campos
+			Ext.each(fields,function(f){f.setReadOnly(true)})
 			
 			
 			/**** Seta Campos do Form *****/
@@ -341,6 +347,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			//Desabilita Novo Status
 			Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
+			
+			//Campos a desabilitar
+			var fields = Ext.ComponentQuery.query('form #soInfo field, form #equipmentInfo field',activeTab)
+			
+			//Desabilita Campos
+			Ext.each(fields,function(f){f.setReadOnly(true)})
 			
 			/**** Seta Campos do Form *****/
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));

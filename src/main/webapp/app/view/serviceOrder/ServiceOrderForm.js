@@ -10,12 +10,27 @@ var newStatus = {
 
 	items : [{
 		fieldLabel : 'Estado',
-		itemId: 'newStatus',
+		itemId: 'n_cmbStatus',
 		valueField: 'rule',
         displayField: 'rule',
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false
+	},{
+		fieldLabel : 'Equipamento Parado',
+		itemId: 'n_cmbEquipStop',
+		store:  Ext.create('Sam.view.components.store.ComboBox'),
+		queryMode: 'local',
+		valueField: 'id',
+        displayField: 'desc',
+		xtype : 'combobox',
+		allowBlank : false,
+		editable: false
+	},{
+		fieldLabel : 'Observação',
+		itemId: 'n_txtRemark',
+		xtype : 'textareafield',
+		allowBlank : false
 	}],
 };
 
@@ -23,6 +38,7 @@ var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
 	title : 'Informações do Equipamento',
+	itemId: 'equipmentInfo',
 	layout : {
 		type : 'vbox',
 		align : 'stretch',
@@ -63,6 +79,7 @@ var soInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
 	title : 'Informação da OS',
+	itemId: 'soInfo',
 	layout : {
 		type : 'vbox',
 		align : 'stretch',
@@ -163,6 +180,7 @@ var soInfo = {
 
 Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	extend: 'Ext.Panel',
+	
 	alias:  'widget.serviceorderform',
 	
 	closable: true,
