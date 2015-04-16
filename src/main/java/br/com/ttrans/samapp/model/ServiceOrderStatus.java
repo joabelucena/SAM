@@ -30,6 +30,10 @@ public class ServiceOrderStatus {
 	private String deleted="";
 
 	public ServiceOrderStatus(){}
+	public ServiceOrderStatus(String sos_description){
+		super();
+		this.sos_description = sos_description;
+	}
 	public ServiceOrderStatus(int sos_id, String sos_description,
 			String usr_insert, String usr_update, String deleted) {
 		super();

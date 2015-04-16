@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.StatusRuleDao;
+import br.com.ttrans.samapp.model.Role;
+import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.StatusRule;
 
 @SuppressWarnings("rawtypes")
@@ -48,6 +50,30 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 	public StatusRule get(int id) {
 		return (StatusRule) session.getCurrentSession().get(StatusRule.class, id);
 		
+	}
+	
+	@Override
+	public List<String> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
+		
+		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class,"rule");
+		
+		crit.createAlias("rule.nxtstatus"	,"rule_nxtstatus",CriteriaSpecification.LEFT_JOIN);
+		
+		ProjectionList projList = Projections.projectionList();
+		
+		projList.add(Projections.property("rule_nxtstatus.sos_description"));
+		
+		crit.setProjection(projList);
+		
+		crit.add(Restrictions.ne("rule.deleted","*"));
+		crit.add(Restrictions.ne("rule_nxtstatus.deleted","*"));
+		
+		crit.add(Restrictions.eq("rule.role",role));
+		crit.add(Restrictions.eq("rule.curstatus",curstatus));
+		
+		List<String> resultsList = crit.list();
+		
+		return resultsList;
 	}
 
 	@Override

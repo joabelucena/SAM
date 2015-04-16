@@ -42,6 +42,7 @@ import br.com.ttrans.samapp.service.ServiceOrderLogService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
 import br.com.ttrans.samapp.service.ServiceOrderTypeService;
+import br.com.ttrans.samapp.service.StatusRuleService;
 import br.com.ttrans.samapp.validator.ErrorMessageHandler;
 import br.com.ttrans.samapp.validator.impl.ServiceOrderValidator;
 import br.com.ttrans.samapp.validator.impl.StatusRuleValidator;
@@ -65,6 +66,9 @@ public class ServiceOrderController {
 	
 	@Autowired
 	private ServiceOrderLogService soLogService;
+	
+	@Autowired
+	private StatusRuleService soStatusRuleService;
 
 	@Autowired
 	private EquipmentService equipmentService;
@@ -335,6 +339,34 @@ public class ServiceOrderController {
 		result.put("type", types);
 		
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
+	}
 
+	@RequestMapping(value = "/getallowedstatus")
+	public ResponseEntity<Map> getAllowedStatus(
+			@RequestParam(value = "curstatus"	, required = true)	String curstatus,
+			Authentication authentication,
+			Locale locale,
+			HttpServletRequest request) {
+
+		//Retorna usuario logado na secao
+		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		
+		List<String> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), soStatusService.findByName(curstatus));
+		
+		//Result Map
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result", "");
+		result.put("rule", "");
+		
+		String[][] rules = new String[rulesResult.size()][1];
+
+		for (int i = 0; i < rules.length; i++) {
+			rules[i][0] = rulesResult.get(i);
+		}
+
+		result.put("result",messageSource.getMessage("response.Ok", null, locale));
+		result.put("rule", rules);
+		
+		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}
 }

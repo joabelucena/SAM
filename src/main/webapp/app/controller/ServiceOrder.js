@@ -131,6 +131,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Desabilita Novo Status
 		Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
 		
+		//Seta Botão Confirma: Incluir
+		Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',2)});
+		
 		// Abertura OS: Dados(OS) : ComboBox
 		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
 			fields: ['type'],
@@ -164,7 +167,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		}else if (action == 4){
 			alert('Muda Status');
 		}else{
-			alert('Sem Acao selecionada');
+
 		}
 
 	},
@@ -208,6 +211,26 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			//Seta Botão Confirma: Inlcuir
 			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',4)});
+			
+			
+			// MudarStatus: ComboBox
+			Ext.ComponentQuery.query('form #newStatus',activeTab)[0].setStore(Ext.data.Store({
+				fields: ['rule'],
+				
+				proxy: {
+			         type: 'ajax',
+			         url: 'so/getallowedstatus',
+			         
+			         extraParams: {
+			        	 curstatus: 'NOVA'	            			
+			         },
+			         
+			         reader: {
+			             type: 'json',
+			             root: 'rule'
+			         }
+			     },
+			}));
 			
 			
 			/**** Seta Campos do Form *****/
@@ -260,7 +283,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			/*** 'Seta funcao do botao ***/
 			activeTab = mainPanel.getActiveTab();
 			
-			//Seta Botão Confirma: Inlcuir
+			//Seta Botão Confirma: Visualizar
 			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
 			
 			//Desabilita Novo Status

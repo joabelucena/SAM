@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.StatusRuleDao;
+import br.com.ttrans.samapp.model.Role;
+import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.StatusRule;
 import br.com.ttrans.samapp.service.StatusRuleService;
 
@@ -35,6 +37,11 @@ public class StatusRuleServiceImpl implements StatusRuleService {
 	@Transactional
 	public StatusRule get(int id) {
 		return dao.get(id);
+	}
+	
+	@Transactional
+	public List<String> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
+		return dao.getAllowedStatus(role, curstatus);
 	}
 	
 	@Transactional

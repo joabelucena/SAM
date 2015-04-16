@@ -11,8 +11,8 @@ var newStatus = {
 	items : [{
 		fieldLabel : 'Estado',
 		itemId: 'newStatus',
-		valueField: 'type',
-        displayField: 'type',
+		valueField: 'rule',
+        displayField: 'rule',
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false
