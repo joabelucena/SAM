@@ -157,7 +157,65 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		//2 - Incluir
 		}else if(action == 2){
-			alert('Inclui');
+			
+			/** Abertura de Ordem de Serviço **/
+			
+			Ext.MessageBox.show({
+		        title: 'Abertura de OS',
+		        msg: 'Confirma a Abertura da OS?',
+		        buttons: Ext.MessageBox.OKCANCEL,
+		        icon: Ext.MessageBox.WARNING,
+		        fn: function(btn,  knowId, knowCheck){
+		            if(btn == 'ok'){
+		            	
+		            	Ext.Ajax.request({
+		            		url : 'so/new',
+		            		method : 'POST',
+		            		
+		            		params: {
+		            			eveId: Ext.ComponentQuery.query('form #trg_equipment_id')[0].getRawValue(),
+		            			startForecast: Ext.ComponentQuery.query('form #start_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #start_hour')[0].getRawValue(),
+		            			endForecast: Ext.ComponentQuery.query('form #end_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #end_hour')[0].getRawValue(),
+		            			type: Ext.ComponentQuery.query('form #type')[0].getRawValue(),
+		            			obs: Ext.ComponentQuery.query('form #remark')[0].getRawValue()	            			
+		            			
+		            		},
+	
+		            		success: function (result, request) {
+		            			
+		            			var jsonResp = Ext.util.JSON.decode(result.responseText);
+	
+			                    if (jsonResp.result != "SUCCESS") {
+			                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
+			                    }else{
+			                    	
+			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
+			                    	
+			                    	//Recarrega Store do 
+			                    	Ext.getCmp('alarmhistsogrid').getStore().load()
+			                    	
+			                    	//Fecha aba de abertura de OS
+			                    	if(openSOTab){
+			                    		openSOTab.close();
+			                    	}
+			                    	
+			                    }
+		                             
+		            		},
+		                    
+		            		failure: function (result, request) {
+		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
+		                    }
+		            			
+		            	});
+		            	
+		            } else if(btn == 'cancel') {
+		            	
+		            }
+		        }
+			});
+			
+			/* FIM */
 			
 		//3 - Alterar
 		}else if (action == 3){
@@ -235,12 +293,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			/**** Seta Campos do Form *****/
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-			
-			
-			
-			
-			
-			
+
 			
 			/******************************/
 		}
