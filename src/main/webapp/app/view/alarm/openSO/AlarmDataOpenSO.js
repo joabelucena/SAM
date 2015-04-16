@@ -4,29 +4,34 @@ var eventInfo = {
 	title : 'Informações do Alarme',
 	layout : {
 		type : 'vbox',
-		align : 'stretch'
+		//align : 'stretch'
 	},
 
 	items : [ {
 		fieldLabel : 'ID Alarme',
 		id : 'alarmpopup_event_id',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
 		id : 'alarmpopup_time_alarm',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Severidade',
 		id : 'alarmpopup_severity',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Reconhecido por',
 		id : 'alarmpopup_reco_user',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Data/Hora ',
 		id : 'alarmpopup_reco_time',
 		readOnly : true,
+		width: '30%'
 	} ]
 };
 
@@ -36,7 +41,7 @@ var soInfo = {
 	title : 'Informação da OS',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	
@@ -99,13 +104,14 @@ var soInfo = {
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
-		allowBlank : false
-		
+		allowBlank : false,
+		width: '30%'
 	},{
 		fieldLabel : 'Observação',
 		id : 'alarmpopup_obs_os',
 		xtype : 'textareafield',
-		allowBlank : false
+		allowBlank : false,
+		width: '60%'
 	} ]
 };
 

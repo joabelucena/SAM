@@ -71,8 +71,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
 		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
 		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
-		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('site'));
-		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('system'));
+		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('system'));
+		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('site'));
 		Ext.ComponentQuery.query('popup')[0].close();
 	
 	},	
