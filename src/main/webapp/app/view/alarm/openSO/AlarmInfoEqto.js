@@ -4,29 +4,34 @@ var equipmentInfo = {
 	title : 'Informações do Equipamento',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	items : [ {
 		fieldLabel : 'ID',
 		name : 'alarmpopup_id',
 		readOnly : true,
+		width: '40%'
 	}, {
 		fieldLabel : 'Modelo',
 		id : 'alarmpopup_model',
 		readOnly : true,
+		width: '50%'
 	}, {
 		fieldLabel : 'Fabricante',
 		id : 'alarmpopup_manufacturer',
 		readOnly : true,
+		width: '50%'
 	}, {
 		fieldLabel : 'Sub-Sistema',
 		id : 'alarmpopup_subsystem',
 		readOnly : true,
+		width: '60%'
 	}, {
 		fieldLabel : 'Local de Instalação',
 		id : 'alarmpopup_site',
 		readOnly : true,
+		width: '60%'
 	} ],
 };
 

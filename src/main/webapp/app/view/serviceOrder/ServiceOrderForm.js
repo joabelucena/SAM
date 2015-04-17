@@ -41,7 +41,7 @@ var equipmentInfo = {
 	itemId: 'equipmentInfo',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	items : [ {
@@ -49,6 +49,7 @@ var equipmentInfo = {
 		fieldLabel : 'Codigo do Equipamento',
 		itemId: 'trg_equipment_id',
 		editable: false,
+		width: '40%',
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -60,18 +61,22 @@ var equipmentInfo = {
 		fieldLabel : 'Modelo',
 		itemId: 'equipment_model',
 		readOnly : true,
+		width: '50%',
 	}, {
 		fieldLabel : 'Fabricante',
 		itemId: 'equipment_manufacturer',
 		readOnly : true,
+		width: '50%',
 	}, {
 		fieldLabel : 'Sub-Sistema',
 		itemId: 'equipment_subsystem',
 		readOnly : true,
+		width: '60%',
 	}, {
 		fieldLabel : 'Local de Instalação',
 		itemId: 'equipment_site',
 		readOnly : true,
+		width: '60%',
 	} ],
 };
 
@@ -82,7 +87,7 @@ var soInfo = {
 	itemId: 'soInfo',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	items : [ {
@@ -143,8 +148,6 @@ var soInfo = {
 			   margin: '0 0 0 0',
 		},
 		items : [{
-			
-			
 			xtype:'datefield',
 			fieldLabel: 'Data de Término Prevista',
 			itemId: 'end_date',
@@ -168,13 +171,14 @@ var soInfo = {
         displayField: 'desc',
 		xtype : 'combobox',
 		allowBlank : false,
-		editable: false
-		
+		editable: false,
+		width: '30%'		
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'remark',
 		xtype : 'textareafield',
-		allowBlank : false
+		allowBlank : false,
+		width: '60%'
 	} ]
 };
 

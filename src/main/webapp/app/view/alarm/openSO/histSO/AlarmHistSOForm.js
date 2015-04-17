@@ -4,29 +4,34 @@ var equipmentInfo = {
 	title : 'Informações da Ordem de Serviço',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	items : [ {
 		fieldLabel : 'No. OS',
 		name : 'sodetailform_id',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Status',
 		id : 'sodetailform_status',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Tipo',
 		id : 'sodetailform_type',
 		readOnly : true,
+		width: '30%'
 	}, {
 		fieldLabel : 'Equipamento',
 		id : 'sodetailform_equipment',
 		readOnly : true,
+		width: '40%'
 	}, {
 		fieldLabel : 'Alarme',
 		id : 'sodetailform_alarm',
 		readOnly : true,
+		width: '40%'
 	} ],
 };
 
