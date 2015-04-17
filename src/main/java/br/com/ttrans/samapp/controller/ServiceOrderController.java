@@ -129,7 +129,6 @@ public class ServiceOrderController {
 		result.put("result"	,"");
 		result.put("soId"	, 0);
 		
-
 		//Instancia objeto para tratamento com o banco
 		ServiceOrder so = new ServiceOrder();
 		
@@ -166,6 +165,7 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);								// Status
 			so.setSor_start_forecast(startForecast);			// Previsao de Inicio
 			so.setSor_end_forecast(endForecast);				// Previsao de Termino
+			so.setSor_equipment_stop(2);						// Equipamento Parado
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setSor_remarks(obs);								// Observação
@@ -218,14 +218,18 @@ public class ServiceOrderController {
 	}
 
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
-	public ResponseEntity<String> changeStatus(
+	public ResponseEntity<Map> changeStatus(
 			@RequestParam(value = "soId"	, required = true)	int soId,
 			@RequestParam(value = "stsId"	, required = true)	int stsId,
-			@RequestParam(value = "stop"	, required = false)	String stop,
+			@RequestParam(value = "stop"	, required = false)	int stop,
 			@RequestParam(value = "obs"		, required = true)	String obs,
 			Authentication authentication,
 			Locale locale,
 			HttpServletRequest request) {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("result"	,"");
+		
 		
 		//Retorna usuario logado na secao
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
@@ -233,27 +237,30 @@ public class ServiceOrderController {
 		// Retorna OS
 		ServiceOrder so = soService.get(soId);
 
-		Errors result = new BindException(so, "serviceorder");
+		Errors err = new BindException(so, "serviceorder");
 
 		// Status Atual
 		ServiceOrderStatus curStatus = so.getStatus();
-
+		
 		// Status Novo
 		ServiceOrderStatus newStatus = soStatusService.get(stsId);
 
 		// Monta Objeto do Log
-		ServiceOrderLog log = new ServiceOrderLog(so.getStatus(),				// Status De
-													newStatus,					// Status Para
-													authentication.getName(),	// Usuario
-													new Date(),					// Data/Hore
-													obs,						// Observacao
-													authentication.getName());	// Usuario inserção (USR_INSERT)
+		ServiceOrderLog log = new ServiceOrderLog(curStatus,				// Status De
+													newStatus,				// Status Para
+													user.getUsername(),		// Usuario
+													new Date(),				// Data/Hore
+													obs,					// Observacao
+													user.getUsername());	// Usuario inserção (USR_INSERT)
 		
 		// Atribui ordem de servico no Log
 		log.setServiceorder(so);
 
 		// Muda Status da OS
 		so.setStatus(newStatus);
+		
+		//Equipamneto parado
+		so.setSor_equipment_stop(stop);
 
 		// Adiciona novo registro no log
 		so.getLog().add(log);
@@ -269,28 +276,26 @@ public class ServiceOrderController {
 		rule.setRole(user.getRole());
 		rule.setSru_log_remark(!obs.isEmpty() ? "S" : "N");
 
-		statusRuleValidator.validate(rule, result, "edit");
+		statusRuleValidator.validate(rule, err, "edit");
 
-		if (!result.hasErrors()) {
+		if (!err.hasErrors()) {
 
 			try {
 
 				soService.edit(so, authentication);
-				return new ResponseEntity<String>(messageSource.getMessage(
-						"response.Ok", null, locale), HttpStatus.OK);
+				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
 
 			} catch (QueryException e) {
 
 				logger.error(e.getMessage());
-				return new ResponseEntity<String>(messageSource.getMessage(
-						"response.Failure", null, locale), HttpStatus.OK);
+				result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			}
 		}else{
-			
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale)+
+					errorMessageHandler.toStringList(err, locale));
 		}
 
-		return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale)
-				, HttpStatus.OK);
+		return new ResponseEntity<Map>(result , HttpStatus.OK);
 	}
 	
 	
@@ -327,14 +332,16 @@ public class ServiceOrderController {
 		result.put("result", "");
 		result.put("type", "");
 		
-		List<Object[]> vType = soTypeService.loadData();
-		
-		String[][] types = new String[vType.size()][1];
+		List<Object[]> types = soTypeService.loadData();
+		/*
+		String[][] types = new String[vType.size()][2];
 
 		for (int i = 0; i < types.length; i++) {
-			types[i][0] = vType.get(i)[1].toString();
+			types[i][0] = vType.get(i)[0].toString();
+			types[i][1] = vType.get(i)[1].toString();
 		}
 
+		*/
 		result.put("result",messageSource.getMessage("response.Ok", null, locale));
 		result.put("type", types);
 		
@@ -343,29 +350,26 @@ public class ServiceOrderController {
 
 	@RequestMapping(value = "/getallowedstatus")
 	public ResponseEntity<Map> getAllowedStatus(
-			@RequestParam(value = "curstatus"	, required = true)	String curstatus,
+			@RequestParam(value = "soId"	, required = true)	int soId,
 			Authentication authentication,
 			Locale locale,
 			HttpServletRequest request) {
-
+		
+		ServiceOrder so = soService.get(soId);
+		
 		//Retorna usuario logado na secao
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
-		List<String> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), soStatusService.findByName(curstatus));
+		List<Object[]> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), so.getStatus());
 		
 		//Result Map
 		Map<String, Object> result = new HashMap<String, Object>();
+		
 		result.put("result", "");
 		result.put("rule", "");
 		
-		String[][] rules = new String[rulesResult.size()][1];
-
-		for (int i = 0; i < rules.length; i++) {
-			rules[i][0] = rulesResult.get(i);
-		}
-
 		result.put("result",messageSource.getMessage("response.Ok", null, locale));
-		result.put("rule", rules);
+		result.put("rule", rulesResult);
 		
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}

@@ -1,3 +1,35 @@
+/*
+ * 
+CCO
+- CCO
+ROLENAME = 'CCO'
+
+BASE
+- BASE A
+- BASE B
+ROLENAME LIKE 'BASE%'
+
+OPERACAO (TECNICO)
+- OPERACAO (BASE A)
+- OPERACAO (BASE B)
+ROLENAME LIKE 'OPERACAO%'
+
+/**** CB ****/
+ROLENAME = 'CCO'
+	OR ROLENAME LIKE 'BASE%';
+
+/**** BT ****/
+ROLENAME LIKE 'BASE%'
+	OR ROLENAME LIKE 'OPERACAO%';
+
+/**** T ****/
+ROLENAME LIKE 'OPERACAO%';
+
+
+
+ * */
+
+
 /****************************************************/
 
 ----------------------------------------------------------------------
@@ -119,15 +151,17 @@ WHERE
 	AND
 	SRU_NXT_STATUS_ID = 5;
 /****************************************************/
---POSIÇÃO
-ALTER TABLE SERVICE_ORDER ALTER SOR_EQUIPMENT_STOP POSITION 13;
+/*************** ALTERACAO DE CAMPOS ****************/  
 
 -- ALTERANDO DE NOT NULL PRA NULL
 ALTER TABLE SERVICE_ORDER
 DROP SOR_EQUIPMENT_STOP ;
 
 ALTER TABLE SERVICE_ORDER
-ADD SOR_EQUIPMENT_STOP CHAR(1);
+ADD SOR_EQUIPMENT_STOP INT NOT NULL;
+
+--POSICAO
+ALTER TABLE SERVICE_ORDER ALTER SOR_EQUIPMENT_STOP POSITION 13;
 
 
 --ALTERANDO TAMANHO DE COLUNAS

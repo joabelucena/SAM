@@ -11,8 +11,8 @@ var newStatus = {
 	items : [{
 		fieldLabel : 'Estado',
 		itemId: 'n_cmbStatus',
-		valueField: 'rule',
-        displayField: 'rule',
+		valueField: 'id',
+        displayField: 'desc',
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false
@@ -164,8 +164,8 @@ var soInfo = {
 	}, {
 		fieldLabel : 'Tipo da OS',
 		itemId: 'type',
-		valueField: 'type',
-        displayField: 'type',
+		valueField: 'id',
+        displayField: 'desc',
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false

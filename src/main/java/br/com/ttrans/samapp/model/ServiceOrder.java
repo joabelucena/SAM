@@ -79,7 +79,7 @@ public class ServiceOrder {
 	private String sor_remarks;
 
 	@Column
-	private String sor_equipment_stop;
+	private int sor_equipment_stop;
 
 	@Column(updatable = false)
 	private String usr_insert;
@@ -97,7 +97,7 @@ public class ServiceOrder {
 			Set<ServiceOrderOccurrence> occurrences, Set<ServiceOrderLog> log,
 			Technician technician, SeverityLevel priority, Equipment equipment,
 			Date sor_start_forecast, Date sor_start, Date sor_end_forecast,
-			Date sor_end, String sor_remarks, String sor_equipment_stop,
+			Date sor_end, String sor_remarks, int sor_equipment_stop,
 			String usr_insert, String usr_update, String deleted) {
 		super();
 		this.sor_id = sor_id;
@@ -241,11 +241,11 @@ public class ServiceOrder {
 		this.sor_remarks = sor_remarks;
 	}
 
-	public String getSor_equipment_stop() {
+	public int getSor_equipment_stop() {
 		return sor_equipment_stop;
 	}
 
-	public void setSor_equipment_stop(String sor_equipment_stop) {
+	public void setSor_equipment_stop(int sor_equipment_stop) {
 		this.sor_equipment_stop = sor_equipment_stop;
 	}
 

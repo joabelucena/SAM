@@ -6,6 +6,8 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 	
 	store: Ext.create('Sam.store.ServiceOrderLog'),
 	
+	scrollable: true,
+	
 	plugins: 'gridfilters',
     
 	columns : [

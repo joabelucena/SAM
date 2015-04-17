@@ -14,6 +14,6 @@ public interface StatusRuleService {
 	public void edit(StatusRule rule, Authentication authentication);
 	public void delete(StatusRule rule, Authentication authentication);
 	public StatusRule get(int id);
-	public List<String> getAllowedStatus(Role role, ServiceOrderStatus curstatus);
+	public List getAllowedStatus(Role role, ServiceOrderStatus curstatus);
 	public List loadData();
 }

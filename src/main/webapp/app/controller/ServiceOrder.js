@@ -90,8 +90,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 	},
 	
 	//ServiceOrder > grid : onRender
-	onRender: function(component, options) {
-
+	onRender: function(me, eOpts) {
+		me.getStore().reload();
+		me.getView().refresh();
 	},
 	
 	//ServiceOrder > grid : btnNewSo button
@@ -125,8 +126,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Desabilita exibicao do log
 		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setVisible(false);
 		
-		//Disabilia o campo 'Codigo da OS'
-		Ext.ComponentQuery.query('form #id',activeTab)[0].setDisabled(true);
+		//Disabilita o campo 'Codigo da OS'
+		Ext.ComponentQuery.query('form #id',activeTab)[0].setVisible(false);
 		
 		//Desabilita Novo Status
 		Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
@@ -136,7 +137,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		// Abertura OS: Dados(OS) : ComboBox
 		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
-			fields: ['type'],
+			fields: ['id','desc'],
 			proxy: {
 		         type: 'ajax',
 		         url: 'so/gettypes',
@@ -150,6 +151,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	//ServiceOrder > form : btnOk button
 	onBtnOkClick: function(action){
+		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		//Aba ativa
+		var activeTab = mainPanel.getActiveTab();
 		
 		//1 - Visualiza
 		if(action == 1){
@@ -165,7 +172,51 @@ Ext.define('Sam.controller.ServiceOrder', {
 
 		//4 - Mudar Status 
 		}else if (action == 4){
-			alert('Muda Status');
+			
+			var nStatus = Ext.ComponentQuery.query('form #n_cmbStatus',activeTab)[0].getValue();
+			var nStoped = Ext.ComponentQuery.query('form #n_cmbEquipStop',activeTab)[0].getValue();
+			var nId = Ext.ComponentQuery.query('form #id',activeTab)[0].getValue();
+			var cObs = Ext.ComponentQuery.query('form #n_txtRemark',activeTab)[0].getValue();
+			
+			Ext.Ajax.request({
+        		url : 'so/changestatus',
+        		method : 'POST',
+        		
+        		params: {
+        			soId	: nId,
+        			stsId	: nStatus,
+        			stop	: nStoped,
+        			obs		: cObs
+        		},
+
+        		success: function (result, request) {
+        			
+        			var jsonResp = Ext.util.JSON.decode(result.responseText);
+
+                    if (jsonResp.result != "SUCCESS") {
+                    	Ext.Msg.alert('Falha na Mudança de Estado', jsonResp.result);        	 
+                    }else{
+                    	
+                    	Ext.Msg.alert('Mudança Gerada com Sucesso', 'Mudança Gerada com Sucesso!');
+                    	
+                    	//Fecha aba de abertura de OS
+                    	if(activeTab){
+                    		activeTab.close();
+                    	}
+                    	
+                    	gridOs = mainPanel.getActiveTab();
+                    	
+                    	gridOs.getStore().load();
+
+                    }
+        		},
+                
+        		failure: function (result, request) {
+        			Ext.Msg.alert('Falha na Mudança de Estado', result.status); 
+                }
+        	});
+			
+			
 		}else{
 
 		}
@@ -215,14 +266,14 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			// MudarStatus: ComboBox
 			Ext.ComponentQuery.query('form #n_cmbStatus',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['rule'],
+				fields: ['id','desc'],
 				
 				proxy: {
 			         type: 'ajax',
 			         url: 'so/getallowedstatus',
 			         
 			         extraParams: {
-			        	 curstatus: 'NOVA'	            			
+			        	 soId: row.get('id')	            			
 			         },
 			         
 			         reader: {
@@ -349,6 +400,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		//Filtra Store
 		gridLog.getStore().setFilters([{
+			exactMatch: true,
 			property: 'serviceorder_id',
 			value: fieldId.getValue()
 			}

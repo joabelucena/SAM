@@ -50,9 +50,6 @@ public class Equipment {
 	private SubSystem system;
 
 	@Column
-	private String equ_solv_type;
-
-	@Column
 	private String equ_warranty;
 
 	@Column
@@ -98,7 +95,7 @@ public class Equipment {
 	public Equipment(String equ_id, String equ_fixed_asset,
 			String equ_service_tag, String equ_ip, EquipmentType type,
 			EquipmentModel model, EquipmentManufacturer manufacturer,
-			Site site, Counter counter, SubSystem system, String equ_solv_type,
+			Site site, Counter counter, SubSystem system, 
 			String equ_warranty, String equ_counter_qt, String equ_oid,
 			Double equ_mtbf_prev, Double equ_mtbf_calc, Double equ_mtbf_manf,
 			Date equ_install_date, Date equ_manufacture_date,
@@ -115,7 +112,6 @@ public class Equipment {
 		this.site = site;
 		this.counter = counter;
 		this.system = system;
-		this.equ_solv_type = equ_solv_type;
 		this.equ_warranty = equ_warranty;
 		this.equ_counter_qt = equ_counter_qt;
 		this.equ_oid = equ_oid;
@@ -189,12 +185,6 @@ public class Equipment {
 	}
 	public void setSystem(SubSystem system) {
 		this.system = system;
-	}
-	public String getEqu_solv_type() {
-		return equ_solv_type;
-	}
-	public void setEqu_solv_type(String equ_solv_type) {
-		this.equ_solv_type = equ_solv_type;
 	}
 	public String getEqu_warranty() {
 		return equ_warranty;

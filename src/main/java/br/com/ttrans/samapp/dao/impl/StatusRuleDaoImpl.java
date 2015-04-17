@@ -53,7 +53,7 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 	}
 	
 	@Override
-	public List<String> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
+	public List getAllowedStatus(Role role, ServiceOrderStatus curstatus){
 		
 		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class,"rule");
 		
@@ -61,6 +61,7 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		
 		ProjectionList projList = Projections.projectionList();
 		
+		projList.add(Projections.property("rule_nxtstatus.sos_id"));
 		projList.add(Projections.property("rule_nxtstatus.sos_description"));
 		
 		crit.setProjection(projList);
@@ -71,7 +72,7 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		crit.add(Restrictions.eq("rule.role",role));
 		crit.add(Restrictions.eq("rule.curstatus",curstatus));
 		
-		List<String> resultsList = crit.list();
+		List resultsList = crit.list();
 		
 		return resultsList;
 	}

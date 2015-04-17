@@ -78,7 +78,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		projList.add(Projections.property("equipment_site.sit_description"));
 		projList.add(Projections.property("equipment_counter.cty_description"));
 		projList.add(Projections.property("equipment_system.ssy_description"));
-		projList.add(Projections.property("equipment.equ_solv_type"));
 		projList.add(Projections.property("equipment.equ_warranty"));
 		projList.add(Projections.property("equipment.equ_counter_qt"));
 		projList.add(Projections.property("equipment.equ_oid"));

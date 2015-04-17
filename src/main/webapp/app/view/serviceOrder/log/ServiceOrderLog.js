@@ -33,7 +33,8 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLog', {
 				collapsible: true,
 				region: 'south',
 				margin: '5 0 0 0',
-				minHeight: 200,
+				minHeight: 250,
+				Height: 250,
             }
             ]
 });
