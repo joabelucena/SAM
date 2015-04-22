@@ -123,6 +123,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		activeTab = mainPanel.getActiveTab();
 		
+		//Formulario
+		var form = Ext.ComponentQuery.query('form',activeTab)[0];
+		
 		//Desabilita exibicao do log
 		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setVisible(false);
 		
@@ -130,12 +133,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 		Ext.ComponentQuery.query('form #id',activeTab)[0].setVisible(false);
 		
 		//Desabilita Novo Status
-		Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
+		form.remove(Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0]);
 		
 		//Seta Botão Confirma: Incluir
 		Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',2)});
 		
-		// Abertura OS: Dados(OS) : ComboBox
+		// Abertura OS : type ComboBox
 		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
 			fields: ['id','desc'],
 			proxy: {
@@ -144,6 +147,19 @@ Ext.define('Sam.controller.ServiceOrder', {
 		         reader: {
 		             type: 'json',
 		             root: 'type'
+		         }
+		     },
+		}));
+		
+		// Abertura OS : priority ComboBox
+		Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
+			fields: ['id','desc'],
+			proxy: {
+		         type: 'ajax',
+		         url: 'severity/load',
+		         reader: {
+		             type: 'json',
+		             root: 'data'
 		         }
 		     },
 		}));
@@ -158,6 +174,10 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Aba ativa
 		var activeTab = mainPanel.getActiveTab();
 		
+		//Formulario
+		var form = Ext.ComponentQuery.query('form',activeTab)[0];
+		
+		
 		//1 - Visualiza
 		if(action == 1){
 			alert('Visualiza');
@@ -167,60 +187,68 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			/** Abertura de Ordem de Serviço **/
 			
-			Ext.MessageBox.show({
-		        title: 'Abertura de OS',
-		        msg: 'Confirma a Abertura da OS?',
-		        buttons: Ext.MessageBox.OKCANCEL,
-		        icon: Ext.MessageBox.WARNING,
-		        fn: function(btn,  knowId, knowCheck){
-		            if(btn == 'ok'){
-		            	
-		            	Ext.Ajax.request({
-		            		url : 'so/new',
-		            		method : 'POST',
-		            		
-		            		params: {
-		            			equipId: Ext.ComponentQuery.query('form #trg_equipment_id')[0].getRawValue(),
-		            			startForecast: Ext.ComponentQuery.query('form #start_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #start_hour')[0].getRawValue(),
-		            			endForecast: Ext.ComponentQuery.query('form #end_date')[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #end_hour')[0].getRawValue(),
-		            			type: Ext.ComponentQuery.query('form #type')[0].getRawValue(),
-		            			obs: Ext.ComponentQuery.query('form #remark')[0].getRawValue()	            			
-		            			
-		            		},
-	
-		            		success: function (result, request) {
-		            			
-		            			var jsonResp = Ext.util.JSON.decode(result.responseText);
-	
-			                    if (jsonResp.result != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
-			                    }else{
-			                    	
-			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
-			                    	
-			                    	//Recarrega Store do 
-			                    	Ext.getCmp('alarmhistsogrid').getStore().load()
-			                    	
-			                    	//Fecha aba de abertura de OS
-			                    	if(openSOTab){
-			                    		openSOTab.close();
-			                    	}
-			                    	
+			// Verifica se o form eh valido
+			if(form.isValid()){
+				
+				Ext.MessageBox.show({
+			        title: 'Abertura de OS',
+			        msg: 'Confirma a Abertura da OS?',
+			        buttons: Ext.MessageBox.OKCANCEL,
+			        icon: Ext.MessageBox.WARNING,
+			        fn: function(btn,  knowId, knowCheck){
+			            if(btn == 'ok'){
+			            	
+			            	Ext.Ajax.request({
+			            		url : 'so/newFromSo',
+			            		method : 'POST',
+			            		
+			            		params: {
+			            			equipId: Ext.ComponentQuery.query('form #trg_equipment_id',activeTab)[0].getRawValue(),
+			            			startForecast: Ext.ComponentQuery.query('form #start_date',activeTab)[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #start_hour',activeTab)[0].getRawValue(),
+			            			endForecast: Ext.ComponentQuery.query('form #end_date',activeTab)[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #end_hour',activeTab)[0].getRawValue(),
+			            			type: Ext.ComponentQuery.query('form #type',activeTab)[0].getValue(),
+			            			priorityId: Ext.ComponentQuery.query('form #priority',activeTab)[0].getValue(),
+			            			obs: Ext.ComponentQuery.query('form #remark',activeTab)[0].getRawValue()	            			
+			            			
+			            		},
+		
+			            		success: function (result, request) {
+			            			
+			            			var jsonResp = Ext.util.JSON.decode(result.responseText);
+		
+				                    if (jsonResp.result != "SUCCESS") {
+				                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
+				                    }else{
+				                    	
+				                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
+				                    	
+				                    	//Fecha aba de abertura de OS
+				                    	if(activeTab){
+				                    		activeTab.close();
+				                    	}
+				                    	
+				                    	//Atualiza Stores dos grids de OS abertos
+				                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
+				                    		f.getStore().reload();
+				                    	});
+				                    	
+				                    	
+				                    }
+			                             
+			            		},
+			                    
+			            		failure: function (result, request) {
+			            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
 			                    }
-		                             
-		            		},
-		                    
-		            		failure: function (result, request) {
-		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
-		                    }
-		            			
-		            	});
+			            			
+			            	});
 		            	
 		            } else if(btn == 'cancel') {
 		            	
 		            }
 		        }
-			});
+				});
+			}
 			
 			/* FIM */
 			
@@ -273,7 +301,6 @@ Ext.define('Sam.controller.ServiceOrder', {
         			Ext.Msg.alert('Falha na Mudança de Estado', result.status); 
                 }
         	});
-			
 			
 		}else{
 
@@ -405,10 +432,25 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Desabilita Campos
 			Ext.each(fields,function(f){f.setReadOnly(true)})
 			
+			var testee = Ext.create('Sam.store.ServiceOrder')
+			
 			/**** Seta Campos do Form *****/
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-			
-			
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
+			Ext.ComponentQuery.query('#end_date',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'd/m/Y'));	//data termino
+			Ext.ComponentQuery.query('#end_hour',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'g:i'));	//hora termino
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('equipment_stop'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('event_id'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('parent_id'));
+			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.get('priority'));				//problema
+			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
+			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
+			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
+			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.get('type'));						//problema
+			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
 			
 			
 			
@@ -455,7 +497,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		gridLog.getStore().setFilters([{
 			exactMatch: true,
 			property: 'serviceorder_id',
-			value: fieldId.getValue()
+			value: parseInt(fieldId.getValue())
 			}
 		]);
 	}

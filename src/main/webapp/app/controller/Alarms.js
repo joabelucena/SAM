@@ -63,7 +63,7 @@ Ext.define('Sam.controller.Alarms', {
 		            if(btn == 'ok'){
 		            	
 		            	Ext.Ajax.request({
-		            		url : 'so/new',
+		            		url : 'so/newFromEvent',
 		            		method : 'POST',
 		            		
 		            		params: {
@@ -92,6 +92,11 @@ Ext.define('Sam.controller.Alarms', {
 			                    	if(openSOTab){
 			                    		openSOTab.close();
 			                    	}
+			                    	
+			                    	//Atualiza Stores dos grids de OS abertos
+			                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
+			                    		f.getStore().reload();
+			                    	});
 			                    	
 			                    }
 		                             

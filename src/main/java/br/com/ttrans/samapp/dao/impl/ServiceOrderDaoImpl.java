@@ -68,7 +68,9 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		
 		projList.add(Projections.property("serviceorder.sor_id"));
 		
-		projList.add(Projections.property("serviceorder_equipment.equ_id"));
+		//projList.add(Projections.property("serviceorder_equipment.equ_id"));
+		
+		projList.add(Projections.property("serviceorder.equipment"));
 		
 		
 		projList.add(Projections.property("serviceorder_type.sot_description"));

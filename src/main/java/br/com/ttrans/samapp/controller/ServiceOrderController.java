@@ -19,6 +19,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
@@ -29,10 +30,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
+import br.com.ttrans.samapp.model.ServiceOrderType;
+import br.com.ttrans.samapp.model.SeverityLevel;
 import br.com.ttrans.samapp.model.StatusRule;
 import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.EquipmentService;
@@ -115,8 +119,8 @@ public class ServiceOrderController {
 		return result;
 	}
 
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ResponseEntity<Map> newSo(
+	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
+	public ResponseEntity<Map> newFromEvent(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
 			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
 			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
@@ -165,7 +169,7 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);								// Status
 			so.setSor_start_forecast(startForecast);			// Previsao de Inicio
 			so.setSor_end_forecast(endForecast);				// Previsao de Termino
-			so.setSor_equipment_stop(2);						// Equipamento Parado
+			so.setSor_equipment_stop(2);						// Equipamento Parado(SIM)
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setSor_remarks(obs);								// Observação
@@ -214,8 +218,116 @@ public class ServiceOrderController {
 			return new ResponseEntity<Map>(result , HttpStatus.OK);
 			
 		} 
-
 	}
+	
+	
+	@RequestMapping(value = "/newFromSo", method = RequestMethod.POST)
+	public ResponseEntity<Map> newFromSo(
+			@RequestParam(value = "equipId"			, required = true) String equipId,
+			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
+			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
+			@RequestParam(value = "type"			, required = true) int type,
+			@RequestParam(value = "priorityId"		, required = true) String prioId,
+			@RequestParam(value = "obs"				, required = true) String obs,
+			Authentication authentication,
+			Locale locale) {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("result"	,"");
+		result.put("soId"	, 0);
+		
+		//Instancia objeto para tratamento com o banco
+		ServiceOrder so = new ServiceOrder();
+		
+		//Instancia objeto para tratamento de erros
+		Errors err = new BindException(so, "serviceorder");
+		
+		//Retorna status inicial cadastrado em parametro		
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
+
+		//Cria objeto de log
+		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
+													sNewSts,					//Status Para	
+													authentication.getName(),	//Usuario
+													new Date(),					//Data/Hora
+													obs,						//Observacao						
+													authentication.getName());	//Usuario inserção (USR_INSERT)
+
+		//Instancia LogSet
+		Set<ServiceOrderLog> logSet = new HashSet<ServiceOrderLog>();
+
+		try {
+
+			//Log da OS
+			log.setServiceorder(so);
+			logSet.add(log);
+			
+			//OS
+			so.setEquipment(new Equipment(equipId));		// Equipamento
+			so.setType(new ServiceOrderType(type));		// Tipo de Os (VERIFICAR)
+			so.setEvent(null);							// Evento
+			so.setStatus(sNewSts);						// Status
+			so.setSor_start_forecast(startForecast);	// Previsao de Inicio
+			so.setSor_end_forecast(endForecast);		// Previsao de Termino
+			so.setSor_equipment_stop(2);				// Equipamento Parado(SIM)
+			so.setLog(logSet);							// Log Inicial
+			so.setPriority(new SeverityLevel(prioId));	// Severidade
+			so.setSor_remarks(obs);						// Observação
+
+			serviceOrderValidator.validate(so, err, "add");
+			
+			if(!err.hasErrors()){
+				
+				int id = soService.add(so, authentication);
+				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
+				result.put("soId"	, id);
+				
+				return new ResponseEntity<Map>(result, HttpStatus.OK);
+				
+			}else{
+				
+				//Erros nas validacoes de negocio
+				result.put("result"	,messageSource.getMessage("response.so.Failure", null, locale)+
+						errorMessageHandler.toStringList(err, locale));
+				
+				return new ResponseEntity<Map>( result, HttpStatus.OK);
+			}
+			
+		//Query Errors
+		} catch (QueryException e) {
+			
+			logger.error(e.getMessage());
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
+
+		//Not Found Objects
+		} catch (NullPointerException e) {
+			
+			logger.error(e.getMessage());
+			result.put("result"	,messageSource.getMessage("response.so.NullPointer", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
+		
+		//Erros genericos
+		} catch (GenericJDBCException e){
+			
+			logger.error(e.getMessage());
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			
+		}catch (UncategorizedSQLException e){
+			
+			logger.error(e.getMessage());
+			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+			
+			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
 	public ResponseEntity<Map> changeStatus(

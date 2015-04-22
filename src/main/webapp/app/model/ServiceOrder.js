@@ -1,6 +1,5 @@
 Ext.define('Sam.model.ServiceOrder', {
 	extend: 'Ext.data.Model',
-	requires: ['Sam.model.Equipment'],
 	fields:[
 	        {name: 'id'				, type: 'number'},
 	        {name: 'equipment_id'	, type: 'string' , reference: 'Equipment'},

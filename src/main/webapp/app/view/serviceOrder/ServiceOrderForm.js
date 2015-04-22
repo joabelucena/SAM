@@ -50,6 +50,7 @@ var equipmentInfo = {
 		itemId: 'trg_equipment_id',
 		editable: false,
 		width: '40%',
+		allowBlank : false,
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -107,6 +108,7 @@ var soInfo = {
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
+			allowBlank : true
 		}]
 	
 	}, {
@@ -173,6 +175,15 @@ var soInfo = {
 		allowBlank : false,
 		editable: false,
 		width: '30%'		
+	}, {
+		fieldLabel : 'Prioridade de Execução',
+		itemId: 'priority',
+		valueField: 'id',
+        displayField: 'desc',
+		xtype : 'combobox',
+		allowBlank : false,
+		editable: false,
+		width: '35%'		
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'remark',

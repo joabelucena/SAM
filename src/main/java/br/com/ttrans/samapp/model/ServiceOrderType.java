@@ -29,6 +29,10 @@ public class ServiceOrderType {
 	@Column(columnDefinition="char(1)")
 	private String deleted="";
 
+	public ServiceOrderType(int sot_id){
+		super();
+		this.sot_id = sot_id;
+	}
 	public ServiceOrderType(){}
 	public ServiceOrderType(int sot_id, String sot_description,
 			String usr_insert, String usr_update, String deleted) {

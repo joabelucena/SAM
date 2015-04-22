@@ -52,8 +52,6 @@ public class SeverityLevelDaoImpl implements SeverityLevelDao {
 		
 		projList.add(Projections.property("sle_id"));
 		projList.add(Projections.property("sle_description"));
-		projList.add(Projections.property("sle_display_color"));
-		projList.add(Projections.property("sle_time_service"));
 		
 		crit.setProjection(projList);
 		

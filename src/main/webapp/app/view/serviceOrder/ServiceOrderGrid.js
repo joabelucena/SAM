@@ -8,6 +8,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 
 	plugins: 'gridfilters',
 	
+	itemId: 'serviceordergrid',
+	
 	scrollable: true,
 
 	columns : [

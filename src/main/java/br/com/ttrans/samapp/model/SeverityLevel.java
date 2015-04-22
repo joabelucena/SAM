@@ -29,9 +29,11 @@ public class SeverityLevel {
 	@Column(columnDefinition = "char(1)")
 	private String deleted = "";
 
-	public SeverityLevel() {
+	public SeverityLevel(String sle_id){
+		super();
+		this.sle_id = sle_id;
 	}
-
+	public SeverityLevel() {}
 	public SeverityLevel(String sle_id, String sle_description,
 			String usr_insert, String usr_update, String deleted) {
 		super();
