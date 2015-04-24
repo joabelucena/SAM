@@ -200,7 +200,6 @@ var soInfo = {
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false,
-		width: '35%'
 		width: '35%',
 		inputAttrTpl: " data-qtip='Prioridade de Execução da Ordem de Serviço' "
 	},{
