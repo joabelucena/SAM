@@ -5,7 +5,7 @@ var newStatus = {
 	title : 'Novo Estado',
 	layout : {
 		type : 'vbox',
-		align : 'stretch',
+		//align : 'stretch',
 	},
 
 	items : [{
@@ -15,7 +15,9 @@ var newStatus = {
         displayField: 'desc',
 		xtype : 'combobox',
 		allowBlank : false,
-		editable: false
+		editable: false,
+		width: '40%',
+		inputAttrTpl: " data-qtip='Estado do Equipamento' "
 	},{
 		fieldLabel : 'Equipamento Parado',
 		itemId: 'n_cmbEquipStop',
@@ -25,12 +27,16 @@ var newStatus = {
         displayField: 'desc',
 		xtype : 'combobox',
 		allowBlank : false,
-		editable: false
+		editable: false,
+		width: '40%',
+		inputAttrTpl: " data-qtip='Número da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'n_txtRemark',
 		xtype : 'textareafield',
-		allowBlank : false
+		allowBlank : false,
+		width: '60%',
+		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
 	}],
 };
 
@@ -51,6 +57,7 @@ var equipmentInfo = {
 		editable: false,
 		width: '40%',
 		allowBlank : false,
+		inputAttrTpl: " data-qtip='Código do Equipamento da Ordem de Serviço' ",
 		triggers: {
 	        f3: {
 	            handler: function() {
@@ -63,21 +70,25 @@ var equipmentInfo = {
 		itemId: 'equipment_model',
 		readOnly : true,
 		width: '50%',
+		inputAttrTpl: " data-qtip='Modelo do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Fabricante',
 		itemId: 'equipment_manufacturer',
 		readOnly : true,
 		width: '50%',
+		inputAttrTpl: " data-qtip='Fabricante do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Sub-Sistema',
 		itemId: 'equipment_subsystem',
 		readOnly : true,
 		width: '60%',
+		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Local de Instalação',
 		itemId: 'equipment_site',
 		readOnly : true,
 		width: '60%',
+		inputAttrTpl: " data-qtip='Local do Equipamento da Ordem de Serviço' ",
 	} ],
 };
 
@@ -108,7 +119,8 @@ var soInfo = {
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
-			allowBlank : true
+			allowBlank : true,
+			inputAttrTpl: " data-qtip='Código da Ordem de Serviço' "
 		}]
 	
 	}, {
@@ -128,7 +140,8 @@ var soInfo = {
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
-			editable: false
+			editable: false,
+			inputAttrTpl: " data-qtip='Data de Início Prevista da Ordem de Serviço' "
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
@@ -136,7 +149,8 @@ var soInfo = {
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
-			editable: false
+			editable: false,
+			inputAttrTpl: " data-qtip='Hora de Início Prevista da Ordem de Serviço' "
 		}]
 	
 	}, {
@@ -156,7 +170,8 @@ var soInfo = {
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0',
-			editable: false
+			editable: false,
+			inputAttrTpl: " data-qtip='Data de Término Prevista da Ordem de Serviço' "
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
@@ -164,7 +179,8 @@ var soInfo = {
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
-			editable: false
+			editable: false,
+			inputAttrTpl: " data-qtip='Hora de Término Prevista da Ordem de Serviço' "
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
@@ -174,7 +190,8 @@ var soInfo = {
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false,
-		width: '30%'		
+		width: '30%',
+		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Prioridade de Execução',
 		itemId: 'priority',
@@ -184,12 +201,15 @@ var soInfo = {
 		allowBlank : false,
 		editable: false,
 		width: '35%'
+		width: '35%',
+		inputAttrTpl: " data-qtip='Prioridade de Execução da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'remark',
 		xtype : 'textareafield',
 		allowBlank : false,
-		width: '60%'
+		width: '60%',
+		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
 	} ]
 };
 

@@ -11,27 +11,32 @@ var eventInfo = {
 		fieldLabel : 'ID Alarme',
 		id : 'alarmpopup_event_id',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='ID do Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
 		id : 'alarmpopup_time_alarm',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Data/Hora do Alarme' "
 	}, {
 		fieldLabel : 'Severidade',
 		id : 'alarmpopup_severity',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Severidade do Alarme' "
 	}, {
 		fieldLabel : 'Reconhecido por',
 		id : 'alarmpopup_reco_user',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Usuário que Reconheceu o Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora ',
 		id : 'alarmpopup_reco_time',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Data/Hora do Reconhecimento do Alarme' "
 	} ]
 };
 
@@ -62,13 +67,15 @@ var soInfo = {
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
+			inputAttrTpl: " data-qtip='Data de Início Prevista para a Ordem de Serviço' "
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
 			id: 'alarmpopup_start_hour',
 			labelAlign: 'right',
 			format: 'H:i',
-			margin: '0 0 0 0'		
+			margin: '0 0 0 0',
+			inputAttrTpl: " data-qtip='Hora de Início Prevista para a Ordem de Serviço' "
 		}]
 	
 	}, {
@@ -89,14 +96,16 @@ var soInfo = {
 			id: 'alarmpopup_end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
-			margin: '0 0 0 0'
+			margin: '0 0 0 0',
+			inputAttrTpl: " data-qtip='Data de Término Prevista para a Ordem de Serviço' "
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
 			id: 'alarmpopup_end_hour',
 			labelAlign: 'right',
 			format: 'H:i',
-			margin: '0 0 0 0'
+			margin: '0 0 0 0',
+			inputAttrTpl: " data-qtip='Hora de Término Prevista para a Ordem de Serviço' "
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
@@ -105,13 +114,15 @@ var soInfo = {
         displayField: 'type',
 		xtype : 'combobox',
 		allowBlank : false,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
 		id : 'alarmpopup_obs_os',
 		xtype : 'textareafield',
 		allowBlank : false,
-		width: '60%'
+		width: '60%',
+		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
 	} ]
 };
 

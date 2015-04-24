@@ -11,27 +11,32 @@ var equipmentInfo = {
 		fieldLabel : 'No. OS',
 		name : 'sodetailform_id',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Número da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Status',
 		id : 'sodetailform_status',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Status da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Tipo',
 		id : 'sodetailform_type',
 		readOnly : true,
-		width: '30%'
+		width: '30%',
+		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Equipamento',
 		id : 'sodetailform_equipment',
 		readOnly : true,
-		width: '40%'
+		width: '40%',
+		inputAttrTpl: " data-qtip='Equipamento da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Alarme',
 		id : 'sodetailform_alarm',
 		readOnly : true,
-		width: '40%'
+		width: '40%',
+		inputAttrTpl: " data-qtip='Alarme do Equipamento da Ordem de Serviço' "
 	} ],
 };
 

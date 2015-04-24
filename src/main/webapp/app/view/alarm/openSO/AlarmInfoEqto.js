@@ -11,27 +11,33 @@ var equipmentInfo = {
 		fieldLabel : 'ID',
 		name : 'alarmpopup_id',
 		readOnly : true,
-		width: '40%'
+		width: '40%',
+		inputAttrTpl: " data-qtip='ID do Equipamento' "
 	}, {
 		fieldLabel : 'Modelo',
 		id : 'alarmpopup_model',
 		readOnly : true,
-		width: '50%'
+		width: '50%',
+		inputAttrTpl: " data-qtip='Modelo do Equipamento' "
+
 	}, {
 		fieldLabel : 'Fabricante',
 		id : 'alarmpopup_manufacturer',
 		readOnly : true,
-		width: '50%'
+		width: '50%',
+		inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
 	}, {
 		fieldLabel : 'Sub-Sistema',
 		id : 'alarmpopup_subsystem',
 		readOnly : true,
-		width: '60%'
+		width: '60%',
+		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
 	}, {
 		fieldLabel : 'Local de Instalação',
 		id : 'alarmpopup_site',
 		readOnly : true,
-		width: '60%'
+		width: '60%',
+		inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
 	} ],
 };
 
