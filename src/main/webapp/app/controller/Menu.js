@@ -41,20 +41,21 @@ Ext.define('Sam.controller.Menu', {
 					Ext.each(itens.data.items, function(item){
 						
 						menu.getRootNode().appendChild({
-							
-							text: item.get('text'),
-							leaf: true,
-							iconCls: item.get('iconCls'),
-							id: item.get('id'),
-							classname: item.get('classname')
-							
-						});
+								
+								text: item.get('text'),
+								leaf: true,
+								iconCls: item.get('iconCls'),
+								id: item.get('id'),
+								classname: item.get('classname')
+								
+							});
 					});
 				});
 				
 				menuPanel.add(menu);
 				
 			});
+			
 		});
 	},
 	
@@ -88,5 +89,4 @@ Ext.define('Sam.controller.Menu', {
 		menuPanel.toggleCollapse(true);
 
 	}
-
 });

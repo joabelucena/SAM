@@ -15,7 +15,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	columns : [
 	   {
 		   text: 'Ordem de Servico',
-		   dataIndex: 'id',
+		   dataIndex: 'sor_id',
 		   flex: 1,
 		   minWidth: 200,
 		   width: 200
@@ -26,7 +26,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'equipment_id',
 			minWidth: 200,
-		   width: 200,
+			width: 200,
 			filter: {
 				type: 'string'
 			}
@@ -34,7 +34,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			text: 'Tipo',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'type',
+			dataIndex: 'type_desc',
 			minWidth: 200,
 			   width: 200,
 			filter: {
@@ -44,7 +44,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			text: 'Status',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'status',
+			dataIndex: 'status_desc',
 			minWidth: 200,
 			   width: 200,
 			filter: {

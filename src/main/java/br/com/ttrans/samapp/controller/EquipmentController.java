@@ -12,7 +12,11 @@ import br.com.ttrans.samapp.service.CounterService;
 import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EquipmentTypeService;
-
+/*
+ * 
+ * TAke a look at this: http://www.sencha.com/forum/showthread.php?106571
+ * 
+ */
 @Controller
 @RequestMapping("/equipment")
 @SuppressWarnings("rawtypes")

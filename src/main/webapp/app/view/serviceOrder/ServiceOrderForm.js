@@ -183,7 +183,7 @@ var soInfo = {
 		xtype : 'combobox',
 		allowBlank : false,
 		editable: false,
-		width: '35%'		
+		width: '35%'
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'remark',

@@ -24,7 +24,7 @@ public class Equipment {
 
 	@Column
 	private String equ_ip;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "equ_type_id")
 	private EquipmentType type;
@@ -78,54 +78,23 @@ public class Equipment {
 
 	@Column
 	private String equ_remark;
-
+	
 	@Column(updatable = false)
 	private String usr_insert;
 
 	@Column(insertable = false)
 	private String usr_update;
 
+	//@Transient
 	@Column(columnDefinition = "char(1)")
 	private String deleted = "";
 
 	public Equipment(){}
 	public Equipment(String id){
+		super();
 		this.equ_id = id;
 	}
-	public Equipment(String equ_id, String equ_fixed_asset,
-			String equ_service_tag, String equ_ip, EquipmentType type,
-			EquipmentModel model, EquipmentManufacturer manufacturer,
-			Site site, Counter counter, SubSystem system, 
-			String equ_warranty, String equ_counter_qt, String equ_oid,
-			Double equ_mtbf_prev, Double equ_mtbf_calc, Double equ_mtbf_manf,
-			Date equ_install_date, Date equ_manufacture_date,
-			Date equ_acquired_date, String equ_remark, String usr_insert,
-			String usr_update, String deleted) {
-		super();
-		this.equ_id = equ_id;
-		this.equ_fixed_asset = equ_fixed_asset;
-		this.equ_service_tag = equ_service_tag;
-		this.equ_ip = equ_ip;
-		this.type = type;
-		this.model = model;
-		this.manufacturer = manufacturer;
-		this.site = site;
-		this.counter = counter;
-		this.system = system;
-		this.equ_warranty = equ_warranty;
-		this.equ_counter_qt = equ_counter_qt;
-		this.equ_oid = equ_oid;
-		this.equ_mtbf_prev = equ_mtbf_prev;
-		this.equ_mtbf_calc = equ_mtbf_calc;
-		this.equ_mtbf_manf = equ_mtbf_manf;
-		this.equ_install_date = equ_install_date;
-		this.equ_manufacture_date = equ_manufacture_date;
-		this.equ_acquired_date = equ_acquired_date;
-		this.equ_remark = equ_remark;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
-	}
+	
 	public String getEqu_id() {
 		return equ_id;
 	}
@@ -150,6 +119,7 @@ public class Equipment {
 	public void setEqu_ip(String equ_ip) {
 		this.equ_ip = equ_ip;
 	}
+
 	public EquipmentType getType() {
 		return type;
 	}
@@ -186,6 +156,7 @@ public class Equipment {
 	public void setSystem(SubSystem system) {
 		this.system = system;
 	}
+
 	public String getEqu_warranty() {
 		return equ_warranty;
 	}

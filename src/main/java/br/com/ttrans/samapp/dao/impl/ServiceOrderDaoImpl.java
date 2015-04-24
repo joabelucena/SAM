@@ -8,6 +8,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
@@ -66,33 +67,30 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		
 		ProjectionList projList = Projections.projectionList();
 		
-		projList.add(Projections.property("serviceorder.sor_id"));
+		projList.add(Projections.property("serviceorder.sor_id").as("sor_id"));
 		
-		//projList.add(Projections.property("serviceorder_equipment.equ_id"));
+		projList.add(Projections.property("serviceorder.equipment"),"equipment");
 		
-		projList.add(Projections.property("serviceorder.equipment"));
+		projList.add(Projections.property("serviceorder.type").as("type"));
+		projList.add(Projections.property("serviceorder.status").as("status"));
+		projList.add(Projections.property("serviceorder.event").as("event"));
+		projList.add(Projections.property("serviceorder.parent").as("parent"));
+		projList.add(Projections.property("serviceorder.technician").as("technician"));
+		projList.add(Projections.property("serviceorder.priority").as("priority"));
 		
+		projList.add(Projections.property("serviceorder.sor_start_forecast").as("sor_start_forecast"));
+		projList.add(Projections.property("serviceorder.sor_start").as("sor_start"));
+		projList.add(Projections.property("serviceorder.sor_end_forecast").as("sor_end_forecast"));
+		projList.add(Projections.property("serviceorder.sor_end").as("sor_end"));
 		
-		projList.add(Projections.property("serviceorder_type.sot_description"));
-		projList.add(Projections.property("serviceorder_status.sos_description"));
-		projList.add(Projections.property("serviceorder_event.eve_id"));
-		projList.add(Projections.property("serviceorder_parent.sor_id"));
-		projList.add(Projections.property("serviceorder_technician.tec_name"));
-		projList.add(Projections.property("serviceorder_priority.sle_description"));
-		
-		projList.add(Projections.property("serviceorder.sor_start_forecast"));
-		projList.add(Projections.property("serviceorder.sor_start"));
-		projList.add(Projections.property("serviceorder.sor_end_forecast"));
-		projList.add(Projections.property("serviceorder.sor_end"));
-		
-		projList.add(Projections.property("sor_equipment_stop"));
-		projList.add(Projections.property("sor_remarks"));
-
+		projList.add(Projections.property("serviceorder.sor_equipment_stop").as("sor_equipment_stop"));
+		projList.add(Projections.property("serviceorder.sor_remarks").as("sor_remarks"));
+				
 		crit.setProjection(projList);
 		
 		crit.add(Restrictions.ne("serviceorder.deleted","*"));
 		
-		//crit.setResultTransformer(Transformers.aliasToBean(ServiceOrder.class));
+		crit.setResultTransformer(Transformers.aliasToBean(ServiceOrder.class));
 		
 		List resultsList = crit.list();
 		

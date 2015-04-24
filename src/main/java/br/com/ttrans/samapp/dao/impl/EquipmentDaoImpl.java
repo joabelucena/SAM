@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.QueryException;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -19,7 +18,6 @@ import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class EquipmentDaoImpl implements EquipmentDao {
 
@@ -49,7 +47,13 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 	@Override
 	public List loadData() {
+		Criteria crit = session.getCurrentSession().createCriteria(
+				Equipment.class, "equipment");
+		crit.add(Restrictions.ne("equipment.deleted", "*"));
+		
+		return crit.list();
 
+		/*
 		Criteria crit = session.getCurrentSession().createCriteria(
 				Equipment.class, "equipment");
 
@@ -102,6 +106,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		List resultsList = crit.list();
 
 		return resultsList;
+		*/
 	}
 
 	@Override

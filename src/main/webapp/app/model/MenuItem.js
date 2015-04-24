@@ -1,5 +1,5 @@
 Ext.define('Sam.model.MenuItem', {
-	extend: 'Ext.data.Model',
+	extend: 'Ext.data.TreeModel',
 	
 	uses: [
 	   'Sam.model.MenuRoot'
@@ -22,12 +22,11 @@ Ext.define('Sam.model.MenuItem', {
 	    },
 	    {
 	    	name: 'iconCls'
-	    }
-	],
+	    }],
 	
 	belongsTo: {
 		model: 'Sam.model.MenuRoot',
 		foreignKey: 'menu_id'
-	}
+	},
 
 });

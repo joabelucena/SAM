@@ -15,6 +15,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		this.control({
 			'serviceordergrid': {
 				render: this.onRender,
+				itemdblclick: this.onBtnShowSoClick
 			},
 			'toolbar #btnNewSo' :{
 				click: this.onBtnNewSoClick
@@ -91,8 +92,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	//ServiceOrder > grid : onRender
 	onRender: function(me, eOpts) {
-		me.getStore().reload();
-		me.getView().refresh();
+		//me.getStore().reload();
+		//me.getView().refresh();
 	},
 	
 	//ServiceOrder > grid : btnNewSo button
@@ -376,8 +377,48 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			
 			/**** Seta Campos do Form *****/
+			
+			// Visulizar OS : type ComboBox
+			Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
+				fields: ['id','desc'],
+				data: [{id: row.data.type.sot_id, desc: row.data.type.sot_description}]
+			}));
+			
+			// Visulizar OS : priority ComboBox
+			Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
+				fields: ['id','desc'],
+				data: [{id: row.data.priority.sle_id, desc: row.data.priority.sle_description}]
+			}));
+			
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-
+			
+			Ext.ComponentQuery.query('#end_date',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'd/m/Y'));	//data termino
+			Ext.ComponentQuery.query('#end_hour',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'g:i'));	//hora termino
+			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.data.priority.sle_description);
+			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
+			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
+			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
+			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.sot_id)
+			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
+			
+			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.ety_description);
+			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.ema_description);
+			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.ssy_description);
+			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.sit_description);
+			
+			
+			/************************************ Missing Fields ************************************/
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('equipment_stop'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('event_id'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('parent_id'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
+			
+			
+			
+			
 			
 			/******************************/
 		}
@@ -432,25 +473,45 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Desabilita Campos
 			Ext.each(fields,function(f){f.setReadOnly(true)})
 			
-			var testee = Ext.create('Sam.store.ServiceOrder')
-			
 			/**** Seta Campos do Form *****/
+			
+			// Visulizar OS : type ComboBox
+			Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
+				fields: ['id','desc'],
+				data: [{id: row.data.type.sot_id, desc: row.data.type.sot_description}]
+			}));
+			
+			// Visulizar OS : priority ComboBox
+			Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
+				fields: ['id','desc'],
+				data: [{id: row.data.priority.sle_id, desc: row.data.priority.sle_description}]
+			}));
+			
 			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
+			
 			Ext.ComponentQuery.query('#end_date',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'd/m/Y'));	//data termino
 			Ext.ComponentQuery.query('#end_hour',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'g:i'));	//hora termino
+			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.data.priority.sle_description);
+			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
+			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
+			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
+			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.sot_id)
+			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
+			
+			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.ety_description);
+			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.ema_description);
+			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.ssy_description);
+			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.sit_description);
+			
+			
+			/************************************ Missing Fields ************************************/
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('equipment_stop'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('event_id'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('parent_id'));
-			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.get('priority'));				//problema
-			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
-			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
-			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
-			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.get('type'));						//problema
-			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
 			
 			
 			
