@@ -180,7 +180,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		//1 - Visualiza
 		if(action == 1){
-			alert('Visualiza');
+
 		
 		//2 - Incluir
 		}else if(action == 2){
@@ -428,6 +428,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			//Campos a desabilitar
 			var fields = Ext.ComponentQuery.query('form #soInfo field, form #equipmentInfo field',activeTab)
+			
+			//Desabilita botão 'Confirma'
+			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setVisible(false);
 			
 			//Desabilita Campos
 			Ext.each(fields,function(f){f.setReadOnly(true)})
