@@ -42,6 +42,7 @@ import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.RoleService;
+import br.com.ttrans.samapp.service.ServiceOrderJobService;
 import br.com.ttrans.samapp.service.ServiceOrderLogService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
@@ -87,6 +88,9 @@ public class ServiceOrderController {
 	private RoleService roleService;
 	
 	@Autowired
+	private ServiceOrderJobService jobService;
+	
+	@Autowired
 	private DAO dao;
 	
 	@Autowired
@@ -119,6 +123,17 @@ public class ServiceOrderController {
 		return result;
 	}
 
+	@RequestMapping("/load/job")
+	@ResponseBody
+	public Map loadJob() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", jobService.loadData());
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
 	public ResponseEntity<Map> newFromEvent(
 			@RequestParam(value = "eveId"			, required = true) long eveId,

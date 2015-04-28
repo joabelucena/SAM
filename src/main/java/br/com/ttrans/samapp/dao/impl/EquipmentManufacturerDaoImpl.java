@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.EquipmentManufacturerDao;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 
@@ -45,18 +42,9 @@ public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 		
 		Criteria crit = session.getCurrentSession().createCriteria(EquipmentManufacturer.class);
 		
-		ProjectionList projList = Projections.projectionList();
-		
-		projList.add(Projections.property("ema_id"));
-		projList.add(Projections.property("ema_description"));
-		
-		crit.setProjection(projList);
-		
 		crit.add(Restrictions.ne("deleted","*"));
 		
-		List resultsList = crit.list();
-		
-		return resultsList;
+		return crit.list();
 	}
 
 }

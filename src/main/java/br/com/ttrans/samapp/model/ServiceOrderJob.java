@@ -24,6 +24,7 @@ public class ServiceOrderJob {
 	@Column(columnDefinition="char(1)")
 	private String deleted="";
 
+	public ServiceOrderJob(){};
 	public ServiceOrderJob(String soj_id, String soj_description,
 			String usr_insert, String usr_update, String deleted) {
 		super();

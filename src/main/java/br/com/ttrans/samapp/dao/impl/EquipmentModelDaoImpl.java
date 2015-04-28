@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.EquipmentModelDao;
 import br.com.ttrans.samapp.model.EquipmentModel;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class EquipmentModelDaoImpl implements EquipmentModelDao {
 
@@ -48,22 +44,9 @@ public class EquipmentModelDaoImpl implements EquipmentModelDao {
 
 		Criteria crit = session.getCurrentSession().createCriteria(EquipmentModel.class,"model");
 		
-		crit.createAlias("model.protocol","model_protocol",CriteriaSpecification.LEFT_JOIN);
-		
-		ProjectionList projList = Projections.projectionList();
-		
-		projList.add(Projections.property("model.emo_id"));
-		projList.add(Projections.property("model.emo_description"));
-		projList.add(Projections.property("model_protocol.epr_description"));
-		
-		crit.setProjection(projList);
-		
 		crit.add(Restrictions.ne("model.deleted","*"));
-		crit.add(Restrictions.ne("model_protocol.deleted","*"));
 		
-		List resultsList = crit.list();
-		
-		return resultsList;
+		return crit.list();
 	}
 
 }

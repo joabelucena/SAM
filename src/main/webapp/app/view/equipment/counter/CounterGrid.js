@@ -1,10 +1,11 @@
-Ext.define('Sam.view.equipment.type.TypeGrid', {
+Ext.define('Sam.view.equipment.counter.CounterGrid', {
 	extend : 'Ext.grid.Panel',
-	alias : 'widget.equipmenttypegrid',
+	
+	alias : 'widget.equipmentcountergrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.EquipmentType'),
+	store : Ext.create('Sam.store.EquipmentCounter'),
 
 	columns : [ {
 		text : 'Codigo',

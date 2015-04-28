@@ -53,60 +53,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		
 		return crit.list();
 
-		/*
-		Criteria crit = session.getCurrentSession().createCriteria(
-				Equipment.class, "equipment");
-
-		crit.createAlias("equipment.type", "equipment_type",
-				CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("equipment.model", "equipment_model",
-				CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("equipment.manufacturer", "equipment_manufacturer",
-				CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("equipment.site", "equipment_site",
-				CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("equipment.counter", "equipment_counter",
-				CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("equipment.system", "equipment_system",
-				CriteriaSpecification.LEFT_JOIN);
-
-		ProjectionList projList = Projections.projectionList();
-
-		projList.add(Projections.property("equipment.equ_id"),"equ_id");
-		projList.add(Projections.property("equipment.equ_fixed_asset"));
-		projList.add(Projections.property("equipment.equ_service_tag"));
-		projList.add(Projections.property("equipment.equ_ip"));
-		projList.add(Projections.property("equipment_type.ety_description"));
-		projList.add(Projections.property("equipment_model.emo_description"));
-		projList.add(Projections.property("equipment_manufacturer.ema_description"));
-		projList.add(Projections.property("equipment_site.sit_description"));
-		projList.add(Projections.property("equipment_counter.cty_description"));
-		projList.add(Projections.property("equipment_system.ssy_description"));
-		projList.add(Projections.property("equipment.equ_warranty"));
-		projList.add(Projections.property("equipment.equ_counter_qt"));
-		projList.add(Projections.property("equipment.equ_oid"));
-		projList.add(Projections.property("equipment.equ_mtbf_prev"));
-		projList.add(Projections.property("equipment.equ_mtbf_calc"));
-		projList.add(Projections.property("equipment.equ_mtbf_manf"));
-		projList.add(Projections.property("equipment.equ_install_date"));
-		projList.add(Projections.property("equipment.equ_manufacture_date"));
-		projList.add(Projections.property("equipment.equ_acquired_date"),"equ_acquired_date");
-		projList.add(Projections.property("equipment.equ_remark"));
-
-		crit.setProjection(projList);
-
-		crit.add(Restrictions.ne("equipment.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_type.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_model.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_manufacturer.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_site.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_counter.deleted", "*"));
-		crit.add(Restrictions.ne("equipment_system.deleted", "*"));
-		
-		List resultsList = crit.list();
-
-		return resultsList;
-		*/
 	}
 
 	@Override

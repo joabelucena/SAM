@@ -13,6 +13,8 @@ Ext.application({
 	controllers : [ 
 	   'Menu',
 	   'Alarms',
-	   'ServiceOrder'
+	   'ServiceOrder',
+	   'Equipment',
+	   'Technician'
 	   ]
 });

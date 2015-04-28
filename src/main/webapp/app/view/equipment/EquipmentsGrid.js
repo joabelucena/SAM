@@ -2,12 +2,8 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	extend : 'Ext.grid.Panel',
 	alias : 'widget.equipmentsgrid',
 
-	requires : [ 'Ext.grid.column.Check', 
-	             'Ext.grid.filters.Filters'
-	           ],
+	requires : [ 'Ext.grid.filters.Filters'],
 	           
-	plugins: 'gridfilters',
-
 	store : Ext.create('Sam.store.Equipment'),
 
 	columns : [ {
