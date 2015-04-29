@@ -10,10 +10,11 @@ import javax.persistence.Table;
 public class ServiceOrderJob {
 	
 	@Id
-	private String soj_id;
+	@Column(name="soj_id")
+	private String id;
 	
-	@Column
-	private String soj_description;
+	@Column(name="soj_description")
+	private String desc;
 	
 	@Column(updatable=false)
 	private String usr_insert;
@@ -24,31 +25,22 @@ public class ServiceOrderJob {
 	@Column(columnDefinition="char(1)")
 	private String deleted="";
 
-	public ServiceOrderJob(){};
-	public ServiceOrderJob(String soj_id, String soj_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.soj_id = soj_id;
-		this.soj_description = soj_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public ServiceOrderJob(){}
+
+	public String getId() {
+		return id;
 	}
 
-	public String getSoj_id() {
-		return soj_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setSoj_id(String soj_id) {
-		this.soj_id = soj_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getSoj_description() {
-		return soj_description;
-	}
-
-	public void setSoj_description(String soj_description) {
-		this.soj_description = soj_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getUsr_insert() {
@@ -73,6 +65,6 @@ public class ServiceOrderJob {
 
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
-	}
-
+	};
+	
 }

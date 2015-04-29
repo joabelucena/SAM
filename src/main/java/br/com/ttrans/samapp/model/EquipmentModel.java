@@ -16,11 +16,12 @@ import javax.persistence.Table;
 public class EquipmentModel {
 	
 	@Id
+	@Column(name="emo_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EQUIPMENT_MODEL")
-	private int emo_id;
+	private int id;
 	
-	@Column
-	private String emo_description;
+	@Column(name="emo_description")
+	private String desc;
 	
 	@ManyToOne
 	@JoinColumn(name = "emo_protocol_id")
@@ -36,32 +37,21 @@ public class EquipmentModel {
 	private String deleted="";
 
 	public EquipmentModel(){}
-	public EquipmentModel(int emo_id, String emo_description,
-			EquipmentProtocol protocol, String usr_insert, String usr_update,
-			String deleted) {
-		super();
-		this.emo_id = emo_id;
-		this.emo_description = emo_description;
-		this.protocol = protocol;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getEmo_id() {
-		return emo_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setEmo_id(int emo_id) {
-		this.emo_id = emo_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getEmo_description() {
-		return emo_description;
-	}
-
-	public void setEmo_description(String emo_description) {
-		this.emo_description = emo_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public EquipmentProtocol getProtocol() {
@@ -95,4 +85,5 @@ public class EquipmentModel {
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
+	
 }

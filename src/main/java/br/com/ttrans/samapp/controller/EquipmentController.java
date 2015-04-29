@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.model.Counter;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
+import br.com.ttrans.samapp.model.EquipmentModel;
+import br.com.ttrans.samapp.model.EquipmentType;
 import br.com.ttrans.samapp.service.CounterService;
 import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentModelService;
@@ -41,7 +44,9 @@ public class EquipmentController {
 	private EquipmentTypeService typeService;
 	
 	
-	
+	/*
+	 * Load Data Methods
+	 */
 	@RequestMapping("/load")
 	@ResponseBody
 	public Map loadData() {
@@ -97,7 +102,9 @@ public class EquipmentController {
 		return result;
 	}
 	
-	
+	/*
+	 * CRUD Operations for: EquipmentManufacturer
+	 */
 	@RequestMapping("/manufacturer/add.action")
 	@ResponseBody
 	public Map addManufacturer(@RequestBody EquipmentManufacturer manufacturer, 
@@ -149,6 +156,196 @@ public class EquipmentController {
 		
 		try{
 			manufacturerService.delete(manufacturer, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+
+	/*
+	 * CRUD Operations for: EquipmentModel
+	 */
+	@RequestMapping("/model/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody EquipmentModel model, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			modelService.add(model, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/model/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody EquipmentModel model, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			modelService.edit(model, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/model/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody EquipmentModel model, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			modelService.delete(model, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+
+	/*
+	 * CRUD Operations for: EquipmentType
+	 */
+	@RequestMapping("/type/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody EquipmentType type, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			typeService.add(type, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody EquipmentType type, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			typeService.edit(type, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody EquipmentType type, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			typeService.delete(type, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	
+	
+	/*
+	 * CRUD Operations for: Counter
+	 */
+	@RequestMapping("/counter/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody Counter counter, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			counterService.add(counter, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/counter/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody Counter counter, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			counterService.edit(counter, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/counter/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody Counter counter, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			counterService.delete(counter, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

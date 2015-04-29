@@ -10,10 +10,11 @@ import javax.persistence.ManyToOne;
 public class Technician {
 	
 	@Id
-	private String tec_id;
+	@Column(name="tec_id")
+	private String id;
 	
-	@Column
-	private String tec_name;
+	@Column(name="tec_name")
+	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name = "tec_site_id")
@@ -29,31 +30,21 @@ public class Technician {
 	private String deleted="";
 
 	public Technician(){}
-	public Technician(String tec_id, String tec_name, Site site,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.tec_id = tec_id;
-		this.tec_name = tec_name;
-		this.site = site;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public String getId() {
+		return id;
 	}
 
-	public String getTec_id() {
-		return tec_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setTec_id(String tec_id) {
-		this.tec_id = tec_id;
+	public String getName() {
+		return name;
 	}
 
-	public String getTec_name() {
-		return tec_name;
-	}
-
-	public void setTec_name(String tec_name) {
-		this.tec_name = tec_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Site getSite() {
