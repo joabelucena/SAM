@@ -28,7 +28,7 @@ Ext.define('Sam.store.EquipmentManufacturer', {
         listeners: {
             exception: function(proxy, response, operation){
                 Ext.MessageBox.show({
-                    title: 'REMOTE EXCEPTION',
+                    title: 'Falha na Requisição',
                     msg: operation.getError(),
                     icon: Ext.MessageBox.ERROR,
                     buttons: Ext.Msg.OK

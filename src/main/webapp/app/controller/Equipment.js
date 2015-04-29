@@ -22,7 +22,16 @@ Ext.define('Sam.controller.Equipment', {
 			},
 			
 			'#equipmentmanufacturerform toolbar #btnSubmit' :{
-				click: this.onManufacturerBtnSubmit
+				create: this.onManufacturerBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onManufacturerBtnSubmitEdit,
+				remove: this.onManufacturerBtnSubmitDelete,
+				
+			},
+			
+			'#equipmentmanufacturerform toolbar #btnDiscard' :{
+				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				
 			},
 			
 			'#equipmentmanufacturergrid toolbar #btnShow' :{
@@ -103,7 +112,7 @@ Ext.define('Sam.controller.Equipment', {
 			Ext.ComponentQuery.query('#desc',activeTab)[0].setValue(row.data.desc);
 			
 			//Seta Botão Confirma: 1 - Visualizar
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 			
 		}
 	},
@@ -148,12 +157,9 @@ Ext.define('Sam.controller.Equipment', {
 			
 			form.loadRecord(row);
 			
-			/**** Seta Campos do Form *****/
-			//Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.data.id);
-			//Ext.ComponentQuery.query('#desc',activeTab)[0].setValue(row.data.desc);
 			
-			//Seta Botão Confirma: 3 - Alterar
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('click',3)});
+			//Seta Botão Confirma: Alterar
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
 			
 		}
 	},
@@ -190,12 +196,8 @@ Ext.define('Sam.controller.Equipment', {
 		/*** 'Seta funcao do botao ***/
 		activeTab = mainPanel.getActiveTab();
 		
-		//var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
-		
-		//form.loadRecord(Ext.create('Sam.model.EquipmentManufacturer'));
-		
-		//Seta Botão Confirma: 2 - Incluir
-		Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('click',2)});
+		//Seta Botão Confirma: Incluir
+		Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 			
 
 	},
@@ -244,90 +246,73 @@ Ext.define('Sam.controller.Equipment', {
 			//Desabilita Campos
 			Ext.each(fields,function(f){f.setReadOnly(true)})
 			
-			//Seta Botão Confirma: 4 - Exlcuir
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('click',4)});
+			//Seta Botão Confirma: Exlcuir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
 			
 		}
 	},
 	
-	onManufacturerBtnSubmit: function(action){
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
+	onManufacturerBtnSubmitAdd: function(){
 		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		//Formulario
-		var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
-		
-		//registro
-		var record = form.getRecord();
-		
-		//Dados do Formulario
-		var values = form.getValues();
-		
-		//Store
-		var store = this.getEquipmentManufacturerStore();
-		
-		//1 - Visualiza
-		if(action == 1){
-			
-			activeTab.close();
-			
-		}
-		
-		//2 - Incluir		
-		else if(action == 2){
-			
-			var record = Ext.create('Sam.model.EquipmentManufacturer');
-				
-			record.set(values);
-			
-			store.add(record);
-			
-		}
-		
-		//3 - Alterar
-		else if (action == 3){
-			
-			record.set(values);
-			store.save();
-			
-		}
-		
-		//4 - Exlcui
-		else if (action == 4){
-			
-			store.remove(record);
-			
-		}else{
-
-		}
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentManufacturerStore(),						//Store
+			record		= Ext.create('Sam.model.EquipmentManufacturer');			//Registro
 		
 		
-		//Sincroniza Store na Base
-		store.sync({
-            success: function()
-            {
-                console.log("success!!");
-            },
-            failure: function()
-            {
-                console.log("failed...");
-            },
-            callback: function()
-            {
-                console.log("calling callback");
-            },
-            scope: this
-        });
+		//Carrega dados do Formulario no registro
+		record.set(values);
 		
-		//Recarrega Store
-		store.load();
+		//Adiciona registro na store
+		store.add(record);
+		
+		//Sincroniza e Atualiza Store
+		syncStore(store);
 		
 		//Fecha Aba
-		//activeTab.close();
-
+		activeTab.close();
+	},
+	
+	onManufacturerBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentManufacturerStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		//Carrega dados do formulario na Store
+		store.findRecord('id',record.get('id')).set(values);
+		
+		//Sincroniza e Atualiza Store
+		syncStore(store);
+		
+		//Fecha Aba
+		activeTab.close();
+		
+	},
+	
+	onManufacturerBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentManufacturerStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		//Apaga registro da Store
+		store.remove(record);
+		
+		//Sincroniza e Atualiza Store
+		syncStore(store);
+		
+		//Fecha Aba
+		activeTab.close();
+		
 	},
 	
 	onModelBtnShowClick: function() {
@@ -335,3 +320,33 @@ Ext.define('Sam.controller.Equipment', {
 	}
 	
 });
+
+function syncStore(store){
+	
+	//Sincroniza Store
+	store.sync({
+        success: function()
+        {
+            console.log("success!!");
+        },
+        failure: function()
+        {
+            console.log("failed...");
+        },
+        callback: function()
+        {
+            console.log("calling callback");
+        },
+        scope: this
+    });
+	
+	//Recarrega a store
+	store.reload();
+	
+	Ext.each(Ext.ComponentQuery.query('#equipmentmanufacturergrid'),function(f){
+		f.getStore().reload();
+		f.getView().refresh();
+	});
+	
+	
+}

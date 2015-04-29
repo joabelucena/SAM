@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,15 @@ public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 
 	@Override
 	public void delete(EquipmentManufacturer manufacturer, Authentication authentication) {
-		manufacturer.setUsr_update(authentication.getName());
-		manufacturer.setDeleted("*");
-		session.getCurrentSession().update(manufacturer);
+		
+		Query query = session.getCurrentSession().createQuery("update EquipmentManufacturer set deleted = '*', usr_update = :user"
+				+ " where id = :id"); 
+		
+		query.setParameter("id"		, manufacturer.getId());
+		query.setParameter("user"	, authentication.getName());
+		
+		query.executeUpdate();	
+		
 	}
 
 	@Override
