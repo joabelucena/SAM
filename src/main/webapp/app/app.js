@@ -6,9 +6,11 @@ Ext.application({
 		Ext.widget('mainviewport');
 	},
 	
-	views:[
-	       'MainViewport'
-	       ],
+	views:['MainViewport'],
+
+	stores: ['EquipmentManufacturer'],
+   
+	models: ['EquipmentManufacturer'],
 
 	controllers : [ 
 	   'Menu',
