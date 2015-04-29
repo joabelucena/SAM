@@ -14,11 +14,12 @@ import javax.persistence.Table;
 public class Counter {
 
 	@Id
+	@Column(name="cty_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_COUNTER_TYPE")
-	private int cty_id;
+	private int id;
 	
-	@Column
-	private String cty_description;
+	@Column(name="cty_description")
+	private String desc;
 	
 	@Column(updatable=false)
 	private String usr_insert;
@@ -30,30 +31,21 @@ public class Counter {
 	private String deleted="";
 
 	public Counter(){}
-	public Counter(int cty_id, String cty_description, String usr_insert,
-			String usr_update, String deleted) {
-		super();
-		this.cty_id = cty_id;
-		this.cty_description = cty_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getCty_id() {
-		return cty_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setCty_id(int cty_id) {
-		this.cty_id = cty_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getCty_description() {
-		return cty_description;
-	}
-
-	public void setCty_description(String cty_description) {
-		this.cty_description = cty_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getUsr_insert() {
@@ -79,9 +71,5 @@ public class Counter {
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
-	
-	
-	
-	
 	
 }

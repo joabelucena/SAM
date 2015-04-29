@@ -150,7 +150,7 @@ public class EventController {
 			//Equipment			
 			try{
 				result.put("id"					, event.getEquipment().getEqu_id());
-				result.put("model"				, event.getEquipment().getModel().getEmo_description());
+				result.put("model"				, event.getEquipment().getModel().getDesc());
 				result.put("manufacturer"		, event.getEquipment().getManufacturer().getDesc());
 				result.put("subsystem"			, event.getEquipment().getSystem().getSsy_description());
 				result.put("site"				, event.getEquipment().getSite().getSit_description());

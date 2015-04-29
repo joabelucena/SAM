@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.QueryException;
 import org.hibernate.exception.GenericJDBCException;
@@ -24,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +35,7 @@ import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.ServiceOrder;
+import br.com.ttrans.samapp.model.ServiceOrderJob;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.ServiceOrderType;
@@ -235,7 +238,6 @@ public class ServiceOrderController {
 		} 
 	}
 	
-	
 	@RequestMapping(value = "/newFromSo", method = RequestMethod.POST)
 	public ResponseEntity<Map> newFromSo(
 			@RequestParam(value = "equipId"			, required = true) String equipId,
@@ -342,8 +344,6 @@ public class ServiceOrderController {
 		}
 	}
 	
-	
-
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
 	public ResponseEntity<Map> changeStatus(
 			@RequestParam(value = "soId"	, required = true)	int soId,
@@ -425,7 +425,6 @@ public class ServiceOrderController {
 		return new ResponseEntity<Map>(result , HttpStatus.OK);
 	}
 	
-	
 	@RequestMapping(value = "/get", method = RequestMethod.POST)
 	public ResponseEntity<Map> get(
 			@RequestParam(value = "soId"	, required = true)	int id,
@@ -500,4 +499,70 @@ public class ServiceOrderController {
 		
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}
+
+
+
+	/*
+	 * CRUD Operations for: ServiceOrderJob
+	 */
+	@RequestMapping("/job/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody ServiceOrderJob job, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			jobService.add(job, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/job/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody ServiceOrderJob job, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			jobService.edit(job, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/job/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody ServiceOrderJob job, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			jobService.delete(job, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+
+
 }
