@@ -14,11 +14,12 @@ import javax.persistence.Table;
 public class EquipmentManufacturer {
 
 	@Id
+	@Column(name="ema_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EQUIPMENTS_MANUFACTURER")
-	private int ema_id;
+	private int id;
 	
-	@Column
-	private String ema_description;	
+	@Column(name="ema_description")
+	private String desc;
 	
 	@Column(updatable=false)
 	private String usr_insert;
@@ -30,30 +31,21 @@ public class EquipmentManufacturer {
 	private String deleted="";
 
 	public EquipmentManufacturer(){}
-	public EquipmentManufacturer(int ema_id, String ema_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.ema_id = ema_id;
-		this.ema_description = ema_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getEma_id() {
-		return ema_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setEma_id(int ema_id) {
-		this.ema_id = ema_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getEma_description() {
-		return ema_description;
-	}
-
-	public void setEma_description(String ema_description) {
-		this.ema_description = ema_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getUsr_insert() {
@@ -78,5 +70,6 @@ public class EquipmentManufacturer {
 
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
-	}	
+	}
+	
 }

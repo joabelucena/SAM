@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.model.EquipmentManufacturer;
 import br.com.ttrans.samapp.service.CounterService;
 import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentModelService;
@@ -101,48 +104,65 @@ public class EquipmentController {
 	
 	@RequestMapping("/manufacturer/add.action")
 	@ResponseBody
-	public Map addManufacturer(HttpServletRequest request,
+	public Map addManufacturer(@RequestBody EquipmentManufacturer manufacturer, 
+			HttpServletRequest request,
+			Authentication authentication,
             HttpServletResponse response) {
 		
-		request.getParameter("data");
-		
+		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		System.out.println("### add!");
+		System.out.println("### add");
 		
-		//result.put("data", counterService.loadData());
+		try{
+			manufacturerService.add(manufacturer, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
 		
 		return result;
 	}
 	
 	@RequestMapping("/manufacturer/update.action")
 	@ResponseBody
-	public Map updateManufacturer(HttpServletRequest request,
+	public Map updateManufacturer(@RequestBody EquipmentManufacturer manufacturer, 
+			HttpServletRequest request,
+			Authentication authentication,
             HttpServletResponse response) {
 		
-		request.getParameter("data");
-		
+		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		System.out.println("### update!");
+		System.out.println("### update");
 		
-		//result.put("data", counterService.loadData());
+		try{
+			manufacturerService.edit(manufacturer, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
 		
 		return result;
 	}
 	
 	@RequestMapping("/manufacturer/delete.action")
 	@ResponseBody
-	public Map deleteManufacturer(HttpServletRequest request,
+	public Map deleteManufacturer(@RequestBody EquipmentManufacturer manufacturer, 
+			HttpServletRequest request,
+			Authentication authentication,
             HttpServletResponse response) {
 		
-		request.getParameter("data");
-		
+		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		System.out.println("### delete!");
+		System.out.println("### delete");
 		
-		//result.put("data", counterService.loadData());
+		try{
+			manufacturerService.delete(manufacturer, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
 		
 		return result;
 	}

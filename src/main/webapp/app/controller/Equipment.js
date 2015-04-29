@@ -1,7 +1,11 @@
 Ext.define('Sam.controller.Equipment', {
 	extend: 'Ext.app.Controller',
 	
-
+	
+	stores: ['EquipmentManufacturer'],
+	
+	models: ['EquipmentManufacturer'],
+	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerForm',
@@ -228,7 +232,6 @@ Ext.define('Sam.controller.Equipment', {
 			
 			mainPanel.setActiveTab(newTab);
 			
-			/*** 'Seta funcao do botao ***/
 			activeTab = mainPanel.getActiveTab();
 			
 			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
@@ -260,10 +263,14 @@ Ext.define('Sam.controller.Equipment', {
 		//registro
 		var record = form.getRecord();
 		
+		//Dados do Formulario
+		var values = form.getValues();
+		
+		//Store
+		var store = this.getEquipmentManufacturerStore();
 		
 		//1 - Visualiza
 		if(action == 1){
-			alert('Visualiza');
 			
 			activeTab.close();
 			
@@ -272,27 +279,54 @@ Ext.define('Sam.controller.Equipment', {
 		//2 - Incluir		
 		else if(action == 2){
 			
-			record.add();
+			var record = Ext.create('Sam.model.EquipmentManufacturer');
+				
+			record.set(values);
+			
+			store.add(record);
 			
 		}
 		
 		//3 - Alterar
 		else if (action == 3){
-		
 			
-			record.save();
+			record.set(values);
+			store.save();
 			
-			
-			activeTab.close();
 		}
 		
 		//4 - Exlcui
 		else if (action == 4){
-			alert('Exclui');
+			
+			store.remove(record);
 			
 		}else{
 
 		}
+		
+		
+		//Sincroniza Store na Base
+		store.sync({
+            success: function()
+            {
+                console.log("success!!");
+            },
+            failure: function()
+            {
+                console.log("failed...");
+            },
+            callback: function()
+            {
+                console.log("calling callback");
+            },
+            scope: this
+        });
+		
+		//Recarrega Store
+		store.load();
+		
+		//Fecha Aba
+		//activeTab.close();
 
 	},
 	
