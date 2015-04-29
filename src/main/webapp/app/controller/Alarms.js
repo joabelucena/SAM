@@ -86,7 +86,7 @@ Ext.define('Sam.controller.Alarms', {
 			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
 			                    	
 			                    	//Recarrega Store do 
-			                    	Ext.getCmp('alarmhistsogrid').getStore().load()
+			                    	Ext.getCmp('alarmhistsogrid').getStore().load();
 			                    	
 			                    	//Fecha aba de abertura de OS
 			                    	if(openSOTab){

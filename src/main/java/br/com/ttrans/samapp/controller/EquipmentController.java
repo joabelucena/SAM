@@ -19,11 +19,7 @@ import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentModelService;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EquipmentTypeService;
-/*
- * 
- * TAke a look at this: http://www.sencha.com/forum/showthread.php?106571
- * 
- */
+
 @Controller
 @RequestMapping("/equipment")
 @SuppressWarnings("rawtypes")
@@ -111,9 +107,7 @@ public class EquipmentController {
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-		
-		System.out.println("### add");
-		
+
 		try{
 			manufacturerService.add(manufacturer, authentication);
 		}catch(Exception e){
@@ -132,9 +126,7 @@ public class EquipmentController {
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-		
-		System.out.println("### update");
-		
+
 		try{
 			manufacturerService.edit(manufacturer, authentication);
 		}catch(Exception e){
@@ -154,8 +146,6 @@ public class EquipmentController {
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-		
-		System.out.println("### delete");
 		
 		try{
 			manufacturerService.delete(manufacturer, authentication);
