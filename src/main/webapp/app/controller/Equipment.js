@@ -193,7 +193,7 @@ Ext.define('Sam.controller.Equipment', {
 		
 		mainPanel.setActiveTab(newTab);
 		
-		/*** 'Seta funcao do botao ***/
+		/*** Seta funcao do botao ***/
 		activeTab = mainPanel.getActiveTab();
 		
 		//Seta Botão Confirma: Incluir

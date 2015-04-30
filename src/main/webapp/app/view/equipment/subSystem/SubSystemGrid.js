@@ -1,12 +1,12 @@
-Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
+Ext.define('Sam.view.equipment.subsystem.SubSystemGrid', {
 	extend : 'Ext.grid.Panel',
-	alias : 'widget.equipmentmanufacturergrid',
+	alias : 'widget.subsystemgrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.EquipmentManufacturer'),
+	store : Ext.create('Sam.store.System'),
 	
-	itemId: 'equipmentmanufacturergrid',
+	itemId: 'subsystemgrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -14,7 +14,7 @@ Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
 		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'string'
+			type : 'number'
 		}
 	}, {
 		text : 'Descrição',

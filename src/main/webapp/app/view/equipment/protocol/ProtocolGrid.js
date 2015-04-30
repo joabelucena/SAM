@@ -1,12 +1,12 @@
-Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
+Ext.define('Sam.view.equipment.protocol.ProtocolGrid', {
 	extend : 'Ext.grid.Panel',
-	alias : 'widget.equipmentmanufacturergrid',
+	alias : 'widget.equipmentprotocolgrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.EquipmentManufacturer'),
+	store : Ext.create('Sam.store.EquipmentProtocol'),
 	
-	itemId: 'equipmentmanufacturergrid',
+	itemId: 'equipmentprotocolgrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -14,7 +14,7 @@ Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
 		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'string'
+			type : 'number'
 		}
 	}, {
 		text : 'Descrição',

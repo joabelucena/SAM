@@ -3,7 +3,7 @@ Ext.define('Sam.model.SiteType', {
 	
 	fields:[
 	        
-	        {name: 'id'				, type: 'string'	, mapping: 'sty_id'								},
+	        {name: 'id'				, type: 'number'	, mapping: 'sty_id'								},
 	        {name: 'description'	, type: 'string'	, mapping: 'sty_description' 					}
 
 	       ]

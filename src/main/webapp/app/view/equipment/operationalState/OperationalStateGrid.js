@@ -1,18 +1,26 @@
-Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
+Ext.define('Sam.view.equipment.operationalState.OperationalStateGrid', {
 	extend : 'Ext.grid.Panel',
-	alias : 'widget.equipmentmanufacturergrid',
+	alias : 'widget.operationalstategrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.EquipmentManufacturer'),
+	store : Ext.create('Sam.store.OperationalState'),
 	
-	itemId: 'equipmentmanufacturergrid',
+	itemId: 'operationalstategrid',
 
 	columns : [ {
 		text : 'Codigo',
 		dataIndex : 'id',
 		flex : 1,
 		sortable: true,
+		filter : {
+			type : 'number'
+		}
+	}, {
+		text : 'Modelo do Equipamento',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'model_desc',
 		filter : {
 			type : 'string'
 		}

@@ -16,12 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.ttrans.samapp.model.Counter;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 import br.com.ttrans.samapp.model.EquipmentModel;
+import br.com.ttrans.samapp.model.EquipmentProtocol;
 import br.com.ttrans.samapp.model.EquipmentType;
+import br.com.ttrans.samapp.model.OperationalState;
+import br.com.ttrans.samapp.model.SubSystem;
 import br.com.ttrans.samapp.service.CounterService;
 import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentModelService;
+import br.com.ttrans.samapp.service.EquipmentProtocolService;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EquipmentTypeService;
+import br.com.ttrans.samapp.service.OperationalStateService;
+import br.com.ttrans.samapp.service.SubSystemService;
 
 @Controller
 @RequestMapping("/equipment")
@@ -33,6 +39,15 @@ public class EquipmentController {
 	
 	@Autowired
 	private CounterService counterService;
+	
+	@Autowired
+	private EquipmentProtocolService protocolService;
+	
+	@Autowired
+	private OperationalStateService operationalStateService;
+	
+	@Autowired
+	private SubSystemService systemService;
 
 	@Autowired
 	private EquipmentManufacturerService manufacturerService;
@@ -101,6 +116,40 @@ public class EquipmentController {
 		
 		return result;
 	}
+	
+	@RequestMapping("/load/protocol")
+	@ResponseBody
+	public Map loadProtocol() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", protocolService.loadData());
+		
+		return result;
+	}
+	
+	@RequestMapping("/load/operationalState")
+	@ResponseBody
+	public Map operationalState() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", operationalStateService.loadData());
+		
+		return result;
+	}
+	
+	@RequestMapping("/load/system")
+	@ResponseBody
+	public Map system() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", systemService.loadData());
+		
+		return result;
+	}
+	
 	
 	/*
 	 * CRUD Operations for: EquipmentManufacturer
@@ -354,4 +403,190 @@ public class EquipmentController {
 		return result;
 	}
 	
+	/*
+	 * CRUD Operations for: Protocol
+	 */
+	@RequestMapping("/protocol/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody EquipmentProtocol protocol, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			protocolService.add(protocol, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/protocol/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody EquipmentProtocol protocol, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			protocolService.edit(protocol, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/protocol/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody EquipmentProtocol protocol, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			protocolService.delete(protocol, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: Operational State
+	 */
+	@RequestMapping("/operationalState/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody OperationalState operationalState, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			operationalStateService.add(operationalState, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/operationalState/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody OperationalState operationalState, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			operationalStateService.edit(operationalState, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/operationalState/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody OperationalState operationalState, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			operationalStateService.delete(operationalState, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: System
+	 */
+	@RequestMapping("/system/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody SubSystem system, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			systemService.add(system, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/system/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody SubSystem system, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			systemService.edit(system, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/system/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody SubSystem system, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			systemService.delete(system, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+
 }
