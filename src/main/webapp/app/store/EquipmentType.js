@@ -1,20 +1,30 @@
 Ext.define('Sam.store.EquipmentType', {
 	extend: 'Ext.data.Store',
 	
-	requires: ['Sam.model.EquipmentType'],
-	
 	model: 'Sam.model.EquipmentType',
 	
-	autoLoad: true,
-	async: true,
+	autoLoad: false,
 
 	proxy: {
-		type: 'ajax',
-		url: 'equipment/load/type',
-		reader: {
-			type: 'json',
-			root: 'data'
-		}
-	}
+        type: 'ajax',
+        
+        api: {
+        	read : 		'equipment/load/type',
+			create : 	'equipment/type/add.action',
+			update : 	'equipment/type/update.action',
+			destroy : 	'equipment/type/delete.action',
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: false,
+            root: 'data'
+        }
+    }
 	
 });

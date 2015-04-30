@@ -27,13 +27,15 @@ Ext.define('Sam.store.EquipmentManufacturer', {
         },
         listeners: {
             exception: function(proxy, response, operation){
-                Ext.MessageBox.show({
-                    title: 'Falha na Requisição',
-                    msg: operation.getError(),
-                    icon: Ext.MessageBox.ERROR,
-                    buttons: Ext.Msg.OK
-                });
-            }
+            	console.log('exception');
+            },
+            success: function(proxy, response, operation){
+            	console.log('success');
+            },
+            
+            failure: function(proxy, response, operation){
+                console.log('failure');
+            },
         }
     }
 });

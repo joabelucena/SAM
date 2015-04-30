@@ -2,23 +2,60 @@ Ext.define('Sam.controller.Equipment', {
 	extend: 'Ext.app.Controller',
 	
 	
-	stores: ['EquipmentManufacturer'],
+	stores: ['EquipmentManufacturer',
+		        'EquipmentCounter',
+		     	'EquipmentManufacturer',
+		     	'Equipment',
+		     	'EquipmentModel',
+		     	'EquipmentType'],
 	
-	models: ['EquipmentManufacturer'],
+	models: ['EquipmentManufacturer',
+		        'EquipmentCounter',
+		     	'EquipmentManufacturer',
+		     	'Equipment',
+		     	'EquipmentModel',
+		     	'EquipmentType'],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerForm',
 	        'Sam.view.equipment.counter.CounterGrid',
+	        'Sam.view.equipment.counter.CounterForm',
 	        'Sam.view.equipment.model.ModelGrid',
-	        'Sam.view.equipment.type.TypeGrid'],
+	        //'Sam.view.equipment.model.ModelForm',
+	        'Sam.view.equipment.type.TypeGrid',
+	        'Sam.view.equipment.type.TypeForm'
+	        ],
 
 	init: function() {
 		
 		this.control({
+			/*
+			 * Grid Listeners
+			 */
 			'equipmentmanufacturergrid': {
 				render: this.onRender,
 				itemdblclick: this.onManufacturerBtnShowClick
+			},
+			
+			'equipmentsgrid': {
+				render: this.onRender,
+				itemdblclick: function(){}
+			},
+			
+			'equipmentscountergrid': {
+				render: this.onRender,
+				itemdblclick: function(){}
+			},
+			
+			'equipmentsmodelgrid': {
+				render: this.onRender,
+				itemdblclick: function(){}
+			},
+			
+			'equipmentstypegrid': {
+				render: this.onRender,
+				itemdblclick: function(){}
 			},
 			
 			'#equipmentmanufacturerform toolbar #btnSubmit' :{
@@ -65,190 +102,108 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onManufacturerBtnShowClick: function() {
 		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
 		//Linha selecionada
-		var row = activeTab.getSelection()[0];
-		
-		var tabId = 'show-manufacturer-'+row.get('id');
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
 		//Tem Registro Selecionado
-		if(typeof row !== 'undefined'){
+		if(row){
 			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
+			//Cria Aba: 1 - Visualizar
+			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
 			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'equipmentmanufacturerform',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Visualizar Fabr.: '+row.get('id')
-				});
-			}
+			if(activeTab){
 			
-			mainPanel.setActiveTab(newTab);
-			
-			
-			/*** 'Seta funcao do botao ***/
-			activeTab = mainPanel.getActiveTab();
-			
-			//Campos a desabilitar
-			var fields = Ext.ComponentQuery.query('form field',activeTab)
-			
-			//Desabilita Campos
-			Ext.each(fields,function(f){f.setReadOnly(true)})
-			
-			
-			/**** Seta Campos do Form *****/
-			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.data.id);
-			Ext.ComponentQuery.query('#desc',activeTab)[0].setValue(row.data.desc);
-			
-			//Seta Botão Confirma: 1 - Visualizar
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
-			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}			
 		}
 	},
 	
 	onManufacturerBtnEditClick: function(){
 		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
 		//Linha selecionada
-		var row = activeTab.getSelection()[0];
-		
-		var tabId = 'show-manufacturer-'+row.get('id');
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
 		//Tem Registro Selecionado
-		if(typeof row !== 'undefined'){
+		if(row){
 			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
+			//Cria Aba: 2 - Alterar
+			activeTab = activateTab(2, row.get('id'), 'equipmentmanufacturerform', null);
 			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'equipmentmanufacturerform',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Alterar Fabr.: '+row.get('id')
-				});
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
 			}
-			
-			mainPanel.setActiveTab(newTab);
-			
-			/*** 'Seta funcao do botao ***/
-			activeTab = mainPanel.getActiveTab();
-			
-			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
-			
-			form.loadRecord(row);
-			
-			
-			//Seta Botão Confirma: Alterar
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
-			
 		}
 	},
 	
 	onManufacturerBtnAddClick: function(){
 		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		
-		var tabId = 'new-manufacturer'
-		
+		//Tem Registro Selecionado
+		if(row){
 			
-		var newTab = mainPanel.items.findBy(
-				function(tab){
-					return tab.id === tabId;
-				});
+			//Cria Aba: 3 - Incluir
+			activeTab = activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
+			
+			if(activeTab){
 		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				id: tabId,
-				xtype: 'equipmentmanufacturerform',
-				closable: true,
-				iconCls: 'magnifier-zoom',
-				title: 'Incluir Novo fabricante'
-			});
+				//Seta Botão Confirma: Incluir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+			}
 		}
-		
-		mainPanel.setActiveTab(newTab);
-		
-		/*** Seta funcao do botao ***/
-		activeTab = mainPanel.getActiveTab();
-		
-		//Seta Botão Confirma: Incluir
-		Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
-			
 
 	},
 	
 	onManufacturerBtnDeleteClick: function(){
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
 		//Linha selecionada
-		var row = activeTab.getSelection()[0];
-		
-		var tabId = 'delete-manufacturer-'+row.get('id');
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
 		//Tem Registro Selecionado
-		if(typeof row !== 'undefined'){
+		if(row){
 			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
+			//Cria Aba: 4 - Excluir
+			activeTab = activateTab(4, row.get('id'), 'equipmentmanufacturerform', null);
 			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'equipmentmanufacturerform',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Excluir Fabr.: '+row.get('id')
-				});
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
 			}
-			
-			mainPanel.setActiveTab(newTab);
-			
-			activeTab = mainPanel.getActiveTab();
-			
-			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
-			
-			form.loadRecord(row);
-			
-			//Campos a desabilitar
-			var fields = Ext.ComponentQuery.query('form field',activeTab)
-			
-			//Desabilita Campos
-			Ext.each(fields,function(f){f.setReadOnly(true)})
-			
-			//Seta Botão Confirma: Exlcuir
-			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
-			
 		}
 	},
 	
@@ -262,17 +217,21 @@ Ext.define('Sam.controller.Equipment', {
 			record		= Ext.create('Sam.model.EquipmentManufacturer');			//Registro
 		
 		
-		//Carrega dados do Formulario no registro
-		record.set(values);
 		
-		//Adiciona registro na store
-		store.add(record);
-		
-		//Sincroniza e Atualiza Store
-		syncStore(store);
-		
-		//Fecha Aba
-		activeTab.close();
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmanufacturergrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
 	},
 	
 	onManufacturerBtnSubmitEdit: function(){
@@ -284,15 +243,16 @@ Ext.define('Sam.controller.Equipment', {
 			store		= this.getEquipmentManufacturerStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
-		//Carrega dados do formulario na Store
-		store.findRecord('id',record.get('id')).set(values);
-		
-		//Sincroniza e Atualiza Store
-		syncStore(store);
-		
-		//Fecha Aba
-		activeTab.close();
-		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmanufacturergrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
 	},
 	
 	onManufacturerBtnSubmitDelete: function(){
@@ -304,15 +264,17 @@ Ext.define('Sam.controller.Equipment', {
 			store		= this.getEquipmentManufacturerStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
-		//Apaga registro da Store
-		store.remove(record);
+		if(form.isValid()){
 		
-		//Sincroniza e Atualiza Store
-		syncStore(store);
-		
-		//Fecha Aba
-		activeTab.close();
-		
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmanufacturergrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
 	},
 	
 	onModelBtnShowClick: function() {
@@ -321,32 +283,85 @@ Ext.define('Sam.controller.Equipment', {
 	
 });
 
-function syncStore(store){
+function syncStore(store, component){
 	
 	//Sincroniza Store
 	store.sync({
-        success: function()
+        success: function(batch, options)
         {
-            console.log("success!!");
+        	
+        	//Atualiza stores e views
+        	Ext.each(Ext.ComponentQuery.query('#'+component),function(f){
+        		f.getStore().reload();
+        		f.getView().refresh();
+        	});
+        	
         },
-        failure: function()
+        failure: function(batch, options)
         {
             console.log("failed...");
-        },
-        callback: function()
-        {
-            console.log("calling callback");
-        },
-        scope: this
+        }
     });
+}
+
+function activateTab(action, id, xtype, uTitle){
 	
-	//Recarrega a store
-	store.reload();
+	//Variaveis
+	var title, tabId, activeTab;
 	
-	Ext.each(Ext.ComponentQuery.query('#equipmentmanufacturergrid'),function(f){
-		f.getStore().reload();
-		f.getView().refresh();
-	});
+	//Aba Objecto Pai
+	var mainPanel = Ext.getCmp('viewportpanel');
 	
+	switch(action){
+		
+		//Visualizar
+		case 1:
+			title = 'Visualizar Cod: ' + id;
+			tabId = 'show-' + xtype + '-' + id;
+			break;
+		
+		//Incluir
+		case 2:
+			title = 'Incluir Novo Registro';
+			tabId = 'add-' + xtype + '-' + id;
+			break;
+		
+		//Alterar
+		case 3:
+			title = 'Alterar Cod: ' + id;
+			tabId = 'edit-' + xtype + '-' + id;
+			break;
+		
+		//Excluir
+		case 4:
+			title = 'Excluir Cod: ' + id;
+			tabId = 'delete-' + xtype + '-' + id;
+			break;
+		default:
+			title = uTitle;
+	
+	}
+	
+	var newTab = mainPanel.items.findBy(
+			function(tab){
+				return tab.id === tabId;
+			});
+	
+	if (!newTab) {
+		newTab = mainPanel.add({
+			id: tabId,
+			xtype: xtype,
+			closable: true,
+			iconCls: 'magnifier-zoom',
+			title: title
+		});
+	}
+	
+	//Seta Aba como ativa
+	mainPanel.setActiveTab(newTab);
+	
+	activeTab = mainPanel.getActiveTab();
+	
+	return activeTab;
 	
 }
