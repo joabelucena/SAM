@@ -1,6 +1,8 @@
 Ext.define('Sam.view.components.PopUp', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.popup',
+	
+	itemId: 'lookup',
 
 	header : {
 		titlePosition : 2,
@@ -17,7 +19,7 @@ Ext.define('Sam.view.components.PopUp', {
 	
 	buttons : [ {
 		text : 'Confirma',
-		itemId: 'popupConfirma',
+		itemId: 'submit',
 		tooltip:'Seleciona Equipamento',
         cls:'x-btn-default-small',
         iconCls: 'tick-button',

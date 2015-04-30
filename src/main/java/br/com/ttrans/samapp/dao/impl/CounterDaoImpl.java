@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,13 @@ public class CounterDaoImpl implements CounterDao {
 
 	@Override
 	public void delete(Counter counter, Authentication authentication) {
-		counter.setUsr_update(authentication.getName());
-		counter.setDeleted("*");
-		session.getCurrentSession().update(counter);
+		Query query = session.getCurrentSession().createQuery("update Counter set deleted = '*', usr_update = :user"
+				+ " where id = :id"); 
+		
+		query.setParameter("id"		, counter.getId());
+		query.setParameter("user"	, authentication.getName());
+		
+		query.executeUpdate();
 	}
 
 	@Override

@@ -3,8 +3,8 @@ Ext.define('Sam.model.EquipmentProtocol', {
 	
 	fields:[
 	        
-	        {name: 'id'								, type: 'number'	, mapping: 'epr_id'					},
-	        {name: 'equipment_protocol_desc'		, type: 'string'	, mapping: 'epr_description'		},
+	        {name: 'id'			, type: 'number'},
+	        {name: 'desc'		, type: 'string'},
 
 	       ]
 });

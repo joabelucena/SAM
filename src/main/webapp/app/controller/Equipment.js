@@ -24,7 +24,7 @@ Ext.define('Sam.controller.Equipment', {
 	        'Sam.view.equipment.counter.CounterGrid',
 	        'Sam.view.equipment.counter.CounterForm',
 	        'Sam.view.equipment.model.ModelGrid',
-	        //'Sam.view.equipment.model.ModelForm',
+	        'Sam.view.equipment.model.ModelForm',
 	        'Sam.view.equipment.type.TypeGrid',
 	        'Sam.view.equipment.type.TypeForm'
 	        ],
@@ -48,6 +48,10 @@ Ext.define('Sam.controller.Equipment', {
 			},
 			
 			'equipmentstypegrid': {
+				itemdblclick: function(){}
+			},
+			
+			'equipmentsmodelgrid': {
 				itemdblclick: function(){}
 			},
 			
@@ -145,35 +149,43 @@ Ext.define('Sam.controller.Equipment', {
 				click: this.onCounterBtnDeleteClick
 			},
 			
-			/* Buttons Listeners: Protocol
+			/* Buttons Listeners: Model
 			 * 
 			 */
-			'#equipmentprotocolform toolbar #btnSubmit' :{
-				create: this.onProtocolBtnSubmitAdd,
+			'#equipmentmodelform #prot_id' :{
+				click:   this.onModelTrgProtClick
+			},
+			
+			'#lookup #submit' :{
+				click: this.onLookupSubmitClick
+			},
+			
+			'#equipmentmodelform toolbar #btnSubmit' :{
+				create: this.onModelBtnSubmitAdd,
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-				update: this.onProtocolBtnSubmitEdit,
-				remove: this.onProtocolBtnSubmitDelete,
+				update: this.onModelBtnSubmitEdit,
+				remove: this.onModelBtnSubmitDelete,
 				
 			},
 			
-			'#equipmentprotocolform toolbar #btnDiscard' :{
+			'#equipmentmodelform toolbar #btnDiscard' :{
 				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
-			'#equipmentprotocolgrid toolbar #btnShow' :{
-				click: this.onProtocolBtnShowClick
+			'#equipmentmodelgrid toolbar #btnShow' :{
+				click: this.onModelBtnShowClick
 			},
 			
-			'#equipmentprotocolgrid toolbar #btnEdit' :{
-				click: this.onProtocolBtnEditClick
+			'#equipmentmodelgrid toolbar #btnEdit' :{
+				click: this.onModelBtnEditClick
 			},
 			
-			'#equipmentprotocolgrid toolbar #btnAdd' :{
-				click: this.onProtocolBtnAddClick
+			'#equipmentmodelgrid toolbar #btnAdd' :{
+				click: this.onModelBtnAddClick
 			},
 			
-			'#equipmentprotocolgrid toolbar #btnDelete' :{
-				click: this.onProtocolBtnDeleteClick
+			'#equipmentmodelgrid toolbar #btnDelete' :{
+				click: this.onModelBtnDeleteClick
 			},
 			
 
@@ -875,6 +887,209 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	/*********** End Protocol Controlling ***********/
+	
+	/*********** Begin Model Controlling ***********/
+	onModelTrgProtClick: function(){
+		var popup = Ext.create('Sam.view.components.PopUp');
+		var grid = Ext.create('Sam.view.equipment.protocol.ProtocolGrid');
+		
+		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		popup.setTitle('Selecionar Protocolo');
+		popup.add(grid);
+		popup.show();
+	},
+	
+	onLookupSubmitClick: function(){
+		
+		var row = Ext.ComponentQuery.query('#lookup grid')[0].getSelection()[0];
+		
+		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		
+		if(row){
+			
+			fld = Ext.ComponentQuery.query( 'form #fldProtocol',activeTab)[0];
+			
+			fld.setData(row.getData());
+		}
+		
+	},
+	
+	onModelBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = activateTab(1, row.get('id'), 'equipmentmodelform', null);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}			
+		}
+	},
+	
+	onModelBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = activateTab(3, row.get('id'), 'equipmentmodelform', null);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onModelBtnAddClick: function(){
+		
+		//Cria Aba: 2 - Incluir
+		var activeTab = activateTab(2, null, 'equipmentmodelform', null);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+	},
+	
+	onModelBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = activateTab(4, row.get('id'), 'equipmentmodelform', null);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onModelBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentModelStore(),						//Store
+			record		= Ext.create('Sam.model.EquipmentModel');			//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmodelgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onModelBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentModelStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmodelgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onModelBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentModelStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+		
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			syncStore(store, 'equipmentmodelgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Model Controlling ***********/
+	
 
 });
 

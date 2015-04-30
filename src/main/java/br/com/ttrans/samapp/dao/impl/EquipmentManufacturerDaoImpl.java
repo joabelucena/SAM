@@ -40,7 +40,7 @@ public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 		query.setParameter("id"		, manufacturer.getId());
 		query.setParameter("user"	, authentication.getName());
 		
-		query.executeUpdate();	
+		query.executeUpdate();
 		
 	}
 

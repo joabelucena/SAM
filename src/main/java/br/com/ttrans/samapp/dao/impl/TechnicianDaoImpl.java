@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,13 @@ public class TechnicianDaoImpl implements TechnicianDao {
 
 	@Override
 	public void delete(Technician technician, Authentication authentication) {
-		technician.setUsr_update(authentication.getName());
-		technician.setDeleted("*");
-		session.getCurrentSession().update(technician);
-
+		Query query = session.getCurrentSession().createQuery("update Technician set deleted = '*', usr_update = :user"
+				+ " where id = :id"); 
+		
+		query.setParameter("id"		, technician.getId());
+		query.setParameter("user"	, authentication.getName());
+		
+		query.executeUpdate();
 	}
 	
 	@Override

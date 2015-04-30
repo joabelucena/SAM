@@ -14,11 +14,12 @@ import javax.persistence.Table;
 public class EquipmentProtocol {
 	
 	@Id
+	@Column(name="epr_id")
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_EQUIPMENTS_PROTOCOL")
-	private int epr_id;
+	private int id;
 	
-	@Column
-	private String epr_description;
+	@Column(name="epr_description")
+	private String desc;
 	
 	@Column(updatable=false)
 	private String usr_insert;
@@ -30,31 +31,21 @@ public class EquipmentProtocol {
 	private String deleted="";
 		
 	public EquipmentProtocol() {}
-	public EquipmentProtocol(int epr_id, String epr_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.epr_id = epr_id;
-		this.epr_description = epr_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-
-	public int getEpr_id() {
-		return epr_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setEpr_id(int epr_id) {
-		this.epr_id = epr_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getEpr_description() {
-		return epr_description;
-	}
-
-	public void setEpr_description(String epr_description) {
-		this.epr_description = epr_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getUsr_insert() {
@@ -79,7 +70,5 @@ public class EquipmentProtocol {
 
 	public void setDeleted(String deleted) {
 		this.deleted = deleted;
-	}
-	
-	
+	}	
 }

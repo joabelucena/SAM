@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,13 @@ public class ServiceOrderJobDaoImpl implements ServiceOrderJobDao {
 
 	@Override
 	public void delete(ServiceOrderJob service, Authentication authentication) {
-		service.setUsr_update(authentication.getName());
-		service.setDeleted("*");
-		session.getCurrentSession().update(service);
+		Query query = session.getCurrentSession().createQuery("update ServiceOrderJob set deleted = '*', usr_update = :user"
+				+ " where id = :id"); 
+		
+		query.setParameter("id"		, service.getId());
+		query.setParameter("user"	, authentication.getName());
+		
+		query.executeUpdate();
 
 	}
 	
