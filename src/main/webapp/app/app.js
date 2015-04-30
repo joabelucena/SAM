@@ -10,17 +10,17 @@ Ext.application({
 	
 	stores: ['EquipmentManufacturer',
 	        'EquipmentCounter',
-	     	'EquipmentManufacturer',
 	     	'Equipment',
 	     	'EquipmentModel',
-	     	'EquipmentType'],
+	     	'EquipmentType',
+	     	'EquipmentProtocol'],
    
 	models: ['EquipmentManufacturer',
 		        'EquipmentCounter',
-		     	'EquipmentManufacturer',
 		     	'Equipment',
 		     	'EquipmentModel',
-		     	'EquipmentType'],
+		     	'EquipmentType',
+		     	'EquipmentProtocol'],
 
 	controllers : [ 
 	   'Menu',
