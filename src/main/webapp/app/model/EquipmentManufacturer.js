@@ -3,6 +3,6 @@ Ext.define('Sam.model.EquipmentManufacturer', {
 
 	idProperty : 'id',
 
-	fields:['id', 'desc', 'usr_insert', 'usr_update', 'deleted'],
+	fields:['id', 'desc', 'usr_insert', 'usr_update', 'deleted']
 	
 });

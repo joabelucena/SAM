@@ -7,10 +7,20 @@ Ext.application({
 	},
 	
 	views:['MainViewport'],
-
-	stores: ['EquipmentManufacturer'],
+	
+	stores: ['EquipmentManufacturer',
+	        'EquipmentCounter',
+	     	'EquipmentManufacturer',
+	     	'Equipment',
+	     	'EquipmentModel',
+	     	'EquipmentType'],
    
-	models: ['EquipmentManufacturer'],
+	models: ['EquipmentManufacturer',
+		        'EquipmentCounter',
+		     	'EquipmentManufacturer',
+		     	'Equipment',
+		     	'EquipmentModel',
+		     	'EquipmentType'],
 
 	controllers : [ 
 	   'Menu',
