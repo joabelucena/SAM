@@ -6,6 +6,8 @@ Ext.define('Sam.view.equipment.counter.CounterGrid', {
 	requires : ['Ext.grid.filters.Filters'],
 	           
 	store : Ext.create('Sam.store.EquipmentCounter'),
+	
+	itemId: 'equipmentcountergrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -23,5 +25,42 @@ Ext.define('Sam.view.equipment.counter.CounterGrid', {
 		filter : {
 			type : 'string'
 		}
+	}],
+	
+	dockedItems: [{
+	    xtype: 'toolbar',
+	    dock: 'bottom',
+	    
+	    items: [{
+	        xtype:'button',
+	        itemId:'btnShow',
+	    	text:'Visualizar',
+	        tooltip:'Visualizar Registro',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    },{
+	    	xtype: 'tbseparator'
+	    },{
+	        xtype:'button',
+	        itemId:'btnAdd',
+	    	text:'Incluir',
+	        tooltip:'Incluir Novo Registro',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    },{
+	        xtype:'button',
+	    	id:'btnEdit',
+	    	text:'Alterar',
+	        tooltip:'Editar Registro Selecionado',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    },{
+	        xtype:'button',
+	        itemId:'btnDelete',
+	    	text:'Excluir',
+	        tooltip:'Excluir Registro Selecionado',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    }]
 	}]
 });

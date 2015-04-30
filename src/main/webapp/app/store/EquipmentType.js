@@ -3,7 +3,7 @@ Ext.define('Sam.store.EquipmentType', {
 	
 	model: 'Sam.model.EquipmentType',
 	
-	autoLoad: false,
+	autoLoad: true,
 
 	proxy: {
         type: 'ajax',
