@@ -4,19 +4,17 @@ Ext.define('Sam.controller.Equipment', {
 	
 	stores: ['EquipmentManufacturer',
 		        'EquipmentCounter',
-		     	'EquipmentManufacturer',
-		     	'EquipmentProtocol',
 		     	'Equipment',
 		     	'EquipmentModel',
-		     	'EquipmentType'],
+		     	'EquipmentType',
+		     	'EquipmentProtocol'],
 	
 	models: ['EquipmentManufacturer',
 		        'EquipmentCounter',
-		     	'EquipmentManufacturer',
-		     	'EquipmentProtocol',
 		     	'Equipment',
 		     	'EquipmentModel',
-		     	'EquipmentType'],
+		     	'EquipmentType',
+		     	'EquipmentProtocol'],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerGrid',
@@ -224,8 +222,8 @@ Ext.define('Sam.controller.Equipment', {
 		//Tem Registro Selecionado
 		if(row){
 			
-			//Cria Aba: 2 - Alterar
-			activeTab = activateTab(2, row.get('id'), 'equipmentmanufacturerform', null);
+			//Cria Aba: 3 - Alterar
+			activeTab = activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
 			
 			if(activeTab){
 				
@@ -242,22 +240,17 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onManufacturerBtnAddClick: function(){
-		
-		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
-		
-		//Tem Registro Selecionado
-		if(row){
+
 			
-			//Cria Aba: 3 - Incluir
-			activeTab = activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
-			
-			if(activeTab){
+		//Cria Aba: 2 - Incluir
+		var activeTab = activateTab(2, null, 'equipmentmanufacturerform', null);
 		
-				//Seta Botão Confirma: Incluir
-				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
-			}
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
+
 
 	},
 	
@@ -405,8 +398,8 @@ Ext.define('Sam.controller.Equipment', {
 		//Tem Registro Selecionado
 		if(row){
 			
-			//Cria Aba: 2 - Alterar
-			activeTab = activateTab(2, row.get('id'), 'equipmenttypeform', null);
+			//Cria Aba: 3 - Alterar
+			activeTab = activateTab(3, row.get('id'), 'equipmenttypeform', null);
 			
 			if(activeTab){
 				
@@ -424,20 +417,13 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onTypeBtnAddClick: function(){
 		
-		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		//Cria Aba: 2 - Incluir
+		var activeTab = activateTab(2, null, 'equipmenttypeform', null);
 		
-		//Tem Registro Selecionado
-		if(row){
-			
-			//Cria Aba: 3 - Incluir
-			activeTab = activateTab(3, row.get('id'), 'equipmenttypeform', null);
-			
-			if(activeTab){
-		
-				//Seta Botão Confirma: Incluir
-				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
-			}
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
 
 	},
@@ -585,8 +571,8 @@ Ext.define('Sam.controller.Equipment', {
 		//Tem Registro Selecionado
 		if(row){
 			
-			//Cria Aba: 2 - Alterar
-			activeTab = activateTab(2, row.get('id'), 'equipmentcounterform', null);
+			//Cria Aba: 3 - Alterar
+			activeTab = activateTab(3, row.get('id'), 'equipmentcounterform', null);
 			
 			if(activeTab){
 				
@@ -604,20 +590,13 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onCounterBtnAddClick: function(){
 		
-		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		//Cria Aba: 2 - Incluir
+		var activeTab = activateTab(2, null, 'equipmentcounterform', null);
 		
-		//Tem Registro Selecionado
-		if(row){
-			
-			//Cria Aba: 3 - Incluir
-			activeTab = activateTab(3, row.get('id'), 'equipmentcounterform', null);
-			
-			if(activeTab){
-		
-				//Seta Botão Confirma: Incluir
-				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
-			}
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
 
 	},
@@ -765,8 +744,8 @@ Ext.define('Sam.controller.Equipment', {
 		//Tem Registro Selecionado
 		if(row){
 			
-			//Cria Aba: 2 - Alterar
-			activeTab = activateTab(2, row.get('id'), 'equipmentprotocolform', null);
+			//Cria Aba: 3 - Alterar
+			activeTab = activateTab(3, row.get('id'), 'equipmentprotocolform', null);
 			
 			if(activeTab){
 				
@@ -784,20 +763,13 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onProtocolBtnAddClick: function(){
 		
-		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		//Cria Aba: 2 - Incluir
+		var activeTab = activateTab(2, null, 'equipmentprotocolform', null);
 		
-		//Tem Registro Selecionado
-		if(row){
-			
-			//Cria Aba: 3 - Incluir
-			activeTab = activateTab(3, row.get('id'), 'equipmentprotocolform', null);
-			
-			if(activeTab){
-		
-				//Seta Botão Confirma: Incluir
-				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
-			}
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
 
 	},
@@ -946,7 +918,7 @@ function activateTab(action, id, xtype, uTitle){
 		//Incluir
 		case 2:
 			title = 'Incluir Novo Registro';
-			tabId = 'add-' + xtype + '-' + id;
+			tabId = 'add-' + xtype
 			break;
 		
 		//Alterar

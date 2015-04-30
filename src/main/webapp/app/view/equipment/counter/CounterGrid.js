@@ -49,7 +49,7 @@ Ext.define('Sam.view.equipment.counter.CounterGrid', {
 	        iconCls: 'tick-button'
 	    },{
 	        xtype:'button',
-	    	id:'btnEdit',
+	    	itemId:'btnEdit',
 	    	text:'Alterar',
 	        tooltip:'Editar Registro Selecionado',
 	        cls:'x-btn-default-small',

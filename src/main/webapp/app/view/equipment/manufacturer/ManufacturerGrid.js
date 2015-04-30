@@ -48,7 +48,7 @@ Ext.define('Sam.view.equipment.manufacturer.ManufacturerGrid', {
 	        iconCls: 'tick-button'
 	    },{
 	        xtype:'button',
-	    	id:'btnEdit',
+	        itemId:'btnEdit',
 	    	text:'Alterar',
 	        tooltip:'Editar Registro Selecionado',
 	        cls:'x-btn-default-small',
