@@ -32,6 +32,11 @@ public class EquipmentProtocol {
 		
 	public EquipmentProtocol() {}
 
+	public EquipmentProtocol(int id) {
+		super();
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

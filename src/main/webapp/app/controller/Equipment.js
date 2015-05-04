@@ -913,7 +913,10 @@ Ext.define('Sam.controller.Equipment', {
 			
 			fld = Ext.ComponentQuery.query( 'form #fldProtocol',activeTab)[0];
 			
-			fld.setData(row.getData());
+			Ext.ComponentQuery.query('#prot_id',fld)[0].setValue(row.get('id'));
+			Ext.ComponentQuery.query('#prot_desc',fld)[0].setValue(row.get('desc'));
+			
+			Ext.ComponentQuery.query('#lookup')[0].close();
 		}
 		
 	},
