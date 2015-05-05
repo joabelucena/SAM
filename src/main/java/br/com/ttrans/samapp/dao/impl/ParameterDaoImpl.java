@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.ParameterDao;
-import br.com.ttrans.samapp.model.Parameters;
+import br.com.ttrans.samapp.model.Parameter;
 
 
 @Repository
@@ -17,32 +17,30 @@ public class ParameterDaoImpl implements ParameterDao {
 	private SessionFactory session;
 	
 	@Override
-	public void add(Parameters parameter, Authentication authentication) {
-		parameter.setUsr_insert(authentication.getName());
+	public void add(Parameter parameter, Authentication authentication) {
+		parameter.setInsert(authentication.getName());
 		session.getCurrentSession().save(parameter);
 	}
 
 	@Override
-	public void edit(Parameters parameter, Authentication authentication) {
-		parameter.setUsr_update(authentication.getName());
+	public void edit(Parameter parameter, Authentication authentication) {
+		parameter.setUpdate(authentication.getName());
 		session.getCurrentSession().update(parameter);
 	}
 
 	@Override
-	public void delete(Parameters parameter, Authentication authentication) {
-		parameter.setUsr_update(authentication.getName());
-		parameter.setDeleted("*");
-		session.getCurrentSession().update(parameter);
+	public void delete(Parameter parameter, Authentication authentication) {
+		session.getCurrentSession().delete(parameter);
 	}
 
 	@Override
-	public Parameters get(int id) {
-		return (Parameters)session.getCurrentSession().get(Parameters.class, id);
+	public Parameter get(int id) {
+		return (Parameter)session.getCurrentSession().get(Parameter.class, id);
 	}
 
 	@Override
-	public List<Parameters> getAll() {
-		return session.getCurrentSession().createQuery("from Parameters where deleted <> '*'").list();
+	public List<Parameter> getAll() {
+		return session.getCurrentSession().createQuery("from Parameter").list();
 	}
 
 }

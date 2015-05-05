@@ -86,12 +86,12 @@ public class EventsEndpoint {
 		String usr_insert = "SAM_WS";
 
 		event.setEquipment(new Equipment(eve_equipment_id));
-		event.setEve_model(eve_model);
-		event.setEve_site(eve_site);
+		event.setModel(eve_model);
+		event.setSite(eve_site);
 		event.setState(new OperationalState(eve_oper_state_id));
 		event.setAlarm(new Alarm(eve_alarm_id));
-		event.setEve_datetime(eve_datetime);
-		event.setUsr_insert(usr_insert);
+		event.setDatetime(eve_datetime);
+		event.setInsert(usr_insert);
 				
 		eventService.add(event);
 	}

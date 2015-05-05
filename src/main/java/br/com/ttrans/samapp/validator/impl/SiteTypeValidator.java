@@ -27,7 +27,7 @@ public class SiteTypeValidator extends Validator {
 		SiteType type = (SiteType) obj;
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("sty_description", type.getSty_description());
+		map.put("sty_description", type.getDesc());
 		
 		if (dao.ExistCPO(SiteType.class, map)) {
 			e.rejectValue("sty_description",

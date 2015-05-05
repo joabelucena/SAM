@@ -219,16 +219,10 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/model/add.action")
 	@ResponseBody
-	public Map addModel(@RequestBody Map body, 
+	public Map addModel(@RequestBody EquipmentModel model, 
 			HttpServletRequest request,
 			Authentication authentication,
-            HttpServletResponse response) {
-		
-		//POJO
-		EquipmentModel model = new EquipmentModel();
-		
-		model.setDesc((String) body.get("desc"));
-		model.setProtocol(new EquipmentProtocol((Integer) body.get("prot_id")));
+            HttpServletResponse response){
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -236,26 +230,21 @@ public class EquipmentController {
 		try{
 			modelService.add(model, authentication);
 		}catch(Exception e){
-			result.put("message",e.getMessage());
+			result.put("message","teste de retorno de excecao");
+			result.put("success",false);
 		}
 		
 		return result;
+
 	}
 	
 	@RequestMapping("/model/update.action")
 	@ResponseBody
-	public Map updateModel(@RequestBody Map body, 
+	public Map updateModel(@RequestBody EquipmentModel model, 
 			HttpServletRequest request,
 			Authentication authentication,
-            HttpServletResponse response) {
+            HttpServletResponse response){
 		
-		//POJO
-		EquipmentModel model = new EquipmentModel();
-		
-		model.setDesc((String) body.get("desc"));
-		model.setProtocol(new EquipmentProtocol((Integer) body.get("prot_id")));
-		
-		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{

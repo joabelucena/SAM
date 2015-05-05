@@ -36,11 +36,11 @@ public class SiteValidator extends Validator {
 				e.rejectValue("type.sty_description", "error.site.type.notnull");
 			}
 			
-			if (site.getSit_description().isEmpty()) {
+			if (site.getDesc().isEmpty()) {
 				e.rejectValue("sit_description", "error.sites.description.notnull");
 			}
 			
-			if (site.getSit_shortname().isEmpty()) {
+			if (site.getShortname().isEmpty()) {
 				e.rejectValue("sit_shortname", "error.sites.shortname.notnull");
 			}
 		}
@@ -50,8 +50,8 @@ public class SiteValidator extends Validator {
 		 */
 		map.clear();
 		
-		map.put("sit_description"	,site.getSit_description());
-		map.put("sit_shortname"		,site.getSit_shortname());
+		map.put("sit_description"	,site.getDesc());
+		map.put("sit_shortname"		,site.getShortname());
 		map.put("type"				,site.getType());
 		map.put("parent"			,site.getParent());
 		
@@ -69,8 +69,8 @@ public class SiteValidator extends Validator {
 		
 		// Type Validation
 		map.clear();
-		map.put("sit_description", site.getType().getSty_description());
-		if (site.getType().getSty_description().isEmpty()) {
+		map.put("sit_description", site.getType().getDesc());
+		if (site.getType().getDesc().isEmpty()) {
 			e.rejectValue("type.sty_description", "error.site.type.notnull");
 		} else {
 

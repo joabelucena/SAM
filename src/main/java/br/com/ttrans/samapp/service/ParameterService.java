@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.security.core.Authentication;
 
-import br.com.ttrans.samapp.model.Parameters;
+import br.com.ttrans.samapp.model.Parameter;
 
 public interface ParameterService {
-	public void add(Parameters parameter, Authentication authentication);
-	public void edit(Parameters parameter, Authentication authentication);
-	public void delete(Parameters parameter, Authentication authentication);
-	public Parameters get(int id);
-	public List<Parameters> getAll();
+	public void add(Parameter parameter, Authentication authentication);
+	public void edit(Parameter parameter, Authentication authentication);
+	public void delete(Parameter parameter, Authentication authentication);
+	public Parameter get(int id);
+	public List<Parameter> getAll();
 }

@@ -185,12 +185,12 @@ public class ServiceOrderController {
 			so.setType(soTypeService.findByName(type));			// Tipo de Os (VERIFICAR)
 			so.setEvent(event);									// Evento
 			so.setStatus(sNewSts);								// Status
-			so.setSor_start_forecast(startForecast);			// Previsao de Inicio
-			so.setSor_end_forecast(endForecast);				// Previsao de Termino
-			so.setSor_equipment_stop(2);						// Equipamento Parado(SIM)
+			so.setStartForecast(startForecast);					// Previsao de Inicio
+			so.setEndForecast(endForecast);						// Previsao de Termino
+			so.setStoped(2);									// Equipamento Parado(SIM)
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
-			so.setSor_remarks(obs);								// Observação
+			so.setRemark(obs);									// Observação
 
 			serviceOrderValidator.validate(so, err, "add");
 			
@@ -280,16 +280,16 @@ public class ServiceOrderController {
 			logSet.add(log);
 			
 			//OS
-			so.setEquipment(new Equipment(equipId));		// Equipamento
+			so.setEquipment(new Equipment(equipId));	// Equipamento
 			so.setType(new ServiceOrderType(type));		// Tipo de Os (VERIFICAR)
 			so.setEvent(null);							// Evento
 			so.setStatus(sNewSts);						// Status
-			so.setSor_start_forecast(startForecast);	// Previsao de Inicio
-			so.setSor_end_forecast(endForecast);		// Previsao de Termino
-			so.setSor_equipment_stop(2);				// Equipamento Parado(SIM)
+			so.setStartForecast(startForecast);			// Previsao de Inicio
+			so.setEndForecast(endForecast);				// Previsao de Termino
+			so.setStoped(2);							// Equipamento Parado(SIM)
 			so.setLog(logSet);							// Log Inicial
 			so.setPriority(new SeverityLevel(prioId));	// Severidade
-			so.setSor_remarks(obs);						// Observação
+			so.setRemark(obs);							// Observação
 
 			serviceOrderValidator.validate(so, err, "add");
 			
@@ -387,7 +387,7 @@ public class ServiceOrderController {
 		so.setStatus(newStatus);
 		
 		//Equipamneto parado
-		so.setSor_equipment_stop(stop);
+		so.setStoped(stop);
 
 		// Adiciona novo registro no log
 		so.getLog().add(log);
@@ -401,7 +401,7 @@ public class ServiceOrderController {
 		rule.setNxtstatus(newStatus);
 		
 		rule.setRole(user.getRole());
-		rule.setSru_log_remark(!obs.isEmpty() ? "S" : "N");
+		rule.setRemark(!obs.isEmpty() ? 1 : 2);
 
 		statusRuleValidator.validate(rule, err, "edit");
 

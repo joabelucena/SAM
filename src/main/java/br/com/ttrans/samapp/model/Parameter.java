@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Entity
 @SequenceGenerator(name = "INC_PARAMETER", sequenceName = "GEN_PAR_ID")
 
-public class Parameters {
+public class Parameter {
 	
 	@Id
 	@Column(name="par_id")
@@ -40,7 +40,7 @@ public class Parameters {
 	@Column(insertable=false, name = "usr_update")
 	private String update;
 	
-	public Parameters(){}
+	public Parameter(){}
 
 	public int getId() {
 		return id;

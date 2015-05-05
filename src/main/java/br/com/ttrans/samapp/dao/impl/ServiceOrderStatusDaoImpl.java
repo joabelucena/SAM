@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 
@@ -23,23 +20,21 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 	
 	@Override
 	public void add(ServiceOrderStatus status, Authentication authentication) {
-		status.setUsr_insert(authentication.getName());
+		status.setInsert(authentication.getName());
 		session.getCurrentSession().save(status);
 
 	}
 
 	@Override
 	public void edit(ServiceOrderStatus status, Authentication authentication) {
-		status.setUsr_update(authentication.getName());
+		status.setUpdate(authentication.getName());
 		session.getCurrentSession().update(status);
 
 	}
 
 	@Override
 	public void delete(ServiceOrderStatus status, Authentication authentication) {
-		status.setUsr_update(authentication.getName());
-		status.setDeleted("*");
-		session.getCurrentSession().update(status);
+		session.getCurrentSession().delete(status);
 
 	}
 	
@@ -51,8 +46,7 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 	@Override
 	public ServiceOrderStatus findByName(String desc) {
 		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderStatus.class);
-		crit.add(Restrictions.eq("sos_description", desc));
-		crit.add(Restrictions.ne("deleted", "*"));
+		crit.add(Restrictions.eq("desc", desc));
 		
 		return (ServiceOrderStatus) crit.uniqueResult();
 	}
@@ -63,18 +57,7 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 
 		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderStatus.class);
 		
-		ProjectionList projList = Projections.projectionList();
-		
-		projList.add(Projections.property("sos_id"));
-		projList.add(Projections.property("sos_description"));
-		
-		crit.setProjection(projList);
-		
-		crit.add(Restrictions.ne("deleted","*"));
-		
-		List resultsList = crit.list();
-		
-		return resultsList;
+		return crit.list();
 	}
 
 }

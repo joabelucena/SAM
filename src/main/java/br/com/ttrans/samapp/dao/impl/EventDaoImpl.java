@@ -28,16 +28,14 @@ public class EventDaoImpl implements EventDao {
 
 	@Override
 	public void edit(Event event, Authentication authentication) {
-		event.setUsr_update(authentication.getName());
+		event.setUpdate(authentication.getName());
 		session.getCurrentSession().update(event);
 
 	}
 
 	@Override
 	public void delete(Event event, Authentication authentication) {
-		event.setUsr_update(authentication.getName());
-		event.setDeleted("*");				
-		session.getCurrentSession().update(event);
+		session.getCurrentSession().delete(event);
 	}
 	
 	@Override
@@ -87,7 +85,7 @@ public class EventDaoImpl implements EventDao {
 	@Override
 	public List getAll() {
 		return session.getCurrentSession()
-				.createQuery("from Events where deleted <> '*'").list();
+				.createQuery("from Event").list();
 	}
 
 	@Override
@@ -119,34 +117,26 @@ public class EventDaoImpl implements EventDao {
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " ALARMS A";
 		cQuery += "    ON THIS.EVE_ALARM_ID=A.ALM_ID";
-		cQuery += "    AND A.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " SEVERITY_LEVEL B";
 		cQuery += "    ON A.ALM_SEVERITY_ID=B.SLE_ID";
-		cQuery += "    AND A.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " EQUIPMENTS C";
 		cQuery += "    ON THIS.EVE_EQUIPMENT_ID=C.EQU_ID";
-		cQuery += "    AND C.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " EQUIPMENTS_MODEL D";
 		cQuery += "     ON C.EQU_MODEL_ID=D.EMO_ID";
-		cQuery += "     AND D.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " SITES E";
 		cQuery += "     ON C.EQU_SITE_ID=E.SIT_ID";
-		cQuery += "     AND E.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " SUB_SYSTEM F";
 		cQuery += "     ON C.EQU_SYSTEM_ID=F.SSY_ID";
-		cQuery += "     AND F.DELETED <> '*'";
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " OPERATIONAL_STATE G";
 		cQuery += "     ON THIS.EVE_OPER_STATE_ID=G.OST_ID";
-		cQuery += "     AND G.DELETED <> '*'";
 		cQuery += " WHERE";
-		cQuery += " THIS.DELETED <> '*'";
-		cQuery += " AND THIS.EVE_SOLV_USER IS NULL";
+		cQuery += " 	THIS.EVE_SOLV_USER IS NULL";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		

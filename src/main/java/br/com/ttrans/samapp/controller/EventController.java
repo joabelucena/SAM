@@ -134,8 +134,8 @@ public class EventController {
 			try{
 				//Forecast
 				if(forecast != null){
-					start_forecast.add(Calendar.MINUTE, forecast.getSof_start_forecast());
-					end_forecast.add(Calendar.MINUTE, forecast.getSof_end_forecast());
+					start_forecast.add(Calendar.MINUTE, forecast.getStartForecast());
+					end_forecast.add(Calendar.MINUTE, forecast.getEndForecast());
 					
 					result.put("start_forecast"		, formato.format(start_forecast.getTime()));
 					result.put("end_forecast"		, formato.format(end_forecast.getTime()));
@@ -149,11 +149,11 @@ public class EventController {
 			
 			//Equipment			
 			try{
-				result.put("id"					, event.getEquipment().getEqu_id());
+				result.put("id"					, event.getEquipment().getId());
 				result.put("model"				, event.getEquipment().getModel().getDesc());
 				result.put("manufacturer"		, event.getEquipment().getManufacturer().getDesc());
-				result.put("subsystem"			, event.getEquipment().getSystem().getSsy_description());
-				result.put("site"				, event.getEquipment().getSite().getSit_description());
+				result.put("subsystem"			, event.getEquipment().getSystem().getDesc());
+				result.put("site"				, event.getEquipment().getSite().getDesc());
 			}catch(Exception e){
 				
 			}
@@ -161,7 +161,7 @@ public class EventController {
 			
 			//Alarm
 			try{
-				result.put("severity"			, event.getAlarm().getSeverity().getSle_description());				
+				result.put("severity"			, event.getAlarm().getSeverity().getDesc());				
 			
 			}catch(Exception e){
 				
@@ -172,13 +172,13 @@ public class EventController {
 			
 			//Event
 			try{
-				result.put("datetime", formato.format(event.getEve_datetime()));
+				result.put("datetime", formato.format(event.getDatetime()));
 			} catch (Exception e) {
 
 			}
 			try{
-				result.put("reco_time"			, formato.format(event.getEve_reco_date()));
-				result.put("reco_user"			, event.getEve_reco_user());
+				result.put("reco_time"			, formato.format(event.getRecoDate()));
+				result.put("reco_user"			, event.getRecoUser());
 			}catch(Exception e){
 				
 			}
@@ -224,18 +224,18 @@ public class EventController {
 			BindingResult result, Locale locale) throws ParseException {
 
 		String usr_insert = "SAM_JSON";
-		eventJson.setUsr_insert(usr_insert);
+		eventJson.setInsert(usr_insert);
 
 		// validator.validate(eventJson, result, "add");
 
 		if (!result.hasErrors()) {
 
-			eventDatetime = eventJson.getEve_date() + " "
-					+ eventJson.getEve_time();
+			eventDatetime = eventJson.getDate() + " "
+					+ eventJson.getTime();
 			SimpleDateFormat dateFormat = new SimpleDateFormat(
 					"yyyy-MM-dd hh:mm:ss");
 			Date eve_datetime = dateFormat.parse(eventDatetime);
-			eventJson.setEve_datetime(eve_datetime);
+			eventJson.setDatetime(eve_datetime);
 
 			eventService.add(eventJson);
 

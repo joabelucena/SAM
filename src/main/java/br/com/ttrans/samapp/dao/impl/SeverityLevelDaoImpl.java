@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.SeverityLevelDao;
 import br.com.ttrans.samapp.model.SeverityLevel;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class SeverityLevelDaoImpl implements SeverityLevelDao {
 
@@ -23,23 +19,21 @@ public class SeverityLevelDaoImpl implements SeverityLevelDao {
 
 	@Override
 	public void add(SeverityLevel severity, Authentication authentication) {
-		severity.setUsr_insert(authentication.getName());
+		severity.setInsert(authentication.getName());
 		session.getCurrentSession().save(severity);
 
 	}
 
 	@Override
 	public void edit(SeverityLevel severity, Authentication authentication) {
-		severity.setUsr_update(authentication.getName());
+		severity.setUpdate(authentication.getName());
 		session.getCurrentSession().update(severity);
 
 	}
 
 	@Override
 	public void delete(SeverityLevel severity, Authentication authentication) {
-		severity.setUsr_update(authentication.getName());
-		severity.setDeleted("*");
-		session.getCurrentSession().update(severity);
+		session.getCurrentSession().delete(severity);
 
 	}
 
@@ -48,18 +42,7 @@ public class SeverityLevelDaoImpl implements SeverityLevelDao {
 
 		Criteria crit = session.getCurrentSession().createCriteria(SeverityLevel.class);
 		
-		ProjectionList projList = Projections.projectionList();
-		
-		projList.add(Projections.property("sle_id"));
-		projList.add(Projections.property("sle_description"));
-		
-		crit.setProjection(projList);
-		
-		crit.add(Restrictions.ne("deleted","*"));
-		
-		List resultsList = crit.list();
-		
-		return resultsList;
+		return crit.list();
 	}
 
 }

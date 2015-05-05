@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ttrans.samapp.model.Parameters;
+import br.com.ttrans.samapp.model.Parameter;
 
 @SuppressWarnings("rawtypes")
 @Repository
@@ -109,7 +109,7 @@ public class DAO {
 
 		try {
 			Criteria crit = session.getCurrentSession().createCriteria(
-					Parameters.class);
+					Parameter.class);
 
 			ProjectionList projList = Projections.projectionList();
 

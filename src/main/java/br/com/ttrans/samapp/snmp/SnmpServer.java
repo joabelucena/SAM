@@ -158,7 +158,7 @@ public class SnmpServer implements CommandResponder {
 			Event eventdb = new Event();
 			Equipment equipment = equipmentService.get(Ip);
 
-			String eve_site = equipment.getSite().getSit_description();
+			String eve_site = equipment.getSite().getDesc();
 			String eve_model = equipment.getModel().getDesc();
 
 			// Event Datetime
@@ -182,10 +182,10 @@ public class SnmpServer implements CommandResponder {
 						eventdb.setEquipment(new Equipment(Ip));
 						eventdb.setAlarm(new Alarm(recVB.getVariable()
 								.toString()));
-						eventdb.setEve_datetime(eve_datetime);
-						eventdb.setEve_site(eve_site);
-						eventdb.setEve_model(eve_model);
-						eventdb.setUsr_insert("SAM_SNMP");
+						eventdb.setDatetime(eve_datetime);
+						eventdb.setSite(eve_site);
+						eventdb.setModel(eve_model);
+						eventdb.setInsert("SAM_SNMP");
 
 						eventService.add(eventdb);
 
@@ -198,10 +198,10 @@ public class SnmpServer implements CommandResponder {
 
 				eventdb.setEquipment(new Equipment(Ip));
 				eventdb.setAlarm(new Alarm("NI"));// Equipamento não cadastrado
-				eventdb.setEve_datetime(eve_datetime);
-				eventdb.setEve_site(eve_site);
-				eventdb.setEve_model(eve_model);
-				eventdb.setUsr_insert("SAM_SNMP");
+				eventdb.setDatetime(eve_datetime);
+				eventdb.setSite(eve_site);
+				eventdb.setModel(eve_model);
+				eventdb.setInsert("SAM_SNMP");
 
 				eventService.add(eventdb);
 			}

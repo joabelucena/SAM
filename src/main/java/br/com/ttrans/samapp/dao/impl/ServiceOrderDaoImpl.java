@@ -4,11 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
@@ -16,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.ServiceOrderDao;
 import br.com.ttrans.samapp.model.ServiceOrder;
 
-@SuppressWarnings("rawtypes")
 @Repository
 public class ServiceOrderDaoImpl implements ServiceOrderDao {
 
@@ -25,24 +19,22 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	
 	@Override
 	public int add(ServiceOrder serviceorder, Authentication authentication) {
-		serviceorder.setUsr_insert(authentication.getName());
+		serviceorder.setInsert(authentication.getName());
 		session.getCurrentSession().persist(serviceorder);
-		return serviceorder.getSor_id();
+		return serviceorder.getId();
 
 	}
 
 	@Override
 	public void edit(ServiceOrder serviceorder, Authentication authentication) {
-		serviceorder.setUsr_update(authentication.getName());
+		serviceorder.setUpdate(authentication.getName());
 		session.getCurrentSession().update(serviceorder);
 
 	}
 
 	@Override
 	public void delete(ServiceOrder serviceorder, Authentication authentication) {
-		serviceorder.setUsr_update(authentication.getName());
-		serviceorder.setDeleted("*");
-		session.getCurrentSession().update(serviceorder);
+		session.getCurrentSession().delete(serviceorder);
 	}
 	
 
@@ -55,21 +47,23 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	public List loadData() {
 
 		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrder.class,"serviceorder");
-		
-		crit.createAlias("serviceorder.type"		,"serviceorder_type",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.status"		,"serviceorder_status",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.event"		,"serviceorder_event",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.parent"		,"serviceorder_parent",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.technician"	,"serviceorder_technician",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.priority"	,"serviceorder_priority",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("serviceorder.equipment"	,"serviceorder_equipment",CriteriaSpecification.LEFT_JOIN);
+		/*
+		crit.createAlias("serviceorder.type"		,"serviceorder_type"		,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.status"		,"serviceorder_status"		,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.event"		,"serviceorder_event"		,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.parent"		,"serviceorder_parent"		,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.technician"	,"serviceorder_technician"	,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.priority"	,"serviceorder_priority"	,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.equipment"	,"serviceorder_equipment"	,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.log"			,"serviceorder_log"			,CriteriaSpecification.LEFT_JOIN);
+		crit.createAlias("serviceorder.occurrences"	,"serviceorder_occurrences"	,CriteriaSpecification.LEFT_JOIN);
 		
 		
 		ProjectionList projList = Projections.projectionList();
 		
 		projList.add(Projections.property("serviceorder.sor_id").as("sor_id"));
 		
-		projList.add(Projections.property("serviceorder.equipment"),"equipment");
+		projList.add(Projections.property("serviceorder.equipment").as("equipment"));
 		
 		projList.add(Projections.property("serviceorder.type").as("type"));
 		projList.add(Projections.property("serviceorder.status").as("status"));
@@ -85,16 +79,22 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		
 		projList.add(Projections.property("serviceorder.sor_equipment_stop").as("sor_equipment_stop"));
 		projList.add(Projections.property("serviceorder.sor_remarks").as("sor_remarks"));
-				
-		crit.setProjection(projList);
+		*/
 		
-		crit.add(Restrictions.ne("serviceorder.deleted","*"));
+		/* TODO Verificar pq nao aparece no carregamento do JSON
+		projList.add(Projections.property("serviceorder.log").as("log"));
+		projList.add(Projections.property("serviceorder.occurrences").as("occurrences"));
+		*/	
+		
+		
+		/*
+		crit.setProjection(projList);
 		
 		crit.setResultTransformer(Transformers.aliasToBean(ServiceOrder.class));
 		
 		List resultsList = crit.list();
-		
-		return resultsList;		
+		*/
+		return crit.list();		
 
 	}
 }

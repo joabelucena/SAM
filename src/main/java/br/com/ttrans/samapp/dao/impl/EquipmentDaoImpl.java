@@ -28,28 +28,26 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 	@Override
 	public void add(Equipment equipment, Authentication authentication) {
-		equipment.setUsr_insert(authentication.getName());
+		equipment.setInsert(authentication.getName());
 		session.getCurrentSession().save(equipment);
 	}
 
 	@Override
 	public void edit(Equipment equipment, Authentication authentication) {
-		equipment.setUsr_update(authentication.getName());
+		equipment.setUpdate(authentication.getName());
 		session.getCurrentSession().update(equipment);
 	}
 
 	@Override
 	public void delete(Equipment equipment, Authentication authentication) {
-		equipment.setUsr_update(authentication.getName());
-		equipment.setDeleted("*");
-		session.getCurrentSession().update(equipment);
+		session.getCurrentSession().delete(equipment);
 	}
 
 	@Override
 	public List loadData() {
 		Criteria crit = session.getCurrentSession().createCriteria(
 				Equipment.class, "equipment");
-		crit.add(Restrictions.ne("equipment.deleted", "*"));
+
 		
 		return crit.list();
 
@@ -67,12 +65,12 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 			ProjectionList projList = Projections.projectionList();
 
-			projList.add(Projections.property("equ_oid"));
+			projList.add(Projections.property("oid"));
 
 			crit.setProjection(projList);
-			crit.add(Restrictions.ne("deleted", "*"));
-			crit.add(Restrictions.ne("equ_oid", ""));
-			crit.add(Restrictions.eq("equ_ip", ip));
+			
+			crit.add(Restrictions.ne("oid", ""));
+			crit.add(Restrictions.eq("ip", ip));
 
 			cReturn = (String) crit.uniqueResult();
 

@@ -21,12 +21,12 @@ public class ServiceOrderValidator extends Validator {
 		ServiceOrder so = (ServiceOrder) obj;
 		
 		// Inicio nao pode ser depois do terminio
-		if (so.getSor_start_forecast().after(so.getSor_end_forecast())) {
+		if (so.getStartForecast().after(so.getEndForecast())) {
 			e.reject("response.so.NonSequenceDate");
 		}
 
 		// Inicio nao pode ser antes de hoje
-		if (so.getSor_start_forecast().before(new Date())) {
+		if (so.getStartForecast().before(new Date())) {
 			e.reject("response.so.PastDate");
 		}
 		
