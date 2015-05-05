@@ -21,14 +21,11 @@ public class EquipmentProtocol {
 	@Column(name="epr_description")
 	private String desc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
-	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 		
 	public EquipmentProtocol() {}
 
@@ -53,27 +50,21 @@ public class EquipmentProtocol {
 		this.desc = desc;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}	
+	
+	
 }

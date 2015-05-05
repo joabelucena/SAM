@@ -14,16 +14,17 @@ import javax.persistence.Table;
 public class Equipment {
 
 	@Id
-	private String equ_id;
+	@Column(name="equ_id")
+	private String id;
 
-	@Column
-	private String equ_fixed_asset;
+	@Column(name="equ_fixed_asset")
+	private String fixedAsset;
 
-	@Column
-	private String equ_service_tag;
+	@Column(name="equ_service_tag")
+	private String service_tag;
 
-	@Column
-	private String equ_ip;
+	@Column(name="equ_ip")
+	private String ip;
 	
 	@ManyToOne
 	@JoinColumn(name = "equ_type_id")
@@ -52,74 +53,68 @@ public class Equipment {
 	@Column
 	private String equ_warranty;
 
-	@Column
-	private String equ_counter_qt;
+	@Column(name="equ_counter_qt")
+	private String counterQt;
 
-	@Column
-	private String equ_oid;
+	@Column(name="equ_oid")
+	private String oid;
 
-	@Column
-	private Double equ_mtbf_prev;
+	@Column(name="equ_mtbf_prev")
+	private Double mtbfPrev;
 
-	@Column
-	private Double equ_mtbf_calc;
+	@Column(name="equ_mtbf_calc")
+	private Double mtbfCalc;
 
-	@Column
-	private Double equ_mtbf_manf;
+	@Column(name="equ_mtbf_manf")
+	private Double mtbfManf;
 
-	@Column
-	private Date equ_install_date;
+	@Column(name="equ_install_date")
+	private Date installDate;
 
-	@Column
-	private Date equ_manufacture_date;
+	@Column(name="equ_manufacture_date")
+	private Date manufactureDate;
 
-	@Column
-	private Date equ_acquired_date;
+	@Column(name="equ_acquired_date")
+	private Date acquiredDate;
 
-	@Column
-	private String equ_remark;
+	@Column(name="equ_remark")
+	private String remark;
 	
-	@Column(updatable = false)
-	private String usr_insert;
-
-	@Column(insertable = false)
-	private String usr_update;
-
-	//@Transient
-	@Column(columnDefinition = "char(1)")
-	private String deleted = "";
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
 	public Equipment(){}
 	public Equipment(String id){
 		super();
-		this.equ_id = id;
+		this.id = id;
 	}
-	
-	public String getEqu_id() {
-		return equ_id;
+	public String getId() {
+		return id;
 	}
-	public void setEqu_id(String equ_id) {
-		this.equ_id = equ_id;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getEqu_fixed_asset() {
-		return equ_fixed_asset;
+	public String getFixedAsset() {
+		return fixedAsset;
 	}
-	public void setEqu_fixed_asset(String equ_fixed_asset) {
-		this.equ_fixed_asset = equ_fixed_asset;
+	public void setFixedAsset(String fixedAsset) {
+		this.fixedAsset = fixedAsset;
 	}
-	public String getEqu_service_tag() {
-		return equ_service_tag;
+	public String getService_tag() {
+		return service_tag;
 	}
-	public void setEqu_service_tag(String equ_service_tag) {
-		this.equ_service_tag = equ_service_tag;
+	public void setService_tag(String service_tag) {
+		this.service_tag = service_tag;
 	}
-	public String getEqu_ip() {
-		return equ_ip;
+	public String getIp() {
+		return ip;
 	}
-	public void setEqu_ip(String equ_ip) {
-		this.equ_ip = equ_ip;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
-
 	public EquipmentType getType() {
 		return type;
 	}
@@ -156,83 +151,76 @@ public class Equipment {
 	public void setSystem(SubSystem system) {
 		this.system = system;
 	}
-
 	public String getEqu_warranty() {
 		return equ_warranty;
 	}
 	public void setEqu_warranty(String equ_warranty) {
 		this.equ_warranty = equ_warranty;
 	}
-	public String getEqu_counter_qt() {
-		return equ_counter_qt;
+	public String getCounterQt() {
+		return counterQt;
 	}
-	public void setEqu_counter_qt(String equ_counter_qt) {
-		this.equ_counter_qt = equ_counter_qt;
+	public void setCounterQt(String counterQt) {
+		this.counterQt = counterQt;
 	}
-	public String getEqu_oid() {
-		return equ_oid;
+	public String getOid() {
+		return oid;
 	}
-	public void setEqu_oid(String equ_oid) {
-		this.equ_oid = equ_oid;
+	public void setOid(String oid) {
+		this.oid = oid;
 	}
-	public Double getEqu_mtbf_prev() {
-		return equ_mtbf_prev;
+	public Double getMtbfPrev() {
+		return mtbfPrev;
 	}
-	public void setEqu_mtbf_prev(Double equ_mtbf_prev) {
-		this.equ_mtbf_prev = equ_mtbf_prev;
+	public void setMtbfPrev(Double mtbfPrev) {
+		this.mtbfPrev = mtbfPrev;
 	}
-	public Double getEqu_mtbf_calc() {
-		return equ_mtbf_calc;
+	public Double getMtbfCalc() {
+		return mtbfCalc;
 	}
-	public void setEqu_mtbf_calc(Double equ_mtbf_calc) {
-		this.equ_mtbf_calc = equ_mtbf_calc;
+	public void setMtbfCalc(Double mtbfCalc) {
+		this.mtbfCalc = mtbfCalc;
 	}
-	public Double getEqu_mtbf_manf() {
-		return equ_mtbf_manf;
+	public Double getMtbfManf() {
+		return mtbfManf;
 	}
-	public void setEqu_mtbf_manf(Double equ_mtbf_manf) {
-		this.equ_mtbf_manf = equ_mtbf_manf;
+	public void setMtbfManf(Double mtbfManf) {
+		this.mtbfManf = mtbfManf;
 	}
-	public Date getEqu_install_date() {
-		return equ_install_date;
+	public Date getInstallDate() {
+		return installDate;
 	}
-	public void setEqu_install_date(Date equ_install_date) {
-		this.equ_install_date = equ_install_date;
+	public void setInstallDate(Date installDate) {
+		this.installDate = installDate;
 	}
-	public Date getEqu_manufacture_date() {
-		return equ_manufacture_date;
+	public Date getManufactureDate() {
+		return manufactureDate;
 	}
-	public void setEqu_manufacture_date(Date equ_manufacture_date) {
-		this.equ_manufacture_date = equ_manufacture_date;
+	public void setManufactureDate(Date manufactureDate) {
+		this.manufactureDate = manufactureDate;
 	}
-	public Date getEqu_acquired_date() {
-		return equ_acquired_date;
+	public Date getAcquiredDate() {
+		return acquiredDate;
 	}
-	public void setEqu_acquired_date(Date equ_acquired_date) {
-		this.equ_acquired_date = equ_acquired_date;
+	public void setAcquiredDate(Date acquiredDate) {
+		this.acquiredDate = acquiredDate;
 	}
-	public String getEqu_remark() {
-		return equ_remark;
+	public String getRemark() {
+		return remark;
 	}
-	public void setEqu_remark(String equ_remark) {
-		this.equ_remark = equ_remark;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-	public String getDeleted() {
-		return deleted;
-	}
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 }

@@ -16,8 +16,9 @@ import javax.persistence.Table;
 public class StatusRule {
 	
 	@Id
+	@Column(name="sru_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_STATUS_RULES")
-	private int sru_id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="sru_role_id")
@@ -31,39 +32,23 @@ public class StatusRule {
 	@JoinColumn(name="sru_nxt_status_id")
 	private ServiceOrderStatus nxtstatus;
 	
-	@Column
-	private String sru_log_remark;
+	@Column(name="sru_log_remark")
+	private String remark;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
-	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
 	public StatusRule(){}
-	public StatusRule(int sru_id, Role role, ServiceOrderStatus curstatus,
-			ServiceOrderStatus nxtstatus, String sru_log_remark,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.sru_id = sru_id;
-		this.role = role;
-		this.curstatus = curstatus;
-		this.nxtstatus = nxtstatus;
-		this.sru_log_remark = sru_log_remark;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getSru_id() {
-		return sru_id;
-	}
-
-	public void setSru_id(int sru_id) {
-		this.sru_id = sru_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Role getRole() {
@@ -90,35 +75,27 @@ public class StatusRule {
 		this.nxtstatus = nxtstatus;
 	}
 
-	public String getSru_log_remark() {
-		return sru_log_remark;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setSru_log_remark(String sru_log_remark) {
-		this.sru_log_remark = sru_log_remark;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 }

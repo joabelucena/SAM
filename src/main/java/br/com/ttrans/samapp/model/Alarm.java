@@ -12,14 +12,15 @@ import javax.persistence.Table;
 public class Alarm {
 	
 	@Id
-	private String alm_id;
+	@Column(name="alm_id")
+	private String id;
 	
-	@Column
-	private String alm_description;
+	@Column(name="alm_description")
+	private String desc;
 	
 	@ManyToOne
 	@JoinColumn(name = "alm_parent_id")
-	private Alarm alarm; 
+	private Alarm normAlarm; 
 	
 	@ManyToOne
 	@JoinColumn(name = "alm_group_id")
@@ -37,126 +38,78 @@ public class Alarm {
 	@JoinColumn(name = "alm_severity_id")
 	private SeverityLevel severity;
 	
-	@Column
-	private int alm_counter_inc;
+	@Column(name="alm_counter_inc")
+	private int counterInc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
-	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
 	public Alarm(){}
-	public Alarm(String alm_id){
+	public Alarm(String id){
 		super();
-		this.alm_id = alm_id;
+		this.id = id;
 	}
-	public Alarm(String alm_id, String alm_description, Alarm alarm,
-			AlarmGroup group, AlarmType type, EquipmentModel model,
-			SeverityLevel severity, int alm_counter_inc, String usr_insert,
-			String usr_update, String deleted) {
-		super();
-		this.alm_id = alm_id;
-		this.alm_description = alm_description;
-		this.alarm = alarm;
-		this.group = group;
-		this.type = type;
-		this.model = model;
-		this.severity = severity;
-		this.alm_counter_inc = alm_counter_inc;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public String getId() {
+		return id;
 	}
-
-	public String getAlm_id() {
-		return alm_id;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public void setAlm_id(String alm_id) {
-		this.alm_id = alm_id;
+	public String getDesc() {
+		return desc;
 	}
-
-	public String getAlm_description() {
-		return alm_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-
-	public void setAlm_description(String alm_description) {
-		this.alm_description = alm_description;
+	public Alarm getNormAlarm() {
+		return normAlarm;
 	}
-
-	public Alarm getAlarm() {
-		return alarm;
+	public void setNormAlarm(Alarm normAlarm) {
+		this.normAlarm = normAlarm;
 	}
-
-	public void setAlarm(Alarm alarm) {
-		this.alarm = alarm;
-	}
-
 	public AlarmGroup getGroup() {
 		return group;
 	}
-
 	public void setGroup(AlarmGroup group) {
 		this.group = group;
 	}
-
 	public AlarmType getType() {
 		return type;
 	}
-
 	public void setType(AlarmType type) {
 		this.type = type;
 	}
-
 	public EquipmentModel getModel() {
 		return model;
 	}
-
 	public void setModel(EquipmentModel model) {
 		this.model = model;
 	}
-
 	public SeverityLevel getSeverity() {
 		return severity;
 	}
-
 	public void setSeverity(SeverityLevel severity) {
 		this.severity = severity;
 	}
-
-	public int getAlm_counter_inc() {
-		return alm_counter_inc;
+	public int getCounterInc() {
+		return counterInc;
 	}
-
-	public void setAlm_counter_inc(int alm_counter_inc) {
-		this.alm_counter_inc = alm_counter_inc;
+	public void setCounterInc(int counterInc) {
+		this.counterInc = counterInc;
 	}
-
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
-
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
-
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
-
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 }

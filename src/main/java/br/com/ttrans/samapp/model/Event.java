@@ -29,9 +29,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @SequenceGenerator(name = "INC_EVENTS", sequenceName="GEN_EVE_ID")
 public class Event {
 	@Id
-	@Column
+	@Column(name="eve_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_EVENTS")
-	private long eve_id;
+	private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="eve_equipment_id")
@@ -48,79 +48,51 @@ public class Event {
 	@NotFound(action=NotFoundAction.IGNORE)
 	private OperationalState state;
 	
-	@Column
-	private Date eve_datetime;
+	@Column(name="eve_datetime")
+	private Date datetime;
 
 	@Transient
 	@Column(insertable=false, updatable=false)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private String eve_date;
+	private String date;
 	
 	@Transient
 	@Column(insertable=false, updatable=false)
 	@DateTimeFormat(pattern="hh:mm:ss")
-	private String eve_time;
+	private String time;
 	
-	@Column
-	private String eve_solv_user;
+	@Column(name="eve_solv_user")
+	private String solvUser;
 	
-	@Column
-	private Date eve_solv_date;
+	@Column(name="eve_solv_date")
+	private Date solvDate;
 	
-	@Column
-	private String eve_reco_user;
+	@Column(name="eve_reco_user")
+	private String recoUser;
 	
-	@Column
-	private Date eve_reco_date;
+	@Column(name="eve_reco_date")
+	private Date recoDate;
 	
-	@Column
-	private String eve_site;
+	@Column(name="eve_site")
+	private String site;
 
-	@Column
-	private String eve_model;
+	@Column(name="eve_model")
+	private String model;
 
-	@Column
-	private String usr_insert;
-
-	@Column
-	private String usr_update;
-
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
+	
 	public Event(){}
 
-	public Event(long eve_id, Equipment equipment, Alarm alarm,
-			OperationalState state, Date eve_datetime, String eve_date,
-			String eve_time, String eve_solv_user, Date eve_solv_date,
-			String eve_reco_user, Date eve_reco_date, String eve_site,
-			String eve_model, String usr_insert, String usr_update,
-			String deleted) {
-		super();
-		this.eve_id = eve_id;
-		this.equipment = equipment;
-		this.alarm = alarm;
-		this.state = state;
-		this.eve_datetime = eve_datetime;
-		this.eve_date = eve_date;
-		this.eve_time = eve_time;
-		this.eve_solv_user = eve_solv_user;
-		this.eve_solv_date = eve_solv_date;
-		this.eve_reco_user = eve_reco_user;
-		this.eve_reco_date = eve_reco_date;
-		this.eve_site = eve_site;
-		this.eve_model = eve_model;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public long getId() {
+		return id;
 	}
 
-	public long getEve_id() {
-		return eve_id;
-	}
-
-	public void setEve_id(long eve_id) {
-		this.eve_id = eve_id;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Equipment getEquipment() {
@@ -147,99 +119,93 @@ public class Event {
 		this.state = state;
 	}
 
-	public Date getEve_datetime() {
-		return eve_datetime;
+	public Date getDatetime() {
+		return datetime;
 	}
 
-	public void setEve_datetime(Date eve_datetime) {
-		this.eve_datetime = eve_datetime;
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 
-	public String getEve_date() {
-		return eve_date;
+	public String getDate() {
+		return date;
 	}
 
-	public void setEve_date(String eve_date) {
-		this.eve_date = eve_date;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public String getEve_time() {
-		return eve_time;
+	public String getTime() {
+		return time;
 	}
 
-	public void setEve_time(String eve_time) {
-		this.eve_time = eve_time;
+	public void setTime(String time) {
+		this.time = time;
 	}
 
-	public String getEve_solv_user() {
-		return eve_solv_user;
+	public String getSolvUser() {
+		return solvUser;
 	}
 
-	public void setEve_solv_user(String eve_solv_user) {
-		this.eve_solv_user = eve_solv_user;
+	public void setSolvUser(String solvUser) {
+		this.solvUser = solvUser;
 	}
 
-	public Date getEve_solv_date() {
-		return eve_solv_date;
+	public Date getSolvDate() {
+		return solvDate;
 	}
 
-	public void setEve_solv_date(Date eve_solv_date) {
-		this.eve_solv_date = eve_solv_date;
+	public void setSolvDate(Date solvDate) {
+		this.solvDate = solvDate;
 	}
 
-	public String getEve_reco_user() {
-		return eve_reco_user;
+	public String getRecoUser() {
+		return recoUser;
 	}
 
-	public void setEve_reco_user(String eve_reco_user) {
-		this.eve_reco_user = eve_reco_user;
+	public void setRecoUser(String recoUser) {
+		this.recoUser = recoUser;
 	}
 
-	public Date getEve_reco_date() {
-		return eve_reco_date;
+	public Date getRecoDate() {
+		return recoDate;
 	}
 
-	public void setEve_reco_date(Date eve_reco_date) {
-		this.eve_reco_date = eve_reco_date;
+	public void setRecoDate(Date recoDate) {
+		this.recoDate = recoDate;
 	}
 
-	public String getEve_site() {
-		return eve_site;
+	public String getSite() {
+		return site;
 	}
 
-	public void setEve_site(String eve_site) {
-		this.eve_site = eve_site;
+	public void setSite(String site) {
+		this.site = site;
 	}
 
-	public String getEve_model() {
-		return eve_model;
+	public String getModel() {
+		return model;
 	}
 
-	public void setEve_model(String eve_model) {
-		this.eve_model = eve_model;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public String getDeleted() {
-		return deleted;
-	}
 
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
 }

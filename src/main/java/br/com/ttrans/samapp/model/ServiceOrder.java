@@ -24,8 +24,9 @@ import org.hibernate.annotations.CascadeType;
 public class ServiceOrder {
 
 	@Id
+	@Column(name="sor_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SERVICE_ORDER")
-	private int sor_id;
+	private int id;
 
 	@ManyToOne
 	@JoinColumn(name = "sor_type_id")
@@ -63,70 +64,38 @@ public class ServiceOrder {
 	@JoinColumn(name = "sor_equipment_id")
 	private Equipment equipment;
 
-	@Column
-	private Date sor_start_forecast;
+	@Column(name="sor_start_forecast")
+	private Date startForecast;
 
-	@Column
-	private Date sor_start;
+	@Column(name="sor_start")
+	private Date start;
 
-	@Column
-	private Date sor_end_forecast;
+	@Column(name="sor_end_forecast")
+	private Date endForecast;
 
-	@Column
-	private Date sor_end;
+	@Column(name="sor_end")
+	private Date end;
 
-	@Column
-	private String sor_remarks;
+	@Column(name="sor_remarks")
+	private String remark;
 
-	@Column
-	private int sor_equipment_stop;
+	@Column(name="sor_equipment_stop")
+	private int stoped;
 
-	@Column(updatable = false)
-	private String usr_insert;
-
-	@Column(insertable = false)
-	private String usr_update;
-
-	@Column(columnDefinition = "char(1)")
-	private String deleted = "";
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
 	public ServiceOrder(){}
 
-	public ServiceOrder(int sor_id, ServiceOrderType type,
-			ServiceOrderStatus status, Event event, ServiceOrder parent,
-			Set<ServiceOrderOccurrence> occurrences, Set<ServiceOrderLog> log,
-			Technician technician, SeverityLevel priority, Equipment equipment,
-			Date sor_start_forecast, Date sor_start, Date sor_end_forecast,
-			Date sor_end, String sor_remarks, int sor_equipment_stop,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.sor_id = sor_id;
-		this.type = type;
-		this.status = status;
-		this.event = event;
-		this.parent = parent;
-		this.occurrences = occurrences;
-		this.log = log;
-		this.technician = technician;
-		this.priority = priority;
-		this.equipment = equipment;
-		this.sor_start_forecast = sor_start_forecast;
-		this.sor_start = sor_start;
-		this.sor_end_forecast = sor_end_forecast;
-		this.sor_end = sor_end;
-		this.sor_remarks = sor_remarks;
-		this.sor_equipment_stop = sor_equipment_stop;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public int getId() {
+		return id;
 	}
 
-	public int getSor_id() {
-		return sor_id;
-	}
-
-	public void setSor_id(int sor_id) {
-		this.sor_id = sor_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public ServiceOrderType getType() {
@@ -201,75 +170,67 @@ public class ServiceOrder {
 		this.equipment = equipment;
 	}
 
-	public Date getSor_start_forecast() {
-		return sor_start_forecast;
+	public Date getStartForecast() {
+		return startForecast;
 	}
 
-	public void setSor_start_forecast(Date sor_start_forecast) {
-		this.sor_start_forecast = sor_start_forecast;
+	public void setStartForecast(Date startForecast) {
+		this.startForecast = startForecast;
 	}
 
-	public Date getSor_start() {
-		return sor_start;
+	public Date getStart() {
+		return start;
 	}
 
-	public void setSor_start(Date sor_start) {
-		this.sor_start = sor_start;
+	public void setStart(Date start) {
+		this.start = start;
 	}
 
-	public Date getSor_end_forecast() {
-		return sor_end_forecast;
+	public Date getEndForecast() {
+		return endForecast;
 	}
 
-	public void setSor_end_forecast(Date sor_end_forecast) {
-		this.sor_end_forecast = sor_end_forecast;
+	public void setEndForecast(Date endForecast) {
+		this.endForecast = endForecast;
 	}
 
-	public Date getSor_end() {
-		return sor_end;
+	public Date getEnd() {
+		return end;
 	}
 
-	public void setSor_end(Date sor_end) {
-		this.sor_end = sor_end;
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
-	public String getSor_remarks() {
-		return sor_remarks;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setSor_remarks(String sor_remarks) {
-		this.sor_remarks = sor_remarks;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public int getSor_equipment_stop() {
-		return sor_equipment_stop;
+	public int getStoped() {
+		return stoped;
 	}
 
-	public void setSor_equipment_stop(int sor_equipment_stop) {
-		this.sor_equipment_stop = sor_equipment_stop;
+	public void setStoped(int stoped) {
+		this.stoped = stoped;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}	
 }

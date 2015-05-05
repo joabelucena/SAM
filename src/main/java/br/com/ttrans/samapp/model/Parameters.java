@@ -12,103 +12,89 @@ import javax.validation.constraints.Size;
 @Table(name="parameters")
 @Entity
 @SequenceGenerator(name = "INC_PARAMETER", sequenceName = "GEN_PAR_ID")
-/*
-@org.hibernate.annotations.Entity(	 dynamicInsert = true
-									,dynamicUpdate = true , selectBeforeUpdate = true)
-*/
+
 public class Parameters {
 	
 	@Id
-	@Column
+	@Column(name="par_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_PARAMETER")
-	private int par_id;
+	private int id;
 	
 	@Size(max=10)
-	@Column
-	private String par_name;
+	@Column(name="par_name")
+	private String name;
 	
 	@Size(max=1)
-	@Column
-	private String par_type;
+	@Column(name="par_type")
+	private String type;
 	
-	@Column
-	private String par_value;
+	@Column(name="par_value")
+	private String value;
 	
-	@Column
-	private String par_desc;
+	@Column(name="par_desc")
+	private String desc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
-	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
 	public Parameters(){}
-	public Parameters(int par_id, String par_name, String par_type, String par_value, 
-					 String par_desc, String usr_insert, String usr_update, String deleted){
-		
-		super();
-		this.par_id = par_id;
-		this.par_name = par_name;
-		this.par_type = par_type;
-		this.par_value = par_value;
-		this.par_desc = par_desc;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
-	
-	public int getPar_id() {
-		return par_id;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	public void setPar_id(int par_id) {
-		this.par_id = par_id;
+
+	public String getName() {
+		return name;
 	}
-	public String getPar_name() {
-		return par_name;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setPar_name(String par_name) {
-		this.par_name = par_name;
+
+	public String getType() {
+		return type;
 	}
-	public String getPar_type() {
-		return par_type;
+
+	public void setType(String type) {
+		this.type = type;
 	}
-	public void setPar_type(String par_type) {
-		this.par_type = par_type;
+
+	public String getValue() {
+		return value;
 	}
-	public String getPar_value() {
-		return par_value;
+
+	public void setValue(String value) {
+		this.value = value;
 	}
-	public void setPar_value(String par_value) {
-		this.par_value = par_value;
+
+	public String getDesc() {
+		return desc;
 	}
-	public String getPar_desc() {
-		return par_desc;
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-	public void setPar_desc(String par_desc) {
-		this.par_desc = par_desc;
+
+	public String getInsert() {
+		return insert;
 	}
-	public String getDeleted() {
-		return deleted;
+
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+
+	public String getUpdate() {
+		return update;
 	}
-	public String getUsr_insert() {
-		return usr_insert;
+
+	public void setUpdate(String update) {
+		this.update = update;
 	}
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
-	}
-	public String getUsr_update() {
-		return usr_update;
-	}
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-	
-	
 }

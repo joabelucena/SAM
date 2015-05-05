@@ -10,68 +10,49 @@ import javax.persistence.Table;
 public class SubSystem {
 	
 	@Id
-	private String ssy_id;
+	@Column(name="ssy_id")
+	private String id;
 	
-	@Column
-	private String ssy_description;
+	@Column(name="ssy_description")
+	private String desc;
 
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
 	public SubSystem(){}
-	public SubSystem(String ssy_id, String ssy_description, String usr_insert,
-			String usr_update, String deleted) {
-		super();
-		this.ssy_id = ssy_id;
-		this.ssy_description = ssy_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public String getId() {
+		return id;
 	}
 
-	public String getSsy_id() {
-		return ssy_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setSsy_id(String ssy_id) {
-		this.ssy_id = ssy_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getSsy_description() {
-		return ssy_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public void setSsy_description(String ssy_description) {
-		this.ssy_description = ssy_description;
+	public String getInsert() {
+		return insert;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public String getUpdate() {
+		return update;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
-	}
-
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 }

@@ -14,70 +14,51 @@ import javax.persistence.Table;
 public class ServiceStation {
 	
 	@Id
+	@Column(name="sst_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_SERVICE_STATION") 
-	private int sst_id;
+	private int id;
 	
-	@Column
-	private String sst_description;
+	@Column(name="sst_description")
+	private String desc;
 	
-
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
 	public ServiceStation(){}
-	public ServiceStation(int sst_id, String sst_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.sst_id = sst_id;
-		this.sst_description = sst_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getSst_id() {
-		return sst_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setSst_id(int sst_id) {
-		this.sst_id = sst_id;
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getSst_description() {
-		return sst_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public void setSst_description(String sst_description) {
-		this.sst_description = sst_description;
+	public String getInsert() {
+		return insert;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public String getUpdate() {
+		return update;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
 }

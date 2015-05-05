@@ -20,8 +20,9 @@ import javax.persistence.TemporalType;
 public class ServiceOrderOccurrence {
 
 	@Id
+	@Column(name="soo_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SERVICE_ORDER_OCCURRENCES")
-	private int soo_id;
+	private int id;
 
 	@ManyToOne
 	@JoinColumn(name = "soo_service_order_id")
@@ -35,51 +36,31 @@ public class ServiceOrderOccurrence {
 	@JoinColumn(name = "soo_technician_id")
 	private Technician technician;
 
-	@Column
-	private int soo_event_type;
+	@Column(name="soo_event_type")
+	private int type;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column
-	private Date soo_start;
+	@Column(name="soo_start")
+	private Date start;
 
-	@Column
-	private Date soo_end;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="soo_end")
+	private Date end;
 
-	@Column(updatable = false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
-	@Column(insertable = false)
-	private String usr_update;
+	public ServiceOrderOccurrence() {}
 
-	@Column(columnDefinition = "char(1)")
-	private String deleted = "";
-
-	public ServiceOrderOccurrence() {
+	public int getId() {
+		return id;
 	}
 
-	public ServiceOrderOccurrence(int soo_id, ServiceOrder serviceorder,
-			ServiceOrderJob service, Technician technician,
-			int soo_event_type, Date soo_start, Date soo_end,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.soo_id = soo_id;
-		this.serviceorder = serviceorder;
-		this.service = service;
-		this.technician = technician;
-		this.soo_event_type = soo_event_type;
-		this.soo_start = soo_start;
-		this.soo_end = soo_end;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
-	}
-
-	public int getSoo_id() {
-		return soo_id;
-	}
-
-	public void setSoo_id(int soo_id) {
-		this.soo_id = soo_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public ServiceOrder getServiceorder() {
@@ -106,51 +87,45 @@ public class ServiceOrderOccurrence {
 		this.technician = technician;
 	}
 
-	public int getSoo_event_type() {
-		return soo_event_type;
+	public int getType() {
+		return type;
 	}
 
-	public void setSoo_event_type(int soo_event_type) {
-		this.soo_event_type = soo_event_type;
+	public void setType(int type) {
+		this.type = type;
 	}
 
-	public Date getSoo_start() {
-		return soo_start;
+	public Date getStart() {
+		return start;
 	}
 
-	public void setSoo_start(Date soo_start) {
-		this.soo_start = soo_start;
+	public void setStart(Date start) {
+		this.start = start;
 	}
 
-	public Date getSoo_end() {
-		return soo_end;
+	public Date getEnd() {
+		return end;
 	}
 
-	public void setSoo_end(Date soo_end) {
-		this.soo_end = soo_end;
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
+	
 }

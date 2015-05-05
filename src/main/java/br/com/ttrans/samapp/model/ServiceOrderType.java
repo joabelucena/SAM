@@ -14,73 +14,49 @@ import javax.persistence.Table;
 public class ServiceOrderType {
 	
 	@Id
+	@Column(name="sot_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator = "INC_SERVICE_ORDER_TYPE")
-	private int sot_id;
+	private int id;
 	
-	@Column
-	private String sot_description;
+	@Column(name="sot_description")
+	private String desc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
-	public ServiceOrderType(int sot_id){
+	public ServiceOrderType(int id){
 		super();
-		this.sot_id = sot_id;
+		this.id = id;
 	}
 	public ServiceOrderType(){}
-	public ServiceOrderType(int sot_id, String sot_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.sot_id = sot_id;
-		this.sot_description = sot_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+	public String getInsert() {
+		return insert;
+	}
+	public void setInsert(String insert) {
+		this.insert = insert;
+	}
+	public String getUpdate() {
+		return update;
+	}
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public int getSot_id() {
-		return sot_id;
-	}
 
-	public void setSot_id(int sot_id) {
-		this.sot_id = sot_id;
-	}
-
-	public String getSot_description() {
-		return sot_description;
-	}
-
-	public void setSot_description(String sot_description) {
-		this.sot_description = sot_description;
-	}
-
-	public String getUsr_insert() {
-		return usr_insert;
-	}
-
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
-	}
-
-	public String getUsr_update() {
-		return usr_update;
-	}
-
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
 }

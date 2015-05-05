@@ -26,15 +26,12 @@ public class EquipmentModel {
 	@ManyToOne
 	@JoinColumn(name = "emo_protocol_id")
 	private EquipmentProtocol protocol;
-
-	@Column(updatable=false)
-	private String usr_insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
 	public EquipmentModel(){}
 
@@ -62,28 +59,22 @@ public class EquipmentModel {
 		this.protocol = protocol;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public String getDeleted() {
-		return deleted;
-	}
 
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
 	
 }

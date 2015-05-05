@@ -12,85 +12,56 @@ import javax.persistence.Table;
 public class OperationalState {
 
 	@Id
-	private String ost_id;
+	@Column(name="ost_id")
+	private String id;
 	
 	@ManyToOne
 	@JoinColumn(name = "ost_model_id")
 	private EquipmentModel model;
 	
-	@Column
-	private String ost_description;
+	@Column(name="ost_description")
+	private String desc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
-	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
 	public OperationalState(){}
+	
 	public OperationalState(String id){
-		this.ost_id = id;
+		this.id = id;
 	}
-	public OperationalState(String ost_id, EquipmentModel model,
-			String ost_description, String usr_insert, String usr_update,
-			String deleted) {
-		super();
-		this.ost_id = ost_id;
-		this.model = model;
-		this.ost_description = ost_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public String getId() {
+		return id;
 	}
-
-	public String getOst_id() {
-		return ost_id;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public void setOst_id(String ost_id) {
-		this.ost_id = ost_id;
-	}
-
 	public EquipmentModel getModel() {
 		return model;
 	}
-
 	public void setModel(EquipmentModel model) {
 		this.model = model;
 	}
-
-	public String getOst_description() {
-		return ost_description;
+	public String getDesc() {
+		return desc;
 	}
-
-	public void setOst_description(String ost_description) {
-		this.ost_description = ost_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
-
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
-
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
-
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
+	
 }

@@ -14,73 +14,47 @@ import javax.persistence.Table;
 public class ServiceOrderStatus {
 	
 	@Id
+	@Column(name="sos_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator="INC_SERVICE_ORDER_STATUS")
-	private int sos_id;
+	private int id;
 	
-	@Column
-	private String sos_description;
+	@Column(name="sos_description")
+	private String desc;
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
 	public ServiceOrderStatus(){}
-	public ServiceOrderStatus(String sos_description){
+	public ServiceOrderStatus(String desc){
 		super();
-		this.sos_description = sos_description;
+		this.desc = desc;
 	}
-	public ServiceOrderStatus(int sos_id, String sos_description,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.sos_id = sos_id;
-		this.sos_description = sos_description;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+	public int getId() {
+		return id;
 	}
-
-	public int getSos_id() {
-		return sos_id;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public void setSos_id(int sos_id) {
-		this.sos_id = sos_id;
+	public String getDesc() {
+		return desc;
 	}
-
-	public String getSos_description() {
-		return sos_description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-
-	public void setSos_description(String sos_description) {
-		this.sos_description = sos_description;
+	public String getInsert() {
+		return insert;
 	}
-
-	public String getUsr_insert() {
-		return usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
+	}
+	public String getUpdate() {
+		return update;
+	}
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
-	}
-
-	public String getUsr_update() {
-		return usr_update;
-	}
-
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
 }

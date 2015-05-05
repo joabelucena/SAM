@@ -16,15 +16,15 @@ import javax.persistence.Table;
 public class Site {
 
 	@Id
-	@Column
+	@Column(name="sit_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SITE")
-	private int sit_id;
+	private int id;
 
-	@Column
-	private String sit_description;
+	@Column(name="sit_description")
+	private String desc;
 
-	@Column
-	private String sit_shortname;
+	@Column(name="sit_shortname")
+	private String shortname;
 
 	@ManyToOne
 	@JoinColumn(name = "sit_parent_id")
@@ -38,90 +38,92 @@ public class Site {
 	@JoinColumn(name = "sit_station_id")
 	private ServiceStation station;
 
-	@Column(updatable = false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 
-	@Column(insertable = false)
-	private String usr_update;
-
-	@Column(columnDefinition = "char(1)")
-	private String deleted = "";
 
 	public Site() {}
-	public Site(int sit_id, String sit_description, String sit_shortname,
-			Integer sit_parent_id, SiteType type, String usr_insert,
-			String usr_update, String deleted) {
-		super();
-		this.sit_id = sit_id;
-		this.sit_description = sit_description;
-		this.sit_shortname = sit_shortname;
-		this.type = type;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+
+	public int getId() {
+		return id;
 	}
 
-	public int getSit_id() {
-		return sit_id;
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setSit_id(int sit_id) {
-		this.sit_id = sit_id;
+
+	public String getDesc() {
+		return desc;
 	}
 
-	public String getSit_description() {
-		return sit_description;
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public void setSit_description(String sit_description) {
-		this.sit_description = sit_description;
+
+	public String getShortname() {
+		return shortname;
 	}
 
-	public String getSit_shortname() {
-		return sit_shortname;
+
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
 	}
 
-	public void setSit_shortname(String sit_shortname) {
-		this.sit_shortname = sit_shortname;
-	}
 
 	public Site getParent() {
 		return parent;
 	}
 
+
 	public void setParent(Site parent) {
 		this.parent = parent;
 	}
+
 
 	public SiteType getType() {
 		return type;
 	}
 
+
 	public void setType(SiteType type) {
 		this.type = type;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+
+	public ServiceStation getStation() {
+		return station;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+
+	public void setStation(ServiceStation station) {
+		this.station = station;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getDeleted() {
-		return deleted;
+
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
+
+	public void setUpdate(String update) {
+		this.update = update;
 	}
 }

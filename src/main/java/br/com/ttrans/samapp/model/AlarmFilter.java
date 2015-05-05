@@ -16,8 +16,9 @@ import javax.persistence.Table;
 public class AlarmFilter {
 	
 	@Id
+	@Column(name="afi_id")
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_ALARMS_FILTER")
-	private int afi_id;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="afi_alarm_id")
@@ -27,33 +28,20 @@ public class AlarmFilter {
 	@JoinColumn(name="afi_equipment_id")	
 	private Equipment equipment;	
 	
-	@Column(updatable=false)
-	private String usr_insert;
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
 	
-	@Column(insertable=false)
-	private String usr_update;
+	@Column(insertable=false, name = "usr_update")
+	private String update;
 	
-	@Column(columnDefinition="char(1)")
-	private String deleted="";
-
 	public AlarmFilter(){}
-	public AlarmFilter(int afi_id, Alarm alarm, Equipment equipment,
-			String usr_insert, String usr_update, String deleted) {
-		super();
-		this.afi_id = afi_id;
-		this.alarm = alarm;
-		this.equipment = equipment;
-		this.usr_insert = usr_insert;
-		this.usr_update = usr_update;
-		this.deleted = deleted;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getAfi_id() {
-		return afi_id;
-	}
-
-	public void setAfi_id(int afi_id) {
-		this.afi_id = afi_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Alarm getAlarm() {
@@ -72,27 +60,20 @@ public class AlarmFilter {
 		this.equipment = equipment;
 	}
 
-	public String getUsr_insert() {
-		return usr_insert;
+	public String getInsert() {
+		return insert;
 	}
 
-	public void setUsr_insert(String usr_insert) {
-		this.usr_insert = usr_insert;
+	public void setInsert(String insert) {
+		this.insert = insert;
 	}
 
-	public String getUsr_update() {
-		return usr_update;
+	public String getUpdate() {
+		return update;
 	}
 
-	public void setUsr_update(String usr_update) {
-		this.usr_update = usr_update;
+	public void setUpdate(String update) {
+		this.update = update;
 	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
+	
 }
