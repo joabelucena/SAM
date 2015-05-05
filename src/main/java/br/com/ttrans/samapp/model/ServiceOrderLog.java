@@ -53,9 +53,22 @@ public class ServiceOrderLog implements Serializable {
 	private String update;
 
 	public ServiceOrderLog(){}
+	
 
 	public int getId() {
 		return id;
+	}
+
+	public ServiceOrderLog(ServiceOrderStatus prevstatus,
+			ServiceOrderStatus curstatus, String userId, Date datetime,
+			String remark, String insert) {
+		super();
+		this.prevstatus = prevstatus;
+		this.curstatus = curstatus;
+		this.userId = userId;
+		this.datetime = datetime;
+		this.remark = remark;
+		this.insert = insert;
 	}
 
 	public void setId(int id) {

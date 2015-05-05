@@ -33,7 +33,7 @@ public class StatusRule {
 	private ServiceOrderStatus nxtstatus;
 	
 	@Column(name="sru_log_remark")
-	private String remark;
+	private int remark;
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -75,11 +75,11 @@ public class StatusRule {
 		this.nxtstatus = nxtstatus;
 	}
 
-	public String getRemark() {
+	public int getRemark() {
 		return remark;
 	}
 
-	public void setRemark(String remark) {
+	public void setRemark(int remark) {
 		this.remark = remark;
 	}
 
