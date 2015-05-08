@@ -2,19 +2,18 @@ Ext.define('Sam.view.components.PopUp', {
 	extend : 'Ext.window.Window',
 	alias : 'widget.popup',
 	
-	itemId: 'lookup',
-
 	header : {
 		titlePosition : 2,
 	},
 
 	closable : true,
-	closeAction : 'destroy',
+	//closeAction : 'destroy',
 	maximizable : true,
 	width : '90%',
 	minWidth : 350,
 	height : '90%',
-
+	//renderTo: this,
+	
 	layout : 'fit',
 	
 	buttons : [ {

@@ -1,20 +1,21 @@
 Ext.define('Sam.controller.ServiceOrder', {
 	extend: 'Ext.app.Controller',
 	
+	stores:['ServiceOrderJob'],
 
 	views: ['serviceOrder.ServiceOrderGrid',
 	        'serviceOrder.ServiceOrderForm',
 	        'serviceOrder.log.ServiceOrderLog',
 			'serviceOrder.log.ServiceOrderLogGrid',
 	        'serviceOrder.log.ServiceOrderLogForm',
-	        'Sam.view.equipment.EquipmentsGrid',
-	        'Sam.view.components.PopUp'],
+	        'Sam.view.serviceOrder.job.JobGrid',
+	        'Sam.view.serviceOrder.job.JobForm',
+	        'Sam.view.equipment.EquipmentsGrid'],
 
 	init: function() {
 		
 		this.control({
 			'serviceordergrid': {
-				render: this.onRender,
 				itemdblclick: this.onBtnShowSoClick
 			},
 			'toolbar #btnNewSo' :{
@@ -38,9 +39,41 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'#trg_equipment_id' :{
 				click: this.onTriggerClick,
 			},
-			'toolbar #popupConfirma' :{ 
+			'#janela1 #submit' :{ 
 				click: this.f3Confirm,
-			}				
+			},
+			
+			/* Buttons Listeners: Job
+			 *  
+			 */
+			'#serviceorderjobform toolbar #btnSubmit' :{
+				create: this.onJobBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onJobBtnSubmitEdit,
+				remove: this.onJobBtnSubmitDelete,
+				
+			},
+			
+			'#serviceorderjobform toolbar #btnDiscard' :{
+				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+			},
+			
+			'#serviceorderjobgrid toolbar #btnShow' :{
+				click: this.onJobBtnShowClick
+			},
+			
+			'#serviceorderjobgrid toolbar #btnEdit' :{
+				click: this.onJobBtnEditClick
+			},
+			
+			'#serviceorderjobgrid toolbar #btnAdd' :{
+				click: this.onJobBtnAddClick
+			},
+			
+			'#serviceorderjobgrid toolbar #btnDelete' :{
+				click: this.onJobBtnDeleteClick
+			},
+			
 		});
 	},
 	
@@ -81,19 +114,13 @@ Ext.define('Sam.controller.ServiceOrder', {
 	//ServiceOrder > form > trigger:equipment_id: popup button
 	onTriggerClick: function(){
 	
-		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp');
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'janela1'});
 		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
 		
 		equipmentsPopUp.setTitle('Selecionar Equipamento');
 		equipmentsPopUp.add(grid);
 		equipmentsPopUp.show();
 		
-	},
-	
-	//ServiceOrder > grid : onRender
-	onRender: function(me, eOpts) {
-		//me.getStore().reload();
-		//me.getView().refresh();
 	},
 	
 	//ServiceOrder > grid : btnNewSo button
@@ -564,5 +591,267 @@ Ext.define('Sam.controller.ServiceOrder', {
 			value: parseInt(fieldId.getValue())
 			}
 		]);
+	},
+	
+	/*********** Begin Job Controlling ***********/
+	onJobBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'serviceorderjobform', null);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}
+		}
+	},
+	
+	onJobBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = this.activateTab(3, row.get('id'), 'serviceorderjobform', null);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Desabilita Codigo
+				form.findField('id').setEditable(false)
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onJobBtnAddClick: function(){
+
+			
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'serviceorderjobform', null);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+
+	},
+	
+	onJobBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = this.activateTab(4, row.get('id'), 'serviceorderjobform', null);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onJobBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderJobStore(),						//Store
+			record		= Ext.create('Sam.model.ServiceOrderJob');			//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderjobgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onJobBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderJobStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderjobgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onJobBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderJobStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderjobgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Of Job Controlling ***********/
+	
+
+	
+	
+	
+	/*********** Common Methods***********/
+	activateTab : function(action, id, xtype, uTitle){
+		
+		//Variaveis
+		var title, tabId, activeTab;
+		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		switch(action){
+			
+			//Visualizar
+			case 1:
+				title = 'Visualizar Cod: ' + id;
+				tabId = 'show-' + xtype + '-' + id;
+				break;
+			
+			//Incluir
+			case 2:
+				title = 'Incluir Novo Registro';
+				tabId = 'add-' + xtype
+				break;
+			
+			//Alterar
+			case 3:
+				title = 'Alterar Cod: ' + id;
+				tabId = 'edit-' + xtype + '-' + id;
+				break;
+			
+			//Excluir
+			case 4:
+				title = 'Excluir Cod: ' + id;
+				tabId = 'delete-' + xtype + '-' + id;
+				break;
+			default:
+				title = uTitle;
+		
+		}
+		
+		var newTab = mainPanel.items.findBy(
+				function(tab){
+					return tab.id === tabId;
+				});
+		
+		if (!newTab) {
+			newTab = mainPanel.add({
+				id: tabId,
+				xtype: xtype,
+				closable: true,
+				iconCls: 'magnifier-zoom',
+				title: title
+			});
+		}
+		
+		//Seta Aba como ativa
+		mainPanel.setActiveTab(newTab);
+		
+		//Variavel para retornar aba ativa
+		activeTab = mainPanel.getActiveTab();
+		
+		return activeTab;
+		
+	},
+	
+	syncStore: function(store, comp){
+		
+		//Sincroniza Store
+		store.sync();
+		
+		//Recarrega Store
+		store.reload();
+		
+		//Atualiza stores e views
+		Ext.each(Ext.ComponentQuery.query(comp),function(f){
+			f.getStore().reload();
+		});
+		
 	}
+	
 });

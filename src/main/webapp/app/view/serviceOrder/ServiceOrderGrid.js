@@ -15,7 +15,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	columns : [
 	   {
 		   text: 'Ordem de Servico',
-		   dataIndex: 'sor_id',
+		   dataIndex: 'id',
 		   flex: 1,
 		   minWidth: 200,
 		   width: 200

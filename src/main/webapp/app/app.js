@@ -13,15 +13,17 @@ Ext.application({
 	     	'Equipment',
 	     	'EquipmentModel',
 	     	'EquipmentType',
-	     	'EquipmentProtocol'],
-   
+	     	'EquipmentProtocol',
+	     	'ServiceOrderJob',
+	     	'Technician'],
+   /*
 	models: ['EquipmentManufacturer',
 		        'EquipmentCounter',
 		     	'Equipment',
 		     	'EquipmentModel',
 		     	'EquipmentType',
 		     	'EquipmentProtocol'],
-
+	*/
 	controllers : [ 
 	   'Menu',
 	   'Alarms',

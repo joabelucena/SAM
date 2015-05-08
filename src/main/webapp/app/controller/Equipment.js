@@ -28,32 +28,18 @@ Ext.define('Sam.controller.Equipment', {
 	        'Sam.view.equipment.type.TypeGrid',
 	        'Sam.view.equipment.type.TypeForm'
 	        ],
+    refs: [
+           {    ref: 'lookup',     selector: 'popup'   }
+       ],
 
 	init: function() {
 		
 		this.control({
-			/*
-			 * Grid Listeners
-			 */
-			'equipmentmanufacturergrid': {
-				itemdblclick: this.onManufacturerBtnShowClick
+			
+			'grid': {
+				render: this.gridOnRender
 			},
 			
-			'equipmentscountergrid': {
-				itemdblclick: function(){}
-			},
-			
-			'equipmentsmodelgrid': {
-				itemdblclick: function(){}
-			},
-			
-			'equipmentstypegrid': {
-				itemdblclick: function(){}
-			},
-			
-			'equipmentsmodelgrid': {
-				itemdblclick: function(){}
-			},
 			
 			/* Buttons Listeners: Manufacturer
 			 *  
@@ -156,7 +142,7 @@ Ext.define('Sam.controller.Equipment', {
 				click:   this.onModelTrgProtClick
 			},
 			
-			'#lookup #submit' :{
+			'#janela2 #submit' :{
 				click: this.onLookupSubmitClick
 			},
 			
@@ -192,6 +178,10 @@ Ext.define('Sam.controller.Equipment', {
 		});
 	},
 	
+	gridOnRender: function(me, options){
+		me.getStore().reload();
+		me.getView().refresh();
+	},
 	
 	/*********** Begin Manufacturer Controlling ***********/
 	onManufacturerBtnShowClick: function() {
@@ -203,7 +193,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
 			
 			if(activeTab){
 			
@@ -222,7 +212,7 @@ Ext.define('Sam.controller.Equipment', {
 				//Seta Botão Confirma: 1 - Visualizar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 				
-			}			
+			}
 		}
 	},
 	
@@ -235,7 +225,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
 			
 			if(activeTab){
 				
@@ -255,7 +245,7 @@ Ext.define('Sam.controller.Equipment', {
 
 			
 		//Cria Aba: 2 - Incluir
-		var activeTab = activateTab(2, null, 'equipmentmanufacturerform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentmanufacturerform', null);
 		
 		if(activeTab){
 	
@@ -274,7 +264,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = activateTab(4, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentmanufacturerform', null);
 			
 			if(activeTab){
 			
@@ -316,7 +306,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmanufacturergrid');
+			this.syncStore(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -337,7 +327,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmanufacturergrid');
+			this.syncStore(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -354,12 +344,12 @@ Ext.define('Sam.controller.Equipment', {
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
-		
+			
 			//Apaga registro da Store
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmanufacturergrid');
+			this.syncStore(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -379,7 +369,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmenttypeform', null);
 			
 			if(activeTab){
 			
@@ -411,7 +401,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = activateTab(3, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmenttypeform', null);
 			
 			if(activeTab){
 				
@@ -430,7 +420,7 @@ Ext.define('Sam.controller.Equipment', {
 	onTypeBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = activateTab(2, null, 'equipmenttypeform', null);
+		var activeTab = this.activateTab(2, null, 'equipmenttypeform', null);
 		
 		if(activeTab){
 	
@@ -448,7 +438,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = activateTab(4, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmenttypeform', null);
 			
 			if(activeTab){
 			
@@ -490,7 +480,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmenttypegrid');
+			this.syncStore(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -511,7 +501,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmenttypegrid');
+			this.syncStore(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -533,7 +523,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmenttypegrid');
+			this.syncStore(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -552,7 +542,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentcounterform', null);
 			
 			if(activeTab){
 			
@@ -584,7 +574,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = activateTab(3, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentcounterform', null);
 			
 			if(activeTab){
 				
@@ -603,7 +593,7 @@ Ext.define('Sam.controller.Equipment', {
 	onCounterBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = activateTab(2, null, 'equipmentcounterform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentcounterform', null);
 		
 		if(activeTab){
 	
@@ -621,7 +611,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = activateTab(4, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentcounterform', null);
 			
 			if(activeTab){
 			
@@ -663,7 +653,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentcountergrid');
+			this.syncStore(store, '#equipmentcountergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -684,7 +674,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentcountergrid');
+			this.syncStore(store, '#equipmentcountergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -706,7 +696,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentcountergrid');
+			this.syncStore(store, '#equipmentcountergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -725,7 +715,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null);
 			
 			if(activeTab){
 			
@@ -757,7 +747,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = activateTab(3, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null);
 			
 			if(activeTab){
 				
@@ -776,7 +766,7 @@ Ext.define('Sam.controller.Equipment', {
 	onProtocolBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = activateTab(2, null, 'equipmentprotocolform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null);
 		
 		if(activeTab){
 	
@@ -794,7 +784,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = activateTab(4, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null);
 			
 			if(activeTab){
 			
@@ -836,7 +826,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentprotocolgrid');
+			this.syncStore(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -857,7 +847,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentprotocolgrid');
+			this.syncStore(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -879,7 +869,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentprotocolgrid');
+			this.syncStore(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -890,7 +880,7 @@ Ext.define('Sam.controller.Equipment', {
 	
 	/*********** Begin Model Controlling ***********/
 	onModelTrgProtClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp');
+		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'janela2'});
 		var grid = Ext.create('Sam.view.equipment.protocol.ProtocolGrid');
 		
 		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
@@ -905,7 +895,7 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onLookupSubmitClick: function(){
 		
-		var row = Ext.ComponentQuery.query('#lookup grid')[0].getSelection()[0];
+		var row = this.getLookup().down('grid').getSelection()[0];
 		
 		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
 		
@@ -916,7 +906,7 @@ Ext.define('Sam.controller.Equipment', {
 			Ext.ComponentQuery.query('#prot_id',fld)[0].setValue(row.get('id'));
 			Ext.ComponentQuery.query('#prot_desc',fld)[0].setValue(row.get('desc'));
 			
-			Ext.ComponentQuery.query('#lookup')[0].close();
+			this.getLookup().close();
 		}
 		
 	},
@@ -930,7 +920,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentmodelform', null);
 			
 			if(activeTab){
 			
@@ -962,7 +952,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = activateTab(3, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentmodelform', null);
 			
 			if(activeTab){
 				
@@ -981,7 +971,7 @@ Ext.define('Sam.controller.Equipment', {
 	onModelBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = activateTab(2, null, 'equipmentmodelform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentmodelform', null);
 		
 		if(activeTab){
 	
@@ -999,7 +989,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = activateTab(4, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentmodelform', null);
 			
 			if(activeTab){
 			
@@ -1027,21 +1017,23 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentModelStore(),						//Store
-			record		= Ext.create('Sam.model.EquipmentModel');			//Registro
-		
-		
+			store		= this.getEquipmentModelStore(),							//Store
+			record		= Ext.create('Sam.model.EquipmentModel');					//Registro
 		
 		if(form.isValid()){
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
+			//Carrega Protocolo
+			record.set({protocol: Ext.create('Sam.model.EquipmentProtocol',{id: values.prot_id, desc: values.prot_desc})})
+			
+			
 			//Adiciona registro na store
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmodelgrid');
+			this.syncStore(store, '#equipmentmodelgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1061,8 +1053,11 @@ Ext.define('Sam.controller.Equipment', {
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
 			
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set({protocol: Ext.create('Sam.model.EquipmentProtocol',{id: values.prot_id, desc: values.prot_desc})});
+			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmodelgrid');
+			this.syncStore(store, '#equipmentmodelgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1084,7 +1079,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			syncStore(store, 'equipmentmodelgrid');
+			this.syncStore(store, '#equipmentmodelgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1093,88 +1088,90 @@ Ext.define('Sam.controller.Equipment', {
 	
 	/*********** End Model Controlling ***********/
 	
+	
+	/*********** Common Methods***********/
+	syncStore: function(store, comp){
+		
+		//Sincroniza Store
+		store.sync();
+		
+		//Recarrega Store
+		store.reload();
+		
+		//Atualiza stores e views
+		Ext.each(Ext.ComponentQuery.query(comp),function(f){
+			f.getStore().reload();
+		});
+		
+	},
+
+	activateTab: function(action, id, xtype, uTitle){
+		
+		//Variaveis
+		var title, tabId, activeTab;
+		
+		//Aba Objecto Pai
+		var mainPanel = Ext.getCmp('viewportpanel');
+		
+		switch(action){
+			
+			//Visualizar
+			case 1:
+				title = 'Visualizar Cod: ' + id;
+				tabId = 'show-' + xtype + '-' + id;
+				break;
+			
+			//Incluir
+			case 2:
+				title = 'Incluir Novo Registro';
+				tabId = 'add-' + xtype
+				break;
+			
+			//Alterar
+			case 3:
+				title = 'Alterar Cod: ' + id;
+				tabId = 'edit-' + xtype + '-' + id;
+				break;
+			
+			//Excluir
+			case 4:
+				title = 'Excluir Cod: ' + id;
+				tabId = 'delete-' + xtype + '-' + id;
+				break;
+			default:
+				title = uTitle;
+		
+		}
+		
+		var newTab = mainPanel.items.findBy(
+				function(tab){
+					return tab.id === tabId;
+				});
+		
+		if (!newTab) {
+			newTab = mainPanel.add({
+				id: tabId,
+				xtype: xtype,
+				closable: true,
+				iconCls: 'magnifier-zoom',
+				title: title
+			});
+		}
+		
+		//Seta Aba como ativa
+		mainPanel.setActiveTab(newTab);
+		
+		//Se for inclusao desabilita o campo Id
+		if(action == 2){
+			Ext.ComponentQuery.query('#id' , newTab)[0].setVisible(false);
+		}
+		
+		//Variavel para retornar aba ativa
+		activeTab = mainPanel.getActiveTab();
+		
+		return activeTab;
+		
+	}
 
 });
 
-function syncStore(store, component){
-	
-	//Sincroniza Store
-	store.sync({
-        success: function(batch, options)
-        {
-        	
-        	//Atualiza stores e views
-        	Ext.each(Ext.ComponentQuery.query('#'+component),function(f){
-        		f.getStore().reload();
-        		f.getView().refresh();
-        	});
-        	
-        },
-        failure: function(batch, options)
-        {
-            console.log("failed...");
-        }
-    });
-}
-
-function activateTab(action, id, xtype, uTitle){
-	
-	//Variaveis
-	var title, tabId, activeTab;
-	
-	//Aba Objecto Pai
-	var mainPanel = Ext.getCmp('viewportpanel');
-	
-	switch(action){
-		
-		//Visualizar
-		case 1:
-			title = 'Visualizar Cod: ' + id;
-			tabId = 'show-' + xtype + '-' + id;
-			break;
-		
-		//Incluir
-		case 2:
-			title = 'Incluir Novo Registro';
-			tabId = 'add-' + xtype
-			break;
-		
-		//Alterar
-		case 3:
-			title = 'Alterar Cod: ' + id;
-			tabId = 'edit-' + xtype + '-' + id;
-			break;
-		
-		//Excluir
-		case 4:
-			title = 'Excluir Cod: ' + id;
-			tabId = 'delete-' + xtype + '-' + id;
-			break;
-		default:
-			title = uTitle;
-	
-	}
-	
-	var newTab = mainPanel.items.findBy(
-			function(tab){
-				return tab.id === tabId;
-			});
-	
-	if (!newTab) {
-		newTab = mainPanel.add({
-			id: tabId,
-			xtype: xtype,
-			closable: true,
-			iconCls: 'magnifier-zoom',
-			title: title
-		});
-	}
-	
-	//Seta Aba como ativa
-	mainPanel.setActiveTab(newTab);
-	
-	activeTab = mainPanel.getActiveTab();
-	
-	return activeTab;
-	
-}

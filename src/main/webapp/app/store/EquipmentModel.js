@@ -5,6 +5,8 @@ Ext.define('Sam.store.EquipmentModel', {
 	
 	autoLoad: true,
 
+	sorters: { property: 'id'},
+
 	proxy: {
         type: 'ajax',
         
@@ -22,20 +24,37 @@ Ext.define('Sam.store.EquipmentModel', {
         },
         writer: {
             type: 'json',
-            writeAllFields: false,
+            writeAllFields: true,
             root: 'data'
         },
         listeners: {
+        	success: function(proxy, response, operation){
+        		console.log('Success!');
+        	},
             exception: function(proxy, response, operation){
-            	console.log('exception');
-            },
-            success: function(proxy, response, operation){
-            	console.log('success');
-            },
-            
-            failure: function(proxy, response, operation){
-                console.log('failure');
-            },
+            	var ErrorMessage,jResp;
+            	
+            	try {
+            		
+            		//Parseia Retorno
+            		jResp = Ext.JSON.decode(response.responseText);
+            		
+            		ErrorMessage = jResp.message; 
+
+                }
+                catch (ex) {
+                	ErrorMessage = 'Problemas na requisição, favor entrar em contato com o Adminsitrador do sistema';
+                }
+            	
+                //Exibir Mensagem
+            	Ext.MessageBox.show({
+			        title: 'Falha na Requisição',
+			        msg: ErrorMessage,
+			        buttons: Ext.MessageBox.OK,
+			        icon: Ext.MessageBox.WARNING
+				});
+            	
+            }
         }
     }
 });

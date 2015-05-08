@@ -1,106 +1,81 @@
-var eventInfo = {
+var site = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
-	title : 'Informações do Alarme',
+	title : 'Local',
+	itemId: 'fldSite',
 	layout : {
 		type : 'vbox',
-		//align : 'stretch'
 	},
 
 	items : [ {
-		fieldLabel : 'ID Alarme',
-		id : 'alarmshow_event_id',
-		readOnly : true,
+		xtype: 'textfield',
+		fieldLabel : 'Codigo',
+		itemId: 'site_id',
+		name: 'site_id',
+		editable: false,
 		width: '40%',
-		inputAttrTpl: " data-qtip='ID do Alarme' "
+		allowBlank : false,
+		inputAttrTpl: " data-qtip='Código do Local' ",
+		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 	}, {
-		fieldLabel : 'Data/Hora Alarme',
-		id : 'alarmshow_time_alarm',
+		fieldLabel : 'Descrição',
+		itemId: 'site_desc',
+		name: 'site_desc',
 		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Data/Hora do Alarme' "
-
-	}, {
-		fieldLabel : 'Severidade',
-		id : 'alarmshow_severity',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Severidade do Alarme' "
-		
-	}, {
-		fieldLabel : 'Reconhecido por',
-		id : 'alarmshow_reco_user',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Usuário que Reconheceu o Alarme' "
-	}, {
-		fieldLabel : 'Data/Hora ',
-		id : 'alarmshow_reco_time',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Data/Hora do Reconhecimento do Alarme' "
-	} ]
+		width: '50%',
+		inputAttrTpl: " data-qtip='Descrição do Local' ",
+	}],
 };
 
-var equipmentInfo = {
+
+var tec = {
 		xtype : 'fieldset',
 		defaultType : 'textfield',
-		title : 'Informações do Equipamento Alarmado',
+		title : 'Dados do Tecnico',
+		itemId: 'fldTechnician',
 		layout : {
 			type : 'vbox',
-			//align : 'stretch',
 		},
 
-		items : [ {
-			fieldLabel : 'ID',
-			name : 'alarmshow_id',
-			readOnly : true,
-			width: '40%',
-			inputAttrTpl: " data-qtip='ID do Equipamento' "
-		}, {
-			fieldLabel : 'Modelo',
-			id : 'alarmshow_model',
-			readOnly : true,
-			width: '40%',
-			inputAttrTpl: " data-qtip='Modelo do Equipamento' "
-		}, {
-			fieldLabel : 'Fabricante',
-			id : 'alarmshow_manufacturer',
-			readOnly : true,
-			width: '40%',
-			inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
-		}, {
-			fieldLabel : 'Sub-Sistema',
-			id : 'alarmshow_subsystem',
-			readOnly : true,
-			width: '40%',
-			inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
-		}, {
-			fieldLabel : 'Local de Instalação',
-			id : 'alarmshow_site',
-			readOnly : true,
-			width: '40%',
-			inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
-		} ],
+		items : [{
+			fieldLabel : 'Codigo',
+			itemId: 'id',
+			name: 'id',
+			allowBlank : true,
+			editable: true,
+			width: '20%',
+			inputAttrTpl: " data-qtip='Codigo do Tecnico' "
+		},{
+			fieldLabel : 'Descrição',
+			itemId: 'desc',
+			name: 'desc',
+			allowBlank : false,
+			width: '60%',
+			inputAttrTpl: " data-qtip='Descrição do Tecnico' "
+		}],
 	};
 
-Ext.define('Sam.view.alarm.AlarmShow', {
+
+Ext.define('Sam.view.technician.TechnicianForm', {
 	extend: 'Ext.Panel',
-	alias:  'widget.alarmshow',
-		
+	
+	alias:  'widget.technicianform',
+	
+	itemId: 'technicianform',
+	
 	closable: true,
 	
 	layout:{
 		type: 'fit',
 	},
 	
-	items : [ {
+	items : [{
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'alarmshowform',
+
 		fieldDefaults : {
-			labelWidth : 180
+			labelWidth : 100
 		},
 		defaults:{
 			allowBlank : false
@@ -113,8 +88,33 @@ Ext.define('Sam.view.alarm.AlarmShow', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ eventInfo, equipmentInfo ]
+		items : [ site, tec],
 		
-	} ],
+		scrollable: true,
+		
+		dockedItems: [{
+		    xtype: 'toolbar',
+		    dock: 'bottom',
+		    
+		    items: [{
+		    	xtype: 'tbfill'
+		    },{
+		        xtype:'button',
+		    	itemId:'btnSubmit',
+		    	text:'Confirma',
+		        tooltip:'Confirmar Operação',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    },{
+		        xtype:'button',
+		    	itemId:'btnDiscard',
+		    	text:'Cancela',
+		        tooltip:'Cancelar Operação',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button'
+		    }]
+		}]
+	} ]
 	
 });
+

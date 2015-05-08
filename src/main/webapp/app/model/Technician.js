@@ -3,9 +3,11 @@ Ext.define('Sam.model.Technician', {
 	
 	fields:[
 	        
-	        {name: 'id'			, type: 'string'	, mapping: 'tec_id'					},
-	        {name: 'name'		, type: 'string'	, mapping: 'tec_name'				},
-	        {name: 'site_desc'	, type: 'string'	, mapping: 'site.sit_description'	}
+	        {name: 'id'			, type: 'string'							},
+	        {name: 'name'		, type: 'string'							},
+
+	        {name: 'site_id'	, type: 'number'	, mapping: 'site.id'	},
+	        {name: 'site_desc'	, type: 'string'	, mapping: 'site.desc'	}
 
 	        ]
 });

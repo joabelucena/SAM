@@ -1,13 +1,13 @@
-Ext.define('Sam.view.technician.TechnicianGrid', {
+Ext.define('Sam.view.serviceOrder.job.JobGrid', {
 	extend : 'Ext.grid.Panel',
 	
-	alias : 'widget.techniciangrid',
-	
-	itemId : 'techniciangrid',
+	alias : 'widget.serviceorderjobgrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.Technician'),
+	store : Ext.create('Sam.store.ServiceOrderJob'),
+	
+	itemId: 'serviceorderjobgrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -15,21 +15,13 @@ Ext.define('Sam.view.technician.TechnicianGrid', {
 		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'string'
+			type : 'number'
 		}
 	}, {
-		text : 'Nome',
+		text : 'Descrição',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'name',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Local de Trabalho',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'site_desc',
+		dataIndex : 'desc',
 		filter : {
 			type : 'string'
 		}

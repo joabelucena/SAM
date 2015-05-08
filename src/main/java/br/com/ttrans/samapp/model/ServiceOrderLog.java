@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="Service_Order_Log")
 @SequenceGenerator(name="INC_SERVICE_ORDER_LOG",sequenceName="GEN_SOL_ID")
@@ -27,6 +29,7 @@ public class ServiceOrderLog implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="sol_service_order_id")
+	@JsonBackReference
 	private ServiceOrder serviceorder;
 	
 	@ManyToOne

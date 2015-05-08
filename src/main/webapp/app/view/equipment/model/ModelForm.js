@@ -16,13 +16,7 @@ var protocol = {
 		width: '40%',
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Protocolo' ",
-		triggers: {
-	        f3: {
-	            handler: function() {
-	            	 this.fireEvent('click');
-	            }
-	        }
-		}
+		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'prot_desc',

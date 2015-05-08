@@ -1,7 +1,9 @@
 Ext.define('Sam.model.EquipmentModel', {
 	extend: 'Ext.data.Model',
-	
-	requires:['Sam.model.EquipmentProtocol'],
+	/*
+	 * http://www.loiane.com/2013/11/ext-js-4-salvar-modelstore-que-tenha-associations-hasmany-e-hasone/
+	 * 
+	 */
 	
 	idProperty: 'id',
 	
@@ -11,15 +13,7 @@ Ext.define('Sam.model.EquipmentModel', {
 	        {name: 'desc'			, type: 'string'									},
 	        {name: 'prot_id'		, type: 'number'		, mapping: 'protocol.id'	},
 	        {name: 'prot_desc'		, type: 'string'		, mapping: 'protocol.desc'	},
-
-	        ],
+        ],
 	
-    belongsTo: [{
-            name:'protocol',
-            instanceName:'protocol',
-            model: 'Sam.model.EquipmentProtocol',
-            getterName:'getProtocol',
-            setterName:'setProtocol',
-            associationKey:'protocol'
-        }]
+    belongsTo:  {model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}
 });

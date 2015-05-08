@@ -21,7 +21,7 @@ public class Equipment {
 	private String fixedAsset;
 
 	@Column(name="equ_service_tag")
-	private String service_tag;
+	private String serviceTag;
 
 	@Column(name="equ_ip")
 	private String ip;
@@ -50,8 +50,8 @@ public class Equipment {
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
 
-	@Column
-	private String equ_warranty;
+	@Column(name="equ_warranty")
+	private String warranty;
 
 	@Column(name="equ_counter_qt")
 	private String counterQt;
@@ -103,11 +103,11 @@ public class Equipment {
 	public void setFixedAsset(String fixedAsset) {
 		this.fixedAsset = fixedAsset;
 	}
-	public String getService_tag() {
-		return service_tag;
+	public String getServiceTag() {
+		return serviceTag;
 	}
-	public void setService_tag(String service_tag) {
-		this.service_tag = service_tag;
+	public void setServiceTag(String serviceTag) {
+		this.serviceTag = serviceTag;
 	}
 	public String getIp() {
 		return ip;
@@ -151,11 +151,11 @@ public class Equipment {
 	public void setSystem(SubSystem system) {
 		this.system = system;
 	}
-	public String getEqu_warranty() {
-		return equ_warranty;
+	public String getWarranty() {
+		return warranty;
 	}
-	public void setEqu_warranty(String equ_warranty) {
-		this.equ_warranty = equ_warranty;
+	public void setWarranty(String warranty) {
+		this.warranty = warranty;
 	}
 	public String getCounterQt() {
 		return counterQt;
@@ -222,5 +222,5 @@ public class Equipment {
 	}
 	public void setUpdate(String update) {
 		this.update = update;
-	}
+	}	
 }

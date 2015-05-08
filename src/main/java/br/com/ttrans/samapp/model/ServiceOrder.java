@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "Service_Order")
 @SequenceGenerator(name = "INC_SERVICE_ORDER", sequenceName = "GEN_SOR_ID")
@@ -50,6 +52,7 @@ public class ServiceOrder {
 
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<ServiceOrderLog> log;
 
 	@ManyToOne

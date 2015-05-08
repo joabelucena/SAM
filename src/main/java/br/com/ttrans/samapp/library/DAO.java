@@ -40,8 +40,6 @@ public class DAO {
 		try {
 			Criteria crit = session.getCurrentSession().createCriteria(alias);
 
-			crit.add(Restrictions.ne("deleted", "*"));
-
 			for (Map.Entry<String, Object> entry : map.entrySet()) {
 
 				if (entry.getValue() != null) {
@@ -74,8 +72,6 @@ public class DAO {
 
 			try {
 			Criteria crit = session.getCurrentSession().createCriteria(alias);
-
-			crit.add(Restrictions.ne("deleted", "*"));
 
 			for (Map.Entry<String, Object> entry : map.entrySet()) {
 				
@@ -113,12 +109,11 @@ public class DAO {
 
 			ProjectionList projList = Projections.projectionList();
 
-			projList.add(Projections.property("par_value"));
+			projList.add(Projections.property("value"));
 
 			crit.setProjection(projList);
 
-			crit.add(Restrictions.ne("deleted", "*"));
-			crit.add(Restrictions.eq("par_name", xParameter));
+			crit.add(Restrictions.eq("name", xParameter));
 
 			if (crit.uniqueResult() != null) {
 				cReturn = crit.uniqueResult().toString();

@@ -1,9 +1,9 @@
-Ext.define('Sam.view.equipment.counter.CounterForm', {
+Ext.define('Sam.view.serviceOrder.job.JobForm', {
 	extend: 'Ext.Panel',
 	
-	alias:  'widget.equipmentcounterform',
+	alias:  'widget.serviceorderjobform',
 	
-	itemId: 'equipmentcounterform',
+	itemId: 'serviceorderjobform',
 	
 	closable: true,
 	
@@ -34,16 +34,16 @@ Ext.define('Sam.view.equipment.counter.CounterForm', {
 			itemId: 'id',
 			name: 'id',
 			allowBlank : true,
-			editable: false,
+			editable: true,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Contador' "
+			inputAttrTpl: " data-qtip='Codigo do Fabricante' "
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',
 			name: 'desc',
 			allowBlank : false,
 			width: '60%',
-			inputAttrTpl: " data-qtip='Descrição do Contador' "
+			inputAttrTpl: " data-qtip='Descrição do Fabricante' "
 		}],
 		
 		scrollable: true,

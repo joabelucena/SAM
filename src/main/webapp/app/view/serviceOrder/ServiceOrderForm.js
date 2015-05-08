@@ -58,13 +58,7 @@ var equipmentInfo = {
 		width: '40%',
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Equipamento da Ordem de Serviço' ",
-		triggers: {
-	        f3: {
-	            handler: function() {
-	            	 this.fireEvent('click', 1);
-	            }
-	        }
-		}
+		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 	}, {
 		fieldLabel : 'Modelo',
 		itemId: 'equipment_model',

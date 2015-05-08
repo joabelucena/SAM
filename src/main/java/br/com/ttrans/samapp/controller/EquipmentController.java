@@ -234,6 +234,7 @@ public class EquipmentController {
 			result.put("success",false);
 		}
 		
+		
 		return result;
 
 	}
