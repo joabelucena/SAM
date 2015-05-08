@@ -64,15 +64,15 @@ Ext.define('Sam.controller.Technician', {
 	
 	/*********** Begin Technician Controlling ***********/
 	onTechnicianTrgClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'janela2'});
-		var grid = Ext.create('Sam.view.protocol.ProtocolGrid');
+		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'janela3'});
+		var grid = Ext.create('Sam.view.site.SiteGrid');
 		
 		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
 		
 		//Remove Botoes
 		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
 		
-		popup.setTitle('Selecionar Protocolo');
+		popup.setTitle('Selecionar Local');
 		popup.add(grid);
 		popup.show();
 	},
