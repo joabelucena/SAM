@@ -229,6 +229,7 @@ public class EquipmentController {
 		
 		try{
 			modelService.add(model, authentication);
+			result.put("success",true);
 		}catch(Exception e){
 			result.put("message","teste de retorno de excecao");
 			result.put("success",false);

@@ -39,7 +39,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			'#trg_equipment_id' :{
 				click: this.onTriggerClick,
 			},
-			'#janela1 #submit' :{ 
+			'#serviceorderform_equipment #submit' :{ 
 				click: this.f3Confirm,
 			},
 			
@@ -114,7 +114,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	//ServiceOrder > form > trigger:equipment_id: popup button
 	onTriggerClick: function(){
 	
-		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'janela1'});
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderform_equipment'});
 		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
 		
 		equipmentsPopUp.setTitle('Selecionar Equipamento');

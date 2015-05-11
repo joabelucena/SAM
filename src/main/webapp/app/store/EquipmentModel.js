@@ -29,7 +29,7 @@ Ext.define('Sam.store.EquipmentModel', {
         },
         listeners: {
         	success: function(proxy, response, operation){
-        		console.log('Success!');
+        		console.log('Sucesso na Store sangue bom!');
         	},
             exception: function(proxy, response, operation){
             	var ErrorMessage,jResp;
@@ -54,7 +54,8 @@ Ext.define('Sam.store.EquipmentModel', {
 			        icon: Ext.MessageBox.WARNING
 				});
             	
-            }
+            },
+            scope: this,
         }
     }
 });

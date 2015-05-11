@@ -40,6 +40,10 @@ Ext.define('Sam.controller.Equipment', {
 				render: this.gridOnRender
 			},
 			
+			'form toolbar #btnDiscard' :{
+				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+			},
+			
 			
 			/* Buttons Listeners: Manufacturer
 			 *  
@@ -50,10 +54,6 @@ Ext.define('Sam.controller.Equipment', {
 				update: this.onManufacturerBtnSubmitEdit,
 				remove: this.onManufacturerBtnSubmitDelete,
 				
-			},
-			
-			'#equipmentmanufacturerform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
 			'#equipmentmanufacturergrid toolbar #btnShow' :{
@@ -84,10 +84,6 @@ Ext.define('Sam.controller.Equipment', {
 				
 			},
 			
-			'#equipmenttypeform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#equipmenttypegrid toolbar #btnShow' :{
 				click: this.onTypeBtnShowClick
 			},
@@ -115,10 +111,6 @@ Ext.define('Sam.controller.Equipment', {
 				
 			},
 			
-			'#equipmentcounterform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#equipmentcountergrid toolbar #btnShow' :{
 				click: this.onCounterBtnShowClick
 			},
@@ -142,7 +134,7 @@ Ext.define('Sam.controller.Equipment', {
 				click:   this.onModelTrgProtClick
 			},
 			
-			'#janela2 #submit' :{
+			'#equipmentmodelform_protocol #submit' :{
 				click: this.onLookupSubmitClick
 			},
 			
@@ -152,10 +144,6 @@ Ext.define('Sam.controller.Equipment', {
 				update: this.onModelBtnSubmitEdit,
 				remove: this.onModelBtnSubmitDelete,
 				
-			},
-			
-			'#equipmentmodelform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
 			'#equipmentmodelgrid toolbar #btnShow' :{
@@ -193,7 +181,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
 			
 			if(activeTab){
 			
@@ -880,7 +868,7 @@ Ext.define('Sam.controller.Equipment', {
 	
 	/*********** Begin Model Controlling ***********/
 	onModelTrgProtClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'janela2'});
+		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentmodelform_protocol'});
 		var grid = Ext.create('Sam.view.equipment.protocol.ProtocolGrid');
 		
 		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
@@ -1022,6 +1010,7 @@ Ext.define('Sam.controller.Equipment', {
 		
 		if(form.isValid()){
 			
+			
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
@@ -1093,14 +1082,18 @@ Ext.define('Sam.controller.Equipment', {
 	syncStore: function(store, comp){
 		
 		//Sincroniza Store
-		store.sync();
-		
-		//Recarrega Store
-		store.reload();
-		
-		//Atualiza stores e views
-		Ext.each(Ext.ComponentQuery.query(comp),function(f){
-			f.getStore().reload();
+		store.sync({
+			success: function(){
+				
+				//Recarrega Store
+				store.reload();
+				
+				//Atualiza stores e views
+				Ext.each(Ext.ComponentQuery.query(comp),function(f){
+					f.getStore().reload();
+				});
+			},
+			scope: this
 		});
 		
 	},

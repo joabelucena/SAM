@@ -1,9 +1,9 @@
-Ext.define('Sam.view.serviceOrder.job.JobForm', {
+Ext.define('Sam.view.site.station.StationForm', {
 	extend: 'Ext.Panel',
 	
-	alias:  'widget.serviceorderjobform',
+	alias:  'widget.stationform',
 	
-	itemId: 'serviceorderjobform',
+	itemId: 'stationform',
 	
 	closable: true,
 	
@@ -33,19 +33,17 @@ Ext.define('Sam.view.serviceOrder.job.JobForm', {
 			fieldLabel : 'Codigo',
 			itemId: 'id',
 			name: 'id',
-			maxLength: 2,
-			enforceMaxLength: true,
 			allowBlank : true,
-			editable: true,
+			editable: false,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Tipo' "
+			inputAttrTpl: " data-qtip='Codigo da Base de Manutenção' "
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',
 			name: 'desc',
 			allowBlank : false,
 			width: '60%',
-			inputAttrTpl: " data-qtip='Descrição do Tipo' "
+			inputAttrTpl: " data-qtip='Descrição da Base de Manutenção' "
 		}],
 		
 		scrollable: true,

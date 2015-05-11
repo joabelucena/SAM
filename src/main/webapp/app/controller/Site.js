@@ -1,10 +1,12 @@
-Ext.define('Sam.controller.Technician', {
+Ext.define('Sam.controller.Site', {
 	extend: 'Ext.app.Controller',
 	
-	stores:['Technician'],
+	stores:['ServiceStation'],
 	
-	views: ['Sam.view.technician.TechnicianGrid',
-	        'Sam.view.technician.TechnicianForm'],
+	models:['ServiceStation'],
+	
+	views: ['Sam.view.site.station.StationForm',
+	        'Sam.view.site.station.StationGrid'],
 
 	init: function() {
 		
@@ -13,48 +15,41 @@ Ext.define('Sam.controller.Technician', {
 				render: this.gridOnRender
 			},
 			
-			/* Buttons Listeners: Technician
-			 * 
-			 */
-			'#technicianform #site_id' :{
-				click:   this.onTechnicianTrgClick
-			},
-			
-			'#technician_site #submit' :{
-				click: this.onLookupSubmitClick
-			},
-			
-			'#technicianform toolbar #btnSubmit' :{
-				create: this.onTechnicianBtnSubmitAdd,
-				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-				update: this.onTechnicianBtnSubmitEdit,
-				remove: this.onTechnicianBtnSubmitDelete,
-				
-			},
-			
-			'#technicianform toolbar #btnDiscard' :{
+			'form toolbar #btnDiscard' :{
 				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
-			'#techniciangrid toolbar #btnShow' :{
-				click: this.onTechnicianBtnShowClick
+			
+
+			/* Buttons Listeners: Station
+			 *  
+			 */
+			'#stationform toolbar #btnSubmit' :{
+				create: this.onStationBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onStationBtnSubmitEdit,
+				remove: this.onStationBtnSubmitDelete,
+				
 			},
 			
-			'#techniciangrid toolbar #btnEdit' :{
-				click: this.onTechnicianBtnEditClick
+			'#stationgrid toolbar #btnShow' :{
+				click: this.onStationBtnShowClick
 			},
 			
-			'#techniciangrid toolbar #btnAdd' :{
-				click: this.onTechnicianBtnAddClick
+			'#stationgrid toolbar #btnEdit' :{
+				click: this.onStationBtnEditClick
 			},
 			
-			'#techniciangrid toolbar #btnDelete' :{
-				click: this.onTechnicianBtnDeleteClick
+			'#stationgrid toolbar #btnAdd' :{
+				click: this.onStationBtnAddClick
 			},
+			
+			'#stationgrid toolbar #btnDelete' :{
+				click: this.onStationBtnDeleteClick
+			}
 			
 		});
 	},
-	
 	
 	gridOnRender: function(me, options){
 		me.getStore().reload();
@@ -62,40 +57,25 @@ Ext.define('Sam.controller.Technician', {
 	},
 	
 	
-	/*********** Begin Technician Controlling ***********/
-	onTechnicianTrgClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'technician_site'});
-		var grid = Ext.create('Sam.view.site.SiteGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Local');
-		popup.add(grid);
-		popup.show();
-	},
 	
-	onLookupSubmitClick: function(){
+	/*********** Common Methods***********/
+	syncStore: function(store, comp){
 		
-		var row = this.getLookup().down('grid').getSelection()[0];
+		//Sincroniza Store
+		store.sync();
 		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		//Recarrega Store
+		store.reload();
 		
-		if(row){
-			
-			fld = Ext.ComponentQuery.query( 'form #fldProtocol',activeTab)[0];
-			
-			Ext.ComponentQuery.query('#prot_id',fld)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#prot_desc',fld)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
+		//Atualiza stores e views
+		Ext.each(Ext.ComponentQuery.query(comp),function(f){
+			f.getStore().reload();
+		});
 		
 	},
 	
-	onTechnicianBtnShowClick: function() {
+	/*********** Begin Station Controlling ***********/
+	onStationBtnShowClick: function() {
 		
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
@@ -104,7 +84,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'stationform', null);
 			
 			if(activeTab){
 			
@@ -123,11 +103,11 @@ Ext.define('Sam.controller.Technician', {
 				//Seta Botão Confirma: 1 - Visualizar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 				
-			}			
+			}
 		}
 	},
 	
-	onTechnicianBtnEditClick: function(){
+	onStationBtnEditClick: function(){
 		
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
@@ -136,7 +116,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'stationform', null);
 			
 			if(activeTab){
 				
@@ -152,10 +132,11 @@ Ext.define('Sam.controller.Technician', {
 		}
 	},
 	
-	onTechnicianBtnAddClick: function(){
-		
+	onStationBtnAddClick: function(){
+
+			
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'technicianform', null);
+		var activeTab = this.activateTab(2, null, 'stationform', null);
 		
 		if(activeTab){
 	
@@ -163,9 +144,10 @@ Ext.define('Sam.controller.Technician', {
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
 
+
 	},
 	
-	onTechnicianBtnDeleteClick: function(){
+	onStationBtnDeleteClick: function(){
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
@@ -173,7 +155,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'stationform', null);
 			
 			if(activeTab){
 			
@@ -195,85 +177,79 @@ Ext.define('Sam.controller.Technician', {
 		}
 	},
 	
-	onTechnicianBtnSubmitAdd: function(){
+	onStationBtnSubmitAdd: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
-			record		= Ext.create('Sam.model.Technician');						//Registro
+			store		= this.getServiceStationStore(),						//Store
+			record		= Ext.create('Sam.model.ServiceStation');			//Registro
+		
+		
 		
 		if(form.isValid()){
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
-			//Carrega Protocolo
-			record.set({protocol: Ext.create('Sam.model.Protocol',{id: values.prot_id, desc: values.prot_desc})})
-			
-			
 			//Adiciona registro na store
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#stationgrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	onTechnicianBtnSubmitEdit: function(){
+	onStationBtnSubmitEdit: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
+			store		= this.getServiceStationStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
 			
-			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set({protocol: Ext.create('Sam.model.Protocol',{id: values.prot_id, desc: values.prot_desc})});
-			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#stationgrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	onTechnicianBtnSubmitDelete: function(){
+	onStationBtnSubmitDelete: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
+			store		= this.getServiceStationStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
-		
+			
 			//Apaga registro da Store
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#stationgrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	/*********** End Technician Controlling ***********/
 	
-	/*********** Common Methods***********/
-	activateTab : function(action, id, xtype, uTitle){
+	/*********** End Of Station Controlling ***********/
+	activateTab: function(action, id, xtype, uTitle){
 		
 		//Variaveis
 		var title, tabId, activeTab;
@@ -329,25 +305,16 @@ Ext.define('Sam.controller.Technician', {
 		//Seta Aba como ativa
 		mainPanel.setActiveTab(newTab);
 		
+		//Se for inclusao desabilita o campo Id
+		if(action == 2){
+			Ext.ComponentQuery.query('#id' , newTab)[0].setVisible(false);
+		}
+		
 		//Variavel para retornar aba ativa
 		activeTab = mainPanel.getActiveTab();
 		
 		return activeTab;
 		
-	},
-	
-	syncStore: function(store, comp){
-		
-		//Sincroniza Store
-		store.sync();
-		
-		//Recarrega Store
-		store.reload();
-		
-		//Atualiza stores e views
-		Ext.each(Ext.ComponentQuery.query(comp),function(f){
-			f.getStore().reload();
-		});
-		
 	}
+	
 });

@@ -6,11 +6,10 @@ Ext.define('Sam.store.ServiceStation', {
 	model: 'Sam.model.ServiceStation',
 	
 	autoLoad: true,
-	async: true,
 
 	proxy: {
 		type: 'ajax',
-		url: 'servicestation/load',
+		url: 'site/load/station',
 		reader: {
 			type: 'json',
 			root: 'data'

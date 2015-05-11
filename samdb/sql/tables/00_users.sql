@@ -206,6 +206,7 @@ INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Técnicos'					,(SELECT ID FR
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Protocolos de Equipamentos'	,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmentprotocolgrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Estado Operacional'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'operationalstategrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Sub-Sistemas'				,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'subsystemgrid');
+INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Base de Manutenção'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'stationgrid');
 
 
 -- Tabela: ROLE_MENU

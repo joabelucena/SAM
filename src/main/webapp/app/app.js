@@ -8,27 +8,23 @@ Ext.application({
 	
 	views:['MainViewport'],
 	
+
 	stores: ['EquipmentManufacturer',
 	        'EquipmentCounter',
+	        'ServiceStation',
 	     	'Equipment',
 	     	'EquipmentModel',
 	     	'EquipmentType',
 	     	'EquipmentProtocol',
 	     	'ServiceOrderJob',
 	     	'Technician'],
-   /*
-	models: ['EquipmentManufacturer',
-		        'EquipmentCounter',
-		     	'Equipment',
-		     	'EquipmentModel',
-		     	'EquipmentType',
-		     	'EquipmentProtocol'],
-	*/
+   
 	controllers : [ 
 	   'Menu',
 	   'Alarms',
 	   'ServiceOrder',
 	   'Equipment',
-	   'Technician'
+	   'Technician',
+	   'Site'
 	   ]
 });
