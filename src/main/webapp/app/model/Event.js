@@ -1,4 +1,4 @@
-Ext.define('Sam.model.Alarm', {
+Ext.define('Sam.model.Event', {
 	extend: 'Ext.data.Model',
 	fields:[
 	        
@@ -8,11 +8,11 @@ Ext.define('Sam.model.Alarm', {
 	        {name: 'severity_id', type: 'string'},
 	        {name: 'equipment_id', type: 'string'},
 	        {name: 'equipment_model', type: 'string'},
-	        {name: 'alarm_id', type: 'string'},
-	        {name: 'alarm_description', type: 'string'},
+	        {name: 'event_id', type: 'string'},
+	        {name: 'event_description', type: 'string'},
 	        {name: 'site_description', type: 'string'},
 	        {name: 'sub_system_id', type: 'string'},
 	        {name: 'sub_system_description', type: 'string'},
-	        {name: 'alarm_datetime', type: 'date',  dateFormat: 'c'}
+	        {name: 'event_datetime', type: 'date',  dateFormat: 'c'}
 	]
 });

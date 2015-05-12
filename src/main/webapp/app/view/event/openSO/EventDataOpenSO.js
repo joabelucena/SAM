@@ -9,31 +9,31 @@ var eventInfo = {
 
 	items : [ {
 		fieldLabel : 'ID Alarme',
-		id : 'alarmpopup_event_id',
+		id : 'eventpopup_event_id',
 		readOnly : true,
 		width: '30%',
 		inputAttrTpl: " data-qtip='ID do Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
-		id : 'alarmpopup_time_alarm',
+		id : 'eventpopup_time_event',
 		readOnly : true,
 		width: '30%',
 		inputAttrTpl: " data-qtip='Data/Hora do Alarme' "
 	}, {
 		fieldLabel : 'Severidade',
-		id : 'alarmpopup_severity',
+		id : 'eventpopup_severity',
 		readOnly : true,
 		width: '30%',
 		inputAttrTpl: " data-qtip='Severidade do Alarme' "
 	}, {
 		fieldLabel : 'Reconhecido por',
-		id : 'alarmpopup_reco_user',
+		id : 'eventpopup_reco_user',
 		readOnly : true,
 		width: '30%',
 		inputAttrTpl: " data-qtip='Usuário que Reconheceu o Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora ',
-		id : 'alarmpopup_reco_time',
+		id : 'eventpopup_reco_time',
 		readOnly : true,
 		width: '30%',
 		inputAttrTpl: " data-qtip='Data/Hora do Reconhecimento do Alarme' "
@@ -63,7 +63,7 @@ var soInfo = {
 		items : [{
 			xtype:'datefield',
 			fieldLabel: 'Data de Início Prevista',
-			id: 'alarmpopup_start_date',
+			id: 'eventpopup_start_date',
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
@@ -71,7 +71,7 @@ var soInfo = {
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Início Prevista',
-			id: 'alarmpopup_start_hour',
+			id: 'eventpopup_start_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
@@ -93,7 +93,7 @@ var soInfo = {
 			
 			xtype:'datefield',
 			fieldLabel: 'Data de Término Prevista',
-			id: 'alarmpopup_end_date',
+			id: 'eventpopup_end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0',
@@ -101,7 +101,7 @@ var soInfo = {
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
-			id: 'alarmpopup_end_hour',
+			id: 'eventpopup_end_hour',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
@@ -109,7 +109,7 @@ var soInfo = {
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
-		id : 'alarmpopup_so_type',
+		id : 'eventpopup_so_type',
 		valueField: 'type',
         displayField: 'type',
 		xtype : 'combobox',
@@ -118,7 +118,7 @@ var soInfo = {
 		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
-		id : 'alarmpopup_obs_os',
+		id : 'eventpopup_obs_os',
 		xtype : 'textareafield',
 		allowBlank : false,
 		width: '60%',
@@ -126,11 +126,11 @@ var soInfo = {
 	} ]
 };
 
-Ext.define('Sam.view.alarm.openSO.AlarmDataOpenSO', {
+Ext.define('Sam.view.event.openSO.EventDataOpenSO', {
 	extend : 'Ext.Panel',
-	alias : 'widget.alarmdataopenso',
+	alias : 'widget.eventdataopenso',
 
-	requires : [ 'Sam.view.alarm.openSO.AlarmDataOpenSO'],
+	requires : [ 'Sam.view.event.openSO.EventDataOpenSO'],
 
 	closable : true,
 
@@ -142,7 +142,7 @@ Ext.define('Sam.view.alarm.openSO.AlarmDataOpenSO', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'alarmdataopensoform',
+		id : 'eventdataopensoform',
 		fieldDefaults : {
 			labelWidth : 180
 		},

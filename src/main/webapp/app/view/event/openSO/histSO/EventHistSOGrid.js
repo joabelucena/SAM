@@ -1,10 +1,10 @@
-Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSOGrid' , {
+Ext.define('Sam.view.event.openSO.histSO.EventHistSOGrid' , {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.alarmhistsogrid',
+	alias: 'widget.eventhistsogrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
 	
-	id: 'alarmhistsogrid',
+	id: 'eventhistsogrid',
 	
 	store: Ext.create('Sam.store.ServiceOrder'),
 	

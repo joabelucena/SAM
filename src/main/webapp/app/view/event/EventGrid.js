@@ -1,13 +1,13 @@
-Ext.define('Sam.view.alarm.AlarmGrid' , {
+Ext.define('Sam.view.event.EventGrid' , {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.alarmgrid',
+	alias: 'widget.eventgrid',
 	
 	requires: ['Ext.grid.column.Check',
 	           'Ext.grid.filters.Filters'],
 		
-	id: 'alarmgridpanel',
+	id: 'eventgridpanel',
 
-	store: Ext.create('Sam.store.Alarms'),
+	store: Ext.create('Sam.store.Events'),
 	
 	viewConfig: {		
 		preserveScrollOnRefresh: true,
@@ -58,7 +58,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			text: 'Data/Hora',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'alarm_datetime',
+			dataIndex: 'event_datetime',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
 			filter: {
 				type: 'date'
@@ -67,7 +67,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			text: 'ID Alarme',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'alarm_id',
+			dataIndex: 'event_id',
 			filter: {
 				type: 'string'
 			}
@@ -75,7 +75,7 @@ Ext.define('Sam.view.alarm.AlarmGrid' , {
 			text: 'Alarme',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'alarm_description',
+			dataIndex: 'event_description',
 			filter: {
 				type: 'string'
 			}

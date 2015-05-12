@@ -22,7 +22,7 @@ Ext.application({
    
 	controllers : [ 
 	   'Menu',
-	   'Alarms',
+	   'Events',
 	   'ServiceOrder',
 	   'Equipment',
 	   'Technician',

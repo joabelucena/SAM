@@ -33,18 +33,18 @@ var equipmentInfo = {
 		inputAttrTpl: " data-qtip='Equipamento da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Alarme',
-		id : 'sodetailform_alarm',
+		id : 'sodetailform_event',
 		readOnly : true,
 		width: '40%',
 		inputAttrTpl: " data-qtip='Alarme do Equipamento da Ordem de Serviço' "
 	} ],
 };
 
-Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSOForm', {
+Ext.define('Sam.view.event.openSO.histSO.EventHistSOForm', {
 	extend: 'Ext.Panel',
-	alias:  'widget.alarmhistsoform',
+	alias:  'widget.eventhistsoform',
 
-	requires: ['Sam.view.alarm.openSO.histSO.AlarmHistSOForm'],
+	requires: ['Sam.view.event.openSO.histSO.EventHistSOForm'],
 	
 	closable : false,
 
