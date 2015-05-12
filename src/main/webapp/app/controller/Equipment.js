@@ -376,7 +376,7 @@ Ext.define('Sam.controller.Equipment', {
 				//Seta Botão Confirma: 1 - Visualizar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 				
-			}			
+			}
 		}
 	},
 	

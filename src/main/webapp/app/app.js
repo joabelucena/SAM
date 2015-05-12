@@ -12,6 +12,7 @@ Ext.application({
 	stores: ['EquipmentManufacturer',
 	        'EquipmentCounter',
 	        'ServiceStation',
+	        'SeverityLevel',
 	     	'Equipment',
 	     	'EquipmentModel',
 	     	'EquipmentType',
@@ -25,6 +26,7 @@ Ext.application({
 	   'ServiceOrder',
 	   'Equipment',
 	   'Technician',
-	   'Site'
+	   'Site',
+	   'SeverityLevel'
 	   ]
 });

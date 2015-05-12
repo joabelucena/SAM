@@ -249,6 +249,26 @@ Ext.define('Sam.controller.Site', {
 	
 	
 	/*********** End Of Station Controlling ***********/
+	
+	syncStore: function(store, comp){
+		
+		//Sincroniza Store
+		store.sync({
+			success: function(){
+				
+				//Recarrega Store
+				store.reload();
+				
+				//Atualiza stores e views
+				Ext.each(Ext.ComponentQuery.query(comp),function(f){
+					f.getStore().reload();
+				});
+			},
+			scope: this
+		});
+		
+	},
+	
 	activateTab: function(action, id, xtype, uTitle){
 		
 		//Variaveis

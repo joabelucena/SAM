@@ -207,6 +207,7 @@ INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Protocolos de Equipamentos'	,
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Estado Operacional'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'operationalstategrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Sub-Sistemas'				,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'subsystemgrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Base de Manutenção'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'stationgrid');
+INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Niveis de Severidade'		,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'severitygrid');
 
 
 -- Tabela: ROLE_MENU

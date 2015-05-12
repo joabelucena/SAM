@@ -2,6 +2,11 @@ Ext.define('Sam.controller.ServiceOrder', {
 	extend: 'Ext.app.Controller',
 	
 	stores:['ServiceOrderJob'],
+	
+    refs: [
+           {    ref: 'lookup',     selector: 'popup'   }
+       ],
+
 
 	views: ['serviceOrder.ServiceOrderGrid',
 	        'serviceOrder.ServiceOrderForm',
@@ -842,14 +847,18 @@ Ext.define('Sam.controller.ServiceOrder', {
 	syncStore: function(store, comp){
 		
 		//Sincroniza Store
-		store.sync();
-		
-		//Recarrega Store
-		store.reload();
-		
-		//Atualiza stores e views
-		Ext.each(Ext.ComponentQuery.query(comp),function(f){
-			f.getStore().reload();
+		store.sync({
+			success: function(){
+				
+				//Recarrega Store
+				store.reload();
+				
+				//Atualiza stores e views
+				Ext.each(Ext.ComponentQuery.query(comp),function(f){
+					f.getStore().reload();
+				});
+			},
+			scope: this
 		});
 		
 	}

@@ -188,7 +188,6 @@ public class EquipmentController {
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
-
 		
 		return result;
 	}
