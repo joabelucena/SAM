@@ -53,12 +53,14 @@ Ext.define('Sam.view.ViewportFooter', {
 		        		});
 		        		
 					};
-
+					/**** comentado para analise de chamadas de rede. 
+					 * TODO Verificar criação de objeto local e sincronização com servidor a cada 5 min
 					var runner = new Ext.util.TaskRunner(),
 					task = runner.start({
 						run: updateClock,
 						interval: 1000
 					});
+					*/
 		    	}
 			}
 		}

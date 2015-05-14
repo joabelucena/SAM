@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Alarms_Type")
-@SequenceGenerator(name="INC_ALARM_TYPE",sequenceName="GEN_ALM_ID")
+@SequenceGenerator(name="INC_ALARM_TYPE",sequenceName="GEN_ATY_ID")
 public class AlarmType {
 
 	@Id
@@ -19,7 +19,7 @@ public class AlarmType {
 	private int id;
 	
 	@Column(name="aty_description")
-	private String description;	
+	private String desc;	
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -37,12 +37,12 @@ public class AlarmType {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getInsert() {

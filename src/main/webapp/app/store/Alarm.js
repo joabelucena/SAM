@@ -1,7 +1,7 @@
-Ext.define('Sam.store.EquipmentModel', {
+Ext.define('Sam.store.Alarm', {
 	extend: 'Ext.data.Store',
 	
-	model: 'Sam.model.EquipmentModel',
+	model: 'Sam.model.Alarm',
 	
 	autoLoad: true,
 
@@ -11,10 +11,10 @@ Ext.define('Sam.store.EquipmentModel', {
         type: 'ajax',
         
         api: {
-        	read : 		'equipment/load/model',
-			create : 	'equipment/model/add.action',
-			update : 	'equipment/model/update.action',
-			destroy : 	'equipment/model/delete.action',
+        	read : 		'alarm/load',
+			create : 	'alarm/add.action',
+			update : 	'alarm/update.action',
+			destroy : 	'alarm/delete.action',
         },
         reader: {
             type: 'json',

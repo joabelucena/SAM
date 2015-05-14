@@ -1,7 +1,7 @@
-Ext.define('Sam.store.EquipmentModel', {
+Ext.define('Sam.store.AlarmFilter', {
 	extend: 'Ext.data.Store',
 	
-	model: 'Sam.model.EquipmentModel',
+	model: 'Sam.model.AlarmFilter',
 	
 	autoLoad: true,
 
@@ -11,10 +11,10 @@ Ext.define('Sam.store.EquipmentModel', {
         type: 'ajax',
         
         api: {
-        	read : 		'equipment/load/model',
-			create : 	'equipment/model/add.action',
-			update : 	'equipment/model/update.action',
-			destroy : 	'equipment/model/delete.action',
+        	read : 		'alarm/load/filter',
+			create : 	'alarm/filter/add.action',
+			update : 	'alarm/filter/update.action',
+			destroy : 	'alarm/filter/delete.action',
         },
         reader: {
             type: 'json',
@@ -29,7 +29,7 @@ Ext.define('Sam.store.EquipmentModel', {
         },
         listeners: {
         	success: function(proxy, response, operation){
-        		console.log('Success on Store!');
+        		console.log('Success on Store');
         	},
             exception: function(proxy, response, operation){
             	var ErrorMessage,jResp;

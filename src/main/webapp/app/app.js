@@ -18,7 +18,11 @@ Ext.application({
 	     	'EquipmentType',
 	     	'EquipmentProtocol',
 	     	'ServiceOrderJob',
-	     	'Technician'],
+	     	'Technician',
+	     	'Alarm',
+	     	'AlarmGroup',
+	     	'AlarmType',
+	     	'AlarmFilter'],
    
 	controllers : [ 
 	   'Menu',
@@ -27,6 +31,7 @@ Ext.application({
 	   'Equipment',
 	   'Technician',
 	   'Site',
-	   'SeverityLevel'
+	   'SeverityLevel',
+	   'Alarm'
 	   ]
 });

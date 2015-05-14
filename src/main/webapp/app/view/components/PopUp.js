@@ -7,12 +7,12 @@ Ext.define('Sam.view.components.PopUp', {
 	},
 
 	closable : true,
-	//closeAction : 'destroy',
 	maximizable : true,
 	width : '90%',
 	minWidth : 350,
 	height : '90%',
-	//renderTo: this,
+	
+	scope: this,
 	
 	layout : 'fit',
 	
@@ -22,9 +22,17 @@ Ext.define('Sam.view.components.PopUp', {
 		tooltip:'Seleciona Equipamento',
         cls:'x-btn-default-small',
         iconCls: 'tick-button',
+        /*
         handler: function() {
-        	this.fireEvent('confirmClick', 1);
+        	var id, window;
+        	id 		= this.up('window').down('grid').getSelection()[0].get('id');
+        	window 	= this.up('window');
+        	
+        	window.close();
+        	
+        	return id;
         }
+        */
 	} ],
 	
 	modal: true

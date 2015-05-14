@@ -41,6 +41,9 @@ public class Alarm {
 	@Column(name="alm_counter_inc")
 	private int counterInc;
 	
+	@Column(name="alm_man_norm")
+	private int manNorm;
+	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
 	
@@ -99,6 +102,12 @@ public class Alarm {
 	}
 	public void setCounterInc(int counterInc) {
 		this.counterInc = counterInc;
+	}
+	public int getManNorm() {
+		return manNorm;
+	}
+	public void setManNorm(int manNorm) {
+		this.manNorm = manNorm;
 	}
 	public String getInsert() {
 		return insert;

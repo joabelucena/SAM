@@ -1,4 +1,4 @@
-Ext.define('Sam.model.EquipmentCounter', {
+Ext.define('Sam.model.AlarmGroup', {
 	extend: 'Ext.data.Model',
 	
 	fields:['id', 'desc']

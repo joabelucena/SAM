@@ -58,22 +58,6 @@ Ext.define('Sam.controller.Site', {
 	
 	
 	
-	/*********** Common Methods***********/
-	syncStore: function(store, comp){
-		
-		//Sincroniza Store
-		store.sync();
-		
-		//Recarrega Store
-		store.reload();
-		
-		//Atualiza stores e views
-		Ext.each(Ext.ComponentQuery.query(comp),function(f){
-			f.getStore().reload();
-		});
-		
-	},
-	
 	/*********** Begin Station Controlling ***********/
 	onStationBtnShowClick: function() {
 		
@@ -210,7 +194,7 @@ Ext.define('Sam.controller.Site', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getServiceStationStore(),						//Store
+			store		= this.getServiceStationStore(),							//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
