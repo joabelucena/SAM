@@ -17,7 +17,8 @@ Ext.application({
 	     	'EquipmentType',
 	     	'EquipmentProtocol',
 	     	'ServiceOrderJob',
-	     	'Technician'],
+	     	'Technician',
+	     	'OperationalState'],
    
 	controllers : [ 
 	   'Menu',

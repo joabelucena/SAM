@@ -1,11 +1,17 @@
 Ext.define('Sam.model.OperationalState', {
 	extend: 'Ext.data.Model',
 	
+	idProperty: 'id',
+	
 	fields:[
 	        
-	        {name: 'id'				, type: 'number'	, mapping: 'ost_id'								},
-	        {name: 'model_desc'		, type: 'string'	, mapping: 'equipmentmodel.emo_description'		},
-	        {name: 'desc'			, type: 'string'	, mapping: 'ost_description' 					}
+	        {name: 'id'				, type: 'string'							},
+	        {name: 'desc'			, type: 'string'							},
+	        {name: 'model_id'		, type: 'number'	, mapping: 'model.id'	},
+	        {name: 'model_desc'		, type: 'string'	, mapping: 'model.desc'	}
 
-	       ]
+	       ],
+
+	belongsTo:  {model: 'Sam.model.EquipmentModel', foreignKey: 'model_id'}
+
 });
