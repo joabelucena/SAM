@@ -13,61 +13,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.model.ServiceStation;
-import br.com.ttrans.samapp.service.SiteService;
-import br.com.ttrans.samapp.service.ServiceStationService;
+import br.com.ttrans.samapp.model.DocumentType;
+import br.com.ttrans.samapp.service.DocumentTypeService;
 
 @Controller
-@RequestMapping("/site")
-public class SiteController {
+@RequestMapping("/document")
+public class DocumentController {
 	
 	@Autowired
-	private SiteService siteService;
+	private DocumentTypeService typeService;
 	
-	@Autowired
-	private ServiceStationService stationService;
 	
 	/*
 	 * Load Data Methods
 	 */
-	@RequestMapping("/load")
+	@RequestMapping("/load/type")
 	@ResponseBody
-	public Map<String, Object> loadData() {
+	public Map<String,Object> loadType() {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		result.put("data", siteService.loadData());
+		result.put("data", typeService.loadData());
 		
 		return result;
 	}
 	
-	@RequestMapping("/load/station")
-	@ResponseBody
-	public Map<String, Object> loadStation() {
-		
-		Map<String,Object> result = new HashMap<String, Object>();
-		
-		result.put("data", stationService.loadData());
-		
-		return result;
-	}
-	
-	
+
 	/*
-	 * CRUD Operations for: ServiceStation
+	 * CRUD Operations for: DocumentType
 	 */
-	@RequestMapping("/station/add.action")
+	@RequestMapping("/type/add.action")
 	@ResponseBody
-	public Map<String,Object> addstation(@RequestBody ServiceStation station, 
+	public Map<String,Object> addManufacturer(@RequestBody DocumentType type, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
-		//Result Map
+		//Result Map<String,Object>
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			stationService.add(station, authentication);
+			typeService.add(type, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -75,18 +61,37 @@ public class SiteController {
 		return result;
 	}
 	
-	@RequestMapping("/station/update.action")
+	@RequestMapping("/type/update.action")
 	@ResponseBody
-	public Map<String,Object> updatestation(@RequestBody ServiceStation station, 
+	public Map<String,Object> updateManufacturer(@RequestBody DocumentType type, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
-		//Result Map
+		//Result Map<String,Object>
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			stationService.edit(station, authentication);
+			typeService.edit(type, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/delete.action")
+	@ResponseBody
+	public Map<String,Object> deleteManufacturer(@RequestBody DocumentType type, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map<String,Object>
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			typeService.delete(type, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -95,23 +100,5 @@ public class SiteController {
 		return result;
 	}
 	
-	@RequestMapping("/station/delete.action")
-	@ResponseBody
-	public Map<String,Object> deletestation(@RequestBody ServiceStation station, 
-			HttpServletRequest request,
-			Authentication authentication,
-            HttpServletResponse response) {
-		
-		//Result Map
-		Map<String,Object> result = new HashMap<String, Object>();
-		
-		try{
-			stationService.delete(station, authentication);
-		}catch(Exception e){
-			result.put("message",e.getMessage());
-		}
 
-		return result;
-	}
-	
 }

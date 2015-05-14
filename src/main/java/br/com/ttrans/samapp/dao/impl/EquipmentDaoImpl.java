@@ -29,7 +29,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 	@Override
 	public void add(Equipment equipment, Authentication authentication) {
 		equipment.setInsert(authentication.getName());
-		session.getCurrentSession().save(equipment);
+		session.getCurrentSession().persist(equipment);
 	}
 
 	@Override

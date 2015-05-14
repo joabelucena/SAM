@@ -23,7 +23,8 @@ Ext.application({
 	     	'AlarmGroup',
 	     	'AlarmType',
 	     	'AlarmFilter',
-	     	'OperationalState'],
+	     	'OperationalState',
+	     	'DocumentType'],
    
 	controllers : [ 
 	   'Menu',
@@ -33,6 +34,6 @@ Ext.application({
 	   'Technician',
 	   'Site',
 	   'SeverityLevel',
-	   'Alarm'
-	   ]
+	   'Alarm',
+	   'Document']
 });

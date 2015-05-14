@@ -13,6 +13,8 @@
         <mapping class="br.com.ttrans.samapp.model.Event" />
         <mapping class="br.com.ttrans.samapp.model.Site" />
         <mapping class="br.com.ttrans.samapp.model.SiteType" />
+		<mapping class="br.com.ttrans.samapp.model.Document" />
+		<mapping class="br.com.ttrans.samapp.model.DocumentType" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentProtocol" />
         <mapping class="br.com.ttrans.samapp.model.Counter" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentManufacturer" />

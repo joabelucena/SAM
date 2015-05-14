@@ -17,8 +17,7 @@ Ext.define('Sam.controller.Equipment', {
 		     	'EquipmentModel',
 		     	'EquipmentType',
 		     	'EquipmentProtocol',
-		     	'OperationalState'
-		     	],
+		     	'OperationalState'],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerGrid',
