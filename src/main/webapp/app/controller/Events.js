@@ -1,13 +1,13 @@
-Ext.define('Sam.controller.Alarms', {
+Ext.define('Sam.controller.Events', {
 	extend: 'Ext.app.Controller',
 	
-	views: ['alarm.AlarmGrid',
-	        'alarm.openSO.AlarmOpenSO',
-	        'alarm.openSO.AlarmDataOpenSO',
-	        'alarm.openSO.AlarmInfoEqto',
-	        'alarm.openSO.histSO.AlarmHistSO',
-	        'Sam.view.alarm.openSO.histSO.AlarmHistSOGrid',
-	        'Sam.view.alarm.openSO.histSO.AlarmHistSOForm'
+	views: ['event.EventGrid',
+	        'event.openSO.EventOpenSO',
+	        'event.openSO.EventDataOpenSO',
+	        'event.openSO.EventInfoEqto',
+	        'event.openSO.histSO.EventHistSO',
+	        'Sam.view.event.openSO.histSO.EventHistSOGrid',
+	        'Sam.view.event.openSO.histSO.EventHistSOForm'
 	        ],
 	
 	eventID: 'null',
@@ -15,7 +15,7 @@ Ext.define('Sam.controller.Alarms', {
 	init: function() {
 		
 		this.control({
-			'alarmgrid': {
+			'eventgrid': {
 				render: this.onRender,
 			},
 			'checkcolumn': {
@@ -27,13 +27,13 @@ Ext.define('Sam.controller.Alarms', {
 			'#openso': {
 				click: this.openSO,
 			},
-			'#alarmgridpanel' : {
+			'#eventgridpanel' : {
 				itemdblclick: this.openPopUp,
 			},
 			'actioncolumn' : {
 				itemClick: this.onActionColumnItemClick,
 			},
-			'alarmhistsogrid' : {
+			'eventhistsogrid' : {
 				itemmouseup: this.onItemMouseUp,
 			},
 			'toolbar #openSoButtom' : {
@@ -45,7 +45,7 @@ Ext.define('Sam.controller.Alarms', {
 	onOpenSoButtomClick : function(){
 		
 		// Objeto Form
-		var form = Ext.getCmp('alarmdataopensoform').getForm();
+		var form = Ext.getCmp('eventdataopensoform').getForm();
 		
 		// Verifica se o form eh valido
 		if(form.isValid()){
@@ -67,11 +67,11 @@ Ext.define('Sam.controller.Alarms', {
 		            		method : 'POST',
 		            		
 		            		params: {
-		            			eveId: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_event_id').getRawValue(),
-		            			startForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_start_hour').getRawValue(),
-		            			endForecast: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_date').getRawValue() + " - " + Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_end_hour').getRawValue(),
-		            			type: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').getRawValue(),
-		            			obs: Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_obs_os').getRawValue()	            			
+		            			eveId: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').getRawValue(),
+		            			startForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_hour').getRawValue(),
+		            			endForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_hour').getRawValue(),
+		            			type: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').getRawValue(),
+		            			obs: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_obs_os').getRawValue()	            			
 		            			
 		            		},
 	
@@ -86,7 +86,7 @@ Ext.define('Sam.controller.Alarms', {
 			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
 			                    	
 			                    	//Recarrega Store do 
-			                    	Ext.getCmp('alarmhistsogrid').getStore().load();
+			                    	Ext.getCmp('eventhistsogrid').getStore().load();
 			                    	
 			                    	//Fecha aba de abertura de OS
 			                    	if(openSOTab){
@@ -123,7 +123,7 @@ Ext.define('Sam.controller.Alarms', {
 		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_status').setValue(record.get('status'));
 		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_type').setValue(record.get('type'));
 		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_equipment').setValue(record.get('equipment_id'));
-		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_alarm').setValue(record.get('alarm'));
+		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_event').setValue(record.get('event'));
 		
 	},
 
@@ -145,7 +145,7 @@ Ext.define('Sam.controller.Alarms', {
 				
 				if (!newTab) {
 					newTab = mainPanel.add({
-						xtype: 'alarmopenso',
+						xtype: 'eventopenso',
 						closable: true,
 						iconCls: 'notebook-plus-icon',
 						title: 'Abertura de OS'
@@ -169,27 +169,27 @@ Ext.define('Sam.controller.Alarms', {
 		    			var jsonResp = Ext.util.JSON.decode(result.responseText);
 		
 		    			// Abertura OS: Dados(OS)
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_event_id').setValue(eventID);
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_time_alarm').setValue(jsonResp.datetime);
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_severity').setValue(jsonResp.severity);
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_user').setValue(jsonResp.reco_user);
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_reco_time').setValue(jsonResp.reco_time);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').setValue(eventID);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_time_event').setValue(jsonResp.datetime);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_severity').setValue(jsonResp.severity);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_reco_user').setValue(jsonResp.reco_user);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_reco_time').setValue(jsonResp.reco_time);
 		    			
 		    			// Abertura OS: Info Eqto.
-		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_id').setValue(jsonResp.id);
-		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_model').setValue(jsonResp.model);
-		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_manufacturer').setValue(jsonResp.manufacturer);
-		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_subsystem').setValue(jsonResp.subsystem);
-		    			Ext.getCmp('alarminfoeqtoform').getForm().findField('alarmpopup_site').setValue(jsonResp.site);
+		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_id').setValue(jsonResp.id);
+		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_model').setValue(jsonResp.model);
+		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_manufacturer').setValue(jsonResp.manufacturer);
+		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_subsystem').setValue(jsonResp.subsystem);
+		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_site').setValue(jsonResp.site);
 		    			
 		    			// Abertura OS: Dados(OS) : ComboBox
-		    			Ext.getCmp('alarmdataopensoform').getForm().findField('alarmpopup_so_type').setStore(Ext.data.Store({
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').setStore(Ext.data.Store({
 		    				fields: ['type'],
 		    				data : jsonResp.so_type
 		    			}));
 	
 		    			// Abertura OS: Hist OS : Grid (filtro)
-		    			Ext.getCmp('alarmhistsogrid').getStore().setFilters([{
+		    			Ext.getCmp('eventhistsogrid').getStore().setFilters([{
 		    					property: 'equipment_id',
 		    					value: jsonResp.id
 		    				}
@@ -256,7 +256,7 @@ Ext.define('Sam.controller.Alarms', {
 			
 			if (!newTab) {
 				newTab = mainPanel.add({
-					xtype: 'alarmshow',
+					xtype: 'eventshow',
 					closable: true,
 					iconCls: 'magnifier-zoom',
 					title: 'Visualiza Alarme'
@@ -281,18 +281,18 @@ Ext.define('Sam.controller.Alarms', {
 			
 			
 					// Abertura OS: Dados(OS)
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_event_id').setValue(eventID);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_time_alarm').setValue(jsonResp.datetime);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_severity').setValue(jsonResp.severity);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_reco_user').setValue(jsonResp.reco_user);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_reco_time').setValue(jsonResp.reco_time);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_event_id').setValue(eventID);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_time_event').setValue(jsonResp.datetime);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_severity').setValue(jsonResp.severity);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_reco_user').setValue(jsonResp.reco_user);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_reco_time').setValue(jsonResp.reco_time);
 					
 					// Abertura OS: Info Eqto.
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_id').setValue(jsonResp.id);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_model').setValue(jsonResp.model);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_manufacturer').setValue(jsonResp.manufacturer);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_subsystem').setValue(jsonResp.subsystem);
-					Ext.getCmp('alarmshowform').getForm().findField('alarmshow_site').setValue(jsonResp.site);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_id').setValue(jsonResp.id);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_model').setValue(jsonResp.model);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_manufacturer').setValue(jsonResp.manufacturer);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_subsystem').setValue(jsonResp.subsystem);
+					Ext.getCmp('eventshowform').getForm().findField('eventshow_site').setValue(jsonResp.site);
 	    		},
 	    		
 	    		failure: function (result, request) {
@@ -307,7 +307,7 @@ Ext.define('Sam.controller.Alarms', {
 	
 	checkboxChanged: function(me, rowIndex, checked, eOpts) {
 			
-		knowCheck = Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('knowledge_user');
+		knowCheck = Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).get('knowledge_user');
 		
 		if (knowCheck) {
 		
@@ -318,7 +318,7 @@ Ext.define('Sam.controller.Alarms', {
 		        icon: Ext.MessageBox.WARNING,
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
-		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
+		            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
 		            	
 		            	Ext.Ajax.request({
 		            		url : 'events/action/recognize',
@@ -326,7 +326,7 @@ Ext.define('Sam.controller.Alarms', {
 		            		async: false,
 		            		
 		            		params: {
-		            			recognizeId: Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).get('id'),
+		            			recognizeId: Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).get('id'),
 		            		},
 
 		            		success: function (result, request) {
@@ -344,14 +344,14 @@ Ext.define('Sam.controller.Alarms', {
 		            	});
 		            	
 		            } else if(btn == 'cancel') {
-		            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'false');
+		            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'false');
 		            }
 		        }
 			});
 		 
 		} else {
          	
-			Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'true');
+			Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'true');
 		 
 		}
 
@@ -373,7 +373,7 @@ Ext.define('Sam.controller.Alarms', {
 	            		async: false,
 	            		
 	            		params: {
-	            			recognizeId: Ext.pluck(Ext.getCmp('alarmgridpanel').getStore().getData('id').items,'id'),
+	            			recognizeId: Ext.pluck(Ext.getCmp('eventgridpanel').getStore().getData('id').items,'id'),
 	            		},
 
 	            		success: function (result, request) {
@@ -391,7 +391,7 @@ Ext.define('Sam.controller.Alarms', {
 	            	});
 	            	
 	            } else if(btn == 'cancel') {
-	            	Ext.getCmp('alarmgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
+	            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
 	            }
 	        }
 		});

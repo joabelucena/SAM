@@ -1,10 +1,10 @@
-Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSO', {
+Ext.define('Sam.view.event.openSO.histSO.EventHistSO', {
 	extend: 'Ext.Panel',
-	alias:  'widget.alarmhistso',
+	alias:  'widget.eventhistso',
 	
-	requires: ['Sam.view.alarm.openSO.histSO.AlarmHistSO',
-	           'Sam.view.alarm.openSO.histSO.AlarmHistSOGrid',
-	           'Sam.view.alarm.openSO.histSO.AlarmHistSOForm',
+	requires: ['Sam.view.event.openSO.histSO.EventHistSO',
+	           'Sam.view.event.openSO.histSO.EventHistSOGrid',
+	           'Sam.view.event.openSO.histSO.EventHistSOForm',
 	           'Ext.layout.container.Border'],
 	
 	closable: false,
@@ -23,12 +23,12 @@ Ext.define('Sam.view.alarm.openSO.histSO.AlarmHistSO', {
     items: [
             {
                 title: 'Detalhes da Ordem de Servico',
-                xtype: 'alarmhistsoform',
+                xtype: 'eventhistsoform',
                 region: 'center',
                 margin: '5 0 0 0',
             },{
 	        	 title: 'Ordens De Serviço',
-	        	 xtype: 'alarmhistsogrid',
+	        	 xtype: 'eventhistsogrid',
 	        	 collapsible: true,
 	             region: 'south',
 	             margin: '5 0 0 0',

@@ -1,9 +1,9 @@
-Ext.define('Sam.store.Alarms', {
+Ext.define('Sam.store.Events', {
 	extend: 'Ext.data.Store',
 	
-	requires: ['Sam.model.Alarm'],
+	requires: ['Sam.model.Event'],
 	
-	model: 'Sam.model.Alarm',
+	model: 'Sam.model.Event',
 	
 	autoLoad: true,
 	async: true,

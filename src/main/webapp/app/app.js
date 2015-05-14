@@ -12,6 +12,7 @@ Ext.application({
 	stores: ['EquipmentManufacturer',
 	        'EquipmentCounter',
 	        'ServiceStation',
+	        'SeverityLevel',
 	     	'Equipment',
 	     	'EquipmentModel',
 	     	'EquipmentType',
@@ -22,10 +23,11 @@ Ext.application({
    
 	controllers : [ 
 	   'Menu',
-	   'Alarms',
+	   'Events',
 	   'ServiceOrder',
 	   'Equipment',
 	   'Technician',
-	   'Site'
+	   'Site',
+	   'SeverityLevel'
 	   ]
 });

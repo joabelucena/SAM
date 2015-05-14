@@ -1,15 +1,10 @@
-Ext.define('Sam.controller.Technician', {
+Ext.define('Sam.controller.SeverityLevel', {
 	extend: 'Ext.app.Controller',
 	
-	stores:['Technician'],
+	stores: ['SeverityLevel'],
 	
-	views: ['Sam.view.technician.TechnicianGrid',
-	        'Sam.view.technician.TechnicianForm'],
-	        
-    refs: [
-           {    ref: 'lookup',     selector: 'popup'   }
-       ],
-
+	views: ['Sam.view.severity.SeverityForm',
+	        'Sam.view.severity.SeverityGrid'],
 
 	init: function() {
 		
@@ -18,48 +13,39 @@ Ext.define('Sam.controller.Technician', {
 				render: this.gridOnRender
 			},
 			
-			/* Buttons Listeners: Technician
-			 * 
-			 */
-			'#technicianform #site_id' :{
-				click:   this.onTechnicianTrgClick
-			},
-			
-			'#technician_site #submit' :{
-				click: this.onLookupSubmitClick
-			},
-			
-			'#technicianform toolbar #btnSubmit' :{
-				create: this.onTechnicianBtnSubmitAdd,
-				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-				update: this.onTechnicianBtnSubmitEdit,
-				remove: this.onTechnicianBtnSubmitDelete,
-				
-			},
-			
-			'#technicianform toolbar #btnDiscard' :{
+			'form toolbar #btnDiscard' :{
 				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
-			'#techniciangrid toolbar #btnShow' :{
-				click: this.onTechnicianBtnShowClick
+			/* Buttons Listeners: Severity
+			 *  
+			 */
+			'#severityform toolbar #btnSubmit' :{
+				create: this.onSeverityBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onSeverityBtnSubmitEdit,
+				remove: this.onSeverityBtnSubmitDelete,
+				
 			},
 			
-			'#techniciangrid toolbar #btnEdit' :{
-				click: this.onTechnicianBtnEditClick
+			'#severitygrid toolbar #btnShow' :{
+				click: this.onSeverityBtnShowClick
 			},
 			
-			'#techniciangrid toolbar #btnAdd' :{
-				click: this.onTechnicianBtnAddClick
+			'#severitygrid toolbar #btnEdit' :{
+				click: this.onSeverityBtnEditClick
 			},
 			
-			'#techniciangrid toolbar #btnDelete' :{
-				click: this.onTechnicianBtnDeleteClick
+			'#severitygrid toolbar #btnAdd' :{
+				click: this.onSeverityBtnAddClick
 			},
+			
+			'#severitygrid toolbar #btnDelete' :{
+				click: this.onSeverityBtnDeleteClick
+			}
 			
 		});
 	},
-	
 	
 	gridOnRender: function(me, options){
 		me.getStore().reload();
@@ -67,40 +53,8 @@ Ext.define('Sam.controller.Technician', {
 	},
 	
 	
-	/*********** Begin Technician Controlling ***********/
-	onTechnicianTrgClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'technician_site'});
-		var grid = Ext.create('Sam.view.site.SiteGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Local');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onLookupSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-			
-			fld = Ext.ComponentQuery.query( 'form #fldSite',activeTab)[0];
-			
-			Ext.ComponentQuery.query('#site_id',fld)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#site_desc',fld)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	onTechnicianBtnShowClick: function() {
+	/*********** Begin Severity Controlling ***********/
+	onSeverityBtnShowClick: function() {
 		
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
@@ -109,7 +63,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'severityform', null);
 			
 			if(activeTab){
 			
@@ -128,11 +82,11 @@ Ext.define('Sam.controller.Technician', {
 				//Seta Botão Confirma: 1 - Visualizar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 				
-			}			
+			}
 		}
 	},
 	
-	onTechnicianBtnEditClick: function(){
+	onSeverityBtnEditClick: function(){
 		
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
@@ -141,7 +95,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'severityform', null);
 			
 			if(activeTab){
 				
@@ -157,10 +111,11 @@ Ext.define('Sam.controller.Technician', {
 		}
 	},
 	
-	onTechnicianBtnAddClick: function(){
-		
+	onSeverityBtnAddClick: function(){
+
+			
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'technicianform', null);
+		var activeTab = this.activateTab(2, null, 'severityform', null);
 		
 		if(activeTab){
 	
@@ -168,9 +123,10 @@ Ext.define('Sam.controller.Technician', {
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
 
+
 	},
 	
-	onTechnicianBtnDeleteClick: function(){
+	onSeverityBtnDeleteClick: function(){
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
@@ -178,7 +134,7 @@ Ext.define('Sam.controller.Technician', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'technicianform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'severityform', null);
 			
 			if(activeTab){
 			
@@ -200,85 +156,117 @@ Ext.define('Sam.controller.Technician', {
 		}
 	},
 	
-	onTechnicianBtnSubmitAdd: function(){
+	onSeverityBtnSubmitAdd: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
-			record		= Ext.create('Sam.model.Technician');						//Registro
+			store		= this.getSeverityLevelStore(),						//Store
+			record		= Ext.create('Sam.model.SeverityLevel');			//Registro
+		
+		
 		
 		if(form.isValid()){
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
-			//Carrega Protocolo
-			record.set({site: Ext.create('Sam.model.Site',{id: values.site_id, desc: values.site_desc})})
-			
-			
 			//Adiciona registro na store
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#severitygrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	onTechnicianBtnSubmitEdit: function(){
+	onSeverityBtnSubmitEdit: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
+			store		= this.getSeverityLevelStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
 			
-			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set({site: Ext.create('Sam.model.Site',{id: values.site_id, desc: values.site_desc})});
-			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#severitygrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	onTechnicianBtnSubmitDelete: function(){
+	onSeverityBtnSubmitDelete: function(){
 		
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTechnicianStore(),								//Store
+			store		= this.getSeverityLevelStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
-		
+			
 			//Apaga registro da Store
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#techniciangrid');
+			this.syncStore(store, '#severitygrid');
 			
 			//Fecha Aba
 			activeTab.close();
 		}
 	},
 	
-	/*********** End Technician Controlling ***********/
+	
+	/*********** End Of Severity Controlling ***********/
+	
+	
 	
 	/*********** Common Methods***********/
-	activateTab : function(action, id, xtype, uTitle){
+	syncStore: function(store, comp){
+		
+		//Sincroniza Store
+		store.sync();
+		
+		//Recarrega Store
+		store.reload();
+		
+		//Atualiza stores e views
+		Ext.each(Ext.ComponentQuery.query(comp),function(f){
+			f.getStore().reload();
+		});
+		
+	},
+	
+	syncStore: function(store, comp){
+		
+		//Sincroniza Store
+		store.sync({
+			success: function(){
+				
+				//Recarrega Store
+				store.reload();
+				
+				//Atualiza stores e views
+				Ext.each(Ext.ComponentQuery.query(comp),function(f){
+					f.getStore().reload();
+				});
+			},
+			scope: this
+		});
+		
+	},
+	
+	activateTab: function(action, id, xtype, uTitle){
 		
 		//Variaveis
 		var title, tabId, activeTab;
@@ -339,24 +327,6 @@ Ext.define('Sam.controller.Technician', {
 		
 		return activeTab;
 		
-	},
-	
-	syncStore: function(store, comp){
-		
-		//Sincroniza Store
-		store.sync({
-			success: function(){
-				
-				//Recarrega Store
-				store.reload();
-				
-				//Atualiza stores e views
-				Ext.each(Ext.ComponentQuery.query(comp),function(f){
-					f.getStore().reload();
-				});
-			},
-			scope: this
-		});
-		
 	}
+	
 });

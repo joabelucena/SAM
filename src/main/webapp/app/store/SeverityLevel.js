@@ -1,9 +1,9 @@
-Ext.define('Sam.store.Technician', {
+Ext.define('Sam.store.SeverityLevel', {
 	extend: 'Ext.data.Store',
 	
-	requires: ['Sam.model.Technician'],
+	requires: ['Sam.model.SeverityLevel'],
 	
-	model: 'Sam.model.Technician',
+	model: 'Sam.model.SeverityLevel',
 	
 	autoLoad: true,
 
@@ -13,10 +13,10 @@ Ext.define('Sam.store.Technician', {
         type: 'ajax',
         
         api: {
-        	read : 		'technician/load',
-			create : 	'technician/add.action',
-			update : 	'technician/update.action',
-			destroy : 	'technician/delete.action',
+        	read : 		'severity/load',
+			create : 	'severity/add.action',
+			update : 	'severity/update.action',
+			destroy : 	'severity/delete.action',
         },
         reader: {
             type: 'json',
@@ -31,7 +31,7 @@ Ext.define('Sam.store.Technician', {
         },
         listeners: {
         	success: function(proxy, response, operation){
-        		console.log('Sucesso na Store sangue bom!');
+        		console.log('Store Succes Operation');
         	},
             exception: function(proxy, response, operation){
             	var ErrorMessage,jResp;

@@ -9,43 +9,43 @@ var equipmentInfo = {
 
 	items : [ {
 		fieldLabel : 'ID',
-		name : 'alarmpopup_id',
+		name : 'eventpopup_id',
 		readOnly : true,
 		width: '40%',
 		inputAttrTpl: " data-qtip='ID do Equipamento' "
 	}, {
 		fieldLabel : 'Modelo',
-		id : 'alarmpopup_model',
+		id : 'eventpopup_model',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Modelo do Equipamento' "
 
 	}, {
 		fieldLabel : 'Fabricante',
-		id : 'alarmpopup_manufacturer',
+		id : 'eventpopup_manufacturer',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
 	}, {
 		fieldLabel : 'Sub-Sistema',
-		id : 'alarmpopup_subsystem',
+		id : 'eventpopup_subsystem',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
 	}, {
 		fieldLabel : 'Local de Instalação',
-		id : 'alarmpopup_site',
+		id : 'eventpopup_site',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
 	} ],
 };
 
-Ext.define('Sam.view.alarm.openSO.AlarmInfoEqto', {
+Ext.define('Sam.view.event.openSO.EventInfoEqto', {
 	extend: 'Ext.Panel',
-	alias:  'widget.alarminfoeqto',
+	alias:  'widget.eventinfoeqto',
 	
-	requires: ['Sam.view.alarm.openSO.AlarmInfoEqto'],
+	requires: ['Sam.view.event.openSO.EventInfoEqto'],
 	
 	closable: true,
 	
@@ -57,7 +57,7 @@ Ext.define('Sam.view.alarm.openSO.AlarmInfoEqto', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'alarminfoeqtoform',
+		id : 'eventinfoeqtoform',
 		fieldDefaults : {
 			labelWidth : 180
 		},
