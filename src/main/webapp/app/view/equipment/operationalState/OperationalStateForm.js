@@ -33,17 +33,25 @@ Ext.define('Sam.view.equipment.operationalState.OperationalStateForm', {
 			fieldLabel : 'Codigo',
 			itemId: 'id',
 			name: 'id',
-			allowBlank : true,
+			allowBlank : false,
 			editable: false,
-			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Estado Operacional' "
+			width: '40%',
+			inputAttrTpl: " data-qtip='Código do Estado Operacional' "
 		},{
-			fieldLabel : 'Modelo do Equipamento',
-			itemId: 'desc',
-			name: 'desc',
+			fieldLabel : 'ID do Equipamento',
+			itemId: 'model_id',
+			name: 'model_id',
 			allowBlank : false,
 			width: '60%',
-			inputAttrTpl: " data-qtip='Modelo do Equipamento do Estado Operacional' "
+			inputAttrTpl: " data-qtip='ID do Equipamento do Estado Operacional' ",
+			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		},{
+			fieldLabel : 'Modelo do Equipamento',
+			itemId: 'model_desc',
+			name: 'model_desc',
+			allowBlank : false,
+			width: '60%',
+			inputAttrTpl: " data-qtip='Modelo do Equipamento do Estado Operacional' ",
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',

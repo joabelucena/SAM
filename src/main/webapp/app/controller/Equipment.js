@@ -7,14 +7,18 @@ Ext.define('Sam.controller.Equipment', {
 		     	'Equipment',
 		     	'EquipmentModel',
 		     	'EquipmentType',
-		     	'EquipmentProtocol'],
+		     	'EquipmentProtocol',
+		     	'OperationalState'
+		     	],
 	
 	models: ['EquipmentManufacturer',
 		        'EquipmentCounter',
 		     	'Equipment',
 		     	'EquipmentModel',
 		     	'EquipmentType',
-		     	'EquipmentProtocol'],
+		     	'EquipmentProtocol',
+		     	'OperationalState'
+		     	],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.manufacturer.ManufacturerGrid',
@@ -26,8 +30,10 @@ Ext.define('Sam.controller.Equipment', {
 	        'Sam.view.equipment.model.ModelGrid',
 	        'Sam.view.equipment.model.ModelForm',
 	        'Sam.view.equipment.type.TypeGrid',
-	        'Sam.view.equipment.type.TypeForm'
-	        ],
+	        'Sam.view.equipment.type.TypeForm',
+	        'Sam.view.equipment.operationalState.OperationalStateForm',
+	        'Sam.view.equipment.operationalState.OperationalStateGrid'],
+	        
     refs: [
            {    ref: 'lookup',     selector: 'popup'   }
        ],
@@ -162,7 +168,69 @@ Ext.define('Sam.controller.Equipment', {
 				click: this.onModelBtnDeleteClick
 			},
 			
-
+			/* Buttons Listeners: Protocol
+			 * 
+			 */
+			
+			'#equipmentprotocolform toolbar #btnSubmit' :{
+				create: this.onProtocolBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onProtocolBtnSubmitEdit,
+				remove: this.onProtocolBtnSubmitDelete,
+				
+			},
+			
+			'#equipmentprotocolgrid toolbar #btnShow' :{
+				click: this.onProtocolBtnShowClick
+			},
+			
+			'#equipmentprotocolgrid toolbar #btnEdit' :{
+				click: this.onProtocolBtnEditClick
+			},
+			
+			'#equipmentprotocolgrid toolbar #btnAdd' :{
+				click: this.onProtocolBtnAddClick
+			},
+			
+			'#equipmentprotocolgrid toolbar #btnDelete' :{
+				click: this.onProtocolBtnDeleteClick
+			},
+			
+			
+			/* Buttons Listeners: Operational State
+			 * 
+			 */
+			'#operationalstateform #model_id' :{
+				click:   this.onOperationalStateTrgModelClick
+			},
+			
+			'#operationalstateform_model #submit' :{
+				click: this.onOperationalStateModelSubmitClick
+			},
+			
+			'#operationalstateform toolbar #btnSubmit' :{
+				create: this.onOperationalStateBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onOperationalStateBtnSubmitEdit,
+				remove: this.onOperationalStateBtnSubmitDelete,
+				
+			},
+			
+			'#operationalstategrid toolbar #btnShow' :{
+				click: this.onOperationalStateBtnShowClick
+			},
+			
+			'#operationalstategrid toolbar #btnEdit' :{
+				click: this.onOperationalStateBtnEditClick
+			},
+			
+			'#operationalstategrid toolbar #btnAdd' :{
+				click: this.onOperationalStateBtnAddClick
+			},
+			
+			'#operationalstategrid toolbar #btnDelete' :{
+				click: this.onOperationalStateBtnDeleteClick
+			},
 		});
 	},
 	
@@ -181,7 +249,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true);
 			
 			if(activeTab){
 			
@@ -213,7 +281,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentmanufacturerform', null, true);
 			
 			if(activeTab){
 				
@@ -233,7 +301,7 @@ Ext.define('Sam.controller.Equipment', {
 
 			
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentmanufacturerform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentmanufacturerform', null, true);
 		
 		if(activeTab){
 	
@@ -252,7 +320,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentmanufacturerform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentmanufacturerform', null, true);
 			
 			if(activeTab){
 			
@@ -357,7 +425,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmenttypeform', null, true);
 			
 			if(activeTab){
 			
@@ -389,7 +457,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmenttypeform', null, true);
 			
 			if(activeTab){
 				
@@ -408,7 +476,7 @@ Ext.define('Sam.controller.Equipment', {
 	onTypeBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmenttypeform', null);
+		var activeTab = this.activateTab(2, null, 'equipmenttypeform', null, true);
 		
 		if(activeTab){
 	
@@ -426,7 +494,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmenttypeform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmenttypeform', null, true);
 			
 			if(activeTab){
 			
@@ -530,7 +598,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentcounterform', null, true);
 			
 			if(activeTab){
 			
@@ -562,7 +630,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentcounterform', null, true);
 			
 			if(activeTab){
 				
@@ -581,7 +649,7 @@ Ext.define('Sam.controller.Equipment', {
 	onCounterBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentcounterform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentcounterform', null, true);
 		
 		if(activeTab){
 	
@@ -599,7 +667,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentcounterform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentcounterform', null, true);
 			
 			if(activeTab){
 			
@@ -703,7 +771,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 			
@@ -735,7 +803,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 				
@@ -754,7 +822,7 @@ Ext.define('Sam.controller.Equipment', {
 	onProtocolBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null, true);
 		
 		if(activeTab){
 	
@@ -772,7 +840,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 			
@@ -908,7 +976,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentmodelform', null, true);
 			
 			if(activeTab){
 			
@@ -940,7 +1008,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentmodelform', null, true);
 			
 			if(activeTab){
 				
@@ -959,7 +1027,7 @@ Ext.define('Sam.controller.Equipment', {
 	onModelBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentmodelform', null);
+		var activeTab = this.activateTab(2, null, 'equipmentmodelform', null, true);
 		
 		if(activeTab){
 	
@@ -977,7 +1045,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentmodelform', null);
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentmodelform', null, true);
 			
 			if(activeTab){
 			
@@ -1077,6 +1145,386 @@ Ext.define('Sam.controller.Equipment', {
 	
 	/*********** End Model Controlling ***********/
 	
+	/*********** Begin Protocol Controlling ***********/
+	onProtocolBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}			
+		}
+	},
+	
+	onProtocolBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onProtocolBtnAddClick: function(){
+		
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null, true);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+	},
+	
+	onProtocolBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onProtocolBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentProtocolStore(),						//Store
+			record		= Ext.create('Sam.model.EquipmentProtocol');			//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#equipmentprotocolgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onProtocolBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentProtocolStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#equipmentprotocolgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onProtocolBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getEquipmentProtocolStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+		
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#equipmentprotocolgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Protocol Controlling ***********/
+	
+	/*********** Begin Operational State Controlling ***********/
+	
+	onOperationalStateTrgModelClick: function(){
+		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'operationalstateform_model'});
+		var grid = Ext.create('Sam.view.equipment.model.ModelGrid');
+		
+		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		popup.setTitle('Selecionar Modelo de Equipamento');
+		popup.add(grid);
+		popup.show();
+	},
+	
+	onOperationalStateModelSubmitClick: function(){
+		
+		var row = this.getLookup().down('grid').getSelection()[0];
+		
+		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		
+		if(row){
+						
+			Ext.ComponentQuery.query('#model_id',activeTab)[0].setValue(row.get('id'));
+			Ext.ComponentQuery.query('#model_desc',activeTab)[0].setValue(row.get('desc'));
+			
+			this.getLookup().close();
+		}
+		
+	},
+	
+	onOperationalStateBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'operationalstateform', null, true);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}			
+		}
+	},
+	
+	onOperationalStateBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = this.activateTab(3, row.get('id'), 'operationalstateform', null, true);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onOperationalStateBtnAddClick: function(){
+		
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'operationalstateform', null, false);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+	},
+	
+	onOperationalStateBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = this.activateTab(4, row.get('id'), 'operationalstateform', null, true);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onOperationalStateBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getOperationalStateStore(),							//Store
+			record		= Ext.create('Sam.model.OperationalState');					//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Carrega Modelo
+			record.set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})})
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#operationalstategrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onOperationalStateBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getOperationalStateStore(),							//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#operationalstategrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onOperationalStateBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getOperationalStateStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+		
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, '#operationalstategrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Operational State Controlling ***********/
+	
 	
 	/*********** Common Methods***********/
 	syncStore: function(store, comp){
@@ -1098,7 +1546,7 @@ Ext.define('Sam.controller.Equipment', {
 		
 	},
 
-	activateTab: function(action, id, xtype, uTitle){
+	activateTab: function(action, id, xtype, uTitle, lockId){
 		
 		//Variaveis
 		var title, tabId, activeTab;
@@ -1155,8 +1603,12 @@ Ext.define('Sam.controller.Equipment', {
 		mainPanel.setActiveTab(newTab);
 		
 		//Se for inclusao desabilita o campo Id
-		if(action == 2){
-			Ext.ComponentQuery.query('#id' , newTab)[0].setVisible(false);
+		if(action == 2 && lockId){
+			Ext.ComponentQuery.query('#id', newTab)[0].setVisible(false);
+			
+		} else if (action == 2 && lockId == false) {
+			Ext.ComponentQuery.query('#id', newTab)[0].setEditable(true);
+			
 		}
 		
 		//Variavel para retornar aba ativa
@@ -1167,4 +1619,3 @@ Ext.define('Sam.controller.Equipment', {
 	}
 
 });
-

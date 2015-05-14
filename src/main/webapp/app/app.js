@@ -22,7 +22,8 @@ Ext.application({
 	     	'Alarm',
 	     	'AlarmGroup',
 	     	'AlarmType',
-	     	'AlarmFilter'],
+	     	'AlarmFilter',
+	     	'OperationalState'],
    
 	controllers : [ 
 	   'Menu',

@@ -16,4 +16,5 @@ Ext.define('Sam.model.EquipmentModel', {
         ],
 	
     belongsTo:  {model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}
+
 });
