@@ -366,13 +366,13 @@ Ext.define('Sam.controller.Site', {
 			record.set(values);
 			
 			//Carrega Site Type
-			record.set({model: Ext.create('Sam.model.SiteType'		,{id: values.type_id, desc: values.type_desc})})
+			record.set({type: Ext.create('Sam.model.SiteType'		,{id: values.type_id, desc: values.type_desc})})
 			
 			//Carrega Service Station
-			record.set({model: Ext.create('Sam.model.ServiceStation',{id: values.station_id, desc: values.station_desc})})
+			record.set({station: Ext.create('Sam.model.ServiceStation',{id: values.station_id, desc: values.station_desc})})
 			
-			//Carrega Parent Site ?????
-			//record.set({model: Ext.create('Sam.model.ServiceStation',{id: values.station_id, desc: values.station_desc})})
+			//Carrega Parent Site
+			record.set({parent: Ext.create('Sam.model.Site',{id: values.parent_id, desc: values.parent_desc})})
 			
 			//Adiciona registro na store
 			store.add(record);

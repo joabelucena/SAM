@@ -1,12 +1,9 @@
 Ext.define('Sam.store.OperationalState', {
 	extend: 'Ext.data.Store',
 	
-	requires: ['Sam.model.OperationalState'],
-	
 	model: 'Sam.model.OperationalState',
 	
 	autoLoad: true,
-	async: true,
 
 	proxy: {
         type: 'ajax',

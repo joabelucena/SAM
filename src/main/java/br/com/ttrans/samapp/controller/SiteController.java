@@ -251,9 +251,4 @@ public class SiteController {
 
 		return result;
 	}
-	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bdb2fca09e518c123d034c76795b287be2fb3d8b

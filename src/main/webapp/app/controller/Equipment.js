@@ -1465,7 +1465,7 @@ Ext.define('Sam.controller.Equipment', {
 			record.set(values);
 			
 			//Carrega Modelo
-			record.set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})})
+			record.set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})});
 			
 			//Adiciona registro na store
 			store.add(record);
@@ -1490,6 +1490,9 @@ Ext.define('Sam.controller.Equipment', {
 		if(form.isValid()){
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
+			
+			//Carrega Objetos
+			store.findRecord('id',record.get('id')).set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})})
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#operationalstategrid');

@@ -529,7 +529,7 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/job/add.action")
 	@ResponseBody
-	public Map addModel(@RequestBody ServiceOrderJob job, 
+	public Map addJob(@RequestBody ServiceOrderJob job, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -548,7 +548,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/job/update.action")
 	@ResponseBody
-	public Map updateModel(@RequestBody ServiceOrderJob job, 
+	public Map updateJob(@RequestBody ServiceOrderJob job, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -568,7 +568,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/job/delete.action")
 	@ResponseBody
-	public Map deleteModel(@RequestBody ServiceOrderJob job, 
+	public Map deleteJob(@RequestBody ServiceOrderJob job, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -591,7 +591,7 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/type/add.action")
 	@ResponseBody
-	public Map addModel(@RequestBody ServiceOrderType sotype, 
+	public Map addType(@RequestBody ServiceOrderType sotype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -610,7 +610,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/type/update.action")
 	@ResponseBody
-	public Map updateModel(@RequestBody ServiceOrderType sotype, 
+	public Map updateType(@RequestBody ServiceOrderType sotype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -630,7 +630,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/type/delete.action")
 	@ResponseBody
-	public Map deleteModel(@RequestBody ServiceOrderType sotype, 
+	public Map deleteType(@RequestBody ServiceOrderType sotype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -653,7 +653,7 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/status/add.action")
 	@ResponseBody
-	public Map addModel(@RequestBody ServiceOrderStatus sostatus, 
+	public Map addStatus(@RequestBody ServiceOrderStatus sostatus, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -670,9 +670,9 @@ public class ServiceOrderController {
 		return result;
 	}
 	
-	@RequestMapping("/type/update.action")
+	@RequestMapping("/status/update.action")
 	@ResponseBody
-	public Map updateModel(@RequestBody ServiceOrderStatus sostatus, 
+	public Map updateStatus(@RequestBody ServiceOrderStatus sostatus, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -690,9 +690,9 @@ public class ServiceOrderController {
 		return result;
 	}
 	
-	@RequestMapping("/type/delete.action")
+	@RequestMapping("/status/delete.action")
 	@ResponseBody
-	public Map deleteModel(@RequestBody ServiceOrderStatus sostatus, 
+	public Map deleteStatus(@RequestBody ServiceOrderStatus sostatus, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {

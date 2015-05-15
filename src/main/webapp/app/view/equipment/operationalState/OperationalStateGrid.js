@@ -14,7 +14,7 @@ Ext.define('Sam.view.equipment.operationalState.OperationalStateGrid', {
 		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'number'
+			type : 'string'
 		}
 	}, {
 		text : 'Modelo do Equipamento',
