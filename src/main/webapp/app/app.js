@@ -1,4 +1,4 @@
-Ext.application({
+ Ext.application({
 	name : 'Sam',
 	
 	launch : function() 
@@ -24,6 +24,9 @@ Ext.application({
 	     	'AlarmType',
 	     	'AlarmFilter',
 	     	'OperationalState',
+	     	'SiteType',
+	     	'Site',
+	     	'ServiceOrderType',
 	     	'DocumentType'],
    
 	controllers : [ 
