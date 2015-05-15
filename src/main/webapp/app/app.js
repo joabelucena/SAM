@@ -1,4 +1,4 @@
-Ext.application({
+ Ext.application({
 	name : 'Sam',
 	
 	launch : function() 
