@@ -33,7 +33,6 @@ public class SiteController {
 	@Autowired
 	private SiteTypeService siteTypeService;
 	
-	
 	/*
 	 * Load Data Methods
 	 */

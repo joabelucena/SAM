@@ -26,8 +26,8 @@ Ext.application({
 	     	'OperationalState',
 	     	'SiteType',
 	     	'Site',
-	     	'ServiceOrderType'
-	     	],
+	     	'ServiceOrderType',
+	     	'DocumentType'],
    
 	controllers : [ 
 	   'Menu',
@@ -37,6 +37,6 @@ Ext.application({
 	   'Technician',
 	   'Site',
 	   'SeverityLevel',
-	   'Alarm'
-	   ]
+	   'Alarm',
+	   'Document']
 });

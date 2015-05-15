@@ -212,7 +212,7 @@ INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Alarmes'						,(SELECT ID FRO
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Tipos de Alarmes'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'alarmtypegrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Grupos de Alarmes'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'alarmgroupgrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Filtro de Alarmes'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'alarmfiltergrid');
-
+INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Tipos de Documentos'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'documenttypegrid');
 
 
 -- Tabela: ROLE_MENU
