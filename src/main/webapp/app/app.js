@@ -23,7 +23,11 @@ Ext.application({
 	     	'AlarmGroup',
 	     	'AlarmType',
 	     	'AlarmFilter',
-	     	'OperationalState'],
+	     	'OperationalState',
+	     	'SiteType',
+	     	'Site',
+	     	'ServiceOrderType'
+	     	],
    
 	controllers : [ 
 	   'Menu',

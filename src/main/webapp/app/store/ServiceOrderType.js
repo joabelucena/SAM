@@ -1,18 +1,18 @@
-Ext.define('Sam.store.Site', {
+Ext.define('Sam.store.ServiceOrderType', {
 	extend: 'Ext.data.Store',
 	
-	model: 'Sam.model.Site',
-	
+	model: 'Sam.model.ServiceOrderType',
+		
 	autoLoad: true,
 
 	proxy: {
         type: 'ajax',
         
         api: {
-        	read : 		'site/load',
-			create : 	'site/add.action',
-			update : 	'site/update.action',
-			destroy : 	'site/delete.action',
+        	read : 		'so/load/type',
+			create : 	'so/type/add.action',
+			update : 	'so/type/update.action',
+			destroy : 	'so/type/delete.action',
         },
         reader: {
             type: 'json',
@@ -25,6 +25,5 @@ Ext.define('Sam.store.Site', {
             writeAllFields: false,
             root: 'data'
         }
-    }
-	
+    }	
 });

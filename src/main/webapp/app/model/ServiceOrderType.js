@@ -1,4 +1,4 @@
-Ext.define('Sam.model.SiteType', {
+Ext.define('Sam.model.ServiceOrderType', {
 	extend: 'Ext.data.Model',
 	
 	fields:[
@@ -8,5 +8,4 @@ Ext.define('Sam.model.SiteType', {
 
 	       ],
 	       
-	hasMany: {model: 'Sam.model.Site', foreignKey: 'type_id'}
 });

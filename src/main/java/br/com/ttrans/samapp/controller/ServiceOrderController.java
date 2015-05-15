@@ -137,6 +137,28 @@ public class ServiceOrderController {
 		return result;
 	}
 	
+	@RequestMapping("/load/type")
+	@ResponseBody
+	public Map loadType() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", soTypeService.loadData());
+		
+		return result;
+	}
+	
+	@RequestMapping("/load/status")
+	@ResponseBody
+	public Map loadStatus() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", soStatusService.loadData());
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
 	public ResponseEntity<Map> newFromEvent(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
@@ -556,6 +578,130 @@ public class ServiceOrderController {
 		
 		try{
 			jobService.delete(job, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: ServiceOrderType
+	 */
+	@RequestMapping("/type/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody ServiceOrderType sotype, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soTypeService.add(sotype, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody ServiceOrderType sotype, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soTypeService.edit(sotype, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody ServiceOrderType sotype, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			soTypeService.delete(sotype, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: SO Status Service
+	 */
+	@RequestMapping("/status/add.action")
+	@ResponseBody
+	public Map addModel(@RequestBody ServiceOrderStatus sostatus, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soStatusService.add(sostatus, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/update.action")
+	@ResponseBody
+	public Map updateModel(@RequestBody ServiceOrderStatus sostatus, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soStatusService.edit(sostatus, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/type/delete.action")
+	@ResponseBody
+	public Map deleteModel(@RequestBody ServiceOrderStatus sostatus, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			soStatusService.delete(sostatus, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

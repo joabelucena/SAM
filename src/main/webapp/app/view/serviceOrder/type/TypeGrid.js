@@ -1,13 +1,13 @@
-Ext.define('Sam.view.site.SiteGrid', {
+Ext.define('Sam.view.serviceOrder.type.TypeGrid', {
 	extend : 'Ext.grid.Panel',
 	
-	alias : 'widget.sitegrid',
-	
-	itemId : 'sitegrid',
+	alias : 'widget.serviceordertypegrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.Site'),
+	store : Ext.create('Sam.store.ServiceOrderType'),
+	
+	itemId: 'serviceordertypegrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -15,37 +15,13 @@ Ext.define('Sam.view.site.SiteGrid', {
 		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'string'
+			type : 'number'
 		}
 	}, {
 		text : 'Descrição',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'desc',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Sigla',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'shortname',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Tipo',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'type_desc',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Base de Manutenção',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'station_desc',
 		filter : {
 			type : 'string'
 		}

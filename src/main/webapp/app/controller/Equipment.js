@@ -1085,7 +1085,6 @@ Ext.define('Sam.controller.Equipment', {
 			//Carrega Protocolo
 			record.set({protocol: Ext.create('Sam.model.EquipmentProtocol',{id: values.prot_id, desc: values.prot_desc})})
 			
-			
 			//Adiciona registro na store
 			store.add(record);
 			

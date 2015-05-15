@@ -17,10 +17,10 @@ Ext.define('Sam.model.Site', {
 
 	       ],
 	       
-	       /*
-	        * Comentado por Joabe. Implementar operacao vice-versa com hasMany nas classes abaixo.
-	       belongsTo:  [{model: 'Sam.model.SiteType', foreignKey: 'type_id'},
-	                    {model: 'Sam.model.ServiceStation', foreignKey: 'station_id'}]
-	                    
-	                    */
+
+	       belongsTo:  [
+	                    {model: 'Sam.model.SiteType'		, foreignKey: 'type_id'},
+	                    {model: 'Sam.model.ServiceStation'	, foreignKey: 'station_id'}
+	                   ]
+
 });

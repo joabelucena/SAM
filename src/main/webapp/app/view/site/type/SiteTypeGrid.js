@@ -1,13 +1,12 @@
-Ext.define('Sam.view.site.SiteGrid', {
+Ext.define('Sam.view.site.type.SiteTypeGrid', {
 	extend : 'Ext.grid.Panel',
-	
-	alias : 'widget.sitegrid',
-	
-	itemId : 'sitegrid',
+	alias : 'widget.sitetypegrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.Site'),
+	store : Ext.create('Sam.store.SiteType'),
+	
+	itemId: 'sitetypegrid',
 
 	columns : [ {
 		text : 'Codigo',
@@ -22,30 +21,6 @@ Ext.define('Sam.view.site.SiteGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'desc',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Sigla',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'shortname',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Tipo',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'type_desc',
-		filter : {
-			type : 'string'
-		}
-	}, {
-		text : 'Base de Manutenção',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'station_desc',
 		filter : {
 			type : 'string'
 		}
@@ -73,7 +48,7 @@ Ext.define('Sam.view.site.SiteGrid', {
 	        iconCls: 'tick-button'
 	    },{
 	        xtype:'button',
-	    	itemId:'btnEdit',
+	        itemId:'btnEdit',
 	    	text:'Alterar',
 	        tooltip:'Editar Registro Selecionado',
 	        cls:'x-btn-default-small',
@@ -87,4 +62,6 @@ Ext.define('Sam.view.site.SiteGrid', {
 	        iconCls: 'tick-button'
 	    }]
 	}]
+	
+	
 });
