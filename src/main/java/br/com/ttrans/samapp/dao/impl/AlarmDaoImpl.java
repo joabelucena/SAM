@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
@@ -36,6 +38,17 @@ public class AlarmDaoImpl implements AlarmDao {
 	public void delete(Alarm alarm, Authentication authentication) {
 		session.getCurrentSession().delete(alarm);
 
+	}
+	
+	@Override
+	public List<String> getNorm(Alarm norm){
+		Criteria crit = session.getCurrentSession().createCriteria(Alarm.class);
+		
+		crit.add(Restrictions.eq("normAlarm" , norm));
+		
+		crit.setProjection(Projections.property("id"));
+		
+		return crit.list();
 	}
 	
 	@Override

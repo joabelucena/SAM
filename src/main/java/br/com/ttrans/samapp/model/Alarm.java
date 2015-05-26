@@ -19,7 +19,7 @@ public class Alarm {
 	private String desc;
 	
 	@ManyToOne
-	@JoinColumn(name = "alm_parent_id")
+	@JoinColumn(name = "alm_norm_id")
 	private Alarm normAlarm; 
 	
 	@ManyToOne
@@ -41,8 +41,13 @@ public class Alarm {
 	@Column(name="alm_counter_inc")
 	private int counterInc;
 	
-	@Column(name="alm_man_norm")
+	//Pode ser Manualizado manualmente (1-Sim/2-Nao)
+	@Column(name="alm_norm_man")
 	private int manNorm;
+	
+	//Eh Normalizador (1-Sim/2-Nao)
+	@Column(name="alm_norm_alm")
+	private int isNorm;
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -108,6 +113,12 @@ public class Alarm {
 	}
 	public void setManNorm(int manNorm) {
 		this.manNorm = manNorm;
+	}
+	public int getIsNorm() {
+		return isNorm;
+	}
+	public void setIsNorm(int isNorm) {
+		this.isNorm = isNorm;
 	}
 	public String getInsert() {
 		return insert;

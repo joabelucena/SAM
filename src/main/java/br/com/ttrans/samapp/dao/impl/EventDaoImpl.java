@@ -3,19 +3,29 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.EventDao;
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.AlarmFilter;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 
 @Repository
 public class EventDaoImpl implements EventDao {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EventDaoImpl.class);
 
 	@Autowired
 	private SessionFactory session;
@@ -76,6 +86,62 @@ public class EventDaoImpl implements EventDao {
 		return qQuery.executeUpdate();
 	}
 	
+	/** Normalizacao autoatica **/
+	@Override
+	public void normalize(List<String> alarmsId, String equipment, String user){
+		
+		String cQuery = null;
+		
+		cQuery = "UPDATE Event "
+				+ "SET EVE_SOLV_USER = :USER, "
+				+ "EVE_SOLV_DATE = :DATE "
+				+ "WHERE EVE_ALARM_ID IN (:IDS) "
+				+ "AND EVE_EQUIPMENT_ID = :EQUIP";
+		
+		Query qQuery = session.getCurrentSession().createQuery(cQuery);
+		qQuery.setParameter("USER"	, user);
+		qQuery.setParameter("DATE"	, new Date());
+		qQuery.setParameterList("IDS"	, alarmsId.toArray());
+		qQuery.setParameter("EQUIP"	, equipment);
+		
+		qQuery.executeUpdate();
+	}
+	
+	@Override
+	public List activeAlarms(Equipment equipment, Alarm alarm){
+		
+		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
+		
+		crit.add(Restrictions.eq("equipment", equipment));
+		crit.add(Restrictions.eq("alarm"	, alarm));
+		crit.add(Restrictions.eq("solvUser"	, ""));
+		
+		crit.setProjection(Projections.property("id"));
+		
+		return crit.list();
+	}
+	
+	@Override
+	public boolean isFiltered(Event event){
+		
+		try{
+			Criteria crit = session.getCurrentSession().createCriteria(AlarmFilter.class);
+			
+			crit.add(Restrictions.eq("alarm"	, event.getAlarm()));
+			crit.add(Restrictions.eq("equipment", event.getEquipment()));
+	
+			return (crit.list().size() > 0);
+		}catch(Exception e){
+			logger.error("Filtering Event error occurred. \n"
+					+ "Alarm:"+event.getAlarm().getId()+"\n" 
+					+ "Equipment:"+event.getEquipment().getId()+"\n"
+					+ "Error details are showed bellow:");
+			logger.error(e.getMessage());
+			
+		}
+		
+		return false;
+	}
 	
 	@Override
 	public Event get(long id) {

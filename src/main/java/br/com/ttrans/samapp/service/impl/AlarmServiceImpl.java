@@ -33,6 +33,11 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 	
 	@Transactional
+	public List<String> getNorm(Alarm norm){
+		return dao.getNorm(norm);
+	}
+	
+	@Transactional
 	public Alarm get(String id){
 		return dao.get(id);
 	}
