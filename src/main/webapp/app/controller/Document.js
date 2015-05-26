@@ -1,8 +1,6 @@
 Ext.define('Sam.controller.Document', {
 	extend: 'Ext.app.Controller',
 	
-	//alias: 'widget.document',
-	
 	stores:['DocumentType'],
 	
 	views: ['Sam.view.document.type.TypeForm',

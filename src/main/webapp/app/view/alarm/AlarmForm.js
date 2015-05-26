@@ -51,6 +51,8 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				fieldLabel : 'Descrição',
 				itemId: 'desc',
 				name: 'desc',
+				maxLength: 45,
+				enforceMaxLength: true,
 				allowBlank : false,
 				width: '60%',
 				inputAttrTpl: " data-qtip='Descrição do Alarme' "
@@ -80,6 +82,19 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				editable: false,
 				width: '25%',
 				inputAttrTpl: " data-qtip='Define se o alarme incrementará o contador do equipamento.' "
+			},{
+				fieldLabel : 'Eh Norm.?',
+				itemId: 'isNorm',
+				name: 'isNorm',
+				store:  Ext.create('Sam.view.components.store.ComboBox'),
+				queryMode: 'local',
+				valueField: 'id',
+		        displayField: 'desc',
+				xtype : 'combobox',
+				allowBlank : false,
+				editable: false,
+				width: '25%',
+				inputAttrTpl: " data-qtip='Define se o alarme será um alarme de Normalização.' "
 			}]
 			
 		

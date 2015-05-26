@@ -417,7 +417,7 @@ Ext.define('Sam.controller.Events', {
 			   }
 		   },
 		   
-		   interval: 30000 //(1 second = 1000)
+		   interval: 5000 //(1 second = 1000)
 		   
 		};
 

@@ -2,7 +2,7 @@ Ext.define('Sam.view.document.type.TypeGrid', {
 	extend : 'Ext.grid.Panel',
 	alias : 'widget.documenttypegrid',
 	
-	//controller: 'document',
+	//controller: Ext.create('Sam.controller.Document'),
 
 	requires : ['Ext.grid.filters.Filters'],
 	           

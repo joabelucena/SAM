@@ -21,6 +21,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		dataIndex : 'id',
 		flex : 1,
 		sortable: true,
+	   minWidth: 200,
+	   width: 200,
 		filter : {
 			type : 'string'
 		}
@@ -29,6 +31,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'desc',
+		minWidth: 200,
+		   width: 200,
 		filter : {
 			type : 'string'
 		}
@@ -37,6 +41,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'manNorm',
+		minWidth: 200,
+		   width: 200,
 		renderer: function(value){
 	        if (value === 1) {
 	            return 'Sim';
@@ -51,6 +57,24 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'counterInc',
+		minWidth: 200,
+		   width: 200,
+		renderer: function(value){
+	        if (value === 1) {
+	            return 'Sim';
+	        }
+	        return 'Não';
+	        },
+		filter : {
+			type : 'string'
+		}
+	}, {
+		text : 'Eh Normalização?',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'isNorm',
+		minWidth: 200,
+		   width: 200,
 		renderer: function(value){
 	        if (value === 1) {
 	            return 'Sim';
@@ -65,6 +89,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'alarm_id',
+		minWidth: 200,
+		   width: 200,
 		filter : {
 			type : 'string'
 		}
@@ -73,6 +99,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'group_desc',
+		minWidth: 200,
+		   width: 200,
 		filter : {
 			type : 'string'
 		}
@@ -81,6 +109,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		flex : 1,
 		sortable : true,
 		dataIndex : 'type_desc',
+		minWidth: 200,
+		   width: 200,
 		filter : {
 			type : 'string'
 		}
@@ -88,6 +118,8 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 		text : 'Severidade',
 		flex : 1,
 		sortable : true,
+		minWidth: 200,
+		   width: 200,
 		dataIndex : 'severity_desc',
 		filter : {
 			type : 'string'

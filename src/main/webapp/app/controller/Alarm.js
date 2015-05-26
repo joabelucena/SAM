@@ -376,12 +376,16 @@ Ext.define('Sam.controller.Alarm', {
 			//Carrega Objetos
 			record.set(
 					{	group:		Ext.create('Sam.model.AlarmGroup'		,{id: values.group_id	, desc: values.group_desc	}),
-						normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	}),
 						type:		Ext.create('Sam.model.AlarmType'		,{id: values.type_id	, desc: values.type_desc	}),
 						model: 		Ext.create('Sam.model.EquipmentModel'	,{id: values.model_id	, desc: values.model_desc	}),
 						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
 			});
 			
+			if(values.alarm_id !== ""){
+				record.set(
+					{	normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	})
+				});
+			}
 			
 			//Adiciona registro na store
 			store.add(record);
@@ -410,11 +414,16 @@ Ext.define('Sam.controller.Alarm', {
 			//Carrega Objetos
 			store.findRecord('id',record.get('id')).set(
 					{	group:		Ext.create('Sam.model.AlarmGroup'		,{id: values.group_id	, desc: values.group_desc	}),
-						normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	}),
 						type:		Ext.create('Sam.model.AlarmType'		,{id: values.type_id	, desc: values.type_desc	}),
 						model: 		Ext.create('Sam.model.EquipmentModel'	,{id: values.model_id	, desc: values.model_desc	}),
 						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
 			});
+			
+			if(values.alarm_id !== ""){
+				store.findRecord('id',record.get('id')).set(
+					{	normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	})
+				});
+			}
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#alarmgrid');
