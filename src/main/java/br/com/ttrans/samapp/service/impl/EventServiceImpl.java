@@ -3,6 +3,8 @@ package br.com.ttrans.samapp.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,8 @@ import br.com.ttrans.samapp.service.EventService;
 
 @Repository
 public class EventServiceImpl implements EventService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class); 
 	
 	@Autowired
 	private EventDao eventDao;
@@ -37,8 +41,9 @@ public class EventServiceImpl implements EventService {
 		
 		String cUserNorm =  "SAM_NORM";
 		Alarm alarm;
+		List<String> alarmsToNorm;
 		
-		System.out.println("### Start@"+new Date());
+		logger.info("### Alarm / Equipment: "+event.getAlarm().getId() + " / " + event.getEquipment().getId());
 		
 		/**
 		 * Implement Normalization and filter validation rules.
@@ -63,19 +68,20 @@ public class EventServiceImpl implements EventService {
 					event.setSolvDate(new Date());
 					
 					//Retorna Lista com os alarmes que sao normalizados por essa 'normalizacao'
-					eventDao.normalize(alarmDao.getNorm(alarm), event.getEquipment().getId(), cUserNorm);
+					alarmsToNorm = alarmDao.getNorm(alarm);
+					
+					//Tratamento para verificar se existem alarmes cadastrados
+					if(alarmsToNorm.size() > 0){
+						eventDao.normalize(alarmsToNorm, event.getEquipment().getId(), cUserNorm);
+					}
 					
 				}
 				
 			}
 			
-			
-			
 			//Adiciona Evento
 			eventDao.add(event);
 		}
-		
-		System.out.println("### Ended@"+ new Date());
 		
 	}
 

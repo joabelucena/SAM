@@ -101,7 +101,7 @@ public class EventDaoImpl implements EventDao {
 		Query qQuery = session.getCurrentSession().createQuery(cQuery);
 		qQuery.setParameter("USER"	, user);
 		qQuery.setParameter("DATE"	, new Date());
-		qQuery.setParameterList("IDS"	, alarmsId.toArray());
+		qQuery.setParameterList("IDS"	, alarmsId);
 		qQuery.setParameter("EQUIP"	, equipment);
 		
 		qQuery.executeUpdate();
