@@ -2,32 +2,33 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
 	<!-- The definition of the Root Spring Container shared by all Servlets 
 		and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
+
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-
-
+	
+	<!-- Servlets Files Mapping -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-	       	/WEB-INF/spring/appServlet/security-context.xml
-	       	/WEB-INF/spring/appServlet/servlet-context.xml
+	       	/WEB-INF/spring/appServlet/security-servlet.xml
+	       	/WEB-INF/spring/appServlet/app-servlet.xml
 	       	/WEB-INF/spring/appServlet/ws-servlet.xml
+	       	/WEB-INF/spring/appServlet/task-servlet.xml
+	       	/WEB-INF/spring/appServlet/snmp-servlet.xml
 	    </param-value>
 	</context-param>
 
-	<listener>
-		<listener-class>br.com.ttrans.samapp.snmp.SnmpListener</listener-class>
-	</listener>
-
+	
 	<!-- Define a filter to enable Spring Security, be sure to use the suggested 
 		name 'springSecurityFilterChain' -->
 	<filter>
@@ -39,13 +40,14 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- Processes application requests -->
+
+	<!-- Servlet: app-servlet -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>/WEB-INF/spring/appServlet/app-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -55,7 +57,8 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!-- Events Web Service Servlet -->
+	
+	<!-- Servlet: ws-servlet -->
 	<servlet>
 		<servlet-name>eventsWs</servlet-name>
 		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
@@ -74,5 +77,29 @@
 		<servlet-name>eventsWs</servlet-name>
 		<url-pattern>/eventsService/*</url-pattern>
 	</servlet-mapping>
+	
+	
+	<!-- Servlet: task-servlet -->
+	<servlet>
+		<servlet-name>taskServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/task-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>-1</load-on-startup>
+	</servlet>
+	
+	
+	<!-- Servlet: snmp-servlet -->
+	<servlet>
+		<servlet-name>snmpServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/snmp-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>-1</load-on-startup>
+	</servlet>
 
 </web-app>

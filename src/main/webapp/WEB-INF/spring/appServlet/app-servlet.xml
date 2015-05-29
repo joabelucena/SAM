@@ -5,7 +5,6 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -14,8 +13,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
@@ -34,12 +32,6 @@
 	<mvc:resources mapping="/resources/**" 	location="/resources/" />
 	<mvc:resources mapping="/app/**" 		location="/app/" />
 	
-	<!-- Creates Scheduled Bean -->
-	<!-- ## Comented By Joabe @ 05/15/2015 
-	<task:annotation-driven />
-	<bean id="samScheduledTasks" class="br.com.ttrans.samapp.task.Maintenance"></bean>
- 	-->
-
 	<!-- Hibernate + JDBC Configuration -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"

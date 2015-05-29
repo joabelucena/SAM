@@ -4,6 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
  
-	<bean id="snmpService" class="br.com.ttrans.samapp.snmp.SnmpServer" />
+	<bean id="snmpService" class="br.com.ttrans.samapp.snmp.SnmpServer" init-method="run" destroy-method="close"/>
  
 </beans>

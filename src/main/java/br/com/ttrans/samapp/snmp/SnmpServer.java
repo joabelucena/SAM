@@ -65,10 +65,8 @@ public class SnmpServer implements CommandResponder {
 	public SnmpServer() {
 	}
 
-	public static void main(String[] args) {
-		new SnmpServer().run();
-	}
 
+	/** Starts the server **/
 	public void run() {
 		try {
 			
@@ -80,6 +78,7 @@ public class SnmpServer implements CommandResponder {
 		}
 	}
 
+	/** Stops the server **/
 	public void close() {
 		try {
 			System.out.println("## Closing Snmp Server...");
