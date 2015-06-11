@@ -39,6 +39,8 @@
 		<mapping class="br.com.ttrans.samapp.model.Technician" />
 		<mapping class="br.com.ttrans.samapp.model.ServiceStation" />
 		<mapping class="br.com.ttrans.samapp.model.SystemFeature" />
+		<mapping class="br.com.ttrans.samapp.model.Task" />
+		<mapping class="br.com.ttrans.samapp.model.TaskCondition" />
 		        
     </session-factory>         
 </hibernate-configuration>
