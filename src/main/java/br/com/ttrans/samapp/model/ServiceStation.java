@@ -1,5 +1,7 @@
 package br.com.ttrans.samapp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Service_Station")
 @SequenceGenerator(name = "INC_SERVICE_STATION", sequenceName = "GEN_SST_ID")
-public class ServiceStation {
+public class ServiceStation implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="sst_id")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_SERVICE_STATION") 

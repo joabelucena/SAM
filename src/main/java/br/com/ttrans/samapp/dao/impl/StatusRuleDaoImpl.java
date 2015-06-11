@@ -72,12 +72,7 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 	@Override
 	public List loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class,"rule");
-		/*
-		crit.createAlias("rule.role"		,"rule_role",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("rule.curstatus"	,"rule_curstatus",CriteriaSpecification.LEFT_JOIN);
-		crit.createAlias("rule.nxtstatus"	,"rule_nxtstatus",CriteriaSpecification.LEFT_JOIN);
-		*/
+		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class);
 		
 		return crit.list();
 	}

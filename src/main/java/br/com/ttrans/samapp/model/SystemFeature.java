@@ -1,5 +1,7 @@
 package br.com.ttrans.samapp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Sys_Features")
 @SequenceGenerator(name = "INC_SYS_FEATURES", sequenceName = "GEN_FTR_ID")
-public class SystemFeature {
+public class SystemFeature implements Serializable{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_SYS_FEATURES") 
 	private int id;
@@ -37,8 +45,6 @@ public class SystemFeature {
 		this.url = url;
 	}
 	
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,7 +68,6 @@ public class SystemFeature {
 			return false;
 		return true;
 	}
-	
 	
 	public int getId() {
 		return id;

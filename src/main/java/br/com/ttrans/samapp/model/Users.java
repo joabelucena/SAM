@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.springframework.context.annotation.Scope;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Scope("session")
 @Entity
 @Table(name="users")
@@ -25,6 +27,7 @@ public class Users{
 	
 	@ManyToOne
 	@JoinColumn(name = "roleId")
+	@JsonBackReference(value="users")
 	private Role role;
 	
 	@Enumerated(EnumType.STRING)

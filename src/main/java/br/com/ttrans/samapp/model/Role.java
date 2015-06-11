@@ -14,7 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Role {
@@ -25,41 +29,37 @@ public class Role {
 	@Column
 	private String roleName;
 	
-	@OneToMany(mappedBy = "role")
+	@Fetch(FetchMode.SELECT)
+	@OneToMany(mappedBy = "role", targetEntity = Users.class, fetch = FetchType.EAGER)
+	@JsonManagedReference(value="role")
 	private List<Users> users;
 	
+	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_features",
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="featureId"))
 	@OrderBy(clause="featureId")
 	private Set<SystemFeature> features;
-	
+
+	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_menu",
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="menuId"))
 	@OrderBy(clause="menuId")
 	private Set<Menu> menus;
-	
+
+	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_services_stations",
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="stationId"))
 	@OrderBy(clause="stationId")
-	private Set<Menu> stations;
+	private Set<ServiceStation> stations;
+	
 
 	public Role(){}
-	public Role(int id, String roleName, List<Users> users,
-			Set<SystemFeature> features, Set<Menu> menus, Set<Menu> stations) {
-		super();
-		this.id = id;
-		this.roleName = roleName;
-		this.users = users;
-		this.features = features;
-		this.menus = menus;
-		this.stations = stations;
-	}
 
 	public int getId() {
 		return id;
@@ -93,6 +93,14 @@ public class Role {
 		this.features = features;
 	}
 
+	public Set<ServiceStation> getStations() {
+		return stations;
+	}
+
+	public void setStations(Set<ServiceStation> stations) {
+		this.stations = stations;
+	}
+
 	public Set<Menu> getMenus() {
 		return menus;
 	}
@@ -100,12 +108,9 @@ public class Role {
 	public void setMenus(Set<Menu> menus) {
 		this.menus = menus;
 	}
+	
+	
+	
 
-	public Set<Menu> getStations() {
-		return stations;
-	}
-
-	public void setStations(Set<Menu> stations) {
-		this.stations = stations;
-	}
+	
 }

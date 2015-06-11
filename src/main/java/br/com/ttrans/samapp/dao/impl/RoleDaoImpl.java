@@ -46,7 +46,7 @@ public class RoleDaoImpl implements RoleDao {
 
 	@Override
 	public List<Role> getAll() {
-		return session.getCurrentSession().createSQLQuery("from Role").list();
+		return session.getCurrentSession().createCriteria(Role.class).list();
 	}
 
 }
