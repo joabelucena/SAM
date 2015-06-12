@@ -27,7 +27,10 @@
 	     	'SiteType',
 	     	'Site',
 	     	'ServiceOrderType',
-	     	'DocumentType'],
+	     	'DocumentType',
+	     	'ServiceOrderRules',
+	     	'ServiceOrderStatus'
+	     	],
    
 	controllers : [ 
 	   'Menu',

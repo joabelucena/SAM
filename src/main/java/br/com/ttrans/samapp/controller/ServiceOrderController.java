@@ -159,6 +159,17 @@ public class ServiceOrderController {
 		return result;
 	}
 	
+	@RequestMapping("/load/rules")
+	@ResponseBody
+	public Map loadRules() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", soStatusRuleService.loadData());
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
 	public ResponseEntity<Map> newFromEvent(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
@@ -702,6 +713,68 @@ public class ServiceOrderController {
 		
 		try{
 			soStatusService.delete(sostatus, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: SO Status Rules
+	 */
+	@RequestMapping("/rules/add.action")
+	@ResponseBody
+	public Map addRule(@RequestBody StatusRule sorules,
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soStatusRuleService.add(sorules, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/rules/update.action")
+	@ResponseBody
+	public Map updateRule(@RequestBody StatusRule sorules, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			soStatusRuleService.edit(sorules, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/rules/delete.action")
+	@ResponseBody
+	public Map deleteStatus(@RequestBody StatusRule sorules,
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			soStatusRuleService.delete(sorules, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
