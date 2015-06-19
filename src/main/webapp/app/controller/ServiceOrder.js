@@ -1198,7 +1198,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getServiceOrderStatusStore(),							//Store
+			store		= this.getServiceOrderStatusStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){

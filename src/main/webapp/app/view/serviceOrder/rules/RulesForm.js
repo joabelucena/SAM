@@ -9,13 +9,11 @@ var rulesSO = {
 	items : [ {
 		fieldLabel : 'Id',
 		itemId: 'id',
-		readOnly : true,
 		width: '40%',
 		inputAttrTpl: " data-qtip='Id da Regra da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Descrição da Regra',
 		itemId: 'role_desc',
-		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Descrição da Regra da Ordem de Serviço' "
 	}],
@@ -32,13 +30,12 @@ var rules = {
 	items : [ {
 		fieldLabel : 'Id da Permissão',
 		itemId: 'role_id',
-		readOnly : true,
 		width: '40%',
-		inputAttrTpl: " data-qtip='Id da Permissão da Regra da Ordem de Serviço' "
+		inputAttrTpl: " data-qtip='Id da Permissão da Regra da Ordem de Serviço' ",
+		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 	},{
 		fieldLabel : 'Descrição da Permissão',
 		itemId: 'role_desc',
-		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Descrição da Permissão da Regra da Ordem de Serviço' "
 	}],
@@ -47,7 +44,7 @@ var rules = {
 var currentStatus = {
 		xtype : 'fieldset',
 		defaultType : 'textfield',
-		title : 'Status da OS Atual',
+		title : 'Status Atual da OS',
 		layout : {
 			type : 'vbox'
 		},
@@ -55,13 +52,12 @@ var currentStatus = {
 		items : [{
 			fieldLabel : 'Id do Status Atual',
 			itemId: 'curstatus_id',
-			readOnly : true,
 			width: '40%',
-			inputAttrTpl: " data-qtip='Id do Status Atual da Regra da Ordem de Serviço' "
+			inputAttrTpl: " data-qtip='Id do Status Atual da Regra da Ordem de Serviço' ",
+			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
 			fieldLabel : 'Descrição do Status Atual',
 			itemId: 'curstatus_desc',
-			readOnly : true,
 			width: '60%',
 			inputAttrTpl: " data-qtip='Descrição do Status Atual da Regra da Ordem de Serviço' "
 		}],
@@ -70,7 +66,7 @@ var currentStatus = {
 var nextStatus = {
 		xtype : 'fieldset',
 		defaultType : 'textfield',
-		title : 'Status da OS Atual',
+		title : 'Status Anterior da OS',
 		layout : {
 			type : 'vbox'
 		},
@@ -78,13 +74,12 @@ var nextStatus = {
 		items : [ {
 			fieldLabel : 'Ordem de Serviço',
 			itemId: 'nxtstatus_id',
-			readOnly : true,
 			width: '40%',
-			inputAttrTpl: " data-qtip='Id do Próximo Status da Regra da Ordem de Serviço' "
+			inputAttrTpl: " data-qtip='Id do Próximo Status da Regra da Ordem de Serviço' ",
+			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
-			fieldLabel : 'Status Anterior',
+			fieldLabel : 'Descrição do Status Anterior',
 			itemId: 'nxtstatus_desc',
-			readOnly : true,
 			width: '60%',
 			inputAttrTpl: " data-qtip='Descrição do Próximo Status da Regra da Ordem de Serviço' "
 		}],

@@ -29,7 +29,8 @@
 	     	'ServiceOrderType',
 	     	'DocumentType',
 	     	'ServiceOrderRules',
-	     	'ServiceOrderStatus'
+	     	'ServiceOrderStatus',
+	     	'UserRole'
 	     	],
    
 	controllers : [ 
@@ -41,5 +42,6 @@
 	   'Site',
 	   'SeverityLevel',
 	   'Alarm',
-	   'Document']
+	   'Document',
+	   'User']
 });
