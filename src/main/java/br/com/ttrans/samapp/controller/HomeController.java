@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +22,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.JSon;
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.service.AlarmService;
+import br.com.ttrans.samapp.service.CounterService;
+import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.SiteService;
+import br.com.ttrans.samapp.service.TaskService;
 
 /**
  * Handles requests for the application home page.
  */
-@SuppressWarnings("rawtypes")
 @Scope("session")
 @Controller
 public class HomeController {
@@ -39,6 +43,18 @@ public class HomeController {
 	
 	@Autowired
 	private SiteService siteService;
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Autowired
+	private AlarmService alarmService;
+	
+	@Autowired
+	private EquipmentService equipmentService;
+	
+	@Autowired
+	private CounterService counterService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -69,7 +85,15 @@ public class HomeController {
 		
 		return result;
 	}
-	
+	/*
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public void test(HttpServletRequest request, Authentication auth){
+		Task task = taskService.get(1);
+		
+		taskService.proccess(task);
+			
+	}
+	*/
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
 	public ResponseEntity<String> getTime(HttpServletRequest request, Authentication auth){
@@ -81,15 +105,58 @@ public class HomeController {
 	public ResponseEntity<String> getUser(HttpServletRequest request, Authentication aut){
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
-				
+		
 		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	@ResponseBody
-	public List test(HttpServletRequest request, Authentication aut,
-			@RequestParam(value="siteId", required = false) int id){
-				
-		return siteService.trackIt(id);
+	public String test(@RequestParam(defaultValue="",required=false,value="alarm") String alarm,
+			@RequestParam(defaultValue="",required=false,value="equipment") String equipment,
+			HttpServletRequest request, Authentication aut){
+		
+		//Task task = taskService.get(3);
+		
+		/*
+		Task task = new Task();
+		Set<TaskCondition> conditions = new HashSet<TaskCondition>();
+		TaskCondition cond = new TaskCondition();
+		
+		cond.setField("test");
+		cond.setLogicOper("OU");
+		cond.setRelOper(">=");
+		cond.setTask(task);
+		cond.setType(TaskType.AL);
+		cond.setSeq("01");
+		cond.setValue(2);
+		cond.setInsert("JOABE");
+		
+		conditions.add(cond);
+		
+		task.setActive(1);
+		task.setAlarm(new Alarm("XPTOLEVE"));
+		task.setDesc("TESTE HIBERNATE");
+		task.setInsert("JOABE");
+		task.setItems(conditions);
+
+		
+		taskService.add(task, aut);
+		*/
+		
+		//Alarm al2 = new Alarm("LALAL");
+		/*
+		Alarm al = alarmService.get(alarm);
+		Equipment eq = equipmentService.get(equipment);
+		
+		counterService.countIt(al,eq);
+		//taskService.proccess(task);
+		*/
+		
+		Alarm al = new Alarm(alarm);
+		Equipment eq = new Equipment(equipment);
+		
+		counterService.reset(al, eq);
+		
+		return "SAM test method";
 	}
 }

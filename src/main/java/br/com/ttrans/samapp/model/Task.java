@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 
 @Entity
@@ -37,9 +39,10 @@ public class Task {
 	private int active;
 	
 	@ManyToOne
-	@JoinColumn(name="afi_equipment_id")
+	@JoinColumn(name="tmh_alarm_id")
 	private Alarm alarm;
 	
+	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="task_equipment",
 			joinColumns=@JoinColumn(name="task_id"),
@@ -49,6 +52,7 @@ public class Task {
 	
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class, fetch = FetchType.EAGER)
+	@OrderBy(clause="tmi_seq")
 	private Set<TaskCondition> conditions;
 	
 	@Column(updatable=false, name = "usr_insert")

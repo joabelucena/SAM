@@ -2,6 +2,8 @@ package br.com.ttrans.samapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +32,10 @@ public class TaskCondition {
 	@Column(name="tmi_logic_op")
 	private String logicOper;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name="tmi_type")
+	private TaskType type; 
+	
 	@Column(name="tmi_field")
 	private String field; 
 	
@@ -38,19 +44,29 @@ public class TaskCondition {
 	
 	@Column(name="tmi_value")
 	private int value;
-
-	public TaskCondition(){}
 	
-	public TaskCondition(int id, Task task, String seq,
-			String logicOper, String field, String relOper, int value) {
+	@Column(updatable=false, name = "usr_insert")
+	private String insert;
+	
+	@Column(insertable=false, name = "usr_update")
+	private String update;
+	
+	public TaskCondition(){}
+
+	public TaskCondition(int id, Task task, String seq, String logicOper,
+			TaskType type, String field, String relOper, int value,
+			String insert, String update) {
 		super();
 		this.id = id;
 		this.task = task;
 		this.seq = seq;
 		this.logicOper = logicOper;
+		this.type = type;
 		this.field = field;
 		this.relOper = relOper;
 		this.value = value;
+		this.insert = insert;
+		this.update = update;
 	}
 
 	public int getId() {
@@ -85,6 +101,14 @@ public class TaskCondition {
 		this.logicOper = logicOper;
 	}
 
+	public TaskType getType() {
+		return type;
+	}
+
+	public void setType(TaskType type) {
+		this.type = type;
+	}
+
 	public String getField() {
 		return field;
 	}
@@ -109,4 +133,20 @@ public class TaskCondition {
 		this.value = value;
 	}
 
+	public String getInsert() {
+		return insert;
+	}
+
+	public void setInsert(String insert) {
+		this.insert = insert;
+	}
+
+	public String getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(String update) {
+		this.update = update;
+	}
+	
 }

@@ -26,14 +26,14 @@ public class AlarmDaoImpl implements AlarmDao {
 		session.getCurrentSession().save(alarm);
 
 	}
-
+	
 	@Override
 	public void edit(Alarm alarm, Authentication authentication) {
 		alarm.setUpdate(authentication.getName());
 		session.getCurrentSession().update(alarm);
 
 	}
-
+	
 	@Override
 	public void delete(Alarm alarm, Authentication authentication) {
 		session.getCurrentSession().delete(alarm);
@@ -55,7 +55,7 @@ public class AlarmDaoImpl implements AlarmDao {
 	public Alarm get(String id){
 		return (Alarm) session.getCurrentSession().get(Alarm.class, id);
 	}
-
+	
 	@Override
 	public List loadData() {
 		
