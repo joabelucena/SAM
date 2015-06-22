@@ -27,7 +27,11 @@
 	     	'SiteType',
 	     	'Site',
 	     	'ServiceOrderType',
-	     	'DocumentType'],
+	     	'DocumentType',
+	     	'ServiceOrderRules',
+	     	'ServiceOrderStatus',
+	     	'UserRole'
+	     	],
    
 	controllers : [ 
 	   'Menu',
@@ -38,5 +42,6 @@
 	   'Site',
 	   'SeverityLevel',
 	   'Alarm',
-	   'Document']
+	   'Document',
+	   'User']
 });

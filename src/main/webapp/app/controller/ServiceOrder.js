@@ -2,7 +2,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 	extend: 'Ext.app.Controller',
 	
 	stores:['ServiceOrderJob',
-	        'ServiceOrderType'
+	        'ServiceOrderType',
+	        'ServiceOrderRules',
+	        'ServiceOrderStatus'
 	        ],
 	
     refs: [
@@ -20,6 +22,10 @@ Ext.define('Sam.controller.ServiceOrder', {
 	        'Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.serviceOrder.type.TypeGrid',
 	        'Sam.view.serviceOrder.type.TypeForm',
+	        'Sam.view.serviceOrder.status.StatusGrid',
+	        'Sam.view.serviceOrder.status.StatusForm',
+	        'Sam.view.serviceOrder.rules.RulesGrid',
+	        'Sam.view.serviceOrder.rules.RulesForm'
 	        ],
 
 	init: function() {
@@ -112,6 +118,67 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			'#serviceordertypegrid toolbar #btnDelete' :{
 				click: this.onServiceOrderTypeBtnDeleteClick
+			},
+			
+
+			/* Buttons Listeners: Service Order Status
+			 *  
+			 */
+			'#serviceorderstatusform toolbar #btnSubmit' :{
+				create: this.onServiceOrderStatusBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onServiceOrderStatusBtnSubmitEdit,
+				remove: this.onServiceOrderStatusBtnSubmitDelete,
+			},
+			
+			'#serviceorderstatusform toolbar #btnDiscard' :{
+				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+			},
+			
+			'#serviceorderstatusgrid toolbar #btnShow' :{
+				click: this.onServiceOrderStautsBtnShowClick
+			},
+			
+			'#serviceorderstatusgrid toolbar #btnEdit' :{
+				click: this.onServiceOrderStatusBtnEditClick
+			},
+			
+			'#serviceorderstatusgrid toolbar #btnAdd' :{
+				click: this.onServiceOrderStatusBtnAddClick
+			},
+			
+			'#serviceorderstatusgrid toolbar #btnDelete' :{
+				click: this.onServiceOrderStatusBtnDeleteClick
+			},
+			
+			/* Buttons Listeners: Service Order Rules
+			 *  
+			 */
+			'#serviceorderrulesform toolbar #btnSubmit' :{
+				create: this.onServiceOrderRulesBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onServiceOrderRulesBtnSubmitEdit,
+				remove: this.onServiceOrderRulesBtnSubmitDelete,
+			},
+			
+			'#serviceorderrulesform toolbar #btnDiscard' :{
+				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+			},
+			
+			'#ServiceOrderRulesgrid toolbar #btnShow' :{
+				click: this.onServiceOrderStatusBtnShowClick
+			},
+			
+			'#serviceorderrulesgrid toolbar #btnEdit' :{
+				click: this.onServiceOrderRulesBtnEditClick
+			},
+			
+			'#serviceorderrulesgrid toolbar #btnAdd' :{
+				click: this.onServiceOrderRulesBtnAddClick
+			},
+			
+			'#serviceorderrulesgrid toolbar #btnDelete' :{
+				click: this.onServiceOrderRulesBtnDeleteClick
 			},
 			
 		});
@@ -991,6 +1058,364 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	/*********** End Of ServiceOrderType Controlling ***********/
 	
+/*********** Begin Service Order Status Controlling ***********/
+	
+	onServiceOrderStatusBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'serviceorderstatusform', null, false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}
+		}
+	},
+	
+	onServiceOrderStatusBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = this.activateTab(3, row.get('id'), 'serviceorderstatusform', null, false);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Desabilita Codigo
+				form.findField('id').setEditable(false)
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onServiceOrderStatusBtnAddClick: function(){
+
+			
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'serviceorderstatusform', null, true);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+
+	},
+	
+	onServiceOrderStatusBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = this.activateTab(4, row.get('id'), 'serviceorderstatusform', null, false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onServiceOrderStatusBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderStatusStore(),							//Store
+			record		= Ext.create('Sam.model.ServiceOrderStatus');					//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderstatusgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onServiceOrderStatusBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderStatusStore(),						//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderstatusgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onServiceOrderStatusBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderStatusStore(),							//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderstatusgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Of Service Order Status Controlling ***********/
+	
+/*********** Begin Service Order Rules Controlling ***********/
+	
+	onServiceOrderRulesBtnShowClick: function() {
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'serviceorderrulesform', null, false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab);
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)});
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}
+		}
+	},
+	
+	onServiceOrderRulesBtnEditClick: function(){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 3 - Alterar
+			activeTab = this.activateTab(3, row.get('id'), 'serviceorderrulesform', null, false);
+			
+			if(activeTab){
+				
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Desabilita Codigo
+				form.findField('id').setEditable(false);
+				
+				//Seta Botão Confirma: Alterar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+			}
+		}
+	},
+	
+	onServiceOrderRulesBtnAddClick: function(){
+
+			
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'serviceorderrulesform', null, true);
+		
+		if(activeTab){
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+
+
+	},
+	
+	onServiceOrderRulesBtnDeleteClick: function(){
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 4 - Excluir
+			activeTab = this.activateTab(4, row.get('id'), 'serviceorderrulesform', null, false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: Exlcuir
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+			}
+		}
+	},
+	
+	onServiceOrderRulesBtnSubmitAdd: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderRulesStore(),							//Store
+			record		= Ext.create('Sam.model.ServiceOrderRules');					//Registro
+		
+		
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderrulesgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onServiceOrderRulesBtnSubmitEdit: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderRulesStore(),							//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			//Carrega dados do formulario na Store
+			store.findRecord('id',record.get('id')).set(values);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderrulesgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onServiceOrderRulesBtnSubmitDelete: function(){
+		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+			values		= form.getValues(),											//Dados do Formulario
+			store		= this.getServiceOrderRulesStore(),							//Store
+			record		= form.getRecord();											//Registro
+		
+		if(form.isValid()){
+			
+			//Apaga registro da Store
+			store.remove(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceorderrulesgrid');
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	/*********** End Of Service Order Rules Controlling ***********/
+		
 	
 	/*********** Common Methods***********/
 	activateTab : function(action, id, xtype, uTitle, lockId){
