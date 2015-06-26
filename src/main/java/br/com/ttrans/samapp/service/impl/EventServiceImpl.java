@@ -44,8 +44,6 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private DAO dao;
 	
-	
-	
 	@Transactional
 	public void add(Event event) {
 		

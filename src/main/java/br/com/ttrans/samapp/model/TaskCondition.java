@@ -2,8 +2,6 @@ package br.com.ttrans.samapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.ttrans.samapp.library.LogicOperator;
+import br.com.ttrans.samapp.library.RelationalOperator;
 
 @Entity
 @Table(name="Task_Monitor_Items")
@@ -32,12 +33,11 @@ public class TaskCondition {
 	@Column(name="tmi_logic_op")
 	private String logicOper;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(name="tmi_type")
-	private TaskType type; 
+	private String type;
 	
 	@Column(name="tmi_field")
-	private String field; 
+	private String field;
 	
 	@Column(name="tmi_relational_op")
 	private String relOper;
@@ -61,7 +61,7 @@ public class TaskCondition {
 		this.task = task;
 		this.seq = seq;
 		this.logicOper = logicOper;
-		this.type = type;
+		this.type = type.getCode();
 		this.field = field;
 		this.relOper = relOper;
 		this.value = value;
@@ -93,20 +93,20 @@ public class TaskCondition {
 		this.seq = seq;
 	}
 
-	public String getLogicOper() {
-		return logicOper;
+	public LogicOperator getLogicOper() {
+		return LogicOperator.get(this.logicOper);
 	}
 
-	public void setLogicOper(String logicOper) {
-		this.logicOper = logicOper;
+	public void setLogicOper(LogicOperator logicOper) {
+		this.logicOper = logicOper.getCode();
 	}
 
 	public TaskType getType() {
-		return type;
+		return TaskType.get(this.type);
 	}
 
 	public void setType(TaskType type) {
-		this.type = type;
+		this.type = type.getCode();
 	}
 
 	public String getField() {
@@ -117,12 +117,12 @@ public class TaskCondition {
 		this.field = field;
 	}
 
-	public String getRelOper() {
-		return relOper;
+	public RelationalOperator getRelOper() {
+		return RelationalOperator.get(this.relOper);
 	}
 
-	public void setRelOper(String relOper) {
-		this.relOper = relOper;
+	public void setRelOper(RelationalOperator relOper) {
+		this.relOper = relOper.getCode();
 	}
 
 	public int getValue() {

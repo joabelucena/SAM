@@ -209,11 +209,23 @@ public class EventController {
 			@RequestParam(value = "normalizeId", required = false) Long id,
 			Authentication authentication, Locale locale){
 		
-		try{
-			eventService.normalize(id, authentication);
-		}catch(Exception e){
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
+		Event ev = eventService.get(id);
+		
+		if(ev instanceof Event){
+			
+			if(ev.getAlarm().getManNorm() == 1){
+			
+				try{
+					eventService.normalize(id, authentication);
+				}catch(Exception e){
+					return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
+				}
+			}else{
+				return new ResponseEntity<String>(messageSource.getMessage("response.event.NotNormalizable", null, locale) , HttpStatus.BAD_REQUEST);
+			}
 		}
+		
+		
 		
 		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
 	}

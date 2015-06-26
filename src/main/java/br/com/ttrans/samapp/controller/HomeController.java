@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.JSon;
-import br.com.ttrans.samapp.model.Alarm;
-import br.com.ttrans.samapp.model.Equipment;
+import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.AlarmService;
 import br.com.ttrans.samapp.service.CounterService;
@@ -115,7 +114,7 @@ public class HomeController {
 			@RequestParam(defaultValue="",required=false,value="equipment") String equipment,
 			HttpServletRequest request, Authentication aut){
 		
-		//Task task = taskService.get(3);
+		Task task = taskService.get(1);
 		
 		/*
 		Task task = new Task();
@@ -126,7 +125,7 @@ public class HomeController {
 		cond.setLogicOper("OU");
 		cond.setRelOper(">=");
 		cond.setTask(task);
-		cond.setType(TaskType.AL);
+		cond.setType(TaskType.ALARM);
 		cond.setSeq("01");
 		cond.setValue(2);
 		cond.setInsert("JOABE");
@@ -152,11 +151,14 @@ public class HomeController {
 		//taskService.proccess(task);
 		*/
 		
+		/*
 		Alarm al = new Alarm(alarm);
 		Equipment eq = new Equipment(equipment);
 		
 		counterService.reset(al, eq);
+		*/
 		
+		taskService.proccess(task);
 		return "SAM test method";
 	}
 }

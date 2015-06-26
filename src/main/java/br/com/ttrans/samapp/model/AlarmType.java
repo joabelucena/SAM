@@ -28,6 +28,11 @@ public class AlarmType {
 	private String update;
 
 	public AlarmType(){}
+	
+	public AlarmType(int id) {
+		super();
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;
