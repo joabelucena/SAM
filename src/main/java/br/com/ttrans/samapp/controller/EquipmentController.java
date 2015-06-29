@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.model.Counter;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 import br.com.ttrans.samapp.model.EquipmentModel;
 import br.com.ttrans.samapp.model.EquipmentProtocol;
@@ -340,71 +339,7 @@ public class EquipmentController {
 		
 		return result;
 	}
-	
-	
-	
-	/*
-	 * CRUD Operations for: Counter
-	 */
-	@RequestMapping("/counter/add.action")
-	@ResponseBody
-	public Map addModel(@RequestBody Counter counter, 
-			HttpServletRequest request,
-			Authentication authentication,
-            HttpServletResponse response) {
 		
-		//Result Map
-		Map<String,Object> result = new HashMap<String, Object>();
-
-		try{
-			counterService.add(counter, authentication);
-		}catch(Exception e){
-			result.put("message",e.getMessage());
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping("/counter/update.action")
-	@ResponseBody
-	public Map updateModel(@RequestBody Counter counter, 
-			HttpServletRequest request,
-			Authentication authentication,
-            HttpServletResponse response) {
-		
-		//Result Map
-		Map<String,Object> result = new HashMap<String, Object>();
-
-		try{
-			counterService.edit(counter, authentication);
-		}catch(Exception e){
-			result.put("message",e.getMessage());
-		}
-
-		
-		return result;
-	}
-	
-	@RequestMapping("/counter/delete.action")
-	@ResponseBody
-	public Map deleteModel(@RequestBody Counter counter, 
-			HttpServletRequest request,
-			Authentication authentication,
-            HttpServletResponse response) {
-		
-		//Result Map
-		Map<String,Object> result = new HashMap<String, Object>();
-		
-		try{
-			counterService.delete(counter, authentication);
-		}catch(Exception e){
-			result.put("message",e.getMessage());
-		}
-
-		
-		return result;
-	}
-	
 	/*
 	 * CRUD Operations for: Protocol
 	 */

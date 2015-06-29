@@ -7,13 +7,14 @@ Ext.define('Sam.store.EquipmentCounter', {
 
 	proxy: {
         type: 'ajax',
-        
+        /*
         api: {
         	read : 		'equipment/load/counter',
 			create : 	'equipment/counter/add.action',
 			update : 	'equipment/counter/update.action',
 			destroy : 	'equipment/counter/delete.action',
         },
+        */
         reader: {
             type: 'json',
             successProperty: 'success',

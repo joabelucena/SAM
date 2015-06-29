@@ -51,10 +51,6 @@ public class Equipment {
 	private Site site;
 
 	@ManyToOne
-	@JoinColumn(name = "equ_counter_type_id")
-	private Counter counter;
-
-	@ManyToOne
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
 	
@@ -151,12 +147,6 @@ public class Equipment {
 	}
 	public void setSite(Site site) {
 		this.site = site;
-	}
-	public Counter getCounter() {
-		return counter;
-	}
-	public void setCounter(Counter counter) {
-		this.counter = counter;
 	}
 	public SubSystem getSystem() {
 		return system;

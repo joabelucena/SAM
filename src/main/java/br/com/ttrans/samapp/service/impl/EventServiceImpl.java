@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.AlarmDao;
 import br.com.ttrans.samapp.dao.AlarmFilterDao;
+import br.com.ttrans.samapp.dao.CounterDao;
+import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Alarm;
@@ -34,6 +36,12 @@ public class EventServiceImpl implements EventService {
 	private AlarmDao alarmDao;
 	
 	@Autowired
+	private EquipmentDao equipmentDao;
+	
+	@Autowired
+	private CounterDao counterDao;
+	
+	@Autowired
 	private DAO dao;
 	
 	@Transactional
@@ -41,6 +49,7 @@ public class EventServiceImpl implements EventService {
 		
 		String cUserNorm =  "SAM_NORM";
 		Alarm alarm;
+		Equipment equipment;
 		List<String> alarmsToNorm;
 		
 		logger.info("### Alarm / Equipment: "+event.getAlarm().getId() + " / " + event.getEquipment().getId());
@@ -53,10 +62,11 @@ public class EventServiceImpl implements EventService {
 		//Checa se o alarme esta filtrada, se nao estiver sera adicionado
 		if(!eventDao.isFiltered(event)){
 			
-			/** Recupera alarme. Isso eh necessario pois o objeto alarme pode vir
+			/** Recupera alarme e equipamento. Isso eh necessario pois o objeto alarme pode vir
 			 * somente com a propriedade 'id' preenchida
 			 */
 			alarm = alarmDao.get(event.getAlarm().getId());
+			equipment = equipmentDao.get(event.getEquipment().getId());			
 			
 			//Alarme Cadastrado
 			if(alarm instanceof Alarm){
@@ -79,8 +89,27 @@ public class EventServiceImpl implements EventService {
 				
 			}
 			
-			//Adiciona Evento
-			eventDao.add(event);
+			try {
+				
+				//Adiciona Evento
+				eventDao.add(event);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.error("Erro na insercao");
+			}
+			
+			try {
+				//Conta alarme
+				counterDao.countIt(alarm, equipment);
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.error("Erro na contagem");
+			}
+				
+			
+			
+			
 		}
 		
 	}
