@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.service.RoleService;
 
@@ -40,10 +42,17 @@ public class UserController {
 	 */
 	@RequestMapping("/role/add.action")
 	@ResponseBody
-	public Map<String,Object> addrole(@RequestBody Role role, 
+	public Map<String,Object> addrole(@RequestBody Map payload, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
+		
+		/*Implementar isso no Status Rules*/
+		
+		Role role = new Role();
+		
+		role.setId((int) payload.get("id"));
+		role.setRoleName((String) payload.get("roleName"));
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();

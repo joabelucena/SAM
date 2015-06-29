@@ -12,11 +12,11 @@ Ext.define('Sam.controller.ServiceOrder', {
        ],
 
 
-	views: ['serviceOrder.ServiceOrderGrid',
-	        'serviceOrder.ServiceOrderForm',
-	        'serviceOrder.log.ServiceOrderLog',
-			'serviceOrder.log.ServiceOrderLogGrid',
-	        'serviceOrder.log.ServiceOrderLogForm',
+	views: ['Sam.view.serviceOrder.ServiceOrderGrid',
+	        'Sam.view.serviceOrder.ServiceOrderForm',
+	        'Sam.view.serviceOrder.log.ServiceOrderLog',
+			'Sam.view.serviceOrder.log.ServiceOrderLogGrid',
+	        'Sam.view.serviceOrder.log.ServiceOrderLogForm',
 	        'Sam.view.serviceOrder.job.JobGrid',
 	        'Sam.view.serviceOrder.job.JobForm',
 	        'Sam.view.equipment.EquipmentsGrid',
@@ -154,6 +154,30 @@ Ext.define('Sam.controller.ServiceOrder', {
 			/* Buttons Listeners: Service Order Rules
 			 *  
 			 */
+			'#serviceorderrulesform #role_id' :{
+				click: this.onSORulesTriggerClick
+			},
+			
+			'#serviceorderrules_userrole #submit' :{
+				click: this.onUsrRoleSubmitClick
+			},
+			
+			'#serviceorderrulesform #curstatus_id' :{
+				click: this.onSOCurrentStatusTriggerClick
+			},
+			
+			'#serviceorderrules_currentstatusgrid #submit' :{
+				click: this.onCurrrentStatusRuleSubmitClick				
+			},
+			
+			'#serviceorderrulesform #nxtstatus_id' :{
+				click: this.onSONextStatusTriggerClick
+			},
+			
+			'#serviceorderrules_nextstatusgrid #submit' :{
+				click: this.onNextStatusRuleSubmitClick				
+			},
+			
 			'#serviceorderrulesform toolbar #btnSubmit' :{
 				create: this.onServiceOrderRulesBtnSubmitAdd,
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
@@ -312,10 +336,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Formulario
 		var form = Ext.ComponentQuery.query('form',activeTab)[0];
 		
-		
 		//1 - Visualiza
 		if(action == 1){
-
 		
 		//2 - Incluir
 		}else if(action == 2){
@@ -366,7 +388,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
 				                    		f.getStore().reload();
 				                    	});
-				                    	
 				                    	
 				                    }
 			                             
@@ -548,12 +569,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
-			
-			
-			
-			
-			
+			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));	
 			/******************************/
 		}
 	},
@@ -649,11 +665,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
 			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
-			
-			
-			
-			
-			
 			/******************************/
 		}
 	},
@@ -772,8 +783,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Seta Botão Confirma: Incluir
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
-
-
 	},
 	
 	onJobBtnDeleteClick: function(){
@@ -812,10 +821,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getServiceOrderJobStore(),						//Store
-			record		= Ext.create('Sam.model.ServiceOrderJob');			//Registro
-		
-		
+			store		= this.getServiceOrderJobStore(),							//Store
+			record		= Ext.create('Sam.model.ServiceOrderJob');					//Registro
 		
 		if(form.isValid()){
 			
@@ -839,7 +846,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getServiceOrderJobStore(),						//Store
+			store		= this.getServiceOrderJobStore(),							//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -877,7 +884,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 	},
 	
 	/*********** End Of Job Controlling ***********/
-	
 
 	/*********** Begin Service Order Type Controlling ***********/
 	
@@ -1058,7 +1064,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	/*********** End Of ServiceOrderType Controlling ***********/
 	
-/*********** Begin Service Order Status Controlling ***********/
+	/*********** Begin Service Order Status Controlling ***********/
 	
 	onServiceOrderStatusBtnShowClick: function() {
 		
@@ -1237,7 +1243,118 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	/*********** End Of Service Order Status Controlling ***********/
 	
-/*********** Begin Service Order Rules Controlling ***********/
+	/*********** Begin Service Order Rules Controlling ***********/
+	
+	onSORulesTriggerClick: function(){
+	
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderrules_userrole'});
+		var grid = Ext.create('Sam.view.user.role.RoleGrid');
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		equipmentsPopUp.setTitle('Selecionar Papel de Usuário');
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
+		
+	},
+
+	onUsrRoleSubmitClick: function() {
+		
+		var row = this.getLookup().down('grid').getSelection()[0];
+		
+		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		
+		if(row){
+			
+			fld = Ext.ComponentQuery.query( 'form #serviceorderrulesform',activeTab)[0];
+			
+			Ext.ComponentQuery.query('#role_id',fld)[0].setValue(row.get('id'));
+			Ext.ComponentQuery.query('#role_desc',fld)[0].setValue(row.get('roleName'));
+			
+			this.getLookup().close();
+		}
+		
+	},
+	
+	onSORulesTriggerClick: function(){
+		
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderrules_userrole'});
+		var grid = Ext.create('Sam.view.user.role.RoleGrid');
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		equipmentsPopUp.setTitle('Selecionar Papel de Usuário');
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
+		
+	},
+	
+	onCurrrentStatusRuleSubmitClick: function() {
+		
+		var row = this.getLookup().down('grid').getSelection()[0];
+		
+		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		
+		if(row){
+			
+			fld = Ext.ComponentQuery.query( 'form #serviceorderrulesform',activeTab)[0];
+			
+			Ext.ComponentQuery.query('#curstatus_id',fld)[0].setValue(row.get('id'));
+			Ext.ComponentQuery.query('#curstatus_desc',fld)[0].setValue(row.get('desc'));
+			
+			this.getLookup().close();
+		}
+		
+	},
+	
+	onSOCurrentStatusTriggerClick: function(){
+		
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderrules_currentstatusgrid'});
+		var grid = Ext.create('Sam.view.serviceOrder.status.StatusGrid');
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		equipmentsPopUp.setTitle('Selecionar Status Atual da Ordem de Serviço');
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
+		
+	},
+	
+	onNextStatusRuleSubmitClick: function() {
+		
+		var row = this.getLookup().down('grid').getSelection()[0];
+		
+		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
+		
+		if(row){
+			
+			fld = Ext.ComponentQuery.query( 'form #serviceorderrulesform',activeTab)[0];
+			
+			Ext.ComponentQuery.query('#nxtstatus_id',fld)[0].setValue(row.get('id'));
+			Ext.ComponentQuery.query('#nxtstatus_desc',fld)[0].setValue(row.get('desc'));
+			
+			this.getLookup().close();
+		}
+		
+	},
+	
+	onSONextStatusTriggerClick: function(){
+		
+		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderrules_nextstatusgrid'});
+		var grid = Ext.create('Sam.view.serviceOrder.status.StatusGrid');
+		
+		//Remove Botoes
+		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
+		
+		equipmentsPopUp.setTitle('Selecionar Próximo Status da Ordem de Serviço');
+		equipmentsPopUp.add(grid);
+		equipmentsPopUp.show();
+		
+	},
+
 	
 	onServiceOrderRulesBtnShowClick: function() {
 		
@@ -1352,13 +1469,20 @@ Ext.define('Sam.controller.ServiceOrder', {
 			values		= form.getValues(),											//Dados do Formulario
 			store		= this.getServiceOrderRulesStore(),							//Store
 			record		= Ext.create('Sam.model.ServiceOrderRules');					//Registro
-		
-		
-		
+
 		if(form.isValid()){
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
+			
+			//Carrega User Role
+			record.set({role: Ext.create('Sam.model.UserRole',{id: values.role_id, roleName: values.role_desc})})
+			
+			//Carrega Current Status
+			record.set({curstatus: Ext.create('Sam.model.ServiceOrderStatus',{id: values.curstatus_id, desc: values.curstatus_desc})})
+			
+			//Carrega Next Status
+			record.set({nxtstatus: Ext.create('Sam.model.ServiceOrderStatus',{id: values.nxtstatus_id, desc: values.nxtstatus_desc})})
 			
 			//Adiciona registro na store
 			store.add(record);

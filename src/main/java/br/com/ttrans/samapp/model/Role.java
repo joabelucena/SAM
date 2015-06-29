@@ -1,14 +1,14 @@
 package br.com.ttrans.samapp.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -31,7 +31,6 @@ public class Role implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	@Column
@@ -40,7 +39,7 @@ public class Role implements Serializable{
 	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy = "role", targetEntity = Users.class, fetch = FetchType.EAGER)
 	@JsonManagedReference(value="role")
-	private List<Users> users;
+	private List<Users> users = new LinkedList<Users>();
 	
 	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -48,7 +47,7 @@ public class Role implements Serializable{
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="featureId"))
 	@OrderBy(clause="featureId")
-	private Set<SystemFeature> features;
+	private Set<SystemFeature> features = new HashSet<SystemFeature>();
 
 	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -56,7 +55,7 @@ public class Role implements Serializable{
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="menuId"))
 	@OrderBy(clause="menuId")
-	private Set<Menu> menus;
+	private Set<Menu> menus = new HashSet<Menu>();
 
 	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
@@ -64,7 +63,7 @@ public class Role implements Serializable{
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="stationId"))
 	@OrderBy(clause="stationId")
-	private Set<ServiceStation> stations;
+	private Set<ServiceStation> stations = new HashSet<ServiceStation>();
 	
 
 	public Role(){}
@@ -116,9 +115,34 @@ public class Role implements Serializable{
 	public void setMenus(Set<Menu> menus) {
 		this.menus = menus;
 	}
-	
-	
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result
+				+ ((roleName == null) ? 0 : roleName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Role other = (Role) obj;
+		if (id != other.id)
+			return false;
+		if (roleName == null) {
+			if (other.roleName != null)
+				return false;
+		} else if (!roleName.equals(other.roleName))
+			return false;
+		return true;
+	}
 	
 }

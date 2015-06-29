@@ -12,5 +12,9 @@ Ext.define('Sam.model.ServiceOrderRules', {
 	        {name: 'nxtstatus_desc'	, type: 'string' ,	mapping: 'nxtstatus.desc'	},
 	        {name: 'remark'			, type: 'string' 								}
 
-	       ],    
+	       ],
+	       
+   belongsTo:  [{model: 'Sam.model.UserRole'			, foreignKey: 'role_id'			},
+                {model: 'Sam.model.ServiceOrderStatus'	, foreignKey: 'curstatus_id'	},
+                {model: 'Sam.model.ServiceOrderStatus'	, foreignKey: 'nxtstatus_id'	}]
 });

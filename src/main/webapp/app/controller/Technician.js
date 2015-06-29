@@ -214,9 +214,8 @@ Ext.define('Sam.controller.Technician', {
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
-			//Carrega Protocolo
+			//Carrega Site
 			record.set({site: Ext.create('Sam.model.Site',{id: values.site_id, desc: values.site_desc})})
-			
 			
 			//Adiciona registro na store
 			store.add(record);

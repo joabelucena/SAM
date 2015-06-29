@@ -42,7 +42,7 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Descrição',
+		text : 'Exige Observação?',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'remark',

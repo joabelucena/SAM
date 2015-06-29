@@ -19,9 +19,9 @@ Ext.define('Sam.view.user.role.RoleGrid', {
 		}
 	}, {
 		text : 'Descrição',
+		dataIndex : 'roleName',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'roleName',
 		filter : {
 			type : 'string'
 		}

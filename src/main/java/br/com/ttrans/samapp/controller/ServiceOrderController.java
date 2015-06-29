@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
+import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderJob;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
@@ -434,7 +435,7 @@ public class ServiceOrderController {
 		rule.setNxtstatus(newStatus);
 		
 		rule.setRole(user.getRole());
-		rule.setRemark(!obs.isEmpty() ? 1 : 2);
+		rule.setRemark(!obs.isEmpty() ? "Y" : "N");
 
 		statusRuleValidator.validate(rule, err, "edit");
 
@@ -532,8 +533,6 @@ public class ServiceOrderController {
 		
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}
-
-
 
 	/*
 	 * CRUD Operations for: ServiceOrderJob
@@ -664,16 +663,30 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/status/add.action")
 	@ResponseBody
-	public Map addStatus(@RequestBody ServiceOrderStatus sostatus, 
+	public Map<String,Object> addStatus(@RequestBody Map payload, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
+		
+		/*Implementar isso no Status Rules*/
+		
+		StatusRule statusrules = new StatusRule();
+		
+		statusrules.setId((int) payload.get("id"));
+		
+		statusrules.setRemark((String) payload.get("remark"));
+		
+		statusrules.setCurstatus((ServiceOrderStatus) payload.get("curstatus"));
+		
+		statusrules.setNxtstatus((ServiceOrderStatus) payload.get("nxtstatus"));
+		
+		statusrules.setRole((Role) payload.get("role"));
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			soStatusService.add(sostatus, authentication);
+			soStatusRuleService.add(statusrules, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

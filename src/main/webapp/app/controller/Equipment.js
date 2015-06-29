@@ -58,7 +58,6 @@ Ext.define('Sam.controller.Equipment', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onManufacturerBtnSubmitEdit,
 				remove: this.onManufacturerBtnSubmitDelete,
-				
 			},
 			
 			'#equipmentmanufacturergrid toolbar #btnShow' :{
@@ -136,7 +135,7 @@ Ext.define('Sam.controller.Equipment', {
 			 * 
 			 */
 			'#equipmentmodelform #prot_id' :{
-				click:   this.onModelTrgProtClick
+				click: this.onModelTrgProtClick
 			},
 			
 			'#equipmentmodelform_protocol #submit' :{

@@ -105,5 +105,6 @@
 			<bean class="br.com.ttrans.samapp.security.RequestInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-
+	
+	
 </beans>

@@ -23,7 +23,7 @@ Ext.define('Sam.store.ServiceOrderStatus', {
         writer: {
             type: 'json',
             writeAllFields: false,
-            root: 'data'
-        }
+            root: 'data',
+        },
     }	
 });

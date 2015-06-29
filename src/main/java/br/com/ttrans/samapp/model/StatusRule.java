@@ -27,7 +27,6 @@ public class StatusRule implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="INC_STATUS_RULES")
 	private int id;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="sru_role_id")
 	private Role role;
@@ -41,7 +40,7 @@ public class StatusRule implements Serializable {
 	private ServiceOrderStatus nxtstatus;
 	
 	@Column(name="sru_log_remark")
-	private int remark;
+	private String remark;
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -83,11 +82,11 @@ public class StatusRule implements Serializable {
 		this.nxtstatus = nxtstatus;
 	}
 
-	public int getRemark() {
+	public String getRemark() {
 		return remark;
 	}
 
-	public void setRemark(int remark) {
+	public void setRemark(String remark) {
 		this.remark = remark;
 	}
 
