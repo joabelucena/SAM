@@ -663,30 +663,16 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/status/add.action")
 	@ResponseBody
-	public Map<String,Object> addStatus(@RequestBody Map payload, 
+	public Map<String,Object> addStatus(@RequestBody ServiceOrderStatus sostatus, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
-		
-		/*Implementar isso no Status Rules*/
-		
-		StatusRule statusrules = new StatusRule();
-		
-		statusrules.setId((int) payload.get("id"));
-		
-		statusrules.setRemark((String) payload.get("remark"));
-		
-		statusrules.setCurstatus((ServiceOrderStatus) payload.get("curstatus"));
-		
-		statusrules.setNxtstatus((ServiceOrderStatus) payload.get("nxtstatus"));
-		
-		statusrules.setRole((Role) payload.get("role"));
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			soStatusRuleService.add(statusrules, authentication);
+			soStatusService.add(sostatus, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -739,11 +725,25 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/rules/add.action")
 	@ResponseBody
-	public Map addRule(@RequestBody StatusRule sorules,
+	public Map addRule(@RequestBody Map payload, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
+		/*Implementar isso no Status Rules*/
+		
+		StatusRule sorules = new StatusRule();
+		
+		sorules.setId((int) payload.get("id"));
+		
+		sorules.setRemark((String) payload.get("remark"));
+		
+		sorules.setCurstatus((ServiceOrderStatus) payload.get("curstatus"));
+		
+		sorules.setNxtstatus((ServiceOrderStatus) payload.get("nxtstatus"));
+		
+		sorules.setRole((Role) payload.get("role"));
+				
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
