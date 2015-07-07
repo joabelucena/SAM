@@ -62,9 +62,6 @@ public class Equipment {
 	@Column(name="equ_warranty")
 	private String warranty;
 
-	@Column(name="equ_counter_qt")
-	private String counterQt;
-
 	@Column(name="equ_oid")
 	private String oid;
 
@@ -165,12 +162,6 @@ public class Equipment {
 	}
 	public void setWarranty(String warranty) {
 		this.warranty = warranty;
-	}
-	public String getCounterQt() {
-		return counterQt;
-	}
-	public void setCounterQt(String counterQt) {
-		this.counterQt = counterQt;
 	}
 	public String getOid() {
 		return oid;

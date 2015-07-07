@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -46,13 +48,15 @@ public class ServiceOrder {
 	@JoinColumn(name = "sor_parent_id")
 	private ServiceOrder parent;
 
+	@Fetch(FetchMode.SELECT)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderOccurrence.class, fetch = FetchType.EAGER)
 	private Set<ServiceOrderOccurrence> occurrences;
 
+	@Fetch(FetchMode.SELECT)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.EAGER)
-	@JsonManagedReference
+	@JsonManagedReference(value="serviceorder")
 	private Set<ServiceOrderLog> log;
 
 	@ManyToOne
@@ -83,7 +87,7 @@ public class ServiceOrder {
 	private String remark;
 
 	@Column(name="sor_equipment_stop")
-	private int stoped;
+	private String stoped;
 
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -213,11 +217,11 @@ public class ServiceOrder {
 		this.remark = remark;
 	}
 
-	public int getStoped() {
+	public String getStoped() {
 		return stoped;
 	}
 
-	public void setStoped(int stoped) {
+	public void setStoped(String stoped) {
 		this.stoped = stoped;
 	}
 

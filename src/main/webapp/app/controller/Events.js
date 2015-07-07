@@ -2,6 +2,7 @@ Ext.define('Sam.controller.Events', {
 	extend: 'Ext.app.Controller',
 	
 	views: ['event.EventGrid',
+	        'event.EventShow',
 	        'event.openSO.EventOpenSO',
 	        'event.openSO.EventDataOpenSO',
 	        'event.openSO.EventInfoEqto',

@@ -4,7 +4,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 	stores:['ServiceOrderJob',
 	        'ServiceOrderType',
 	        'ServiceOrderRules',
-	        'ServiceOrderStatus'
+	        'ServiceOrderStatus',
+	        'ServiceOrder'
 	        ],
 	
     refs: [
@@ -701,7 +702,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 		activeTab = mainPanel.getActiveTab();
 		
 		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
-		
+		/*
 		//Filtra Store
 		gridLog.getStore().setFilters([{
 			exactMatch: true,
@@ -709,6 +710,14 @@ Ext.define('Sam.controller.ServiceOrder', {
 			value: parseInt(fieldId.getValue())
 			}
 		]);
+		*/
+		var gStore = gridLog.getStore();
+		var sStore = this.getServiceOrderStore();
+		
+		gStore.setData(sStore.getById(fieldId.getValue()).data.log);
+		
+		
+		console.log('para');
 	},
 	
 	/*********** Begin Job Controlling ***********/

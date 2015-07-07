@@ -66,7 +66,7 @@ public class TaskDaoImpl implements TaskDao {
 		Boolean run = false;
 
 		// Task is active, so proccess it
-		if (task.getActive() == 1) {
+		if (task.getActive().equals("Y")) {
 
 			// Instantiate equipment iterator
 			Iterator<Equipment> equipIt = task.getEquipments().iterator();
@@ -185,7 +185,7 @@ public class TaskDaoImpl implements TaskDao {
 		for(int i = 0; i < tasks.size(); i++){
 			
 			// Procces only active tasks
-			if (tasks.get(i).getActive() == 1) {
+			if (tasks.get(i).getActive().equals("Y")) {
 				this.proccess(tasks.get(i));
 			}
 		}

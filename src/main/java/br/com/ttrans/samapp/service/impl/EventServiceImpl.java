@@ -72,7 +72,7 @@ public class EventServiceImpl implements EventService {
 			if(alarm instanceof Alarm){
 				
 				//Checa se o tipo do evento eh normalizacao
-				if(alarm.getIsNorm() == 1){
+				if(alarm.getIsNorm().equals("Y")){
 					
 					event.setSolvUser(cUserNorm);
 					event.setSolvDate(new Date());
@@ -106,9 +106,6 @@ public class EventServiceImpl implements EventService {
 				// TODO: handle exception
 				logger.error("Erro na contagem");
 			}
-				
-			
-			
 			
 		}
 		

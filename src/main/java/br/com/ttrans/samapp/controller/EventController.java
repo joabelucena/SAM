@@ -213,7 +213,7 @@ public class EventController {
 		
 		if(ev instanceof Event){
 			
-			if(ev.getAlarm().getManNorm() == 1){
+			if(ev.getAlarm().getManNorm().equals("Y")){
 			
 				try{
 					eventService.normalize(id, authentication);
