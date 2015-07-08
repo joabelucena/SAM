@@ -73,11 +73,8 @@ var h1 = {
 		layout: {
 			   type: 'hbox',
 		},
-		
 		items : [{
 			xtype:'textfield',
-			
-			
 			fieldLabel: 'Codigo',
 			width: '15%',
 			inputAttrTpl: " data-qtip='Data de Início Prevista para a Ordem de Serviço' "
@@ -88,14 +85,13 @@ var h1 = {
 			xtype      : 'fieldcontainer',
             fieldLabel : 'Ativa',
             defaultType: 'radiofield',
-            
             defaults: {
                 flex: 1
             },
             layout: 'vbox',
             items: [
                 {
-                    boxLabel  : 'Sim',
+                    boxLabel  : 'Sim',	//TODO default
                     name      : 'active',
                     inputValue: 'm',
 //                    id        : 'radio1'
@@ -141,7 +137,7 @@ var h2 = {
 			xtype: 'tbseparator',
 			width: '35%'			
 		},{
-			xtype:'textfield',
+			xtype:'textfield',	//TODO trazer descrição do alarme
 			fieldLabel: 'Alarme',
 			id: 'eventpopup_end_hour',
 			margin: '0 0 0 0',
@@ -246,7 +242,6 @@ var footer = {
 					type : 'hbox'
 				},
 
-				
 				items : [{
 					xtype: 'tbfill',
 				},{

@@ -14,82 +14,48 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 
 	columns : [
 	   {
-		   text: 'Ordem de Servico',
+		   text: 'Código',
 		   dataIndex: 'id',
-		   flex: 1,
-		   minWidth: 200,
-		   width: 200
+		   width: 100
        },
        {
 			text: 'Equipamento',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'equipment_id',
-			minWidth: 200,
 			width: 200,
 			filter: {
 				type: 'string'
 			}
 		},{
 			text: 'Tipo',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'type_desc',
-			minWidth: 200,
-			   width: 200,
+			width: 100,
 			filter: {
 				type: 'string'
 			}
 		},{
 			text: 'Status',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'status_desc',
-			minWidth: 200,
-			   width: 200,
+			width: 100,
 			filter: {
 				type: 'string'
 			}
 		},{
 			text: 'Alarme',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'event_id',
-			minWidth: 200,
-			   width: 200,
+			width: 100,
 			filter: {
 				type: 'number'
 			}
 		},{
-			text: 'Previsão de Inicio',
-			flex: 1,
-			sortable: true,
-			dataIndex: 'start_forecast',
-			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
-			minWidth: 200,
-			   width: 200,
-			filter: {
-				type: 'date'
-			}
-		},{
 			text: 'Inicio',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'start',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
-			minWidth: 200,
-			   width: 200,
-			filter: {
-				type: 'date'
-			}
-		},{
-			text: 'Previsão de Conclusao',
-			flex: 1,
-			sortable: true,
-			dataIndex: 'end_forecast',
-			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
-			minWidth: 200,
-			   width: 200,
+			width: 120,
 			filter: {
 				type: 'date'
 			}
@@ -99,8 +65,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'end',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
-			minWidth: 200,
-			width: 200,
+			width: 120,
 			filter: {
 				type: 'date'
 			}

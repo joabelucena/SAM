@@ -9,11 +9,12 @@ Ext.define('Sam.view.task.TaskGrid', {
 	store : Ext.create('Sam.store.Task'),
 	
 	plugins: 'gridfilters',
-
+	
 	columns : [ {
+		text: 'Ativo',
 		dataIndex : 'active',
-		maxWidth: 30,
-		minWidth: 30,
+		maxWidth: 42,
+		minWidth: 42,
 		menuDisabled: true,
 		sortable: false,
 		renderer: function( value, metadata, record )
@@ -27,11 +28,14 @@ Ext.define('Sam.view.task.TaskGrid', {
 	},{
 		text : 'Codigo',
 		dataIndex : 'id',
+//		renderer: function(value){
+//			Ext.util.Format.leftPad(value,6,'0')
+//			},
 		width: 100,
 //		flex : 1,
 		sortable: true,
 		filter : {
-			type : 'number'
+			type : 'string'
 		}
 	}, {
 		text : 'Descricao',

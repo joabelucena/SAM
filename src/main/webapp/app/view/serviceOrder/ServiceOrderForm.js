@@ -1,3 +1,4 @@
+/******* Status Change 'container' *******/
 var newStatus = {
 	xtype : 'fieldset',
 	itemId: 'fldNewStatus',
@@ -40,6 +41,7 @@ var newStatus = {
 	}],
 };
 
+/******* Equipment 'container' *******/
 var equipmentInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -86,6 +88,7 @@ var equipmentInfo = {
 	} ],
 };
 
+/******* Service Order Details 'container' *******/
 var soInfo = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -206,13 +209,10 @@ var soInfo = {
 	} ]
 };
 
-Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
-	extend: 'Ext.Panel',
-	
-	alias:  'widget.serviceorderform',
-	
-	closable: true,
-	
+/******* HEADER *******/
+var header = {
+	xtype: 'container',
+
 	layout:{
 		type: 'fit',
 	},
@@ -239,29 +239,166 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 		items : [ newStatus, equipmentInfo, soInfo ],
 		
 		scrollable: true,
-		
-		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		        xtype:'button',
-		        itemId:'btnShowLog',
-		    	text:'Visualizar LOG',
-		        tooltip:'Vizualiza Log da Ordem de Serviço',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnOk',
-		    	text:'Confirma',
-		        tooltip:'Confirma',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
-		}]
-	} ]
+
+	} ]	
+};
+
+/******* FOOTER *******/
+var footer = Ext.create('Ext.grid.Panel', {
 	
+	itemId : 'conditionsgrid',
+	
+	width: '100%',
+	height: '90%',
+
+	store : Ext.create('Ext.data.Store'),
+	
+	columns : [{
+		text : 'Cod. Serv.',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'desc'
+	}, {
+		text : 'Tipo',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'desc'
+	}, {
+		text : 'Técnico',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'alarm_desc'
+	}, {
+		text : 'Inicio',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'alarm_desc'
+	}, {
+		text : 'Término',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'alarm_desc'
+	}, {
+		text : 'Observação',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'alarm_desc'
+	}, {
+		text : 'Ação',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'alarm_desc'
+	}]
+})
+
+
+/******* Service Order Main Page *******/
+
+//Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
+//	extend: 'Ext.Panel',
+//	
+//	alias:  'widget.serviceorderform',
+//	
+//	closable: true,
+//	
+
+	
+	
+	
+	
+Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
+	extend: 'Ext.Panel',
+	alias:  'widget.serviceorderform',
+
+    closable: false,
+	
+	layout: 'border',
+    width: 500,
+    height: 400,
+
+    bodyBorder: false,
+    
+    defaults: {
+        collapsible: false,
+        split: true
+    },
+
+    items: [
+            {
+                title: 'Ordem de Serviço',
+                items:[header],
+                region: 'center',
+                scrollable: true,
+                margin: '5 0 0 0',
+            },{
+				title: 'Apontamentos',
+				items: [footer],
+				collapsible: true,
+				region: 'south',
+				margin: '5 0 0 0',
+				minHeight: 250,
+				Height: 250,
+            }
+            ],
+	dockedItems: [{
+	    xtype: 'toolbar',
+	    dock: 'bottom',
+	    
+	    items: [{
+	        xtype:'button',
+	        itemId:'btnShowLog',
+	    	text:'Visualizar LOG',
+	        tooltip:'Vizualiza Log da Ordem de Serviço',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    },{
+	    	xtype: 'tbfill'
+	    },{
+			xtype: 'button',
+			width: 50,
+			iconCls: 'plus',
+			handler: function(){
+				alert('Ola');
+			}
+		},{
+	    	xtype: 'tbseparator'
+	    },{
+	        xtype:'button',
+	    	itemId:'btnOk',
+	    	text:'Confirma',
+	        tooltip:'Confirma',
+	        cls:'x-btn-default-small',
+	        iconCls: 'tick-button'
+	    }]
+	}]
 });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

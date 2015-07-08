@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -34,7 +35,6 @@ public class TaskDaoImpl implements TaskDao {
 	public void add(Task task, Authentication authentication) {
 		task.setInsert(authentication.getName());
 		session.getCurrentSession().save(task);
-
 	}
 
 	@Override
@@ -82,6 +82,8 @@ public class TaskDaoImpl implements TaskDao {
 
 			// Iterattion on equipments
 			while (equipIt.hasNext()) {
+				
+				int counter = 0;
 
 				equipment = equipIt.next();
 
@@ -96,42 +98,27 @@ public class TaskDaoImpl implements TaskDao {
 					
 					case ALARM:
 
-						/********* Alarme *********/
+						/********* Alarm *********/
 						alarm = new Alarm(condition.getField());
 
 						Counter ct = (Counter) session.getCurrentSession().get(
 								Counter.class, new CounterId(alarm, equipment));
 						
+						//Attributes counter value to counter variable
 						if (ct instanceof Counter) {
-							switch (condition.getRelOper()) {
-							
-							case GREATER:
-								run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (ct.getCounter() > condition.getValue()) : run || (ct.getCounter() > condition.getValue());
-								break;
-							case LESS:
-								run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (ct.getCounter() < condition.getValue()) : run || (ct.getCounter() < condition.getValue());
-								break;
-							case EQUAL:
-								run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (ct.getCounter() == condition.getValue()) : run || (ct.getCounter() == condition.getValue());
-								break;
-							case GREATER_OR_EQUAL:
-								run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (ct.getCounter() >= condition.getValue()) : run || (ct.getCounter() >= condition.getValue());
-								break;
-							case LESS_OR_EQUAL:
-								run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (ct.getCounter() <= condition.getValue()) : run || (ct.getCounter() <= condition.getValue());
-								break;
-							}
+							counter = ct.getCounter();
 						}
 
 						break;
 					case MTBF:
 						/********* MTBF *********/
+						break;
 						
 					case ALARM_TYPE:
-						/********* Tipo de Alarme *********/
+						/********* Alarm Type *********/
 						
 						String cQuery = "SELECT"
-								+ " SUM(ACO_COUNTER)"
+								+ " COALESCE(SUM(ACO_COUNTER),0) as COUNTER"
 								+ " FROM ALARM_COUNTER"
 								+ " LEFT JOIN ALARMS"
 								+ " ON ACO_ALARM_ID = ALM_ID"
@@ -141,17 +128,41 @@ public class TaskDaoImpl implements TaskDao {
 								+ " ACO_EQUIPMENT_ID = '" + equipment.getId() + "'"
 								+ " AND ATY_ID = " + Integer.parseInt(condition.getField());
 						
-						SQLQuery qQuery = session.getCurrentSession().createSQLQuery(cQuery);
+						SQLQuery query = session.getCurrentSession().createSQLQuery(cQuery)
+								.addScalar("COUNTER", Hibernate.INTEGER);
 						
-						System.out.println(qQuery.getQueryString());
-						
-						//Integer qt = (Integer) qQuery.uniqueResult().;
-						Integer.parseInt((String) qQuery.uniqueResult());
-						System.out.println();
-						
+						//Attributes counter value to counter variable
+						counter = ((Integer) query.uniqueResult()).intValue();
 
 					}
-
+					
+					//Do the rule
+					switch (condition.getRelOper()) {
+					
+					/**
+					 * if(<logic_operator> == AND){
+					 * 		run = run && counter <rel_operator> value
+					 * }else{
+					 * 		run = run || counter <rel_operator> value
+					 * }
+					 */
+					case GREATER:
+						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
+						break;
+					case LESS:
+						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
+						break;
+					case EQUAL:
+						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
+						break;
+					case GREATER_OR_EQUAL:
+						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
+						break;
+					case LESS_OR_EQUAL:
+						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
+						break;
+					}
+					
 				} //<--- Conditions
 
 				//Abre o alarme para aquele equipamento

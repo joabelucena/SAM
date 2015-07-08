@@ -110,11 +110,14 @@ public class HomeController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	@ResponseBody
-	public String test(@RequestParam(defaultValue="",required=false,value="alarm") String alarm,
-			@RequestParam(defaultValue="",required=false,value="equipment") String equipment,
+	public String test(
+			@RequestParam(defaultValue="",required=false,value="str1") String str1,
+			@RequestParam(defaultValue="",required=false,value="str2") String str2,
+			@RequestParam(defaultValue="",required=false,value="int1") int int1,
+			@RequestParam(defaultValue="",required=false,value="int2") int int2,
 			HttpServletRequest request, Authentication aut){
 		
-		Task task = taskService.get(1);
+		Task task = taskService.get(int1);
 		
 		/*
 		Task task = new Task();
