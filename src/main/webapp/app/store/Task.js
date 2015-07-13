@@ -1,21 +1,20 @@
-Ext.define('Sam.store.Equipment', {
+Ext.define('Sam.store.Task', {
 	extend: 'Ext.data.Store',
 	
-	requires: ['Sam.model.Equipment'],
+	model: 'Sam.model.Task',
 	
-	model: 'Sam.model.Equipment',
-	
-	autoLoad: false,
-	async: true,
+	autoLoad: true,
+
+	sorters: { property: 'id'},
 
 	proxy: {
         type: 'ajax',
         
         api: {
-        	read : 		'equipment/load',
-			create : 	'',
-			update : 	'',
-			destroy : 	'',
+        	read : 		'task/load',
+			create : 	'task/add.action',
+			update : 	'task/update.action',
+			destroy : 	'task/delete.action',
         },
         reader: {
             type: 'json',
@@ -59,16 +58,4 @@ Ext.define('Sam.store.Equipment', {
             scope: this,
         }
     }
-	
-	/*
-	proxy: {
-		type: 'ajax',
-		url: 'equipment/load',
-		reader: {
-			type: 'json',
-			root: 'data'
-		}
-	}
-	*/
-	
 });

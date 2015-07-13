@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.ttrans.samapp.library.LogicOperator;
 import br.com.ttrans.samapp.library.RelationalOperator;
 
@@ -25,6 +27,7 @@ public class TaskCondition {
 	
 	@ManyToOne
 	@JoinColumn(name="tmi_task_id")
+	@JsonBackReference(value="conditions")
 	private Task task;
 	
 	@Column(name="tmi_seq")

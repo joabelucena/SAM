@@ -22,6 +22,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="Task_Monitor_Header")
 @SequenceGenerator(name="INC_TASK_HEADER",sequenceName="GEN_TMH_ID")
@@ -36,7 +38,7 @@ public class Task {
 	private String desc;
 	
 	@Column(name="tmh_active")
-	private int active;
+	private String active;
 	
 	@ManyToOne
 	@JoinColumn(name="tmh_alarm_id")
@@ -50,9 +52,11 @@ public class Task {
 	@OrderBy(clause="equipment_id")
 	private Set<Equipment> equipments;
 	
+	@Fetch(FetchMode.SELECT)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class, fetch = FetchType.EAGER)
 	@OrderBy(clause="tmi_seq")
+	@JsonManagedReference(value="task")
 	private Set<TaskCondition> conditions;
 	
 	@Column(updatable=false, name = "usr_insert")
@@ -63,7 +67,7 @@ public class Task {
 
 	public Task(){}
 	
-	public Task(int id, String desc, int active, Alarm alarm,
+	public Task(int id, String desc, String active, Alarm alarm,
 			Set<Equipment> equipments, Set<TaskCondition> conditions,
 			String insert, String update) {
 		super();
@@ -93,11 +97,11 @@ public class Task {
 		this.desc = desc;
 	}
 
-	public int getActive() {
+	public String getActive() {
 		return active;
 	}
 
-	public void setActive(int active) {
+	public void setActive(String active) {
 		this.active = active;
 	}
 

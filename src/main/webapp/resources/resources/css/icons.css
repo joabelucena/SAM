@@ -10871,6 +10871,12 @@
 	background-image: url('../img/icons/traffic-light-exclamation.png') !important;
 }
 
+.traffic-light-green {
+	background-image: url('../img/icons/traffic-light-green.png') !important;
+	background-repeat:no-repeat;
+	background-position: center;
+}
+
 .traffic-light-minus {
 	background-image: url('../img/icons/traffic-light-minus.png') !important;
 }
@@ -10885,6 +10891,12 @@
 
 .traffic-light-plus {
 	background-image: url('../img/icons/traffic-light-plus.png') !important;
+}
+
+.traffic-light-red {
+	background-image: url('../img/icons/traffic-light-red.png') !important;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .traffic-light {

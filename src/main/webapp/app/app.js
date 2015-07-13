@@ -30,8 +30,8 @@
 	     	'DocumentType',
 	     	'ServiceOrderRules',
 	     	'ServiceOrderStatus',
-	     	'UserRole'
-	     	],
+	     	'UserRole',
+	     	'Task'],
    
 	controllers : [ 
 	   'Menu',
@@ -43,5 +43,6 @@
 	   'SeverityLevel',
 	   'Alarm',
 	   'Document',
-	   'User']
+	   'User',
+	   'Task']
 });

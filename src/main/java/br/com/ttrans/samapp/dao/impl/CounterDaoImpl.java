@@ -28,7 +28,7 @@ public class CounterDaoImpl implements CounterDao {
 			 * Os alarmes não cadastrados não serão incrementados.
 			 */
 			// Incrementa alarme
-			if (alarm.getCounterInc() == 1) {
+			if (alarm.getCounterInc().equals("Y")) {
 				String cQuery = null;
 
 				cQuery = "UPDATE Counter " + "SET ACO_COUNTER = ACO_COUNTER+1 "

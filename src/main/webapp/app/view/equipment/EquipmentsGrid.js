@@ -7,7 +7,7 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	store : Ext.create('Sam.store.Equipment'),
 
 	columns : [ {
-		text : 'Id',
+		text : 'Codigo',
 		dataIndex : 'id',
 		flex : 1,
 		filter : {

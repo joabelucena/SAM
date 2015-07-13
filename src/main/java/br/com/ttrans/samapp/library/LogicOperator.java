@@ -6,7 +6,7 @@ import java.util.Map;
 
 public enum LogicOperator {
 
-	AND("E"), OR("OU");
+	AND("E"), OR("OU"), EMPTY("-");
 
 	private static final Map<String, LogicOperator> lookup = new HashMap<String, LogicOperator>();
 

@@ -39,15 +39,15 @@ public class Alarm {
 	private SeverityLevel severity;
 	
 	@Column(name="alm_counter_inc")
-	private int counterInc;
+	private String counterInc;
 	
 	//Pode ser Manualizado manualmente (1-Sim/2-Nao)
 	@Column(name="alm_norm_man")
-	private int manNorm;
+	private String manNorm;
 	
 	//Eh Normalizador (1-Sim/2-Nao)
 	@Column(name="alm_norm_alm")
-	private int isNorm;
+	private String isNorm;
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -102,22 +102,22 @@ public class Alarm {
 	public void setSeverity(SeverityLevel severity) {
 		this.severity = severity;
 	}
-	public int getCounterInc() {
+	public String getCounterInc() {
 		return counterInc;
 	}
-	public void setCounterInc(int counterInc) {
+	public void setCounterInc(String counterInc) {
 		this.counterInc = counterInc;
 	}
-	public int getManNorm() {
+	public String getManNorm() {
 		return manNorm;
 	}
-	public void setManNorm(int manNorm) {
+	public void setManNorm(String manNorm) {
 		this.manNorm = manNorm;
 	}
-	public int getIsNorm() {
+	public String getIsNorm() {
 		return isNorm;
 	}
-	public void setIsNorm(int isNorm) {
+	public void setIsNorm(String isNorm) {
 		this.isNorm = isNorm;
 	}
 	public String getInsert() {

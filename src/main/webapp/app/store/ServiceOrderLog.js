@@ -8,13 +8,13 @@ Ext.define('Sam.store.ServiceOrderLog', {
 	autoLoad: true,
 	async: true,
 
-	proxy: {
-		type: 'ajax',
-		url: 'so/load/log',
-		reader: {
-			type: 'json',
-			root: 'data'
-		}
-	},
+//	proxy: {
+//		type: 'ajax',
+//		url: 'so/load/log',
+//		reader: {
+//			type: 'json',
+//			root: 'data'
+//		}
+//	},
 	
 });

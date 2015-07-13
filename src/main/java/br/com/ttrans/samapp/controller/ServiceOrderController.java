@@ -221,7 +221,7 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);								// Status
 			so.setStartForecast(startForecast);					// Previsao de Inicio
 			so.setEndForecast(endForecast);						// Previsao de Termino
-			so.setStoped(2);									// Equipamento Parado(SIM)
+			so.setStoped("N");									// Equipamento Parado(nao)
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setRemark(obs);									// Observação
@@ -320,7 +320,7 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);						// Status
 			so.setStartForecast(startForecast);			// Previsao de Inicio
 			so.setEndForecast(endForecast);				// Previsao de Termino
-			so.setStoped(2);							// Equipamento Parado(SIM)
+			so.setStoped("N");							// Equipamento Parado(NAO)
 			so.setLog(logSet);							// Log Inicial
 			so.setPriority(new SeverityLevel(prioId));	// Severidade
 			so.setRemark(obs);							// Observação
@@ -382,7 +382,7 @@ public class ServiceOrderController {
 	public ResponseEntity<Map> changeStatus(
 			@RequestParam(value = "soId"	, required = true)	int soId,
 			@RequestParam(value = "stsId"	, required = true)	int stsId,
-			@RequestParam(value = "stop"	, required = false)	int stop,
+			@RequestParam(value = "stop"	, required = false)	String stop,
 			@RequestParam(value = "obs"		, required = true)	String obs,
 			Authentication authentication,
 			Locale locale,
