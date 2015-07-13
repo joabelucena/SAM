@@ -43,7 +43,7 @@ Ext.define('Sam.store.Alarm', {
 
                 }
                 catch (ex) {
-                	ErrorMessage = 'Problemas na requisição, favor entrar em contato com o Adminsitrador do sistema';
+                	ErrorMessage = 'Problemas na requisição, favor entrar em contato com o Administrador do sistema';
                 }
             	
                 //Exibir Mensagem
