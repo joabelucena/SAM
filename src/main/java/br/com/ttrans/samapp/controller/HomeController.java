@@ -1,6 +1,5 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -95,9 +94,9 @@ public class HomeController {
 	*/
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
-	public ResponseEntity<String> getTime(HttpServletRequest request, Authentication auth){
+	public ResponseEntity<Date> getTime(HttpServletRequest request, Authentication auth){
 		
-		return new ResponseEntity<String>(new SimpleDateFormat("hh:mm:ss a").format(new Date()), HttpStatus.OK);
+		return new ResponseEntity<Date>(new Date(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)

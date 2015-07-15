@@ -38,29 +38,38 @@ Ext.define('Sam.view.ViewportFooter', {
 		    		
 		    		//Componente para retornar hora do servidor
 		        	var updateClock = function () {
-						
-		        		Ext.Ajax.request({
-		            		url : 'gettime',
-		            		method : 'POST',
-		            		
-		            		success: function (result, request) {
-		            			 Ext.fly('barclock').setHtml(result.responseText);
-		            		},
-		                    
-		            		failure: function (result, request) {
-		            			Ext.fly('barclock').setHtml(Ext.Date.format(new Date(), 'g:i:s A'));
-		                    }	
-		        		});
 		        		
+		        		var syncFreq = 1;				//Update on each X minutes
+		        		
+		        		if(this.date.getMinutes() % syncFreq === 0 && this.date.getSeconds() === 0){
+		        			
+		        			Ext.Ajax.request({
+			            		url : 'gettime',
+			            		method : 'POST',
+			            		scope: this,
+			            		
+			            		success: function (result, request) {
+			            			//Returns server time (milisseconds)
+			            			this.date = new Date(parseInt(result.responseText));
+			            		}
+			                    
+			        		});
+		        			
+		        		}else{
+		        			this.date.setMilliseconds(this.interval);
+		        		}
+		        		
+		        		Ext.fly('barclock').setHtml(Ext.Date.format(this.date, 'g:i:s A'));
+						
 					};
 					 
 					
 					var runner = new Ext.util.TaskRunner(),
 					task = runner.start({
 						run: updateClock,
-						interval: 1000
-					});
-					
+						interval: 1000,
+						date: new Date()
+					});					
 		    	}
 			}
 		}
