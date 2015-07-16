@@ -11,9 +11,9 @@ Ext.define('Sam.view.document.type.TypeGrid', {
 	itemId: 'documenttypegrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'string'

@@ -9,9 +9,9 @@ Ext.define('Sam.view.equipment.type.TypeGrid', {
 	itemId: 'equipmenttypegrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'number'

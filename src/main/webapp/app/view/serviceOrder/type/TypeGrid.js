@@ -10,9 +10,9 @@ Ext.define('Sam.view.serviceOrder.type.TypeGrid', {
 	itemId: 'serviceordertypegrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'number'

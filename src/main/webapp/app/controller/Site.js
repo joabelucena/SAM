@@ -30,10 +30,6 @@ Ext.define('Sam.controller.Site', {
 				render: this.gridOnRender
 			},
 			
-			'form toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			/* Buttons Listeners: Site
 			 *  
 			 */

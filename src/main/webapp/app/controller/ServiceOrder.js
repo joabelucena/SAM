@@ -71,10 +71,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				
 			},
 			
-			'#serviceorderjobform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#serviceorderjobgrid toolbar #btnShow' :{
 				click: this.onJobBtnShowClick
 			},
@@ -99,10 +95,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onServiceOrderTypeBtnSubmitEdit,
 				remove: this.onServiceOrderTypeBtnSubmitDelete,
-			},
-			
-			'#serviceordertypeform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
 			'#serviceordertypegrid toolbar #btnShow' :{
@@ -130,10 +122,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onServiceOrderStatusBtnSubmitEdit,
 				remove: this.onServiceOrderStatusBtnSubmitDelete,
-			},
-			
-			'#serviceorderstatusform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
 			'#serviceorderstatusgrid toolbar #btnShow' :{
@@ -184,10 +172,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onServiceOrderRulesBtnSubmitEdit,
 				remove: this.onServiceOrderRulesBtnSubmitDelete,
-			},
-			
-			'#serviceorderrulesform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 			},
 			
 			'#ServiceOrderRulesgrid toolbar #btnShow' :{

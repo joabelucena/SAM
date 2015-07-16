@@ -9,9 +9,9 @@ Ext.define('Sam.view.equipment.model.ModelGrid', {
 	itemId: 'equipmentmodelgrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'number'

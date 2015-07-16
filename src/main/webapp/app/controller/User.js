@@ -30,10 +30,6 @@ Ext.define('Sam.controller.User', {
 				
 			},
 			
-			'#userroleform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#userrolegrid toolbar #btnShow' :{
 				click: this.onUserRoleBtnShowClick
 			},

@@ -9,7 +9,7 @@ Ext.define('Sam.view.alarm.filter.FilterGrid', {
 	itemId: 'alarmfiltergrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
 		flex : 1,
 		sortable: true,

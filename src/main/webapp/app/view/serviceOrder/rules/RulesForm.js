@@ -108,6 +108,8 @@ var nextStatus = {
 
 Ext.define('Sam.view.serviceOrder.rules.RulesForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
+	
 	alias:  'widget.serviceorderrulesform',
 	
 	itemId: 'serviceorderrulesform',
@@ -142,26 +144,7 @@ Ext.define('Sam.view.serviceOrder.rules.RulesForm', {
 		items : [ rulesSO, rules, currentStatus, nextStatus ],
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	}]	
 });

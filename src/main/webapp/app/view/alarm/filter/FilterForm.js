@@ -1,5 +1,6 @@
 Ext.define('Sam.view.alarm.filter.FilterForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.alarmfilterform',
 	
@@ -30,13 +31,13 @@ Ext.define('Sam.view.alarm.filter.FilterForm', {
 		bodyPadding : 10,
 		border : false,
 		items:[{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
 			allowBlank : true,
 			editable: false,
 			width: '30%',
-			inputAttrTpl: " data-qtip='Codigo do Filtro' "
+			inputAttrTpl: " data-qtip='Código do Filtro' "
 		},{
 			xtype: 'textfield',
 			fieldLabel : 'Alarme',
@@ -45,7 +46,7 @@ Ext.define('Sam.view.alarm.filter.FilterForm', {
 			editable: false,
 			width: '30%',
 			allowBlank : true,
-			inputAttrTpl: " data-qtip='Codigo do Alarme a ser filtrado' ",
+			inputAttrTpl: " data-qtip='Código do Alarme a ser filtrado' ",
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Alarme a ser filtrado',
 				itemId: 'alarmfilterform_alarm',
@@ -61,7 +62,7 @@ Ext.define('Sam.view.alarm.filter.FilterForm', {
 			editable: false,
 			width: '30%',
 			allowBlank : true,
-			inputAttrTpl: " data-qtip='Codigo do Equipamento a ser filtrado' ",
+			inputAttrTpl: " data-qtip='Código do Equipamento a ser filtrado' ",
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Equipamento a ser filtrado',
 				itemId: 'alarmfilterform_equipment',
@@ -74,26 +75,7 @@ Ext.define('Sam.view.alarm.filter.FilterForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	

@@ -10,9 +10,9 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 	itemId: 'serviceorderrulesgrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'number'

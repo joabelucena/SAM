@@ -23,11 +23,7 @@ Ext.define('Sam.controller.Alarm', {
 			'grid': {
 				render: this.gridOnRender
 			},
-			
-			'form toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
+
 			/* Buttons Listeners: Alarm
 			 *  
 			 */

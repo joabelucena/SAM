@@ -6,6 +6,8 @@ Ext.define('Sam.view.event.EventGrid' , {
 	           'Ext.grid.filters.Filters'],
 		
 	id: 'eventgridpanel',
+	
+	scrollable: true,
 
 	store: Ext.create('Sam.store.Events'),
 	
@@ -45,18 +47,19 @@ Ext.define('Sam.view.event.EventGrid' , {
     
 	columns : [
 	   {
-		   text: 'ID',
-		   dataIndex: 'id',
-		   flex: 1,
-       },{
 		   xtype: 'checkcolumn',
 		   id: 'knowledge_check',
 		   text: 'Reconhece',
-		   flex: 1,
+		   maxWidth: 70,
+		   minWidth: 70,
 		   dataIndex: 'knowledge_user',
 	   },{
+		   text: 'Código',
+		   dataIndex: 'id',
+		   width: 100
+       },{
 			text: 'Data/Hora',
-			flex: 1,
+			width: 130,
 			sortable: true,
 			dataIndex: 'event_datetime',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
@@ -64,24 +67,16 @@ Ext.define('Sam.view.event.EventGrid' , {
 				type: 'date'
 			}
 		},{
-			text: 'ID Alarme',
-			flex: 1,
+			text: 'Alarme',
+			width: 170,
 			sortable: true,
 			dataIndex: 'event_id',
 			filter: {
 				type: 'string'
 			}
 		},{
-			text: 'Alarme',
-			flex: 1,
-			sortable: true,
-			dataIndex: 'event_description',
-			filter: {
-				type: 'string'
-			}
-		},{
-			text: 'ID Equipamento',
-			flex: 1,
+			text: 'Equipamento',
+			width: 160,
 			sortable: true,
 			dataIndex: 'equipment_id',
 			filter: {
@@ -89,7 +84,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			}
 		},{
 			text: 'Modelo Equipamento',
-			flex: 1,
+			width: 130,
 			sortable: true,
 			dataIndex: 'equipment_model',
 			filter: {
@@ -105,7 +100,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			}
 		},{
 			text: 'Sistema',
-			flex: 1,
+			width: 75,
 			sortable: true,
 			dataIndex: 'sub_system_id',
 			filter: {
@@ -113,7 +108,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			}
 		},{
 			text: 'Severidade',
-			flex: 1,
+			width: 80,
 			sortable: true,
 			dataIndex: 'severity',
 			filter: {

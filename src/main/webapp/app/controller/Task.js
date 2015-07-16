@@ -15,10 +15,6 @@ Ext.define('Sam.controller.Task', {
 				render: this.gridOnRender
 			},
 			
-			'form toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			/* Buttons Listeners: Task
 			 *  
 			 */
@@ -48,17 +44,37 @@ Ext.define('Sam.controller.Task', {
 			
 			'#taskgrid toolbar #btnDelete' :{
 				click: this.onTaskBtnDeleteClick
+			},
+			'#btnAddCond':{
+				click: this.btnAddCondOnClick
 			}
 		});
 	},
 	
 	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
+//		me.getStore().reload();
+//		me.getView().refresh();
+	},
+	
+	/*** Buttons ***/
+	btnAddCondOnClick: function(){
+		var grid = Ext.ComponentQuery.query('#grdConditions')[0];
+		var condition = Ext.create('Sam.model.TaskCondition',{
+			seq: Ext.util.Format.leftPad(grid.getStore().data.length+1,2,'0') 
+		});
+		
+		//trava primeira condicao
+		if(grid.getStore().data.length === 0){
+			condition.logicOper = '-';
+		}
+		
+		Ext.util.Format.leftPad(grid.getStore().data.length,2,'0')
+		//Adiciona novo registro
+		grid.getStore().add(condition);
+		
 	},
 	
 	/*********** Begin Task Controlling ***********/
-
 	TaskFormModelSubmit: function(){
 		
 	var row = this.getLookup().down('grid').getSelection()[0];
@@ -144,7 +160,7 @@ Ext.define('Sam.controller.Task', {
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 			
 			//Habilita edição do ID
-			Ext.ComponentQuery.query('#id' , activeTab)[0].setEditable(true);
+//			Ext.ComponentQuery.query('#id' , activeTab)[0].setEditable(true);
 		}
 
 
@@ -309,7 +325,7 @@ Ext.define('Sam.controller.Task', {
 		var title, tabId, activeTab;
 		
 		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
+		mainPanel = Ext.getCmp('viewportpanel');
 		
 		switch(action){
 			
@@ -351,6 +367,7 @@ Ext.define('Sam.controller.Task', {
 				id: tabId,
 				xtype: xtype,
 				closable: true,
+//				autoDestroy: false,
 				iconCls: 'magnifier-zoom',
 				title: title
 			});

@@ -9,7 +9,7 @@ var site = {
 
 	items : [ {
 		xtype: 'textfield',
-		fieldLabel : 'Codigo',
+		fieldLabel : 'Código',
 		itemId: 'site_id',
 		name: 'site_id',
 		editable: false,
@@ -38,7 +38,7 @@ var tec = {
 		},
 
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
 			maxLength: 6,
@@ -46,7 +46,7 @@ var tec = {
 			allowBlank : true,
 			editable: true,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Tecnico' "
+			inputAttrTpl: " data-qtip='Código do Tecnico' "
 		},{
 			fieldLabel : 'Nome',
 			itemId: 'name',
@@ -60,6 +60,7 @@ var tec = {
 
 Ext.define('Sam.view.technician.TechnicianForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.technicianform',
 	
@@ -95,26 +96,7 @@ Ext.define('Sam.view.technician.TechnicianForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	

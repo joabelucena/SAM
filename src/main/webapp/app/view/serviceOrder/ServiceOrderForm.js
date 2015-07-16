@@ -54,7 +54,7 @@ var equipmentInfo = {
 
 	items : [ {
 		xtype: 'textfield',
-		fieldLabel : 'Codigo do Equipamento',
+		fieldLabel : 'Código do Equipamento',
 		itemId: 'trg_equipment_id',
 		editable: false,
 		width: '40%',
@@ -111,7 +111,7 @@ var soInfo = {
 		},
 		items : [{
 			xtype:'textfield',
-			fieldLabel: 'Codigo da Ordem de Servico',
+			fieldLabel: 'Código da Ordem de Servico',
 			itemId: 'id',
 			labelAlign: 'left',
 			format: 'd/m/Y',
@@ -244,7 +244,8 @@ var header = {
 };
 
 /******* FOOTER *******/
-var footer = Ext.create('Ext.grid.Panel', {
+var footer = {
+	xtype: 'gridpanel',
 	
 	itemId : 'conditionsgrid',
 	
@@ -289,20 +290,11 @@ var footer = Ext.create('Ext.grid.Panel', {
 		sortable : true,
 		dataIndex : 'alarm_desc'
 	}]
-})
+};
 
 
 /******* Service Order Main Page *******/
 
-//Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
-//	extend: 'Ext.Panel',
-//	
-//	alias:  'widget.serviceorderform',
-//	
-//	closable: true,
-//	
-
-	
 	
 	
 	

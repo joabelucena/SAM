@@ -9,7 +9,7 @@ Ext.define('Sam.view.alarm.group.GroupGrid', {
 	itemId: 'alarmgroupgrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
 		flex : 1,
 		sortable: true,

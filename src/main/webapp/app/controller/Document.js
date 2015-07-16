@@ -29,10 +29,6 @@ Ext.define('Sam.controller.Document', {
 				
 			},
 			
-			'#documenttypeform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#documenttypegrid toolbar #btnShow' :{
 				click: this.onDocumentTypeBtnShowClick
 			},
@@ -56,6 +52,7 @@ Ext.define('Sam.controller.Document', {
 	gridOnRender: function(me, options){
 		me.getStore().reload();
 		me.getView().refresh();
+		console.log('document');
 	},
 	
 	

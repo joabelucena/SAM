@@ -13,10 +13,6 @@ Ext.define('Sam.controller.SeverityLevel', {
 				render: this.gridOnRender
 			},
 			
-			'form toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			/* Buttons Listeners: Severity
 			 *  
 			 */

@@ -1,5 +1,6 @@
 Ext.define('Sam.view.user.role.RoleForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.userroleform',
 	
@@ -30,7 +31,7 @@ Ext.define('Sam.view.user.role.RoleForm', {
 		bodyPadding : 10,
 		border : false,
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
 			maxLength: 2,
@@ -38,7 +39,7 @@ Ext.define('Sam.view.user.role.RoleForm', {
 			allowBlank : true,
 			editable: true,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Role' "
+			inputAttrTpl: " data-qtip='Código do Role' "
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'roleName',
@@ -51,26 +52,7 @@ Ext.define('Sam.view.user.role.RoleForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	

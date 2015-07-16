@@ -10,9 +10,9 @@ Ext.define('Sam.view.site.SiteGrid', {
 	store : Ext.create('Sam.store.Site'),
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'string'

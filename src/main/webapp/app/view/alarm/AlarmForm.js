@@ -1,5 +1,6 @@
 Ext.define('Sam.view.alarm.AlarmForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.alarmform',
 	
@@ -40,13 +41,13 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			/*********** Alarm Information ***********/
 			items:[{
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'id',
 				name: 'id',
 				allowBlank : true,
 				editable: false,
 				width: '30%',
-				inputAttrTpl: " data-qtip='Codigo do Alarme' "
+				inputAttrTpl: " data-qtip='Código do Alarme' "
 			},{
 				fieldLabel : 'Descrição',
 				itemId: 'desc',
@@ -108,13 +109,13 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			items:[{
 				xtype: 'textfield',
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'alarm_id',
 				name: 'alarm_id',
 				editable: false,
 				width: '30%',
 				allowBlank : true,
-				inputAttrTpl: " data-qtip='Codigo do Alarme de Normalização' ",
+				inputAttrTpl: " data-qtip='Código do Alarme de Normalização' ",
 				triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 					title: 'Selecionar Alarme de Normalização',
 					itemId: 'alarmform_alarm',
@@ -142,7 +143,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			items:[{
 				xtype: 'textfield',
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'model_id',
 				name: 'model_id',
 				editable: false,
@@ -175,13 +176,13 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			items:[{
 				xtype: 'textfield',
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'group_id',
 				name: 'group_id',
 				editable: false,
 				width: '25%',
 				allowBlank : false,
-				inputAttrTpl: " data-qtip='Codigo do Grupo de Alarme' ",
+				inputAttrTpl: " data-qtip='Código do Grupo de Alarme' ",
 				triggers: {f3: {handler: function() {Ext.create('Sam.view.components.PopUp',{
 					title: 'Grupo do Alarme',
 					itemId: 'alarmform_group',
@@ -208,13 +209,13 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			items:[{
 				xtype: 'textfield',
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'type_id',
 				name: 'type_id',
 				editable: false,
 				width: '25%',
 				allowBlank : false,
-				inputAttrTpl: " data-qtip='Codigo do Tipo de Alarme' ",
+				inputAttrTpl: " data-qtip='Código do Tipo de Alarme' ",
 				triggers: {f3: {handler: function() {Ext.create('Sam.view.components.PopUp',{
 					title: 'Tipo do Alarme',
 					itemId: 'alarmform_type',
@@ -242,7 +243,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 			
 			items:[{
 				xtype: 'textfield',
-				fieldLabel : 'Codigo',
+				fieldLabel : 'Código',
 				itemId: 'severity_id',
 				name: 'severity_id',
 				editable: false,
@@ -270,26 +271,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	

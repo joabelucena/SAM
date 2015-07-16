@@ -9,9 +9,9 @@ Ext.define('Sam.view.site.type.SiteTypeGrid', {
 	itemId: 'sitetypegrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'string'

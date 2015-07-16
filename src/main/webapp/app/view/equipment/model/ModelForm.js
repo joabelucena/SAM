@@ -9,7 +9,7 @@ var protocol = {
 
 	items : [ {
 		xtype: 'textfield',
-		fieldLabel : 'Codigo',
+		fieldLabel : 'Código',
 		itemId: 'prot_id',
 		name: 'prot_id',
 		editable: false,
@@ -38,13 +38,16 @@ var model = {
 		},
 
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
 			allowBlank : true,
 			editable: false,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Modelo' "
+			inputAttrTpl: " data-qtip='Código do Modelo' ",
+			renderer: function(value){
+				return Ext.util.Format.leftPad(value,6,'0')
+				},
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',
@@ -58,6 +61,7 @@ var model = {
 
 Ext.define('Sam.view.equipment.model.ModelForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.equipmentmodelform',
 	
@@ -93,26 +97,7 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	

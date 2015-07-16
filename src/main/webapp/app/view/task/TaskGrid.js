@@ -26,11 +26,11 @@ Ext.define('Sam.view.task.TaskGrid', {
 	        }
 		}		
 	},{
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-//		renderer: function(value){
-//			Ext.util.Format.leftPad(value,6,'0')
-//			},
+		renderer: function(value){
+			return Ext.util.Format.leftPad(value,6,'0')
+			},
 		width: 100,
 //		flex : 1,
 		sortable: true,

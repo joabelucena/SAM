@@ -37,10 +37,6 @@ Ext.define('Sam.controller.Technician', {
 				
 			},
 			
-			'#technicianform toolbar #btnDiscard' :{
-				click:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
-			},
-			
 			'#techniciangrid toolbar #btnShow' :{
 				click: this.onTechnicianBtnShowClick
 			},

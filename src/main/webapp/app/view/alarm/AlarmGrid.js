@@ -12,39 +12,29 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 	
 	scrollable: true,
 	
-	defaults:{
-		columnWidth: 100,
-	},
-
 	columns : [ {
-		text : 'Codigo',
-		dataIndex : 'id',
-		flex : 1,
+		text : 'Código',
+		dataIndex : 'id',		
 		sortable: true,
-	   minWidth: 200,
-	   width: 200,
+		width: 140,
 		filter : {
 			type : 'string'
 		}
 	}, {
-		text : 'Descrição',
-		flex : 1,
+		text : 'Descrição',		
 		sortable : true,
 		dataIndex : 'desc',
-		minWidth: 200,
-		   width: 200,
+		width: 340,
 		filter : {
 			type : 'string'
 		}
 	}, {
-		text : 'Normaliza Manual?',
-		flex : 1,
+		text : 'Normaliza Manual?',		
 		sortable : true,
 		dataIndex : 'manNorm',
-		minWidth: 200,
-		   width: 200,
+		width: 110,
 		renderer: function(value){
-	        if (value === 1) {
+	        if (value === 'Y') {
 	            return 'Sim';
 	        }
 	        return 'Não';
@@ -53,14 +43,12 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Incrementa Contador?',
-		flex : 1,
+		text : 'Inc. Contador?',		
 		sortable : true,
 		dataIndex : 'counterInc',
-		minWidth: 200,
-		   width: 200,
+		width: 110,
 		renderer: function(value){
-	        if (value === 1) {
+	        if (value === 'Y') {
 	            return 'Sim';
 	        }
 	        return 'Não';
@@ -69,57 +57,47 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Eh Normalização?',
-		flex : 1,
+		text : 'É Normalização?',
 		sortable : true,
 		dataIndex : 'isNorm',
-		minWidth: 200,
-		   width: 200,
+		width: 110,
 		renderer: function(value){
-	        if (value === 1) {
+	        if (value === 'Y') {
 	            return 'Sim';
 	        }
 	        return 'Não';
-	        },
+		},
 		filter : {
 			type : 'string'
 		}
 	}, {
-		text : 'Normalização',
-		flex : 1,
+		text : 'Alm. Norm.',		
 		sortable : true,
 		dataIndex : 'alarm_id',
-		minWidth: 200,
-		   width: 200,
+		width: 140,
 		filter : {
 			type : 'string'
 		}
 	}, {
-		text : 'Grupo',
-		flex : 1,
+		text : 'Grupo',		
 		sortable : true,
 		dataIndex : 'group_desc',
-		minWidth: 200,
-		   width: 200,
+		width: 300,
 		filter : {
 			type : 'string'
 		}
 	}, {
-		text : 'Tipo',
-		flex : 1,
+		text : 'Tipo',		
 		sortable : true,
 		dataIndex : 'type_desc',
-		minWidth: 200,
-		   width: 200,
+		width: 300,
 		filter : {
 			type : 'string'
 		}
 	}, {
 		text : 'Severidade',
-		flex : 1,
 		sortable : true,
-		minWidth: 200,
-		   width: 200,
+		width: 80,
 		dataIndex : 'severity_desc',
 		filter : {
 			type : 'string'

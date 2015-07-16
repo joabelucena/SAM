@@ -9,9 +9,9 @@ Ext.define('Sam.view.equipment.operationalState.OperationalStateGrid', {
 	itemId: 'operationalstategrid',
 
 	columns : [ {
-		text : 'Codigo',
+		text : 'Código',
 		dataIndex : 'id',
-		flex : 1,
+		width: 100,
 		sortable: true,
 		filter : {
 			type : 'string'

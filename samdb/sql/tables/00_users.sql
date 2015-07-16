@@ -201,7 +201,6 @@ INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Cadastros',NULL,'');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Fabricante de Equipamentos'	,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmentmanufacturergrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Modelos de Equipamentos'		,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmentmodelgrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Tipos de Equipamentos'		,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmenttypegrid');
-INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Tipos de Contadores'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmentcountergrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Técnicos'					,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'techniciangrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Protocolos de Equipamentos'	,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'equipmentprotocolgrid');
 INSERT INTO MENU (TEXT,PARENT_ID,CLASSNAME)VALUES('Estado Operacional'			,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros'),'operationalstategrid');

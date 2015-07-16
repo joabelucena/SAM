@@ -9,7 +9,7 @@ var type = {
 
 	items : [ {
 		xtype: 'textfield',
-		fieldLabel : 'Codigo',
+		fieldLabel : 'Código',
 		itemId: 'type_id',
 		name: 'type_id',
 		editable: false,
@@ -38,13 +38,13 @@ var station = {
 		},
 
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'station_id',
 			name: 'station_id',
 			allowBlank : true,
 			editable: false,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo da Base de Manutenção' ",
+			inputAttrTpl: " data-qtip='Código da Base de Manutenção' ",
 			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
 			fieldLabel : 'Descrição',
@@ -66,13 +66,13 @@ var parent = {
 		},
 
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'parent_id',
 			name: 'parent_id',
 			allowBlank : true,
 			editable: false,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Local Pai' ",
+			inputAttrTpl: " data-qtip='Código do Local Pai' ",
 			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
 			fieldLabel : 'Descrição',
@@ -94,13 +94,13 @@ var site = {
 		},
 
 		items : [{
-			fieldLabel : 'Codigo',
+			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
 			allowBlank : true,
 			editable: false,
 			width: '20%',
-			inputAttrTpl: " data-qtip='Codigo do Local' "
+			inputAttrTpl: " data-qtip='Código do Local' "
 		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',
@@ -121,6 +121,7 @@ var site = {
 
 Ext.define('Sam.view.site.SiteForm', {
 	extend: 'Ext.Panel',
+	requires:['Sam.view.components.FormToolbar'],
 	
 	alias:  'widget.siteform',
 	
@@ -156,26 +157,7 @@ Ext.define('Sam.view.site.SiteForm', {
 		scrollable: true,
 		
 		dockedItems: [{
-		    xtype: 'toolbar',
-		    dock: 'bottom',
-		    
-		    items: [{
-		    	xtype: 'tbfill'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnSubmit',
-		    	text:'Confirma',
-		        tooltip:'Confirmar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
-		        xtype:'button',
-		    	itemId:'btnDiscard',
-		    	text:'Cancela',
-		        tooltip:'Cancelar Operação',
-		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    }]
+			xtype: 'formtoolbar'
 		}]
 	} ]
 	
