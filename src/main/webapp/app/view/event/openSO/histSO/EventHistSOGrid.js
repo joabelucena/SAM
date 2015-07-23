@@ -45,7 +45,7 @@ Ext.define('Sam.view.event.openSO.histSO.EventHistSOGrid' , {
 			text: 'Tipo',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'type',
+			dataIndex: 'type_desc',
 			filter: {
 				type: 'string'
 			}
@@ -53,7 +53,7 @@ Ext.define('Sam.view.event.openSO.histSO.EventHistSOGrid' , {
 			text: 'Status',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'status',
+			dataIndex: 'status_desc',
 			filter: {
 				type: 'string'
 			}

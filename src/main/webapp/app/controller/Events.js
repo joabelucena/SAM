@@ -121,10 +121,10 @@ Ext.define('Sam.controller.Events', {
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
 
 		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_id').setValue(record.get('id'));
-		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_status').setValue(record.get('status'));
-		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_type').setValue(record.get('type'));
+		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_status').setValue(record.get('status_desc'));
+		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_type').setValue(record.get('type_desc'));
 		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_equipment').setValue(record.get('equipment_id'));
-		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_event').setValue(record.get('event'));
+		Ext.getCmp('SODetailForm').getForm().findField('sodetailform_event').setValue(record.get('event_id'));
 		
 	},
 
