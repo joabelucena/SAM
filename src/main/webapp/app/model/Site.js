@@ -13,7 +13,11 @@ Ext.define('Sam.model.Site', {
 	        
 	        //Type Aux Fields
 	        {name: 'type_id'		, type: 'number'	, mapping: 'type.id'		},
-	        {name: 'type_desc'		, type: 'string'	, mapping: 'type.desc'		},			
+	        {name: 'type_desc'		, type: 'string'	, mapping: 'type.desc'		},
+	        
+	        //Parent Aux Fields
+	        {name: 'parent_id'		, type: 'number'	, mapping: 'parent.id'		},
+	        {name: 'parent_desc'	, type: 'string'	, mapping: 'parent.desc'		},
 
 	       ],
 	       

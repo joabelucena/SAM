@@ -46,7 +46,11 @@ public class Site {
 
 
 	public Site() {}
-
+	
+	public Site(int id) {
+		super();
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;

@@ -78,7 +78,7 @@ var parent = {
 			fieldLabel : 'Descrição',
 			itemId: 'parent_desc',
 			name: 'parent_desc',
-			allowBlank : false,
+			allowBlank : true,
 			width: '40%',
 			inputAttrTpl: " data-qtip='Descrição do Local Pai' "
 		}],

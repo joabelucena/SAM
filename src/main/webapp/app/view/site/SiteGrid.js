@@ -42,6 +42,14 @@ Ext.define('Sam.view.site.SiteGrid', {
 			type : 'string'
 		}
 	}, {
+		text : 'Local Pai',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'parent_desc',
+		filter : {
+			type : 'string'
+		}
+	}, {
 		text : 'Base de Manutenção',
 		flex : 1,
 		sortable : true,

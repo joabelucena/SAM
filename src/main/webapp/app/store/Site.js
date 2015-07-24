@@ -4,6 +4,8 @@ Ext.define('Sam.store.Site', {
 	model: 'Sam.model.Site',
 	
 	autoLoad: true,
+	
+	sorters: { property: 'id'},
 
 	proxy: {
         type: 'ajax',
@@ -22,7 +24,7 @@ Ext.define('Sam.store.Site', {
         },
         writer: {
             type: 'json',
-            writeAllFields: false,
+            writeAllFields: true,
             root: 'data'
         }
     }

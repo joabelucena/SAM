@@ -41,11 +41,11 @@ public class Alarm {
 	@Column(name="alm_counter_inc")
 	private String counterInc;
 	
-	//Pode ser Manualizado manualmente (1-Sim/2-Nao)
+	//Pode ser Manualizado manualmente (Y-Sim/N-Nao)
 	@Column(name="alm_norm_man")
 	private String manNorm;
 	
-	//Eh Normalizador (1-Sim/2-Nao)
+	//Eh Normalizador (Y-Sim/N-Nao)
 	@Column(name="alm_norm_alm")
 	private String isNorm;
 	

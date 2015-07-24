@@ -74,7 +74,7 @@ public class SiteController {
 	 */
 	@RequestMapping("/add.action")
 	@ResponseBody
-	public Map<String,Object> addstation(@RequestBody Site site, 
+	public Map<String,Object> addSite(@RequestBody Site site, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -93,7 +93,7 @@ public class SiteController {
 	
 	@RequestMapping("/update.action")
 	@ResponseBody
-	public Map<String,Object> updatestation(@RequestBody Site site, 
+	public Map<String,Object> updateSite(@RequestBody Site site, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -113,7 +113,7 @@ public class SiteController {
 	
 	@RequestMapping("/delete.action")
 	@ResponseBody
-	public Map<String,Object> deletestation(@RequestBody Site site, 
+	public Map<String,Object> deleteSite(@RequestBody Site site, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -135,7 +135,7 @@ public class SiteController {
 	 */
 	@RequestMapping("/station/add.action")
 	@ResponseBody
-	public Map<String,Object> addstation(@RequestBody ServiceStation station, 
+	public Map<String,Object> addStation(@RequestBody ServiceStation station, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -154,7 +154,7 @@ public class SiteController {
 	
 	@RequestMapping("/station/update.action")
 	@ResponseBody
-	public Map<String,Object> updatestation(@RequestBody ServiceStation station, 
+	public Map<String,Object> updateStation(@RequestBody ServiceStation station, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -174,7 +174,7 @@ public class SiteController {
 	
 	@RequestMapping("/station/delete.action")
 	@ResponseBody
-	public Map<String,Object> deletestation(@RequestBody ServiceStation station, 
+	public Map<String,Object> deleteStation(@RequestBody ServiceStation station, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -196,7 +196,7 @@ public class SiteController {
 	 */
 	@RequestMapping("/sitetype/add.action")
 	@ResponseBody
-	public Map<String,Object> addstation(@RequestBody SiteType sitetype, 
+	public Map<String,Object> addType(@RequestBody SiteType sitetype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -215,7 +215,7 @@ public class SiteController {
 	
 	@RequestMapping("/sitetype/update.action")
 	@ResponseBody
-	public Map<String,Object> updatestation(@RequestBody SiteType sitetype, 
+	public Map<String,Object> updateType(@RequestBody SiteType sitetype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -235,7 +235,7 @@ public class SiteController {
 	
 	@RequestMapping("/sitetype/delete.action")
 	@ResponseBody
-	public Map<String,Object> deletestation(@RequestBody SiteType sitetype, 
+	public Map<String,Object> deleteType(@RequestBody SiteType sitetype, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {

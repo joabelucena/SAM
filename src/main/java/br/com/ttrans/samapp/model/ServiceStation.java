@@ -35,6 +35,13 @@ public class ServiceStation implements Serializable {
 	private String update;
 	
 	public ServiceStation(){}
+	
+	public ServiceStation(int id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public int getId() {
 		return id;
