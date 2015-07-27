@@ -18,8 +18,8 @@ Ext.define('Sam.controller.Task', {
 			/* Buttons Listeners: Task
 			 *  
 			 */
-			'#taskform_model #submit' :{
-				click: this.TaskFormModelSubmit,
+			'#taskform_equipments #submit' :{
+				click: this.TaskFormEquipmentsSubmit,
 			},
 			
 			'#taskform toolbar #btnSubmit' :{
@@ -47,7 +47,21 @@ Ext.define('Sam.controller.Task', {
 			},
 			'#btnAddCond':{
 				click: this.btnAddCondOnClick
+			},
+			
+			'#btnDelAllCond':{
+				click: this.btnDelAllCondClick
+			},
+			
+			'#grdConditions actioncolumn':{
+				itemClick: this.onGrdCondActClmItemClick,
+			},
+			
+			'#grdEquipments actioncolumn':{
+				itemClick: this.onGrdEquipActClmItemClick,
 			}
+			
+			
 		});
 	},
 	
@@ -57,39 +71,146 @@ Ext.define('Sam.controller.Task', {
 	},
 	
 	/*** Buttons ***/
-	btnAddCondOnClick: function(){
-		var grid = Ext.ComponentQuery.query('#grdConditions')[0];
-		var condition = Ext.create('Sam.model.TaskCondition',{
-			seq: Ext.util.Format.leftPad(grid.getStore().data.length+1,2,'0') 
-		});
+	btnAddCondOnClick: function(button){
+		var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore(),
+			record = store.getAt(store.data.length-1),
+			lAdd = false;
 		
-		//trava primeira condicao
-		if(grid.getStore().data.length === 0){
-			condition.logicOper = '-';
+		
+		//Se nao for primeiro registro
+		if(!record){
+			lAdd = true;
+		}else{
+			
+			//Validações
+			if(record.get('type') != "MT"){
+				
+				if(record.get('logicOper') == "" || record.get('type') == "" || + 
+					record.get('field') == "" || record.get('relOper') == "" || record.get('value') == 0   ){
+					lAdd = false;
+				}else{
+					lAdd = true;
+				}
+			}else{
+				lAdd = !record.get('logicOper') == "";
+			}
 		}
 		
-		Ext.util.Format.leftPad(grid.getStore().data.length,2,'0')
-		//Adiciona novo registro
-		grid.getStore().add(condition);
+		//Se passou pela validação adiciona registro
+		if(lAdd){
+			var condition = Ext.create('Sam.model.TaskCondition',{
+				seq: Ext.util.Format.leftPad(store.data.length+1,2,'0') 
+			});
+			
+			//trava primeira condicao
+			if(store.data.length === 0){
+				condition.set('logicOper','-');
+			}
+			
+			//Adiciona novo registro
+			store.add(condition);
+		}else{
+			Ext.Msg.alert('Atenção', 'Preencha os campos corretamente.')
+		}
+	},
+	
+	btnDelAllCondClick:function(button){
+		
+		var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore();
+		
+		if(store.data.length > 0){
+			
+			Ext.MessageBox.show({
+		        title: 'Atenção',
+		        msg: 'Deseja normalizar apagar todas as condições?',
+		        buttons: Ext.MessageBox.OKCANCEL,
+		        icon: Ext.MessageBox.WARNING,
+		        fn: function(btn,  knowId, knowCheck){
+		            if(btn == 'ok'){
+		            	
+		            	store.removeAll();
+		            	
+		            } else if(btn == 'cancel') {
+		            	
+		            }
+		            	
+		            }
+		        });
+		}
 		
 	},
 	
-	/*********** Begin Task Controlling ***********/
-	TaskFormModelSubmit: function(){
+	onGrdCondActClmItemClick : function(view, rowIndex, colIndex, item, e, record, row) {
 		
-	var row = this.getLookup().down('grid').getSelection()[0];
+		var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore();
 		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-			
-			Ext.ComponentQuery.query('#model_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#model_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
+		Ext.MessageBox.show({
+	        title: 'Atenção',
+	        msg: 'Confirma exclusão da linha?',
+	        buttons: Ext.MessageBox.OKCANCEL,
+	        icon: Ext.MessageBox.WARNING,
+	        fn: function(btn,  knowId, knowCheck){
+	            if(btn == 'ok'){
+	            	
+	            	store.remove(record);
+
+	            	//Renumera as Sequencias
+                	Ext.each(store.data.items,function(item,index){
+                		item.set('seq',Ext.util.Format.leftPad(index+1,2,'0'));
+                	});
+	            	
+	            } else if(btn == 'cancel') {
+	            	
+	            }
+	            	
+	            }
+	        });
 		
 	},
+	
+	onGrdEquipActClmItemClick : function(view, rowIndex, colIndex, item, e, record, row) {
+		
+		var store = Ext.ComponentQuery.query('#grdEquipments')[0].getStore();
+		
+		Ext.MessageBox.show({
+	        title: 'Atenção',
+	        msg: 'Confirma exclusão da linha?',
+	        buttons: Ext.MessageBox.OKCANCEL,
+	        icon: Ext.MessageBox.WARNING,
+	        fn: function(btn,  knowId, knowCheck){
+	            if(btn == 'ok'){
+	            	
+	            	store.remove(record);
+
+	            } else if(btn == 'cancel') {
+	            	
+	            }
+	            	
+	            }
+	        });
+		
+	},
+	
+	TaskFormEquipmentsSubmit: function(button){
+		var mainStore = Ext.ComponentQuery.query('#grdEquipments')[0].getStore(),
+			window = button.up('window'), 
+			windStore = window.down('grid').getStore();
+			
+		
+		windStore.each(function(rec){
+			if(rec.get('active')){
+				mainStore.add(rec);
+			}
+		});
+		
+		window.close();
+		
+		
+			
+	},
+	
+	/*********** Begin Task Controlling ***********/
+	
 	
 	onTaskBtnShowClick: function() {
 		
