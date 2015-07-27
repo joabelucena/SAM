@@ -28,6 +28,15 @@ public class SiteType {
 	private String update;
 	
 	public SiteType() {}
+	
+	
+
+	public SiteType(int id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public int getId() {
 		return id;

@@ -118,7 +118,6 @@ Ext.define('Sam.controller.Site', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onSiteTypeBtnSubmitEdit,
 				remove: this.onSiteTypeBtnSubmitDelete,
-				
 			},
 			
 			'#sitetypegrid toolbar #btnShow' :{
@@ -367,8 +366,12 @@ Ext.define('Sam.controller.Site', {
 			//Carrega Service Station
 			record.set({station: Ext.create('Sam.model.ServiceStation',{id: values.station_id, desc: values.station_desc})})
 			
-			//Carrega Parent Site
-			record.set({parent: Ext.create('Sam.model.Site',{id: values.parent_id, desc: values.parent_desc})})
+			
+			
+			if(values.parent_id !== "0" && values.parent_id !== ""){
+				//Carrega Parent Site
+				record.set({parent: Ext.create('Sam.model.Site',{id: values.parent_id, desc: values.parent_desc})})
+			}
 			
 			//Adiciona registro na store
 			store.add(record);
@@ -387,12 +390,32 @@ Ext.define('Sam.controller.Site', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getSiteStore(),							//Store
+			store		= this.getSiteStore(),										//Store
 			record		= form.getRecord();											//Registro
 		
+		if(values.id == values.parent_id){
+			
+			Ext.Msg.alert('Erro', 'O Local Pai não pode ser o mesmo do Local editado');
+			
+			return
+
+		};
+		
 		if(form.isValid()){
+			
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
+			
+			store.findRecord('id',record.get('id')).set({
+				type: Ext.create('Sam.model.SiteType'		,{id: values.type_id, desc: values.type_desc}),
+				station: Ext.create('Sam.model.ServiceStation',{id: values.station_id, desc: values.station_desc})
+				
+			});
+			
+			if(values.parent_id !== "0" && values.parent_id !== ""){
+				//Carrega Parent Site
+				store.findRecord('id',record.get('id')).set({parent: Ext.create('Sam.model.Site',{id: values.parent_id, desc: values.parent_desc})})
+			};
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#sitegrid');
@@ -400,6 +423,8 @@ Ext.define('Sam.controller.Site', {
 			//Fecha Aba
 			activeTab.close();
 		}
+		
+		
 	},
 	
 	onSiteBtnSubmitDelete: function(){

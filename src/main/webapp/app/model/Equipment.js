@@ -4,17 +4,17 @@ Ext.define('Sam.model.Equipment', {
 	fields:	[
 
 		{name: 'id'					,type: 'string'	},
-		{name: 'fixed_asset'		,type: 'string'	},
-		{name: 'service_tag'		,type: 'string'	},
+		{name: 'fixed_asset'		,type: 'string'		,mapping: 'fixedAsset'},
+		{name: 'service_tag'		,type: 'string'		,mapping: 'serviceTag'},
 		{name: 'ip'					,type: 'string'	},
 		{name: 'warranty'			,type: 'number'	},
 		{name: 'oid'				,type: 'string'	},
-		{name: 'mtbf_prev'			,type: 'number'	},
-		{name: 'mtbf_calc'			,type: 'number'	},
-		{name: 'mtbf_manf'			,type: 'number'	},
-		{name: 'install_date'		,type: 'date'	},
-		{name: 'manufacture_date'	,type: 'date'	},
-		{name: 'acquired_date'		,type: 'date'	},
+		{name: 'mtbf_prev'			,type: 'number'		,mapping: 'mtbfPrev'},
+		{name: 'mtbf_calc'			,type: 'number'		,mapping: 'mtbfCalc'},
+		{name: 'mtbf_manf'			,type: 'number'		,mapping: 'mtbfManf'},
+		{name: 'install_date'		,type: 'date'		,mapping: 'installDate'},
+		{name: 'manufacture_date'	,type: 'date'		,mapping: 'manufactureDate'},
+		{name: 'acquired_date'		,type: 'date'		,mapping: 'acquiredDate'},
 		{name: 'remark'				,type: 'string'	},
 
 		//Equipment Type Aux Fields
