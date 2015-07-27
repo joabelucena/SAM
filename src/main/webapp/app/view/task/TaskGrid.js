@@ -38,7 +38,7 @@ Ext.define('Sam.view.task.TaskGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Descricao',
+		text : 'Descrição',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'desc',
