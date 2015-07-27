@@ -19,7 +19,7 @@ Ext.define('Sam.view.components.PopUp', {
 	buttons : [ {
 		text : 'Confirma',
 		itemId: 'submit',
-		tooltip:'Seleciona Equipamento',
+		tooltip:'Seleciona Registro',
         cls:'x-btn-default-small',
         iconCls: 'tick-button',
         /*
