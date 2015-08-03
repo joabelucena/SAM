@@ -26,5 +26,5 @@
 	               ,'Technician'	,'Site'
 	               ,'SeverityLevel'	,'Alarm'
 	               ,'Document'		,'User'
-	               ,'Task']
+	               ,'Task'			,'Report']
 });

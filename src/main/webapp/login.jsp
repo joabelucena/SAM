@@ -10,6 +10,7 @@
 		<script src="<c:url value="/resources/ext/ext-all.js" />"></script>
 		<script src="<c:url value="/resources/packages/ext-locale/build/ext-locale-pt_BR.js" />"></script>	   
 		<script src="<c:url value="/resources/packages/ext-theme-classic/build/ext-theme-classic.js" />"></script>
+		<script src="<c:url value="/resources/spagobi/sbisdk-all-production.js" />"></script>
 		<script src="<c:url value="/app/login.js" />"></script>
 	</head>
 	<body></body>
