@@ -35,65 +35,51 @@ This page use the SpagoBI execution tag, that displays an iframe pointing to Spa
 <%
 String user = (String) session.getAttribute("spagobi_user");
 String password = (String) session.getAttribute("spagobi_pwd");
-if (user != null && password != null) {
-	Integer documentId = (Integer) session.getAttribute("spagobi_documentId");
-	SDKDocument document = null;
-	SDKDocument[] documents = (SDKDocument[]) session.getAttribute("spagobi_documents");
-	for (int i = 0; i < documents.length; i++) {
-		SDKDocument aDocument = documents[i];
-		if (aDocument.getId().equals(documentId)) {
-			document = aDocument;
-		}
-	}
-	session.setAttribute("spagobi_current_document", document);
-	String role = (String) session.getAttribute("spagobi_role");
-	SDKDocumentParameter[] parameters = (SDKDocumentParameter[]) session.getAttribute("spagobi_document_parameters"); 
-	StringBuffer parameterValues = new StringBuffer();
-	if (parameters != null && parameters.length > 0) {
-		for (int i = 0; i < parameters.length; i++) {
-			SDKDocumentParameter aParameter = parameters[i];
-			String value = request.getParameter(aParameter.getUrlName());
-			if (value != null) {
-				aParameter.setValues(new String[]{value});
-				if (parameterValues.length() > 0) {
-					parameterValues.append("&");
-				}
-				parameterValues.append(aParameter.getUrlName() + "=" + value);
-			} else {
-				aParameter.setValues(null);
-			}
-		}
-	}
+Integer documentId = (Integer) session.getAttribute("spagobi_documentId");
+String role = (String) session.getAttribute("spagobi_role");
+// if (user != null && password != null) {
+// 	Integer documentId = (Integer) session.getAttribute("spagobi_documentId");
+// 	SDKDocument document = null;
+// 	SDKDocument[] documents = (SDKDocument[]) session.getAttribute("spagobi_documents");
+// 	for (int i = 0; i < documents.length; i++) {
+// 		SDKDocument aDocument = documents[i];
+// 		if (aDocument.getId().equals(documentId)) {
+// 			document = aDocument;
+// 		}
+// 	}
+// 	session.setAttribute("spagobi_current_document", document);
+// 	String role = (String) session.getAttribute("spagobi_role");
+// 	SDKDocumentParameter[] parameters = (SDKDocumentParameter[]) session.getAttribute("spagobi_document_parameters"); 
+// 	StringBuffer parameterValues = new StringBuffer();
+// 	if (parameters != null && parameters.length > 0) {
+// 		for (int i = 0; i < parameters.length; i++) {
+// 			SDKDocumentParameter aParameter = parameters[i];
+// 			String value = request.getParameter(aParameter.getUrlName());
+// 			if (value != null) {
+// 				aParameter.setValues(new String[]{value});
+// 				if (parameterValues.length() > 0) {
+// 					parameterValues.append("&");
+// 				}
+// 				parameterValues.append(aParameter.getUrlName() + "=" + value);
+// 			} else {
+// 				aParameter.setValues(null);
+// 			}
+// 		}
+// 	}
 	%>
 	<spagobi:execution 
-			spagobiContext="http://localhost:8080/SpagoBI/"
+			spagobiContext="http://10.114.0.130:8180/SpagoBI/"
 			userId="<%= user %>" 
 			password="<%= password %>" 
 	        documentId="<%= documentId.toString() %>"
-	        iframeStyle="height:500px; width:100%" 
+	        iframeStyle="border: 0px; height:500px; width:100%" 
 	        executionRole="<%= role %>"
-	        parametersStr="<%= parameterValues.toString() %>"
+			parametersStr=""
 	        displayToolbar="<%= Boolean.TRUE %>"
 	        displaySliders="<%= Boolean.TRUE %>" />
 
-	<%
-	String documentType = document.getType();
-	if (documentType.equals("REPORT") || documentType.equals("KPI")) {
-		%>
-		<a href="export.jsp">Export to PDF</a><br/>
-		<%
-	}else if(documentType.equals("ACCESSIBLE_HTML")){
-		%>
-		<a href="viewAccessible.jsp">View ACCESSIBLE HTML</a><br/>
-		<a href="exportAccessible.jsp">Export to ACCESSIBLE HTML</a><br/>
-		<%		
-	}
-	%>
-	<a href="documentsList.jsp">Back to documents list</a>
-	<%
-} else {
-	response.sendRedirect("login.jsp");
-}
-%>
+	
+
+
 </body>
 </html>
