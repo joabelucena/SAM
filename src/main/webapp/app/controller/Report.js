@@ -8,7 +8,7 @@ Ext.define('Sam.controller.Report', {
 		this.control({
 
 			'#spagobi' :{
-				beforerender: this.onSpagoBiRender
+//				beforerender: this.onSpagoBiRender
 			}
 			
 		});

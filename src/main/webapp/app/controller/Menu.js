@@ -46,7 +46,9 @@ Ext.define('Sam.controller.Menu', {
 								leaf: true,
 								iconCls: item.get('iconCls'),
 								id: item.get('id'),
-								classname: item.get('classname')
+								classname: item.get('classname'),
+								type: item.get('type'),
+								url: item.get('url'),
 								
 							});
 					});
@@ -63,21 +65,78 @@ Ext.define('Sam.controller.Menu', {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
-		var newTab = mainPanel.items.findBy(
-		function(tab){
-			return tab.title === record.get('text');
-		});
 		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				xtype: record.get('classname'),
+		if(record.get('type') == "PN"){
+			//Rotina
+			var newTab = mainPanel.items.findBy(
+					function(tab){
+						return tab.title === record.get('text');
+					});
+					
+			if (!newTab) {
+				newTab = mainPanel.add({
+					xtype: record.get('classname'),
+					closable: true,
+					iconCls: record.get('iconCls'),
+					title: record.get('text')
+				});
+			}
+			
+			mainPanel.setActiveTab(newTab);
+			
+			
+		}else if(record.get('type') == "SR"){
+			//Relatório do Spago
+			
+			var newTab = mainPanel.add({
+				xtype: 'spagobi',
+				spagoLabel: record.get('classname'),
 				closable: true,
 				iconCls: record.get('iconCls'),
 				title: record.get('text')
 			});
+			
+			mainPanel.setActiveTab(newTab);
+			
+		}else if(record.get('type') == "EU"){
+			
+			//Abrir em Nova Aba do Navegador
+			if(record.get('url') == ""){
+				Ext.MessageBox.show({
+			        title: 'Falha na Requisição',
+			        msg: "URL inválida. Verifique o cadastro do menu selecionado.",
+			        buttons: Ext.MessageBox.OK,
+			        icon: Ext.MessageBox.WARNING
+				});	
+			}else{
+				window.open(record.get('url'),'_blank')
+			}
+			
+		}else if(record.get('type') == "IU"){
+			//Abrir em Nova Aba do SAM
+			
+			var newTab = mainPanel.add({
+				xtype: 'panel',
+				closable: true,
+				iconCls: record.get('iconCls'),
+				title: record.get('text'),
+				items:[{
+					xtype: 'container',
+					layout: 'fit',
+					autoEl: {
+						tag: 'iframe',
+						src: record.get('url'),
+						style: 'border: 0px; width: 100%; height: 100%;'
+					}
+				}]
+				
+			});
+			
+			
+			
 		}
 		
-		mainPanel.setActiveTab(newTab);
+		
 
 	},
 	

@@ -73,6 +73,8 @@ public class JSon {
 			} else {
 				json.put("classname", menu.getClassName());
 				json.put("text", menu.getText());
+				json.put("url", menu.getUrl());
+				json.put("type", menu.getType().getCode());
 			}
 		}
 
