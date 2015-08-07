@@ -28,8 +28,9 @@ This page use the SpagoBI execution tag, that displays an iframe pointing to Spa
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Document execution</title>
 	<style>
-	body, p { font-family:Tahoma; font-size:10pt; padding-left:30; }
+	body, p {height: 98%; font-family:Tahoma; font-size:10pt; padding-left:30; }
 	pre { font-size:8pt; }
+	html { height: 98%; }
 	</style>
 </head>
 <body>
@@ -39,18 +40,18 @@ String password = (String) session.getAttribute("spagobi_pwd");
 Integer documentId = (Integer) session.getAttribute("spagobi_documentId");
 String role = (String) session.getAttribute("spagobi_role");
 String message = (String) session.getAttribute("spagobi_userMessage");
-
+String spagoUrl = (String) session.getAttribute("spagobi_url");
 %>
 
 <c:choose>
     <c:when test="<%= documentId != null %>">
 
 	<spagobi:execution
- 			spagobiContext="http://10.114.0.130:8180/SpagoBI/"
-			userId="<%= user %>" 
+ 			spagobiContext="<%= spagoUrl %>"
+			userId="<%= user %>"
 			password="<%= password %>" 
 	        documentId="<%= documentId.toString() %>"
-	        iframeStyle="border: 0px; height:100% ; width:100%" 
+	        iframeStyle="border: 0px; height:100% ; width:100% "
 	        executionRole="<%= role %>"
 			parametersStr=""
 	        displayToolbar="<%= Boolean.TRUE %>"

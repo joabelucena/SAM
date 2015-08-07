@@ -4,7 +4,6 @@ import it.eng.spagobi.sdk.documents.bo.SDKDocument;
 import it.eng.spagobi.sdk.proxy.DocumentsServiceProxy;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,10 +46,11 @@ public class ReportController {
 		
 		//Encontrou Documento
 		if(document != null){
-			session.setAttribute("spagobi_user"			, user				);
-			session.setAttribute("spagobi_pwd"			, pass				);
-			session.setAttribute("spagobi_documentId"	, document.getId()	);
-			session.setAttribute("spagobi_role"			, "spagobi/user"	);
+			session.setAttribute("spagobi_user"			, user									);
+			session.setAttribute("spagobi_pwd"			, pass									);
+			session.setAttribute("spagobi_documentId"	, document.getId()						);
+			session.setAttribute("spagobi_role"			, "spagobi/user"						);
+			session.setAttribute("spagobi_url"			, "http://10.114.0.130:8180/SpagoBI/"	);
 			
 		}else{
 			session.setAttribute("spagobi_userMessage", message);

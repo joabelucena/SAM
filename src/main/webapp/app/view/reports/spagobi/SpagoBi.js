@@ -3,6 +3,9 @@ Ext.define('Sam.view.reports.spagobi.SpagoBi', {
 	
 	alias:  'widget.spagobi',
 	
+	layout: {
+        type: 'fit'
+    },
 	
 	/***** Ajax Request Before Render *****/
 	listeners: {
@@ -12,12 +15,13 @@ Ext.define('Sam.view.reports.spagobi.SpagoBi', {
 			
 			var rpt = {
 					xtype: 'container',
+					layout: 'fit',
 					autoEl: {
 						tag: 'iframe',
 						src: 'report.jsp',
-						style: 'border: 0px; width: 100%; height: 100%;'
+						style: 'border: 0px; height:100% ; width:100%'
 					}
-				}
+			}
 			
 			Ext.Ajax.request({
 	    		url : 'rpt/setReportInfo',

@@ -65,7 +65,6 @@ Ext.define('Sam.controller.Menu', {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
-		
 		if(record.get('type') == "PN"){
 			//Rotina
 			var newTab = mainPanel.items.findBy(
@@ -82,9 +81,6 @@ Ext.define('Sam.controller.Menu', {
 				});
 			}
 			
-			mainPanel.setActiveTab(newTab);
-			
-			
 		}else if(record.get('type') == "SR"){
 			//Relatório do Spago
 			
@@ -95,8 +91,6 @@ Ext.define('Sam.controller.Menu', {
 				iconCls: record.get('iconCls'),
 				title: record.get('text')
 			});
-			
-			mainPanel.setActiveTab(newTab);
 			
 		}else if(record.get('type') == "EU"){
 			
@@ -129,12 +123,13 @@ Ext.define('Sam.controller.Menu', {
 						style: 'border: 0px; width: 100%; height: 100%;'
 					}
 				}]
-				
 			});
-			
-			
-			
 		}
+		
+		if (newTab){
+			mainPanel.setActiveTab(newTab);			
+		}
+		
 		
 		
 
