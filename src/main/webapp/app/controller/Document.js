@@ -14,9 +14,6 @@ Ext.define('Sam.controller.Document', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
 			
 			/* Buttons Listeners: DocumentType
 			 * 
@@ -47,14 +44,6 @@ Ext.define('Sam.controller.Document', {
 			
 		});
 	},
-	
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-		console.log('document');
-	},
-	
 	
 	/*********** Begin DocumentType Controlling ***********/
 	onDocumentTypeBtnShowClick: function() {

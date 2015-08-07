@@ -14,10 +14,6 @@ Ext.define('Sam.controller.Technician', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
-			
 			/* Buttons Listeners: Technician
 			 * 
 			 */
@@ -55,14 +51,6 @@ Ext.define('Sam.controller.Technician', {
 			
 		});
 	},
-	
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-	},
-	
-	
 	/*********** Begin Technician Controlling ***********/
 	onTechnicianTrgClick: function(){
 		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'technician_site'});

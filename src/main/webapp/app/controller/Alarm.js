@@ -20,10 +20,6 @@ Ext.define('Sam.controller.Alarm', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
-
 			/* Buttons Listeners: Alarm
 			 *  
 			 */
@@ -163,12 +159,6 @@ Ext.define('Sam.controller.Alarm', {
 			
 		});
 	},
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-	},
-	
 	/*********** Begin Alarm Controlling ***********/
 	AlarmFormAlarmSubmit: function(){
 		

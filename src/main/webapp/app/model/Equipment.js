@@ -35,7 +35,12 @@ Ext.define('Sam.model.Equipment', {
 		
 		//Equipment System Aux Fields
 		{name: 'system_id'			,type: 'number', mapping: 'system.id'	},		
-		{name: 'system_desc'		,type: 'string', mapping: 'system.desc'	}
+		{name: 'system_desc'		,type: 'string', mapping: 'system.desc'	},
+		
+		//Equipment Document Aux Fields
+		{name: 'document_id'			,type: 'number', mapping: 'documents.id'  },		
+		{name: 'document_desc'			,type: 'string', mapping: 'documents.desc'},
+		{name: 'document_url'			,type: 'string', mapping: 'documents.url' }
 		
 	],
 

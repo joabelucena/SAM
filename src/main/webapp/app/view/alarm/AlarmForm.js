@@ -84,7 +84,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				width: '25%',
 				inputAttrTpl: " data-qtip='Define se o alarme incrementará o contador do equipamento.' "
 			},{
-				fieldLabel : 'Eh Norm.?',
+				fieldLabel : 'É Norm.?',
 				itemId: 'isNorm',
 				name: 'isNorm',
 				store:  Ext.create('Sam.view.components.store.ComboBox'),

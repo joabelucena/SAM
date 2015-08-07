@@ -14,10 +14,6 @@ Ext.define('Sam.controller.User', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
-			
 			/* Buttons Listeners: User Role
 			 * 
 			 */
@@ -48,14 +44,6 @@ Ext.define('Sam.controller.User', {
 			
 		});
 	},
-	
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-	},
-	
-	
 	/*********** Begin UserRole Controlling ***********/
 	onUserRoleTrgClick: function(){
 		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'technician_site'});

@@ -9,9 +9,6 @@ Ext.define('Sam.controller.SeverityLevel', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
 			
 			/* Buttons Listeners: Severity
 			 *  
@@ -42,13 +39,6 @@ Ext.define('Sam.controller.SeverityLevel', {
 			
 		});
 	},
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-	},
-	
-	
 	/*********** Begin Severity Controlling ***********/
 	onSeverityBtnShowClick: function() {
 		
