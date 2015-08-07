@@ -538,13 +538,13 @@ Ext.define('Sam.controller.ServiceOrder', {
 			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
 			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
 			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.sot_id)
+			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.desc)
 			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
 			
-			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.ety_description);
-			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.ema_description);
-			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.ssy_description);
-			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.sit_description);
+			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.desc);
+			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.desc);
+			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.desc);
+			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.desc);
 			
 			
 			/************************************ Missing Fields ************************************/
@@ -633,13 +633,13 @@ Ext.define('Sam.controller.ServiceOrder', {
 			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
 			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
 			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.sot_id)
+			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.desc)
 			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
 			
-			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.ety_description);
-			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.ema_description);
-			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.ssy_description);
-			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.sit_description);
+			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.desc);
+			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.desc);
+			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.desc);
+			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.desc);
 			
 			
 			/************************************ Missing Fields ************************************/

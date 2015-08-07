@@ -11,10 +11,6 @@ Ext.define('Sam.controller.Task', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
-			
 			/* Buttons Listeners: Task
 			 *  
 			 */
@@ -64,12 +60,6 @@ Ext.define('Sam.controller.Task', {
 			
 		});
 	},
-	
-	gridOnRender: function(me, options){
-//		me.getStore().reload();
-//		me.getView().refresh();
-	},
-	
 	/*** Buttons ***/
 	btnAddCondOnClick: function(button){
 		var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore(),

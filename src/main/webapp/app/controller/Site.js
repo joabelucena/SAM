@@ -26,9 +26,6 @@ Ext.define('Sam.controller.Site', {
 	init: function() {
 		
 		this.control({
-			'grid': {
-				render: this.gridOnRender
-			},
 			
 			/* Buttons Listeners: Site
 			 *  
@@ -137,13 +134,7 @@ Ext.define('Sam.controller.Site', {
 			}
 			
 		});
-	},
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
-	},
-	
+	},	
 	/*********** Begin Site Controlling ***********/
 	
 	onSiteTypeTrgClick: function(){

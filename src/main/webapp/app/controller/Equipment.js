@@ -8,7 +8,7 @@ Ext.define('Sam.controller.Equipment', {
 		     	'EquipmentType',
 		     	'EquipmentProtocol',
 		     	'OperationalState'
-		     	],
+		     ],
 	
 	models: ['EquipmentManufacturer',
 		     	'Equipment',
@@ -36,11 +36,6 @@ Ext.define('Sam.controller.Equipment', {
 	init: function() {
 		
 		this.control({
-			
-			'grid': {
-				render: this.gridOnRender
-			},
-			
 			/* Buttons Listeners: Manufacturer
 			 *  
 			 */
@@ -194,11 +189,6 @@ Ext.define('Sam.controller.Equipment', {
 				click: this.onOperationalStateBtnDeleteClick
 			},
 		});
-	},
-	
-	gridOnRender: function(me, options){
-		me.getStore().reload();
-		me.getView().refresh();
 	},
 	
 	/*********** Begin Manufacturer Controlling ***********/

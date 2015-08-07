@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 import br.com.ttrans.samapp.model.EquipmentModel;
 import br.com.ttrans.samapp.model.EquipmentProtocol;
@@ -145,6 +146,66 @@ public class EquipmentController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		result.put("data", systemService.loadData());
+		
+		return result;
+	}
+	
+	/*
+	 * CRUD Operations for: Equipments
+	 */
+	@RequestMapping("/add.action")
+	@ResponseBody
+	public Map addAlarm(@RequestBody Equipment equipment, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			equipmentService.add(equipment, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/update.action")
+	@ResponseBody
+	public Map updateAlarm(@RequestBody Equipment equipment, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			equipmentService.edit(equipment, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/delete.action")
+	@ResponseBody
+	public Map deleteAlarm(@RequestBody Equipment equipment, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			equipmentService.delete(equipment, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
 		
 		return result;
 	}
