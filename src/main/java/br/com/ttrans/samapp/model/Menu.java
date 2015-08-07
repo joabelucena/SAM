@@ -10,7 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
+
+import br.com.ttrans.samapp.library.MenuType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -26,12 +30,15 @@ public class Menu implements Serializable {
 	private int id;
 	private String text;
 	private String iconCls;
+	private String url;
+	private String type;
 	
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	@JsonBackReference(value="children")
 	private Menu parent;
 	
+	@Fetch(FetchMode.SELECT)
 	@OneToMany(mappedBy="parent",targetEntity=Menu.class,fetch=FetchType.EAGER)
 	@OrderBy(clause="id")
 	@JsonManagedReference(value="parent")
@@ -39,16 +46,7 @@ public class Menu implements Serializable {
 	
 	private String className;
 	public Menu(){}
-	public Menu(int id, String text, String iconCls, Menu parent,
-			Set<Menu> children, String className) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.iconCls = iconCls;
-		this.parent = parent;
-		this.children = children;
-		this.className = className;
-	}
+	
 	public int getId() {
 		return id;
 	}
@@ -67,18 +65,34 @@ public class Menu implements Serializable {
 	public void setIconCls(String iconCls) {
 		this.iconCls = iconCls;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public MenuType getType() {
+		return MenuType.get(this.type);
+	}
+	public void setType(MenuType type) {
+		this.type = type.getCode();
+	}
 	public Menu getParent() {
 		return parent;
 	}
 	public void setParent(Menu parent) {
 		this.parent = parent;
 	}
+	
 	public Set<Menu> getChildren() {
 		return children;
 	}
+
 	public void setChildren(Set<Menu> children) {
 		this.children = children;
 	}
+
 	public String getClassName() {
 		return className;
 	}

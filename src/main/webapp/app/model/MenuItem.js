@@ -7,21 +7,20 @@ Ext.define('Sam.model.MenuItem', {
 
 	idProperty: 'id',
 	
-	fields: [
-	    {
+	fields: [{
 	    	name: 'text'
-	    },
-	    {
+	    },{
 	    	name: 'id'
-	    },
-	    {
+	    },{
 	    	name: 'menu_id'
-	    },
-	    {
+	    },{
 	    	name: 'classname'
-	    },
-	    {
+	    },{
 	    	name: 'iconCls'
+	    },{
+	    	name: 'type'
+	    },{
+	    	name: 'url'
 	    }],
 	
 	belongsTo: {

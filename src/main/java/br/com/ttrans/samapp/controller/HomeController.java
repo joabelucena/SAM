@@ -83,15 +83,7 @@ public class HomeController {
 		
 		return result;
 	}
-	/*
-	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public void test(HttpServletRequest request, Authentication auth){
-		Task task = taskService.get(1);
-		
-		taskService.proccess(task);
-			
-	}
-	*/
+	
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
 	public ResponseEntity<Date> getTime(HttpServletRequest request, Authentication auth){
