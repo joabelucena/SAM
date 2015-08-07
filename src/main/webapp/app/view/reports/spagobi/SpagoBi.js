@@ -36,6 +36,7 @@ Ext.define('Sam.view.reports.spagobi.SpagoBi', {
 	    		}	    			
 	    	});
 			
+			
 		}
 			
 	}

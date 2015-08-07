@@ -6,7 +6,7 @@
 		Ext.widget('mainviewport');
 	},
 	
-	views:['MainViewport'],
+	views:['MainViewport', 'reports.spagobi.SpagoBi'],
 	
 
 	stores: ['EquipmentManufacturer'	,'Task'
@@ -26,5 +26,5 @@
 	               ,'Technician'	,'Site'
 	               ,'SeverityLevel'	,'Alarm'
 	               ,'Document'		,'User'
-	               ,'Task'			,'Report']
+	               ,'Task'			]
 });

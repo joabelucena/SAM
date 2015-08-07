@@ -92,7 +92,7 @@ Ext.define('Sam.controller.Report', {
 			}
 		});
 		*/
-		    
+		
 	    
 //	    window.open('http://www.uol.com.br','_blank');
 	    
