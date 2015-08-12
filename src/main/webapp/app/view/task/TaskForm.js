@@ -212,7 +212,7 @@ grid2 = {
 		text : 'Modelo',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'model',
+		dataIndex : 'model_desc',
 		filter : {
 			type : 'string'
 		}
@@ -220,7 +220,7 @@ grid2 = {
 		text : 'Tipo',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'type',
+		dataIndex : 'type_desc',
 		filter : {
 			type : 'string'
 		}
@@ -228,7 +228,7 @@ grid2 = {
 		text : 'Fabricante',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'manufacturer',
+		dataIndex : 'manufacturer_desc',
 		filter : {
 			type : 'string'
 		}
@@ -236,7 +236,7 @@ grid2 = {
 		text : 'Local',
 		flex : 1,
 		sortable : true,
-		dataIndex : 'site',
+		dataIndex : 'site_desc',
 		filter : {
 			type : 'string'
 		}
@@ -494,7 +494,7 @@ var footer = {
 									text : 'Modelo',
 									flex : 1,
 									sortable : true,
-									dataIndex : 'model',
+									dataIndex : 'model_desc',
 									filter : {
 										type : 'string'
 									}
@@ -502,7 +502,7 @@ var footer = {
 									text : 'Tipo',
 									flex : 1,
 									sortable : true,
-									dataIndex : 'type',
+									dataIndex : 'type_desc',
 									filter : {
 										type : 'string'
 									}
@@ -510,7 +510,7 @@ var footer = {
 									text : 'Fabricante',
 									flex : 1,
 									sortable : true,
-									dataIndex : 'manufacturer',
+									dataIndex : 'manufacturer_desc',
 									filter : {
 										type : 'string'
 									}
@@ -518,7 +518,7 @@ var footer = {
 									text : 'Local',
 									flex : 1,
 									sortable : true,
-									dataIndex : 'site',
+									dataIndex : 'site_desc',
 									filter : {
 										type : 'string'
 									}
