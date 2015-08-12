@@ -14,12 +14,21 @@ edtAlarm = {
 			        cls:'x-btn-default-small',
 			        iconCls: 'tick-button',
 			        handler: function(button) {
-			        	var grid = button.up('window').down('grid');
-			        	var record = grid.getSelection()[0];
+			        	
+			        	//Aba Objecto Pai
+		        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+		        			window = button.up('window'),
+		        			record = button.up('window').down('grid').getSelection()[0];
+		        		
 			        	if(record){
-			        		//Aba Objecto Pai
-			        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-			        		var field = Ext
+
+			        		//Conditions grid selection
+			        		var row = Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getSelection()[0];
+			        		
+			        		row.set({'field': record.get('id')});
+			        		
+			        		window.close();
+			        		
 			        	}
 			        }
 			        
@@ -35,7 +44,31 @@ edtType = {
 		xtype:'textfield',
 		triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 			title: 'Selecionar Tipo de Alarme',
-			itemId: 'alarmform_alarm',
+			buttons : [ {
+				text : 'Confirma',
+				itemId: 'submit',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button',
+		        handler: function(button) {
+		        	
+		        	//Aba Objecto Pai
+	        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+	        			window = button.up('window'),
+	        			record = button.up('window').down('grid').getSelection()[0];
+	        		
+		        	if(record){
+
+		        		//Conditions grid selection
+		        		var row = Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getSelection()[0];
+		        		
+		        		row.set({'field': record.get('id')});
+		        		
+		        		window.close();
+		        		
+		        	}
+		        }
+		        
+			} ],
 			items:	[Ext.create('Sam.view.alarm.type.TypeGrid',{dockedItems:[]})],
 			
 		}).show()}}}
@@ -162,11 +195,11 @@ grid1 = {
 	            }
 			},
 			editor: {
+				xtype : 'combobox',
 				store: relationalOperatorStore,
 				queryMode: 'local',
 				valueField: 'id',
 		        displayField: 'desc',
-				xtype : 'combobox',
 				editable: false,
 				allowBlank: false			
 			}
@@ -174,7 +207,11 @@ grid1 = {
 			text : 'Valor',
 			flex : 1,
 			dataIndex : 'value',
-			editor: 'textfield'
+			editor:{
+				xtype: 'numberfield',
+				minValue: 0
+			}
+			
 		}, {
 			text : 'Ação',
 			xtype: 'actioncolumn',
@@ -339,12 +376,37 @@ var h2 = {
 		},{
 			xtype:'textfield',
 			fieldLabel: 'Alarme',
-			
+			itemId: 'alarm',
+			name: 'alarm',
 			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Hora de Término Prevista para a Ordem de Serviço' ",
+			inputAttrTpl: " data-qtip='Evento que será criado quando a a regra for disparada.' ",
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Alarme',
-				itemId: 'alarmform_alarm',
+				buttons : [{
+					text : 'Confirma',
+					itemId: 'submit',
+			        cls:'x-btn-default-small',
+			        iconCls: 'tick-button',
+			        handler: function(button) {
+			        	
+			        	//Aba Objecto Pai
+		        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+		        			window = button.up('window'),
+		        			record = button.up('window').down('grid').getSelection()[0];
+		        		
+			        	if(record){
+			        		
+			        		//Conditions grid selection
+			        		var field = Ext.ComponentQuery.query('#alarm',activeTab)[0];
+			        		
+			        		field.setValue(record.get('id'));
+			        		
+			        		window.close();
+			        		
+			        	}
+			        }
+			        
+				} ],
 				items:	[Ext.create('Sam.view.alarm.AlarmGrid',{dockedItems:[]})],
 				
 			}).show()}}}
@@ -545,7 +607,7 @@ Ext.define('Sam.view.task.TaskForm', {
 		type : 'fit',
 	},
 
-	items : [ {
+	items : [{
 		xtype : 'form',
 
 		defaultType : 'textfield',
