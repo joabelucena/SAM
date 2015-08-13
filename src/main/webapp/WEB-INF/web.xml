@@ -60,7 +60,7 @@
 	
 	<!-- Servlet: ws-servlet -->
 	<servlet>
-		<servlet-name>eventsWs</servlet-name>
+		<servlet-name>ws</servlet-name>
 		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -74,8 +74,9 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>eventsWs</servlet-name>
+		<servlet-name>ws</servlet-name>
 		<url-pattern>/eventsService/*</url-pattern>
+		<url-pattern>/systemService/*</url-pattern>
 	</servlet-mapping>
 	
 	
