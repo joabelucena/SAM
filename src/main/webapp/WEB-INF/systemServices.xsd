@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            targetNamespace="http://localhost/systemService">
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">MAESTRO System Management Schema.</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="Connection">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="SessionDetail">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Alive">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+        - connectionStatus: indicate if a communication failure has happened  - shared configuration
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+        <xsd:element name="connectionStatus" minOccurs="1" maxOccurs="1" type="xsd:int"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Active">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+        - applications: list of creatorId connected to the SOA Framework - shared configuration
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+        <xsd:element name="applications" minOccurs="1" maxOccurs="unbounded" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Disconnection">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>
