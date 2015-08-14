@@ -19,7 +19,8 @@
 	     	,'OperationalState'			,'SiteType'
 	     	,'Site'						,'ServiceOrderType'
 	     	,'DocumentType'				,'ServiceOrderRules'
-	     	,'ServiceOrderStatus'		,'UserRole'],
+	     	,'ServiceOrderStatus'		,'UserRole'
+	     	,'Sam.store.TaskCondition'],
    
 	controllers : [ 'Menu'			,'Events'
 	               ,'ServiceOrder'	,'Equipment'

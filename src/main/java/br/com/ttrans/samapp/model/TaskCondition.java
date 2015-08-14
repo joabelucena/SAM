@@ -12,9 +12,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.com.ttrans.samapp.library.LogicOperator;
-import br.com.ttrans.samapp.library.RelationalOperator;
-
 @Entity
 @Table(name="Task_Monitor_Items")
 @SequenceGenerator(name="INC_TASK_ITEMS",sequenceName="GEN_TMI_ID")
@@ -54,17 +51,19 @@ public class TaskCondition {
 	@Column(insertable=false, name = "usr_update")
 	private String update;
 	
-	public TaskCondition(){}
-
+	public TaskCondition(){
+		super();
+	}
+	
 	public TaskCondition(int id, Task task, String seq, String logicOper,
-			TaskType type, String field, String relOper, int value,
+			String type, String field, String relOper, int value,
 			String insert, String update) {
 		super();
 		this.id = id;
 		this.task = task;
 		this.seq = seq;
 		this.logicOper = logicOper;
-		this.type = type.getCode();
+		this.type = type;
 		this.field = field;
 		this.relOper = relOper;
 		this.value = value;
@@ -96,20 +95,20 @@ public class TaskCondition {
 		this.seq = seq;
 	}
 
-	public LogicOperator getLogicOper() {
-		return LogicOperator.get(this.logicOper);
+	public String getLogicOper() {
+		return logicOper;
 	}
 
-	public void setLogicOper(LogicOperator logicOper) {
-		this.logicOper = logicOper.getCode();
+	public void setLogicOper(String logicOper) {
+		this.logicOper = logicOper;
 	}
 
-	public TaskType getType() {
-		return TaskType.get(this.type);
+	public String getType() {
+		return type;
 	}
 
-	public void setType(TaskType type) {
-		this.type = type.getCode();
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getField() {
@@ -120,12 +119,12 @@ public class TaskCondition {
 		this.field = field;
 	}
 
-	public RelationalOperator getRelOper() {
-		return RelationalOperator.get(this.relOper);
+	public String getRelOper() {
+		return relOper;
 	}
 
-	public void setRelOper(RelationalOperator relOper) {
-		this.relOper = relOper.getCode();
+	public void setRelOper(String relOper) {
+		this.relOper = relOper;
 	}
 
 	public int getValue() {
@@ -151,5 +150,6 @@ public class TaskCondition {
 	public void setUpdate(String update) {
 		this.update = update;
 	}
+
 	
 }

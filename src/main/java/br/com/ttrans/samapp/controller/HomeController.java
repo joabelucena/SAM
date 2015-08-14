@@ -3,6 +3,7 @@ package br.com.ttrans.samapp.controller;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.crypto.Cipher;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
-	public ResponseEntity<Date> getTime(HttpServletRequest request, Authentication auth){
+	public ResponseEntity<Date> getTime(HttpServletRequest request){
 		
 		return new ResponseEntity<Date>(new Date(), HttpStatus.OK);
 	}
@@ -109,7 +110,6 @@ public class HomeController {
 			HttpServletRequest request, Authentication aut){
 		
 		Task task = taskService.get(int1);
-		
 		/*
 		Task task = new Task();
 		Set<TaskCondition> conditions = new HashSet<TaskCondition>();

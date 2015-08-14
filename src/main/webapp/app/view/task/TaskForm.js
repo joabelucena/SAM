@@ -128,8 +128,7 @@ grid1 = {
 	width: '100%',
 	height: 150,
 
-	store : Ext.create('Ext.data.Store'),
-	
+	store : 'Sam.store.TaskCondition',
 	
 	
 	columns : {
@@ -138,7 +137,7 @@ grid1 = {
 			sortable: false,
 		},
 		
-		items:[{
+		items: [{
 			dataIndex : 'seq',
 			maxWidth: 32,
 			minWidth: 32,
@@ -148,13 +147,20 @@ grid1 = {
 			text : 'Op. Logico',
 			flex : 1,
 			dataIndex : 'logicOper',
+			renderer: function(value){
+				index = logicOperatorStore.findExact('id',value); 
+	            if (index != -1){
+	                rs = logicOperatorStore.getAt(index).data; 
+	                return rs.desc; 
+	            }
+			},
 			editor: {
+				xtype : 'combobox',
+				editable: false,
 				store: logicOperatorStore,
 				queryMode: 'local',
 				valueField: 'id',
-		        displayField: 'desc',
-				xtype : 'combobox',
-				editable: false,
+		        displayField: 'desc',								
 				allowBlank: false,
 	            
 			}
@@ -215,14 +221,38 @@ grid1 = {
 		}, {
 			text : 'Ação',
 			xtype: 'actioncolumn',
+			itemId: 'actionClm',
 			width: 70,
 			align: 'center',
-			menuDisabled: true,
 			items: [{
 				iconCls: 'minus-circle',
 				tooltip: 'Excluir Linha',
 				handler: function(view, rowIndex, colIndex, item, e, record, row) {
-					 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row);
+
+					
+					var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore();
+					
+					Ext.MessageBox.show({
+				        title: 'Atenção',
+				        msg: 'Confirma exclusão da linha?',
+				        buttons: Ext.MessageBox.OKCANCEL,
+				        icon: Ext.MessageBox.WARNING,
+				        fn: function(btn,  knowId, knowCheck){
+				            if(btn == 'ok'){
+				            	
+				            	store.remove(record);
+
+				            	//Renumera as Sequencias
+			                	Ext.each(store.data.items,function(item,index){
+			                		item.set('seq',Ext.util.Format.leftPad(index+1,2,'0'));
+			                	});
+				            	
+				            } else if(btn == 'cancel') {
+				            	
+				            }
+				            	
+				            }
+				        });
 				}
 			}]
 		}]
@@ -237,8 +267,16 @@ grid2 = {
 	scrollable: true,
 	height: 150,
 	dockedItems:[],
-	store: Ext.create('Ext.data.Store'),
-	columns: [{
+	store: Ext.create('Sam.store.Equipment',{
+		autoLoad: false
+	}),
+	columns: {
+	defaults: {
+			menuDisabled: true,
+			sortable: false,
+		},
+		items:[
+		{
 		text : 'Código',
 		dataIndex : 'id',
 		flex : 1,
@@ -248,7 +286,6 @@ grid2 = {
 	}, {
 		text : 'Modelo',
 		flex : 1,
-		sortable : true,
 		dataIndex : 'model',
 		filter : {
 			type : 'string'
@@ -256,7 +293,6 @@ grid2 = {
 	}, {
 		text : 'Tipo',
 		flex : 1,
-		sortable : true,
 		dataIndex : 'type',
 		filter : {
 			type : 'string'
@@ -264,7 +300,6 @@ grid2 = {
 	}, {
 		text : 'Fabricante',
 		flex : 1,
-		sortable : true,
 		dataIndex : 'manufacturer',
 		filter : {
 			type : 'string'
@@ -272,7 +307,6 @@ grid2 = {
 	}, {
 		text : 'Local',
 		flex : 1,
-		sortable : true,
 		dataIndex : 'site',
 		filter : {
 			type : 'string'
@@ -280,18 +314,39 @@ grid2 = {
 	},{
 		text : 'Ação',
 		xtype: 'actioncolumn',
+		itemId: 'actionClm',
 		width: 70,
 		align: 'center',
-		menuDisabled: true,
-		sortable: false,
 		items: [{
 			iconCls: 'minus-circle',
 			tooltip: 'Excluir Linha',
 			handler: function(view, rowIndex, colIndex, item, e, record, row) {
-				 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 1);
+
+				
+				var store = Ext.ComponentQuery.query('#grdEquipments')[0].getStore();
+				
+				Ext.MessageBox.show({
+			        title: 'Atenção',
+			        msg: 'Confirma exclusão da linha?',
+			        buttons: Ext.MessageBox.OKCANCEL,
+			        icon: Ext.MessageBox.WARNING,
+			        fn: function(btn,  knowId, knowCheck){
+			            if(btn == 'ok'){
+			            	
+			            	store.remove(record);
+
+			            } else if(btn == 'cancel') {
+			            	
+			            }
+			            	
+			            }
+			        });
+				
+			
 			}
 		}]
 	}]
+		}
 };
 
 /****** End of grid creation ******/
@@ -313,16 +368,21 @@ var h1 = {
 		items : [{
 			xtype:'textfield',
 			fieldLabel: 'Código',
+			itemId: 'id',
+			name: 'id',
 			padding: '10 5 0 5',
 			width: '15%',
-			inputAttrTpl: " data-qtip='Data de Início Prevista para a Ordem de Serviço' "
+			inputAttrTpl: " data-qtip='Código da regra' "
 		},{
 			xtype: 'tbseparator',
 			width: '50%'
 		},{
 			xtype      : 'fieldcontainer',
             fieldLabel : 'Ativa',
+            itemId: 'active',
+            name: 'active',
             defaultType: 'radiofield',
+            inputAttrTpl: " data-qtip='Indica se a regra deve ser executada ou não.' ",
             defaults: {
                 flex: 1
             },
@@ -363,10 +423,11 @@ var h2 = {
 			
 			xtype:'textfield',
 			fieldLabel: 'Descrição',
+			itemId: 'desc',
+			name: 'desc',
 			width: '30%',
-//			id: 'asdfasdf',
 			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Hora de Término Prevista para a Ordem de Serviço' "
+			inputAttrTpl: " data-qtip='Breve descrição do que a regra faz.' "
 			
 			/**/
 			
@@ -377,9 +438,9 @@ var h2 = {
 			xtype:'textfield',
 			fieldLabel: 'Alarme',
 			itemId: 'alarm',
-			name: 'alarm',
+			name: 'alarm_id',
 			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Evento que será criado quando a a regra for disparada.' ",
+			inputAttrTpl: " data-qtip='Evento que será criado quando a regra for disparada.' ",
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Alarme',
 				buttons : [{
@@ -460,6 +521,30 @@ var middle = {
 				width: 50,
 				iconCls: 'minus',
 				tooltip: 'Apaga Todas as condições',
+				handler: function(button){
+					
+					var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore();
+					
+					if(store.data.length > 0){
+						
+						Ext.MessageBox.show({
+					        title: 'Atenção',
+					        msg: 'Deseja apagar todas as condições?',
+					        buttons: Ext.MessageBox.OKCANCEL,
+					        icon: Ext.MessageBox.WARNING,
+					        fn: function(btn,  knowId, knowCheck){
+					            if(btn == 'ok'){
+					            	
+					            	store.removeAll();
+					            	
+					            } else if(btn == 'cancel') {
+					            	
+					            }
+					            	
+					            }
+					        });
+					}
+				}
 			},{
 				xtype: 'tbseparator',
 				width: 5
@@ -469,6 +554,49 @@ var middle = {
 				width: 50,
 				iconCls: 'plus',
 				tooltip: 'Adiciona nova condição',
+				handler: function(button){
+
+					var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore(),
+						record = store.getAt(store.data.length-1),
+						lAdd = false;
+					
+					
+					//Se nao for primeiro registro
+					if(!record){
+						lAdd = true;
+					}else{
+						
+						//Validações
+						if(record.get('type') != "MT"){
+							
+							if(record.get('logicOper') == "" || record.get('type') == "" || + 
+								record.get('field') == "" || record.get('relOper') == "" || record.get('value') == 0   ){
+								lAdd = false;
+							}else{
+								lAdd = true;
+							}
+						}else{
+							lAdd = !record.get('logicOper') == "";
+						}
+					}
+					
+					//Se passou pela validação adiciona registro
+					if(lAdd){
+						var condition = Ext.create('Sam.model.TaskCondition',{
+							seq: Ext.util.Format.leftPad(store.data.length+1,2,'0') 
+						});
+						
+						//trava primeira condicao
+						if(store.data.length === 0){
+							condition.set('logicOper','-');
+						}
+						
+						//Adiciona novo registro
+						store.add(condition);
+					}else{
+						Ext.Msg.alert('Atenção', 'Preencha os campos corretamente.')
+					}
+				}
 			}]
 	}]
 };
@@ -504,7 +632,33 @@ var footer = {
 					itemId: 'btnDelAllEquip',
 					width: 50,
 					iconCls: 'minus',
-					tooltip: 'Apaga todos equipamentos'
+					tooltip: 'Apaga todos equipamentos',
+					handler: function(button){
+
+						
+						var store = Ext.ComponentQuery.query('#grdEquipments')[0].getStore();
+						
+						if(store.data.length > 0){
+							
+							Ext.MessageBox.show({
+						        title: 'Atenção',
+						        msg: 'Deseja apagar todas os equipamentos?',
+						        buttons: Ext.MessageBox.OKCANCEL,
+						        icon: Ext.MessageBox.WARNING,
+						        fn: function(btn,  knowId, knowCheck){
+						            if(btn == 'ok'){
+						            	
+						            	store.removeAll();
+						            	
+						            } else if(btn == 'cancel') {
+						            	
+						            }
+						            	
+						            }
+						        });
+						}
+					
+					}
 				},{
 					xtype: 'tbseparator',
 					width: 5
@@ -603,9 +757,29 @@ Ext.define('Sam.view.task.TaskForm', {
 
 	closable : true,
 	
+	scope: this,
+	
 	layout : {
 		type : 'fit',
 	},
+	
+	listeners:{
+		beforerender: function(me, eOpts){
+			// Clear all grid's stores
+			var grids = Ext.ComponentQuery.query('grid',me);
+			
+			Ext.each(grids,function(g){g.getStore().clearData()});
+		}
+	},
+	
+//	initComponent: function(){
+//		Ext.apply(this,{
+//			
+//			
+//		});
+//		
+//		this.callParent(arguments);
+//	},
 
 	items : [{
 		xtype : 'form',

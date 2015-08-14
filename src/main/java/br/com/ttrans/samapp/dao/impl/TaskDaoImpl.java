@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.TaskDao;
-import br.com.ttrans.samapp.library.LogicOperator;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Counter;
 import br.com.ttrans.samapp.model.Counter.CounterId;
@@ -96,7 +95,7 @@ public class TaskDaoImpl implements TaskDao {
 
 					switch (condition.getType()) {
 					
-					case ALARM:
+					case "AL":
 
 						/********* Alarm *********/
 						alarm = new Alarm(condition.getField());
@@ -110,11 +109,11 @@ public class TaskDaoImpl implements TaskDao {
 						}
 
 						break;
-					case MTBF:
+					case "MT":
 						/********* MTBF *********/
 						break;
 						
-					case ALARM_TYPE:
+					case "AT":
 						/********* Alarm Type *********/
 						
 						String cQuery = "SELECT"
@@ -146,20 +145,20 @@ public class TaskDaoImpl implements TaskDao {
 					 * 		run = run || counter <rel_operator> value
 					 * }
 					 */
-					case GREATER:
-						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
+					case ">":
+						run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
 						break;
-					case LESS:
-						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
+					case "<":
+						run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
 						break;
-					case EQUAL:
-						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
+					case "==":
+						run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
 						break;
-					case GREATER_OR_EQUAL:
-						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
+					case ">=":
+						run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
 						break;
-					case LESS_OR_EQUAL:
-						run = condition.getLogicOper().equals(LogicOperator.AND) ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
+					case "<=":
+						run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
 						break;
 					}
 					
