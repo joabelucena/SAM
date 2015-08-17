@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema attributeFormDefault="unqualified"
-	elementFormDefault="qualified" 
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			elementFormDefault="qualified" 
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
             targetNamespace="http://localhost/systemService">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">MAESTRO System Management Schema.</xsd:documentation>
   </xsd:annotation>
 
-  <xsd:element name="Connection">
+  <xsd:element name="ConnectionRequest">
     <xsd:annotation>
       <xsd:documentation>
         - creatorId: Business application identifier which creates system message - shared configuration
@@ -23,7 +23,7 @@
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:element name="SessionDetail">
+  <xsd:element name="SessionDetailRequest">
     <xsd:annotation>
       <xsd:documentation>
         - creatorId: Business application identifier which creates system message - shared configuration
@@ -40,7 +40,7 @@
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:element name="Alive">
+  <xsd:element name="AliveRequest">
     <xsd:annotation>
       <xsd:documentation>
         - creatorId: Business application identifier which creates system message - shared configuration
@@ -59,7 +59,7 @@
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:element name="Active">
+  <xsd:element name="ActiveRequest">
     <xsd:annotation>
       <xsd:documentation>
         - creatorId: Business application identifier which creates system message - shared configuration
@@ -78,7 +78,7 @@
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:element name="Disconnection">
+  <xsd:element name="DisconnectionRequest">
     <xsd:annotation>
       <xsd:documentation>
         - creatorId: Business application identifier which creates system message - shared configuration

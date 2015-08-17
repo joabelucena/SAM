@@ -1,4 +1,4 @@
-package br.com.ttrans.samapp.ws;
+package br.com.ttrans.samapp.ws.endpoint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
