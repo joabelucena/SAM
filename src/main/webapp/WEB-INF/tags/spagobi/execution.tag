@@ -55,10 +55,10 @@ if (documentId != null) {
 }
 if (parametersStr != null) mainUrl.append("&PARAMETERS=" + URLEncoder.encode(parametersStr));
 if (parametersMap != null && !parametersMap.isEmpty()) {
-	Set keys = parametersMap.keySet();
-	Iterator keysIt = keys.iterator();
+	Set<String> keys = parametersMap.keySet();
+	Iterator<String> keysIt = keys.iterator();
 	while (keysIt.hasNext()) {
-		String urlName = (String) keysIt.next();
+		String urlName = keysIt.next();
 		Object valueObj = parametersMap.get(urlName);
 		if (valueObj != null) {
 			mainUrl.append("&" + URLEncoder.encode(urlName) + "=" + URLEncoder.encode(valueObj.toString()));
