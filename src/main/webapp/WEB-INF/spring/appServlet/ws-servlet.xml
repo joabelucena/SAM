@@ -13,13 +13,13 @@
 	<sws:dynamic-wsdl id="events" portTypeName="Events"
 		locationUri="/eventsService/" 
 		targetNamespace="http://localhost/eventsService">
-		<sws:xsd location="/WEB-INF/events.xsd" />
+		<sws:xsd location="/WEB-INF/schemas/events.xsd" />
 	</sws:dynamic-wsdl>
 	
 	<sws:dynamic-wsdl id="systemServices" portTypeName="SystemServices"
 		locationUri="/systemService/" 
 		targetNamespace="http://localhost/systemService">
-		<sws:xsd location="/WEB-INF/systemServices.xsd" />
+		<sws:xsd location="/WEB-INF/schemas/systemServices.xsd" />
 	</sws:dynamic-wsdl>
 
 </beans>

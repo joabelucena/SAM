@@ -65,7 +65,7 @@ Ext.define('Sam.controller.Menu', {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
-		if(record.get('type') == "PN"){
+		if(record.get('type') == "PANEL_RENDER"){
 			//Rotina
 			var newTab = mainPanel.items.findBy(
 					function(tab){
@@ -81,7 +81,7 @@ Ext.define('Sam.controller.Menu', {
 				});
 			}
 			
-		}else if(record.get('type') == "SR"){
+		}else if(record.get('type') == "SPAGO_REPORT"){
 			//Relatório do Spago
 			
 			var newTab = mainPanel.add({
@@ -92,7 +92,7 @@ Ext.define('Sam.controller.Menu', {
 				title: record.get('text')
 			});
 			
-		}else if(record.get('type') == "EU"){
+		}else if(record.get('type') == "EXTERNAL_URL"){
 			
 			//Abrir em Nova Aba do Navegador
 			if(record.get('url') == ""){
@@ -106,7 +106,7 @@ Ext.define('Sam.controller.Menu', {
 				window.open(record.get('url'),'_blank')
 			}
 			
-		}else if(record.get('type') == "IU"){
+		}else if(record.get('type') == "INTERNAL_URL"){
 			//Abrir em Nova Aba do SAM
 			
 			var newTab = mainPanel.add({

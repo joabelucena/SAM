@@ -1,6 +1,8 @@
  Ext.application({
 	name : 'Sam',
 	
+	requires: ['Sam.lib.AssociatedWriter'],
+	
 	launch : function() 
 	{
 		Ext.widget('mainviewport');
@@ -22,10 +24,10 @@
 	     	,'ServiceOrderStatus'		,'UserRole'
 	     	,'Sam.store.TaskCondition'],
    
-	controllers : [ 'Menu'			,'Events'
-	               ,'ServiceOrder'	,'Equipment'
-	               ,'Technician'	,'Site'
-	               ,'SeverityLevel'	,'Alarm'
-	               ,'Document'		,'User'
-	               ,'Task'			]
+	controllers : [ 'Menu'				,'Events'
+	               ,'ServiceOrder'		,'Equipment'
+	               ,'Technician'		,'Site'
+	               ,'SeverityLevel'		,'Alarm'
+	               ,'Document'			,'User'
+	               ,'Task'				]
 });

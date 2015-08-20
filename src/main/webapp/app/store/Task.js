@@ -23,7 +23,7 @@ Ext.define('Sam.store.Task', {
             messageProperty: 'message'
         },
         writer: {
-            type: 'json',
+            type: 'associatedjson',
             writeAllFields: true,
             root: 'data'
         },

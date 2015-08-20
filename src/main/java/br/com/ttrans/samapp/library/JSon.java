@@ -55,11 +55,11 @@ public class JSon {
 				json.put("id", menu.getId());
 
 			// pai
-			if (menu.getChildren().size() > 0) {
+			if (menu.getItems().size() > 0) {
 
-				json.put("title", menu.getText());
+				json.put("title", menu.getTitle());
 				
-				Iterator it = menu.getChildren().iterator();
+				Iterator it = menu.getItems().iterator();
 				
 				while(it.hasNext()){
 					
@@ -72,7 +72,7 @@ public class JSon {
 			// filho
 			} else {
 				json.put("classname", menu.getClassName());
-				json.put("text", menu.getText());
+				json.put("text", menu.getTitle());
 				json.put("url", menu.getUrl());
 				json.put("type", menu.getType().getCode());
 			}

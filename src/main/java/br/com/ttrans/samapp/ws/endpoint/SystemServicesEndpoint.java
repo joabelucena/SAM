@@ -5,17 +5,13 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 
-import br.com.ttrans.samapp.ws.payload.ConnectionRequest;
-
-
-
 @Endpoint
 public class SystemServicesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://localhost/systemService";
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ConnectionRequest")
-	public void handleConnectionRequest(@RequestPayload ConnectionRequest conn)
+	@PayloadRoot(localPart = "ConnectionRequest", namespace = NAMESPACE_URI)
+	public void handleConnectionRequest(@RequestPayload Element conn)
 		throws Exception {
 		
 		System.out.println("teste");

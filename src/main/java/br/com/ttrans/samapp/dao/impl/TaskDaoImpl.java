@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -56,7 +57,7 @@ public class TaskDaoImpl implements TaskDao {
 	
 	@Override
 	public List<Task> loadData() {
-		return session.getCurrentSession().createCriteria(Task.class).list();
+		return session.getCurrentSession().createCriteria(Task.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 	}
 	
 	@Override
@@ -86,7 +87,7 @@ public class TaskDaoImpl implements TaskDao {
 
 				equipment = equipIt.next();
 
-				Iterator<TaskCondition> condIt = task.getItems().iterator();
+				Iterator<TaskCondition> condIt = task.getConditions().iterator();
 				
 				// Iterattion on conditions
 				while (condIt.hasNext()) {

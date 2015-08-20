@@ -1,9 +1,16 @@
 package br.com.ttrans.samapp.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import javax.crypto.Cipher;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.JSon;
+import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.AlarmService;
@@ -68,23 +76,49 @@ public class HomeController {
 		return "index";
 	}
 	
+//	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+//		
+//		Users user = (Users) request.getSession().getAttribute("loggedUser");
+//		
+//		String result = null;
+//		
+//		try {
+//			result = json.toJson(user.getRole().getMenus());
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
+	
+	
+	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public String menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+	public Map menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
-		String result = null;
+		Map<String,Object> result = new HashMap<String, Object>();
 		
-		try {
-			result = json.toJson(user.getRole().getMenus());
-		} catch (JSONException e) {
-			e.printStackTrace();
+		List<Menu> menu = new ArrayList<Menu>();
+		
+		Iterator<Menu> it = user.getRole().getMenus().iterator();
+		
+		while(it.hasNext()){
+			Menu mn = it.next();
+			if(mn.getParent() == null){
+				menu.add(mn);
+			}
 		}
+		
+		
+		result.put("items", menu);
 		
 		return result;
 	}
-	
 	
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
 	public ResponseEntity<Date> getTime(HttpServletRequest request){

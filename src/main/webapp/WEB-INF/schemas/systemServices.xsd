@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+			elementFormDefault="qualified" 
+			xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+            targetNamespace="http://localhost/systemService">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">MAESTRO System Management Schema.</xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="ConnectionRequest">
+    
+	<xs:annotation>
+      <xs:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xs:documentation>
+    </xs:annotation>
+        
+	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="creatorId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+
+  <xs:element name="SessionDetailRequest">
+    
+	<xs:annotation>
+      <xs:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xs:documentation>
+    </xs:annotation>
+        
+	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="creatorId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+
+  <xs:element name="AliveRequest">
+    
+	<xs:annotation>
+      <xs:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+        - connectionStatus: indicate if a communication failure has happened  - shared configuration
+      </xs:documentation>
+    </xs:annotation>
+        
+	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="creatorId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xs:dateTime" />
+        <xs:element name="connectionStatus" minOccurs="1" maxOccurs="1" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+
+  <xs:element name="ActiveRequest">
+    
+	<xs:annotation>
+      <xs:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+        - applications: list of creatorId connected to the SOA Framework - shared configuration
+      </xs:documentation>
+    </xs:annotation>
+        
+	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="creatorId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xs:dateTime" />
+        <xs:element name="applications" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+
+  <xs:element name="DisconnectionRequest">
+    
+	<xs:annotation>
+      <xs:documentation>
+        - creatorId: Business application identifier which creates system message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when system message is sending (with milliseconds) - runtime
+      </xs:documentation>
+    </xs:annotation>
+        
+	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="creatorId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="sessionInstanceId" minOccurs="1" maxOccurs="1" type="xs:string" />
+        <xs:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+
+</xs:schema>

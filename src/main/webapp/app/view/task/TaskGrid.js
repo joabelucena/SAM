@@ -32,7 +32,6 @@ Ext.define('Sam.view.task.TaskGrid', {
 			return Ext.util.Format.leftPad(value,6,'0')
 			},
 		width: 100,
-//		flex : 1,
 		sortable: true,
 		filter : {
 			type : 'string'

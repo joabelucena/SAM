@@ -1,10 +1,11 @@
+{
 /**** Creates Stores ****/
-logicOperatorStore = Ext.create('Sam.view.components.store.LogicOperator'),
+var logicOperatorStore = Ext.create('Sam.view.components.store.LogicOperator'),
 	relationalOperatorStore = Ext.create('Sam.view.components.store.RelationalOperator'),
 	conditionType = Ext.create('Sam.view.task.ConditionType');
 
 /**** Creates editors ****/
-edtAlarm = {
+var edtAlarm = {
 			xtype:'textfield',
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Alarme',
@@ -40,7 +41,7 @@ edtAlarm = {
 			}).show()}}}
 		};
 
-edtType = {
+var edtType = {
 		xtype:'textfield',
 		triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 			title: 'Selecionar Tipo de Alarme',
@@ -77,53 +78,56 @@ edtType = {
 /**** Creates Grid Objects that is going to be used in this page ****/
 
 //Conditions Grid
-grid1 = {
+var grid1 = {
 	xtype: 'gridpanel',
 	
 	itemId : 'grdConditions',
 	
-	plugins: [
-	          Ext.create('Ext.grid.plugin.CellEditing', {
-	              clicksToEdit: 2,
-	              listeners: {
-	                  beforeedit: function(e, editor){
-	                	  
-	                	  /**** Trava primeira celula da primeira linha ****/
-	                	  if (editor.rowIdx == 0 && editor.colIdx == 1){
-	                    	  return false;
-	                      };
-	                      
-	                      
-	                      /**** Trava demais campos quando tipo for MT ****/
-	                      if (editor.store.getAt(editor.rowIdx).data.type == "MT"){
-	                    	  if(editor.colIdx != 2 && editor.colIdx != 1){
-	                    		  Ext.Msg.alert('MTBF', 'Tipo MTBF Selecionado. Não é necessario preencher os demais campos pois, os valores são gerados automaticamente.')
-	                    		  return false;  
-	                    	  }
-	                      };
-	                      
-	                      /**** Muda editor do campo 'Campo' de acordo com o 'Tipo' selecionado ****/
-	                      if(editor.colIdx == 3){
-	                    	  
-		                      if (editor.store.getAt(editor.rowIdx).data.type == ""){
-		                    	
-		                    	  //Exige que seja preenchido primeido o Campo 'Tipo'
-		                    	  return false;
-		                      
-		                      }else if(editor.store.getAt(editor.rowIdx).data.type == "AT"){
-		                    	  //TIPO DE ALARME
-		                    	  editor.column.setEditor(edtType);
-		                    	  
-		                      }else if(editor.store.getAt(editor.rowIdx).data.type == "AL"){
-		                    	  //ALARM
-		                    	  editor.column.setEditor(edtAlarm);
-		                      }
-	                      	
-	                      };
-	                  }
-	              }
-	          })
-	      ],
+
+			plugins : [ {
+			ptype : 'cellediting',
+			clicksToEdit : 2,
+			listeners : {
+				beforeedit : function(e, editor) {
+
+					/** ** Trava primeira celula da primeira linha *** */
+					if (editor.rowIdx == 0 && editor.colIdx == 1) {
+						return false;
+					};
+
+					/** ** Trava demais campos quando tipo for MT *** */
+					if (editor.store.getAt(editor.rowIdx).data.type == "MT") {
+						if (editor.colIdx != 2 && editor.colIdx != 1) {
+							Ext.Msg.alert('MTBF','Tipo MTBF Selecionado. Não é necessario preencher os demais campos pois, os valores são gerados automaticamente.');
+							return false;
+						}
+					};
+
+					/**
+					 * ** Muda editor do campo 'Campo' de acordo com o 'Tipo'
+					 * selecionado ***
+					 */
+					if (editor.colIdx == 3) {
+
+						if (editor.store.getAt(editor.rowIdx).data.type == "") {
+
+							// Exige que seja preenchido primeiro o Campo 'Tipo'
+							return false;
+
+						} else if (editor.store.getAt(editor.rowIdx).data.type == "AT") {
+							// TIPO DE ALARME
+							editor.column.setEditor(edtType);
+
+						} else if (editor.store.getAt(editor.rowIdx).data.type == "AL") {
+							// ALARM
+							editor.column.setEditor(edtAlarm);
+						}
+
+					};
+				}
+			}
+
+		} ],
 	
 	width: '100%',
 	height: 150,
@@ -161,8 +165,7 @@ grid1 = {
 				queryMode: 'local',
 				valueField: 'id',
 		        displayField: 'desc',								
-				allowBlank: false,
-	            
+				allowBlank: false	            
 			}
 		}, {
 			text : 'Tipo',
@@ -247,12 +250,10 @@ grid1 = {
 			                		item.set('seq',Ext.util.Format.leftPad(index+1,2,'0'));
 			                	});
 				            	
-				            } else if(btn == 'cancel') {
+				            } 
 				            	
-				            }
-				            	
-				            }
-				        });
+				        }
+					});
 				}
 			}]
 		}]
@@ -260,7 +261,7 @@ grid1 = {
 };
 
 //Equipments Grid
-grid2 = {
+var grid2 = {
 	xtype: 'gridpanel',
 	width: '100%',
 	itemId: 'grdEquipments',
@@ -467,7 +468,7 @@ var h2 = {
 			        	}
 			        }
 			        
-				} ],
+				}],
 				items:	[Ext.create('Sam.view.alarm.AlarmGrid',{dockedItems:[]})],
 				
 			}).show()}}}
@@ -805,3 +806,4 @@ Ext.define('Sam.view.task.TaskForm', {
 		}]
 	}]
 });
+}

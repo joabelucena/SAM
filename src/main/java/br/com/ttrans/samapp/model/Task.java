@@ -18,8 +18,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -44,7 +42,6 @@ public class Task {
 	@JoinColumn(name="tmh_alarm_id")
 	private Alarm alarm;
 	
-	@Fetch(FetchMode.SELECT)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="task_equipment",
 			joinColumns=@JoinColumn(name="task_id"),
@@ -52,7 +49,6 @@ public class Task {
 	@OrderBy(clause="equipment_id")
 	private Set<Equipment> equipments;
 	
-	@Fetch(FetchMode.SELECT)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class, fetch = FetchType.EAGER)
 	@OrderBy(clause="tmi_seq")
@@ -121,11 +117,11 @@ public class Task {
 		this.equipments = equipments;
 	}
 
-	public Set<TaskCondition> getItems() {
+	public Set<TaskCondition> getConditions() {
 		return conditions;
 	}
 
-	public void setItems(Set<TaskCondition> conditions) {
+	public void setConditions(Set<TaskCondition> conditions) {
 		this.conditions = conditions;
 	}
 
@@ -143,5 +139,5 @@ public class Task {
 
 	public void setUpdate(String update) {
 		this.update = update;
-	}
+	}	
 }

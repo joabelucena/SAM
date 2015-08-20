@@ -8,13 +8,13 @@ Ext.define('Sam.model.MenuItem', {
 	idProperty: 'id',
 	
 	fields: [{
-	    	name: 'text'
+	    	name: 'text'	, mapping: 'title'
 	    },{
 	    	name: 'id'
 	    },{
 	    	name: 'menu_id'
 	    },{
-	    	name: 'classname'
+	    	name: 'classname', mapping: 'className'
 	    },{
 	    	name: 'iconCls'
 	    },{

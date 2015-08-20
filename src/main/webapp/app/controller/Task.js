@@ -210,18 +210,10 @@ Ext.define('Sam.controller.Task', {
 			record.set(values);
 			
 			//Carrega Objetos
-			record.set(
-					{	group:		Ext.create('Sam.model.TaskGroup'		,{id: values.group_id	, desc: values.group_desc	}),
-						type:		Ext.create('Sam.model.TaskType'		,{id: values.type_id	, desc: values.type_desc	}),
-						model: 		Ext.create('Sam.model.EquipmentModel'	,{id: values.model_id	, desc: values.model_desc	}),
-						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
-			});
+			record.conditions().add(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
+			record.equipments().add(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
+			record.setAlarm(Ext.create('Sam.model.Alarm',{id: values.alarm_id}));
 			
-			if(values.task_id !== ""){
-				record.set(
-					{	normTask:	Ext.create('Sam.model.Task'			,{id: values.task_id	, desc: values.task_desc	})
-				});
-			}
 			
 			//Adiciona registro na store
 			store.add(record);

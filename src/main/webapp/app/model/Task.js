@@ -3,7 +3,7 @@ Ext.define('Sam.model.Task', {
 	
 	fields:[
 	        
-	        {name: 'id'				, type: 'string'								},
+	        {name: 'id'				, type: 'number'		, defaultValue: 0		},
 	        {name: 'desc'			, type: 'string'								},
 	        {name: 'active'			, type: 'string'								},
 	        {name: 'equipments'														},
@@ -12,12 +12,14 @@ Ext.define('Sam.model.Task', {
 	        /** Association Keys **/
 	        {name: 'alarm_id'		, type: 'string'	, mapping: 'alarm.id'		},
 	        
-	        
 	        /** Grid Fields **/
 	        {name: 'alarm_desc'		, type: 'string'	, mapping: 'alarm.desc'		}
 	        
         ],
 	
-    belongsTo:  [{model: 'Sam.model.Alarm'			, foreignKey: 'alarm_id'	}]
+    belongsTo:  [{name: 'alarm', model: 'Sam.model.Alarm'	, foreignKey: 'alarm_id'	}],
+    
+    hasMany: [{name: 'conditions', model: 'Sam.model.TaskCondition'	, foreignKey: 'task_id'},
+              {name: 'equipments', model: 'Sam.model.Equipment'		}]
 
 });
