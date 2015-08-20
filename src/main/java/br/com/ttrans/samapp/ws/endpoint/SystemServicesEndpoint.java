@@ -1,43 +1,56 @@
 package br.com.ttrans.samapp.ws.endpoint;
 
-import org.jdom2.Element;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+
+import br.com.ttrans.samapp.ws.payload.ActiveRequest;
+import br.com.ttrans.samapp.ws.payload.AliveRequest;
+import br.com.ttrans.samapp.ws.payload.ConnectionRequest;
+import br.com.ttrans.samapp.ws.payload.DisconnectionRequest;
+import br.com.ttrans.samapp.ws.payload.SessionDetailRequest;
 
 @Endpoint
 public class SystemServicesEndpoint {
 	
 	private static final String NAMESPACE_URI = "http://localhost/systemService";
 	
+	@Autowired
+	private List<ConnectionRequest> connections;
+	
 	@PayloadRoot(localPart = "ConnectionRequest", namespace = NAMESPACE_URI)
-	public void handleConnectionRequest(@RequestPayload Element conn)
+	public void handleConnectionRequest(@RequestPayload ConnectionRequest request)
 		throws Exception {
+		
+		connections.add(request);
 		
 		System.out.println("teste");
 		
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SessionDetailRequest")
-	public void handleSessionDetailRequest(@RequestPayload Element el)
+	@PayloadRoot(localPart = "SessionDetailRequest", namespace = NAMESPACE_URI)
+	public void handleSessionDetailRequest(@RequestPayload SessionDetailRequest request)
 		throws Exception {
 		
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ActiveRequest")
-	public void handleActiveRequest(@RequestPayload Element el)
+	@PayloadRoot(localPart = "ActiveRequest", namespace = NAMESPACE_URI)
+	public void handleActiveRequest(@RequestPayload ActiveRequest request)
 		throws Exception {
 		
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "DisconnectionRequest")
-	public void handleDisconnectionRequest(@RequestPayload Element el)
+	@PayloadRoot(localPart = "DisconnectionRequest", namespace = NAMESPACE_URI)
+	public void handleDisconnectionRequest(@RequestPayload DisconnectionRequest request)
 		throws Exception {
 		
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AliveRequest")
-	public void handleAliveRequest(@RequestPayload Element el)
+	public void handleAliveRequest(@RequestPayload AliveRequest request)
 		throws Exception {
 		
 	}

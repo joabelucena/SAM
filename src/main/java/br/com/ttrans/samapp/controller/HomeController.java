@@ -3,17 +3,13 @@ package br.com.ttrans.samapp.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.library.JSon;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.Users;
-import br.com.ttrans.samapp.service.AlarmService;
-import br.com.ttrans.samapp.service.CounterService;
-import br.com.ttrans.samapp.service.EquipmentService;
-import br.com.ttrans.samapp.service.SiteService;
 import br.com.ttrans.samapp.service.TaskService;
 
 /**
@@ -46,22 +37,7 @@ import br.com.ttrans.samapp.service.TaskService;
 public class HomeController {
 	
 	@Autowired
-	private JSon json;
-	
-	@Autowired
-	private SiteService siteService;
-	
-	@Autowired
 	private TaskService taskService;
-	
-	@Autowired
-	private AlarmService alarmService;
-	
-	@Autowired
-	private EquipmentService equipmentService;
-	
-	@Autowired
-	private CounterService counterService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -97,7 +73,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public Map menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+	public Map<String, Object> menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		

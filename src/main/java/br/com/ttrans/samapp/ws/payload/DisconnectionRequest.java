@@ -6,7 +6,9 @@
 //
 
 
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
+
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +16,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -44,8 +45,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "sessionInstanceId",
     "timeStamp"
 })
-@XmlRootElement(name = "SessionDetailRequest")
-public class SessionDetailRequest {
+@XmlRootElement(name = "DisconnectionRequest")
+public class DisconnectionRequest {
 
     @XmlElement(required = true)
     protected String creatorId;
@@ -53,7 +54,7 @@ public class SessionDetailRequest {
     protected String sessionInstanceId;
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar timeStamp;
+    protected Date timeStamp;
 
     /**
      * Gets the value of the creatorId property.
@@ -108,10 +109,10 @@ public class SessionDetailRequest {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
@@ -120,10 +121,10 @@ public class SessionDetailRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setTimeStamp(XMLGregorianCalendar value) {
+    public void setTimeStamp(Date value) {
         this.timeStamp = value;
     }
 

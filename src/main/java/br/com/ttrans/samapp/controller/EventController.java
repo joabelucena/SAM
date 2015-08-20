@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.ServiceOrderForecast;
-import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
 
 @SuppressWarnings("rawtypes")
@@ -40,9 +39,6 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-	@Autowired
-	private EquipmentService equipmentService;
-	
 	@Autowired
 	private DAO dao;
 	

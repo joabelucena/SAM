@@ -43,9 +43,7 @@ import br.com.ttrans.samapp.model.ServiceOrderType;
 import br.com.ttrans.samapp.model.SeverityLevel;
 import br.com.ttrans.samapp.model.StatusRule;
 import br.com.ttrans.samapp.model.Users;
-import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.service.RoleService;
 import br.com.ttrans.samapp.service.ServiceOrderJobService;
 import br.com.ttrans.samapp.service.ServiceOrderLogService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
@@ -80,17 +78,11 @@ public class ServiceOrderController {
 	private StatusRuleService soStatusRuleService;
 
 	@Autowired
-	private EquipmentService equipmentService;
-
-	@Autowired
 	private StatusRuleValidator statusRuleValidator;
 	
 	@Autowired
 	private ServiceOrderValidator serviceOrderValidator;
 
-	@Autowired
-	private RoleService roleService;
-	
 	@Autowired
 	private ServiceOrderJobService jobService;
 	

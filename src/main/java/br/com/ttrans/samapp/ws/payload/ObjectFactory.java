@@ -6,7 +6,7 @@
 //
 
 
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

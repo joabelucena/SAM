@@ -6,7 +6,9 @@
 //
 
 
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
+
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +16,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -30,7 +31,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="sessionInstanceId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="connectionStatus" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,11 +43,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "", propOrder = {
     "creatorId",
     "sessionInstanceId",
-    "timeStamp",
-    "connectionStatus"
+    "timeStamp"
 })
-@XmlRootElement(name = "AliveRequest")
-public class AliveRequest {
+@XmlRootElement(name = "SessionDetailRequest")
+public class SessionDetailRequest {
 
     @XmlElement(required = true)
     protected String creatorId;
@@ -55,8 +54,7 @@ public class AliveRequest {
     protected String sessionInstanceId;
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar timeStamp;
-    protected int connectionStatus;
+    protected Date timeStamp;
 
     /**
      * Gets the value of the creatorId property.
@@ -111,10 +109,10 @@ public class AliveRequest {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
@@ -123,27 +121,11 @@ public class AliveRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setTimeStamp(XMLGregorianCalendar value) {
+    public void setTimeStamp(Date value) {
         this.timeStamp = value;
-    }
-
-    /**
-     * Gets the value of the connectionStatus property.
-     * 
-     */
-    public int getConnectionStatus() {
-        return connectionStatus;
-    }
-
-    /**
-     * Sets the value of the connectionStatus property.
-     * 
-     */
-    public void setConnectionStatus(int value) {
-        this.connectionStatus = value;
     }
 
 }

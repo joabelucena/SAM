@@ -6,17 +6,18 @@
 //
 
 
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -57,7 +58,7 @@ public class ActiveRequest {
     protected String sessionInstanceId;
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar timeStamp;
+    protected Date timeStamp;
     @XmlElement(required = true)
     protected List<String> applications;
 
@@ -114,10 +115,10 @@ public class ActiveRequest {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
@@ -126,10 +127,10 @@ public class ActiveRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setTimeStamp(XMLGregorianCalendar value) {
+    public void setTimeStamp(Date value) {
         this.timeStamp = value;
     }
 

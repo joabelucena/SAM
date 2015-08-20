@@ -1,0 +1,7 @@
+<root>
+  <facet id="jpt.jaxb">
+    <node name="classgen">
+      <attribute name="package" value="br.com.ttrans.samapp.ws.payload"/>
+    </node>
+  </facet>
+</root>

@@ -6,7 +6,9 @@
 //
 
 
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
+
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +16,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -28,7 +31,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="sessionInstanceId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -38,22 +40,20 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  * 
  */
+@Component
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "creatorId",
-    "sessionInstanceId",
     "timeStamp"
 })
-@XmlRootElement(name = "DisconnectionRequest")
-public class DisconnectionRequest {
+@XmlRootElement(name = "ConnectionRequest")
+public class ConnectionRequest {
 
     @XmlElement(required = true)
     protected String creatorId;
     @XmlElement(required = true)
-    protected String sessionInstanceId;
-    @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar timeStamp;
+    protected Date timeStamp;
 
     /**
      * Gets the value of the creatorId property.
@@ -80,38 +80,14 @@ public class DisconnectionRequest {
     }
 
     /**
-     * Gets the value of the sessionInstanceId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSessionInstanceId() {
-        return sessionInstanceId;
-    }
-
-    /**
-     * Sets the value of the sessionInstanceId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSessionInstanceId(String value) {
-        this.sessionInstanceId = value;
-    }
-
-    /**
      * Gets the value of the timeStamp property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
@@ -120,10 +96,10 @@ public class DisconnectionRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setTimeStamp(XMLGregorianCalendar value) {
+    public void setTimeStamp(Date value) {
         this.timeStamp = value;
     }
 

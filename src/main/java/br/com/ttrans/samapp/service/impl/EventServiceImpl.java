@@ -11,11 +11,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.AlarmDao;
-import br.com.ttrans.samapp.dao.AlarmFilterDao;
 import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.dao.EventDao;
-import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
@@ -28,10 +26,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private EventDao eventDao;
-	
-	@Autowired
-	private AlarmFilterDao filterDao;
-	
+		
 	@Autowired
 	private AlarmDao alarmDao;
 	
@@ -40,9 +35,6 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private CounterDao counterDao;
-	
-	@Autowired
-	private DAO dao;
 	
 	@Transactional
 	public void add(Event event) {

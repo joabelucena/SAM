@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://localhost/systemService", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package localhost.systemservice;
+package br.com.ttrans.samapp.ws.payload;
