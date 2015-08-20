@@ -1,6 +1,6 @@
 package br.com.ttrans.samapp.ws.endpoint;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -19,13 +19,16 @@ public class SystemServicesEndpoint {
 	private static final String NAMESPACE_URI = "http://localhost/systemService";
 	
 	@Autowired
-	private List<ConnectionRequest> connections;
+	private Map<Integer,ConnectionRequest> connections;
 	
 	@PayloadRoot(localPart = "ConnectionRequest", namespace = NAMESPACE_URI)
 	public void handleConnectionRequest(@RequestPayload ConnectionRequest request)
 		throws Exception {
 		
-		connections.add(request);
+		Integer hash = request.getCreatorId().hashCode()+request.getTimeStamp().hashCode();
+		
+		//Add Connection + HashCode
+		connections.put(hash,request);
 		
 		System.out.println("teste");
 		
