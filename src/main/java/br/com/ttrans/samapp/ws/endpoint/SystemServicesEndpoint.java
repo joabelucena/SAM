@@ -19,18 +19,24 @@ public class SystemServicesEndpoint {
 	private static final String NAMESPACE_URI = "http://localhost/systemService";
 	
 	@Autowired
-	private Map<Integer,ConnectionRequest> connections;
+	private Map<String,ConnectionRequest> connections;
 	
 	@PayloadRoot(localPart = "ConnectionRequest", namespace = NAMESPACE_URI)
 	public void handleConnectionRequest(@RequestPayload ConnectionRequest request)
 		throws Exception {
 		
-		Integer hash = request.getCreatorId().hashCode()+request.getTimeStamp().hashCode();
+		String hash = String.valueOf(request.getCreatorId().hashCode()+request.getTimeStamp().hashCode());
 		
 		//Add Connection + HashCode
 		connections.put(hash,request);
 		
-		System.out.println("teste");
+		System.out.println("*************************");
+		System.out.println("** Nova conexão criada **");
+		System.out.println("** Id: " + hash);
+		System.out.println("** creatorId: " + connections.get(hash).getCreatorId());
+		System.out.println("** timeStamp: " + connections.get(hash).getTimeStamp());
+		System.out.println("*************************");
+		System.out.println();
 		
 	}
 	
