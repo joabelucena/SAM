@@ -2,6 +2,7 @@ package br.com.ttrans.samapp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.service.TaskService;
 
@@ -38,16 +41,16 @@ public class TaskController {
 	/*
 	 * CRUD Operations for: Task
 	 */
-	@RequestMapping(value = "/add.action")
+	@RequestMapping(value = "/add.action", method = RequestMethod.POST)
 	@ResponseBody
-	public Map addTask(@RequestBody Task task,
+	public Map addTask(@RequestBody Map task,
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-
+		
 		try{
 //			service.add(task, authentication);
 		}catch(Exception e){

@@ -10,7 +10,6 @@ Ext.define('Sam.lib.AssociatedWriter', {
         record.data = this.callParent(arguments);
         Ext.apply(record.data, record.getAssociatedData());
         return record.data;
-    },
-    
-    root: 'data'
+    }
+
 });

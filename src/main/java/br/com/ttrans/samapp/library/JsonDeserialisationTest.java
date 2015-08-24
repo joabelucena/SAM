@@ -8,6 +8,7 @@ import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.ServiceStation;
+import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.Users;
 
 public class JsonDeserialisationTest
@@ -23,14 +24,15 @@ public class JsonDeserialisationTest
     	assertCanBeMapped(Menu.class);
     	assertCanBeMapped(ServiceStation.class);    	
     	assertCanBeMapped(Alarm.class);
+    	assertCanBeMapped(Task.class);
     }
 
     private void assertCanBeMapped(Class<?> classToTest){
     	
         if(converter.canRead(classToTest, MediaType.APPLICATION_JSON)){
-        	System.out.println(classToTest+": YES!!!.");
+        	System.out.println(classToTest.getName()+": YES!!!.");
         }else{
-        	System.out.println(classToTest+": NO!!!.");
+        	System.out.println(classToTest.getName()+": NO!!!.");
         }
     }
 

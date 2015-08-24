@@ -55,7 +55,7 @@
 		<level value="info" />
 	</logger>
 	
-	<!-- Trace Loggers
+	<!-- Trace Loggers -->
 	<logger name="org.springframework">
 		<level value="trace"/>
 	</logger>
@@ -63,7 +63,7 @@
     <logger name="org.springframework.web.servlet.mvc">
 		<level value="trace"/>
 	</logger>
-	 -->
+
 	
 	<!-- Hibernate Loggers See @ http://docs.jboss.org/hibernate/core/3.3/reference/en/html/session-configuration.html#configuration-logging
 	

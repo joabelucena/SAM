@@ -36,12 +36,12 @@ public class Role implements Serializable{
 	@Column
 	private String roleName;
 	
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.JOIN)
 	@OneToMany(mappedBy = "role", targetEntity = Users.class, fetch = FetchType.EAGER)
 	@JsonManagedReference(value="role")
 	private List<Users> users = new LinkedList<Users>();
 	
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_features",
 			joinColumns=@JoinColumn(name="roleId"),
@@ -49,7 +49,7 @@ public class Role implements Serializable{
 	@OrderBy(clause="featureId")
 	private Set<SystemFeature> features = new HashSet<SystemFeature>();
 
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_menu",
 			joinColumns=@JoinColumn(name="roleId"),
@@ -57,7 +57,7 @@ public class Role implements Serializable{
 	@OrderBy(clause="menuId")
 	private Set<Menu> menus = new HashSet<Menu>();
 
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_services_stations",
 			joinColumns=@JoinColumn(name="roleId"),
