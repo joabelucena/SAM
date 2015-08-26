@@ -1,36 +1,38 @@
 package br.com.ttrans.samapp.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Task_Monitor_Header")
-//@SequenceGenerator(name="INC_TASK_HEADER",sequenceName="GEN_TMH_ID")
+@SequenceGenerator(name="INC_TASK_HEADER",sequenceName="GEN_TMH_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Task {
 
 	@Id
 	@Column(name="tmh_id")
-//	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_TASK_HEADER")
-	private String id = new String();
+	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_TASK_HEADER")
+	private Integer id = new Integer(0);
 	
 	@Column(name="tmh_desc")
 	private String desc = new String();
@@ -49,10 +51,9 @@ public class Task {
 	@OrderBy(clause="equipment_id")
 	private Set<Equipment> equipments = new HashSet<Equipment>();
 
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class)
-//	@JsonManagedReference(value="task")
-//	private List<TaskCondition> conditions = new ArrayList<TaskCondition>();
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class)
+	private Set<TaskCondition> conditions = new HashSet<TaskCondition>();
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert = new String();
@@ -62,40 +63,24 @@ public class Task {
 
 	public Task(){}
 	
-	public Task(String id, String desc, String active, Alarm alarm, Set<Equipment> equipments, String insert,
-			String update) {
+	public Task(Integer id, String desc, String active, Alarm alarm, Set<Equipment> equipments,
+			Set<TaskCondition> conditions, String insert, String update) {
 		super();
 		this.id = id;
 		this.desc = desc;
 		this.active = active;
 		this.alarm = alarm;
 		this.equipments = equipments;
+		this.conditions = conditions;
 		this.insert = insert;
 		this.update = update;
 	}
 
-
-
-//	public Task(String id, String desc, String active, Alarm alarm, List<Equipment> equipments,
-//			List<TaskCondition> conditions, String insert, String update) {
-//		super();
-//		this.id = id;
-//		this.desc = desc;
-//		this.active = active;
-//		this.alarm = alarm;
-//		this.equipments = equipments;
-//		this.conditions = conditions;
-//		this.insert = insert;
-//		this.update = update;
-//	}
-
-
-
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -131,13 +116,13 @@ public class Task {
 		this.equipments = equipments;
 	}
 
-//	public List<TaskCondition> getConditions() {
-//		return conditions;
-//	}
-//
-//	public void setConditions(List<TaskCondition> conditions) {
-//		this.conditions = conditions;
-//	}
+	public Set<TaskCondition> getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(Set<TaskCondition> conditions) {
+		this.conditions = conditions;
+	}
 
 	public String getInsert() {
 		return insert;
@@ -153,5 +138,5 @@ public class Task {
 
 	public void setUpdate(String update) {
 		this.update = update;
-	}	
+	}
 }

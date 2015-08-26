@@ -40,17 +40,10 @@ public class UserController {
 	 */
 	@RequestMapping("/role/add.action")
 	@ResponseBody
-	public Map<String,Object> addrole(@RequestBody Role role, 
+	public Map<String,Object> addRole(@RequestBody Role role, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
-		
-		/*Implementar isso no Status Rules*/
-		
-//		Role role = new Role();
-		
-//		role.setId((int) payload.get("id"));
-//		role.setRoleName((String) payload.get("roleName"));
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();

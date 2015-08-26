@@ -1,6 +1,5 @@
 package br.com.ttrans.samapp.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,33 +14,26 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Role implements Serializable{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Role{
 	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	private int id;
 	
 	@Column
 	private String roleName;
-	
-	@Fetch(FetchMode.JOIN)
+
 	@OneToMany(mappedBy = "role", targetEntity = Users.class, fetch = FetchType.EAGER)
-	@JsonManagedReference(value="role")
+//	@JsonManagedReference(value="role")
 	private List<Users> users = new LinkedList<Users>();
 	
-	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_features",
 			joinColumns=@JoinColumn(name="roleId"),
@@ -49,16 +41,16 @@ public class Role implements Serializable{
 	@OrderBy(clause="featureId")
 	private Set<SystemFeature> features = new HashSet<SystemFeature>();
 
-	@Fetch(FetchMode.JOIN)
-	@ManyToMany(fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
 	@JoinTable(name="role_menu",
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="menuId"))
 	@OrderBy(clause="menuId")
 	private Set<Menu> menus = new HashSet<Menu>();
 
-	@Fetch(FetchMode.JOIN)
-	@ManyToMany(fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
 	@JoinTable(name="role_services_stations",
 			joinColumns=@JoinColumn(name="roleId"),
 			inverseJoinColumns=@JoinColumn(name="stationId"))

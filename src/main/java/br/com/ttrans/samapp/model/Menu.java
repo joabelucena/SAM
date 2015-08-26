@@ -16,7 +16,6 @@ import org.hibernate.annotations.OrderBy;
 import br.com.ttrans.samapp.library.MenuType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Menu implements Serializable {
@@ -41,7 +40,6 @@ public class Menu implements Serializable {
 	
 	@OneToMany(mappedBy="parent",targetEntity=Menu.class,fetch=FetchType.EAGER)
 	@OrderBy(clause="id")
-	@JsonManagedReference(value="parent")
 	private Set<Menu> items;
 	
 	private String className;

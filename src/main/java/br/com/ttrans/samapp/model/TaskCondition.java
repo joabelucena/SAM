@@ -11,10 +11,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Task_Monitor_Items")
 @SequenceGenerator(name="INC_TASK_ITEMS",sequenceName="GEN_TMI_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskCondition {
 
 	@Id

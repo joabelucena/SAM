@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.service.TaskService;
 
 @Controller
 @RequestMapping("/task")
-@SuppressWarnings("rawtypes")
 public class TaskController {
 	
 	@Autowired
@@ -29,7 +26,7 @@ public class TaskController {
 	
 	@RequestMapping("/load")
 	@ResponseBody
-	public Map loadData(){
+	public Map<String, Object> loadData(){
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -43,7 +40,7 @@ public class TaskController {
 	 */
 	@RequestMapping(value = "/add.action", method = RequestMethod.POST)
 	@ResponseBody
-	public Map addTask(@RequestBody Map task,
+	public Map<String, Object> addTask(@RequestBody Task task,
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -52,7 +49,7 @@ public class TaskController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		try{
-//			service.add(task, authentication);
+			service.add(task, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -62,7 +59,7 @@ public class TaskController {
 	
 	@RequestMapping("/update.action")
 	@ResponseBody
-	public Map updateTask(@RequestBody Task task, 
+	public Map<String, Object> updateTask(@RequestBody Task task, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -81,7 +78,7 @@ public class TaskController {
 	
 	@RequestMapping("/delete.action")
 	@ResponseBody
-	public Map deleteTask(@RequestBody Task task, 
+	public Map<String, Object> deleteTask(@RequestBody Task task, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
