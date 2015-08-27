@@ -44,18 +44,22 @@ public class SiteDaoImpl implements SiteDao {
 		return (Site) session.getCurrentSession().get(Site.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAll() {
-		return session.getCurrentSession()
-				.createQuery("from Sites").list();
+	public List<Site> getAll() {
+		
+		return session.getCurrentSession().createCriteria(Site.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
-		Criteria crit = session.getCurrentSession().createCriteria(Site.class,"sites");
+	public List<Site> loadData() {
 		
-		return crit.list();
-		
+		return session.getCurrentSession().createCriteria(Site.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 	@Override
@@ -66,8 +70,9 @@ public class SiteDaoImpl implements SiteDao {
 		return (Site)crit.uniqueResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List trackIt(int id){
+	public List<String[]> trackIt(int id){
 		String cQuery;
 
 		SQLQuery qQuery;

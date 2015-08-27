@@ -43,12 +43,12 @@ public class SiteTypeServiceImpl implements SiteTypeService {
 	}
 
 	@Transactional
-	public List getAll() {
+	public List<SiteType> getAll() {
 		return siteTypeDao.getAll();
 	}
 	
 	@Transactional
-	public List loadData() {
+	public List<SiteType> loadData() {
 		return siteTypeDao.loadData();
 	}
 }

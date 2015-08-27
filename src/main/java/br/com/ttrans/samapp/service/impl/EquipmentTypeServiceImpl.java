@@ -33,7 +33,7 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<EquipmentType> loadData() {
 		return dao.loadData();
 	}
 

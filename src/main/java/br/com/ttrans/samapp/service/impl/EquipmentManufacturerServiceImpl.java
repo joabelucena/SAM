@@ -34,7 +34,7 @@ public class EquipmentManufacturerServiceImpl implements
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<EquipmentManufacturer> loadData() {
 		return dao.loadData();
 	}
 

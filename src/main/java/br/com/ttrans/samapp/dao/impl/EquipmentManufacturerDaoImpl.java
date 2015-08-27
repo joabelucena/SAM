@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,12 +35,12 @@ public class EquipmentManufacturerDaoImpl implements EquipmentManufacturerDao {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<EquipmentManufacturer> loadData() {
 		
-		Criteria crit = session.getCurrentSession().createCriteria(EquipmentManufacturer.class);
+		return session.getCurrentSession().createCriteria(EquipmentManufacturer.class).list();
 		
-		return crit.list();
 	}
 
 }

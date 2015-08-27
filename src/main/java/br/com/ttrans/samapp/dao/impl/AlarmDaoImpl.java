@@ -40,6 +40,7 @@ public class AlarmDaoImpl implements AlarmDao {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getNorm(Alarm norm){
 		Criteria crit = session.getCurrentSession().createCriteria(Alarm.class);
@@ -56,12 +57,13 @@ public class AlarmDaoImpl implements AlarmDao {
 		return (Alarm) session.getCurrentSession().get(Alarm.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
-		
-		Criteria crit = session.getCurrentSession().createCriteria(Alarm.class,"alarm");
-		
-		return crit.list();
+	public List<Alarm> loadData() {
+				
+		return session.getCurrentSession().createCriteria(Alarm.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 }

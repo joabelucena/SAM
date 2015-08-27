@@ -55,6 +55,7 @@ public class TaskDaoImpl implements TaskDao {
 		return (Task) session.getCurrentSession().get(Task.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> loadData() {
 		return session.getCurrentSession().createCriteria(Task.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
@@ -69,7 +70,7 @@ public class TaskDaoImpl implements TaskDao {
 		if (task.getActive().equals("Y")) {
 
 			// Instantiate equipment iterator
-			Iterator<Equipment> equipIt = null;//task.getEquipments().iterator();
+			Iterator<Equipment> equipIt = task.getEquipments().iterator();
 
 			// Creates criteria
 			// Criteria crit =
@@ -87,7 +88,7 @@ public class TaskDaoImpl implements TaskDao {
 
 				equipment = equipIt.next();
 
-				Iterator<TaskCondition> condIt = null;//task.getConditions().iterator();
+				Iterator<TaskCondition> condIt = task.getConditions().iterator();
 				
 				// Iterattion on conditions
 				while (condIt.hasNext()) {

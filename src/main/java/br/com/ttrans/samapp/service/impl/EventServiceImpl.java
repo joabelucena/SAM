@@ -50,7 +50,6 @@ public class EventServiceImpl implements EventService {
 		 * Implement Normalization and filter validation rules.
 		 * 
 		 */
-		
 		//Checa se o alarme esta filtrada, se nao estiver sera adicionado
 		if(!eventDao.isFiltered(event)){
 			
@@ -129,7 +128,7 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Transactional
-	public List activeAlarms(Equipment equipment, Alarm alarm){
+	public List<Long> activeAlarms(Equipment equipment, Alarm alarm){
 		return eventDao.activeAlarms(equipment, alarm);
 	}
 	
@@ -143,13 +142,9 @@ public class EventServiceImpl implements EventService {
 		return eventDao.get(id);
 	}
 
-	@Transactional
-	public List getAll() {
-		return eventDao.getAll();
-	}
 	
 	@Transactional
-	public List loadData(){
+	public List<String[]> loadData(){
 		return eventDao.loadData();
 	}
 }

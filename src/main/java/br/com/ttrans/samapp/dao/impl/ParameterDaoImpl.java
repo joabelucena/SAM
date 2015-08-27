@@ -38,9 +38,11 @@ public class ParameterDaoImpl implements ParameterDao {
 		return (Parameter)session.getCurrentSession().get(Parameter.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Parameter> getAll() {
-		return session.getCurrentSession().createQuery("from Parameter").list();
+		return session.getCurrentSession().createCriteria(Parameter.class)
+				.list();
 	}
 
 }

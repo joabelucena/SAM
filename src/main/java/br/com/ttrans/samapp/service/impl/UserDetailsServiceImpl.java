@@ -39,13 +39,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			boolean credentialsNonExpired = user.getStatus().equals(UserStatus.ACTIVE);
 			boolean accountNonLocked = user.getStatus().equals(UserStatus.ACTIVE);
 			
-			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			
-			//Single Role Addi'n
 			authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));			
 			
-			//Now let's create Spring Security Users object
 			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 			return securityUser;
 		}else{

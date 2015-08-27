@@ -86,7 +86,7 @@ public class EventDaoImpl implements EventDao {
 		return qQuery.executeUpdate();
 	}
 	
-	/** Normalizacao autoatica **/
+	/** Normalizacao automatica **/
 	@Override
 	public void normalize(List<String> alarmsId, String equipment, String user){
 		
@@ -107,8 +107,9 @@ public class EventDaoImpl implements EventDao {
 		qQuery.executeUpdate();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List activeAlarms(Equipment equipment, Alarm alarm){
+	public List<Long> activeAlarms(Equipment equipment, Alarm alarm){
 		
 		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
 		
@@ -148,14 +149,9 @@ public class EventDaoImpl implements EventDao {
 		return (Event) session.getCurrentSession().get(Event.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAll() {
-		return session.getCurrentSession()
-				.createQuery("from Event").list();
-	}
-
-	@Override
-	public List loadData() {
+	public List<String[]> loadData() {
 
 		String cQuery = "";
 

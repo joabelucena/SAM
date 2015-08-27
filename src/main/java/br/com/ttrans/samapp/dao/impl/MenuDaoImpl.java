@@ -2,6 +2,7 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,10 +34,13 @@ public class MenuDaoImpl implements MenuDao {
 		session.getCurrentSession().delete(menu.getId());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Menu> loadMenu(Role role) {
 		
-		return session.getCurrentSession().createQuery("from Menu").list();
+		return session.getCurrentSession().createCriteria(Menu.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 		
 	}
 }

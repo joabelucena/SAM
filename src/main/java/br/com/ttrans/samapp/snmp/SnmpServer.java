@@ -146,6 +146,8 @@ public class SnmpServer implements CommandResponder {
 		String oid = "";
 
 		if (event != null && event.getPDU() != null) {
+			
+			@SuppressWarnings("unchecked")
 			Vector<? extends VariableBinding> recVBs = event.getPDU()
 					.getVariableBindings();
 

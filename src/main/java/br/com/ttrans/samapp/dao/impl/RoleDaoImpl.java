@@ -44,9 +44,12 @@ public class RoleDaoImpl implements RoleDao {
 		return (Role)crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Role> getAll() {
-		return session.getCurrentSession().createCriteria(Role.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return session.getCurrentSession().createCriteria(Role.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 }

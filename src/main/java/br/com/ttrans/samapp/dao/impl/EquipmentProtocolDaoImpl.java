@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,12 +34,12 @@ public class EquipmentProtocolDaoImpl implements EquipmentProtocolDao {
 		session.getCurrentSession().delete(protocol);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<EquipmentProtocol> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(EquipmentProtocol.class);
+		return session.getCurrentSession().createCriteria(EquipmentProtocol.class).list();
 		
-		return crit.list();
 	}
 
 }

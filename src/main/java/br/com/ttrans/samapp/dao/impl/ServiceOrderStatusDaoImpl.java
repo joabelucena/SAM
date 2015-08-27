@@ -51,9 +51,9 @@ public class ServiceOrderStatusDaoImpl implements ServiceOrderStatusDao {
 		return (ServiceOrderStatus) crit.uniqueResult();
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrderStatus> loadData() {
 
 		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderStatus.class);
 		

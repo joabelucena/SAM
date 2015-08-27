@@ -49,10 +49,11 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAllowedStatus(Role role, ServiceOrderStatus curstatus){
+	public List<ServiceOrderStatus> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
 		
-		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class,"rule");
+		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class);
 		
 		crit.createAlias("rule.nxtstatus"	,"rule_nxtstatus",CriteriaSpecification.LEFT_JOIN);
 		
@@ -69,11 +70,13 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		return crit.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<StatusRule> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class);
+		return session.getCurrentSession().createCriteria(StatusRule.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 		
-		return crit.list();
 	}
 }

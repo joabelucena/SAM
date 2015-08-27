@@ -38,7 +38,7 @@ public class TechnicianServiceImpl implements TechnicianService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<Technician> loadData() {
 		return dao.loadData();
 	}
 }

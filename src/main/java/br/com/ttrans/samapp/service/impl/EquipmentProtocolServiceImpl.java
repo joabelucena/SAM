@@ -33,7 +33,7 @@ public class EquipmentProtocolServiceImpl implements EquipmentProtocolService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<EquipmentProtocol> loadData() {
 		return dao.loadData();
 	}
 

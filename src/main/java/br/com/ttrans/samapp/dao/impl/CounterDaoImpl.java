@@ -90,10 +90,11 @@ public class CounterDaoImpl implements CounterDao {
 		return (Counter) session.getCurrentSession().get(Counter.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Counter> loadData() {
 
-		return (List<Counter>) session.getCurrentSession().createCriteria(Counter.class).list();
+		return session.getCurrentSession().createCriteria(Counter.class).list();
 		
 	}
 }

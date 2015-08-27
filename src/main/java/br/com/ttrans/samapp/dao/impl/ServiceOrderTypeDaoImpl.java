@@ -45,12 +45,12 @@ public class ServiceOrderTypeDaoImpl implements ServiceOrderTypeDao {
 		return (ServiceOrderType) crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrderType> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderType.class);
+		return session.getCurrentSession().createCriteria(ServiceOrderType.class).list();
 		
-		return crit.list();
 	}
 
 }

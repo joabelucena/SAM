@@ -484,7 +484,7 @@ public class ServiceOrderController {
 		result.put("result", "");
 		result.put("type", "");
 		
-		List<Object[]> types = soTypeService.loadData();
+		List<ServiceOrderType> types = soTypeService.loadData();
 		/*
 		String[][] types = new String[vType.size()][2];
 
@@ -512,7 +512,7 @@ public class ServiceOrderController {
 		//Retorna usuario logado na secao
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
-		List<Object[]> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), so.getStatus());
+		List<ServiceOrderStatus> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), so.getStatus());
 		
 		//Result Map
 		Map<String, Object> result = new HashMap<String, Object>();

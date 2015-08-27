@@ -6,10 +6,9 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.SubSystem;
 
-@SuppressWarnings("rawtypes")
 public interface SubSystemService {
 	public void add(SubSystem system, Authentication authentication);
 	public void edit(SubSystem system, Authentication authentication);
 	public void delete(SubSystem system, Authentication authentication);
-	public List loadData();
+	public List<SubSystem> loadData();
 }

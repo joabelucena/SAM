@@ -43,7 +43,7 @@ public class ServiceOrderStatusServiceImpl implements ServiceOrderStatusService 
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrderStatus> loadData() {
 		return dao.loadData();
 	}
 

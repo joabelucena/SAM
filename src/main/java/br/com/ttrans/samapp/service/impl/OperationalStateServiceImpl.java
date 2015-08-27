@@ -38,7 +38,7 @@ public class OperationalStateServiceImpl implements OperationalStateService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<OperationalState> loadData() {
 		return dao.loadData();
 	}
 }

@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,12 +40,13 @@ public class TechnicianDaoImpl implements TechnicianDao {
 		return (Technician) session.getCurrentSession().get(Technician.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<Technician> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(Technician.class,"technician");
+		return session.getCurrentSession().createCriteria(Technician.class,"technician").list();
 		
-		return crit.list();
+		
 	}
 
 }

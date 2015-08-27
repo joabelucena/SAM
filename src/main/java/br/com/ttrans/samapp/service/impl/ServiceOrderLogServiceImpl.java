@@ -33,7 +33,7 @@ public class ServiceOrderLogServiceImpl implements ServiceOrderLogService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrderLog> loadData() {
 		return dao.loadData();
 	}
 
