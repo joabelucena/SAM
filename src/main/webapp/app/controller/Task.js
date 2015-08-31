@@ -94,8 +94,8 @@ Ext.define('Sam.controller.Task', {
 				
 				//Carrega dados na tela
 				form.loadRecord(row);
-				grdCond.getStore().add(store.findRecord('id',row.get('id')).get('items'));
-				grdEquip.getStore().add(store.findRecord('id',row.get('id')).get('equipments'));
+				grdCond.getStore().add(store.findRecord('id',row.get('id')).conditions().getData().items);
+				grdEquip.getStore().add(store.findRecord('id',row.get('id')).equipments().getData().items);
 				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab);
@@ -125,22 +125,37 @@ Ext.define('Sam.controller.Task', {
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
+		var activeTab, grdCond, grdEquip, store = null;
+		
+		store = this.getTaskStore();
+		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'taskform', null, true);
+			activeTab = this.activateTab(1, row.get('id'), 'taskform', null, true);
 			
 			if(activeTab){
 				
+				
+				//Grid de Condicoes
+				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
+				
+				//Grid de Equipamentos
+				grdEquip = Ext.ComponentQuery.query('#grdEquipments',activeTab)[0];
+			
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				
-				//Carrega registro no form
+				//Carrega dados na tela
 				form.loadRecord(row);
+				grdCond.getStore().setData(store.findRecord('id',row.get('id')).conditions().getData().items);
+				grdEquip.getStore().setData(store.findRecord('id',row.get('id')).equipments().getData().items);
 				
-				//Seta Botão Confirma: Alterar
+				
+				//Seta Botão Confirma: 3 - Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+				
 			}
 		}
 	},
@@ -200,7 +215,7 @@ Ext.define('Sam.controller.Task', {
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
 			store		= this.getTaskStore(),										//Store
-			record		= Ext.create('Sam.model.Task');							//Registro
+			record		= Ext.create('Sam.model.Task');								//Registro
 		
 		
 		
@@ -210,8 +225,8 @@ Ext.define('Sam.controller.Task', {
 			record.set(values);
 			
 			//Carrega Objetos
-			record.conditions().add(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
-			record.equipments().add(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
+			record.conditions().setData(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
+			record.equipments().setData(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
 			record.setAlarm(Ext.create('Sam.model.Alarm',{id: values.alarm_id}));
 			
 			
@@ -233,25 +248,17 @@ Ext.define('Sam.controller.Task', {
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
 			store		= this.getTaskStore(),										//Store
-			record		= form.getRecord();											//Registro
+			record		= store.findRecord('id',values.id);							//Registro
 		
 		if(form.isValid()){
-			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set(values);
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
 			
 			//Carrega Objetos
-			store.findRecord('id',record.get('id')).set(
-					{	group:		Ext.create('Sam.model.TaskGroup'		,{id: values.group_id	, desc: values.group_desc	}),
-						type:		Ext.create('Sam.model.TaskType'		,{id: values.type_id	, desc: values.type_desc	}),
-						model: 		Ext.create('Sam.model.EquipmentModel'	,{id: values.model_id	, desc: values.model_desc	}),
-						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
-			});
-			
-			if(values.task_id !== ""){
-				store.findRecord('id',record.get('id')).set(
-					{	normTask:	Ext.create('Sam.model.Task'			,{id: values.task_id	, desc: values.task_desc	})
-				});
-			}
+			record.conditions().setData(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
+			record.equipments().setData(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
+			record.setAlarm(Ext.create('Sam.model.Alarm',{id: values.alarm_id}));
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#taskgrid');

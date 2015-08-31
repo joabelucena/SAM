@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
@@ -45,6 +47,7 @@ public class Task {
 	private Alarm alarm = new Alarm();
 	
 	@ManyToMany(fetch=FetchType.EAGER)
+	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinTable(name="task_equipment",
 			joinColumns=@JoinColumn(name="task_id"),
 			inverseJoinColumns=@JoinColumn(name="equipment_id"))
@@ -52,6 +55,7 @@ public class Task {
 	private Set<Equipment> equipments = new HashSet<Equipment>();
 
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@Cascade({CascadeType.SAVE_UPDATE})
 	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class)
 	private Set<TaskCondition> conditions = new HashSet<TaskCondition>();
 	

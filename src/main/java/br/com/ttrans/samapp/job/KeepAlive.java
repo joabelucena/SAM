@@ -1,4 +1,4 @@
-package br.com.ttrans.samapp.task;
+package br.com.ttrans.samapp.job;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -12,7 +12,4 @@ public interface TaskDao {
 	public void delete(Task task, Authentication authentication);
 	public Task get(int id);
 	public List<Task> loadData();
-	public void proccess(Task task);
-	public void processAll();
-	
 }
