@@ -61,6 +61,8 @@ public class SnmpServer implements CommandResponder {
 	private EventService eventService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(SnmpServer.class);
+	
+	private static final String USR_SNMP = "SAM_SNMP";
 
 	public SnmpServer() {
 	}
@@ -94,8 +96,8 @@ public class SnmpServer implements CommandResponder {
 				new MessageDispatcherImpl());
 		listenAddress = GenericAddress.parse(System.getProperty(
 				"snmp4j.listenAddress",
-				"udp:" + dao.GetMv("SYS_IPSNMP", "") + "/"
-						+ dao.GetMv("SYS_PORTSNMP", "")));
+				"udp:" + dao.getMv("SYS_IPSNMP", "") + "/"
+						+ dao.getMv("SYS_PORTSNMP", "")));
 
 		TransportMapping transport;
 		if (listenAddress instanceof UdpAddress) {
@@ -186,7 +188,7 @@ public class SnmpServer implements CommandResponder {
 						eventdb.setDatetime(eve_datetime);
 						eventdb.setSite(eve_site);
 						eventdb.setModel(eve_model);
-						eventdb.setInsert("SAM_SNMP");
+						eventdb.setInsert(USR_SNMP);
 
 						eventService.add(eventdb);
 
@@ -202,7 +204,7 @@ public class SnmpServer implements CommandResponder {
 				eventdb.setDatetime(eve_datetime);
 				eventdb.setSite(eve_site);
 				eventdb.setModel(eve_model);
-				eventdb.setInsert("SAM_SNMP");
+				eventdb.setInsert(USR_SNMP);
 
 				eventService.add(eventdb);
 			}

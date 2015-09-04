@@ -110,7 +110,7 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
 		</dependency>
-
+		
 		<!-- Hibernate resources -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -135,7 +135,8 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>3.3.2.GA</version>
+<!-- 			<version>3.3.2.GA</version> -->
+			<version>3.6.10.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>

@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OrderBy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -46,17 +44,17 @@ public class Task {
 	@JoinColumn(name="tmh_alarm_id")
 	private Alarm alarm = new Alarm();
 	
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
+	@Fetch(FetchMode.JOIN)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinTable(name="task_equipment",
 			joinColumns=@JoinColumn(name="task_id"),
 			inverseJoinColumns=@JoinColumn(name="equipment_id"))
-	@OrderBy(clause="equipment_id")
 	private Set<Equipment> equipments = new HashSet<Equipment>();
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@Cascade({CascadeType.SAVE_UPDATE})
+	
 	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class)
+	@Fetch(FetchMode.JOIN)
+	@Cascade({CascadeType.ALL, CascadeType.PERSIST})	
 	private Set<TaskCondition> conditions = new HashSet<TaskCondition>();
 	
 	@Column(updatable=false, name = "usr_insert")

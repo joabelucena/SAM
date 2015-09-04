@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Task;
+import br.com.ttrans.samapp.model.TaskCondition;
 import br.com.ttrans.samapp.model.Users;
 import br.com.ttrans.samapp.service.TaskService;
 
@@ -54,7 +56,10 @@ public class HomeController {
 	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+	public Map<String, Object> menuLoad(HttpServletRequest request, 
+			Locale locale, 
+			Model model, 
+			Authentication authentication) {
 		
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
@@ -66,9 +71,7 @@ public class HomeController {
 		
 		while(it.hasNext()){
 			Menu mn = it.next();
-			if(mn.getParent() == null){
-				menu.add(mn);
-			}
+			if(mn.getParent() == null) menu.add(mn);
 		}
 		
 		result.put("items", menu);
@@ -100,6 +103,7 @@ public class HomeController {
 			HttpServletRequest request, Authentication aut){
 		
 		Task task = taskService.get(int1);
+		
 		/*
 		Task task = new Task();
 		Set<TaskCondition> conditions = new HashSet<TaskCondition>();
@@ -142,7 +146,27 @@ public class HomeController {
 		counterService.reset(al, eq);
 		*/
 		
-		taskService.proccess(task);
+//		Set<Equipment> equips = task.getEquipments();
+		Set<TaskCondition> conds = task.getConditions();
+		
+		Iterator<TaskCondition> it = conds.iterator();
+		
+		while(it.hasNext()){
+			TaskCondition cd = it.next();
+			
+			if(!it.hasNext()){
+				conds.remove(cd);
+				cd.setTask(null);
+			}
+		}
+		
+		System.out.println("para");
+		
+		
+		taskService.edit(task, aut);
+//		taskService.proccess(task);
+		
+		
 		return "SAM test method";
 	}
 }

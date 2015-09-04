@@ -22,7 +22,9 @@ import br.com.ttrans.samapp.service.EventService;
 @Repository
 public class EventServiceImpl implements EventService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class); 
+	private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
+	
+	private static final String USR_NORM_INSERT = "SAM_NORM";
 	
 	@Autowired
 	private EventDao eventDao;
@@ -39,7 +41,6 @@ public class EventServiceImpl implements EventService {
 	@Transactional
 	public void add(Event event) {
 		
-		String cUserNorm =  "SAM_NORM";
 		Alarm alarm;
 		Equipment equipment;
 		List<String> alarmsToNorm;
@@ -65,7 +66,7 @@ public class EventServiceImpl implements EventService {
 				//Checa se o tipo do evento eh normalizacao
 				if(alarm.getIsNorm().equals("Y")){
 					
-					event.setSolvUser(cUserNorm);
+					event.setSolvUser(USR_NORM_INSERT);
 					event.setSolvDate(new Date());
 					
 					//Retorna Lista com os alarmes que sao normalizados por essa 'normalizacao'
@@ -73,7 +74,7 @@ public class EventServiceImpl implements EventService {
 					
 					//Tratamento para verificar se existem alarmes cadastrados
 					if(alarmsToNorm.size() > 0){
-						eventDao.normalize(alarmsToNorm, event.getEquipment().getId(), cUserNorm);
+						eventDao.normalize(alarmsToNorm, event.getEquipment().getId(), USR_NORM_INSERT);
 					}
 					
 				}

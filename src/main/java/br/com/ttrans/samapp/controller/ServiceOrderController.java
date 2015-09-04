@@ -187,7 +187,7 @@ public class ServiceOrderController {
 		Event event = eventService.get(eveId);
 		
 		//Retorna status inicial cadastrado em parametro		
-		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.getMv("SAM_SOSTATUS", "")); 
 
 		//Cria objeto de log
 		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
@@ -286,7 +286,7 @@ public class ServiceOrderController {
 		Errors err = new BindException(so, "serviceorder");
 		
 		//Retorna status inicial cadastrado em parametro		
-		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.getMv("SAM_SOSTATUS", "")); 
 
 		//Cria objeto de log
 		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 

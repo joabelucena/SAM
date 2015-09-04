@@ -41,10 +41,10 @@ public class ReportController {
 			, Locale locale
 			, HttpServletResponse response){
 		
-		String user = dao.GetMv("SYS_SPGUSER"	, "");
-		String pass = dao.GetMv("SYS_SPGPASS"	, "");
-		String url =  dao.GetMv("SYS_SPGURL"	, "");
-		String role = dao.GetMv("SYS_SPGROLE"	, "");
+		String user = dao.getMv("SYS_SPGUSER"	, "");
+		String pass = dao.getMv("SYS_SPGPASS"	, "");
+		String url =  dao.getMv("SYS_SPGURL"	, "");
+		String role = dao.getMv("SYS_SPGROLE"	, "");
 		String message = null;
 		
 		HttpSession session = request.getSession();

@@ -37,6 +37,8 @@ public class TaskServiceImpl implements TaskService {
 	private EventDao eventdao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+	
+	private static final String USR_TASK_INSERT = "SAM_TASK_MONITOR";
 
 	@Transactional
 	public void add(Task task, Authentication authentication) {
@@ -71,30 +73,29 @@ public class TaskServiceImpl implements TaskService {
 		task.setUpdate(authentication.getName());
 		
 		taskDao.edit(task, authentication);
-
+		
 	}
 
 	@Transactional
 	public void delete(Task task, Authentication authentication) {
 		taskDao.delete(task, authentication);
-
 	}
 	
 	@Transactional
 	public Task get(int id){
 		return taskDao.get(id);
 	}
-
+	
 	@Transactional
 	public List<Task> loadData() {
 		return taskDao.loadData();
 	}
-
+	
 	@Transactional
 	public void proccess(Task task) {
 		Boolean run = false;
 
-		// Task is active, so proccess it
+		// Task is active, so process it
 		if (task.getActive().equals("Y")) {
 
 			// Instantiate equipment iterator
@@ -109,7 +110,7 @@ public class TaskServiceImpl implements TaskService {
 			Equipment equipment;
 			Alarm alarm;
 
-			// Iterattion on equipments
+			// Iteration on equipments
 			while (equipIt.hasNext()) {
 				
 				int counter = 0;
@@ -118,7 +119,7 @@ public class TaskServiceImpl implements TaskService {
 
 				Iterator<TaskCondition> condIt = task.getConditions().iterator();
 				
-				// Iterattion on conditions
+				// Iteration on conditions
 				while (condIt.hasNext()) {
 
 					condition = condIt.next();
@@ -178,16 +179,14 @@ public class TaskServiceImpl implements TaskService {
 					
 				} //<--- Conditions
 
-				//Abre o alarme para aquele equipamento
 				if(run){
 					Event ev = new Event();
 					ev.setAlarm(task.getAlarm());
 					ev.setEquipment(equipment);
-					ev.setInsert("TASKMONITOR");
+					ev.setInsert(USR_TASK_INSERT);
 					ev.setDatetime(new Date());
 					
 					try {
-						//Grava Evento
 						eventdao.add(ev);
 					} catch (Exception e) {
 						logger.info("Erro na criação do evento para a regra: " + task.getId());
@@ -206,15 +205,14 @@ public class TaskServiceImpl implements TaskService {
 		//All Tasks
 		List<Task> tasks = this.loadData();
 		
-		//Proccess each task
+		//Process each task
 		for(int i = 0; i < tasks.size(); i++){
 			
-			// Procces only active tasks
+			// Process only active tasks
 			if (tasks.get(i).getActive().equals("Y")) {
 				this.proccess(tasks.get(i));
 			}
+			
 		}
-
 	}
-
 }

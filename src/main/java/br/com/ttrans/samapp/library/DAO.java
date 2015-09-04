@@ -33,7 +33,7 @@ public class DAO {
 	 * @return boolean
 	 */
 	@Transactional
-	public boolean ExistCPO(Class alias, Map<String, Object> map) {
+	public boolean existCpo(Class alias, Map<String, Object> map) {
 
 		boolean lReturn = false;
 
@@ -99,7 +99,7 @@ public class DAO {
 	 * @return Parameter content
 	 */
 	@Transactional
-	public String GetMv(String xParameter, String xDefault) {
+	public String getMv(String xParameter, String xDefault) {
 
 		String cReturn = xDefault;
 
