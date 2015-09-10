@@ -156,7 +156,7 @@ public class HomeController {
 			
 			if(!it.hasNext()){
 				conds.remove(cd);
-				cd.setTask(null);
+//				cd.setTask(null);
 			}
 		}
 		

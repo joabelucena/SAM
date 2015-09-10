@@ -1,10 +1,11 @@
 package br.com.ttrans.samapp.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +19,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,41 +31,41 @@ public class Task {
 	@Id
 	@Column(name="tmh_id")
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_TASK_HEADER")
-	private Integer id = new Integer(0);
+	private Integer id;
 	
 	@Column(name="tmh_desc")
-	private String desc = new String();
+	private String desc;
 	
 	@Column(name="tmh_active")
-	private String active = new String();
+	private String active;
 	
 	@ManyToOne
 	@JoinColumn(name="tmh_alarm_id")
-	private Alarm alarm = new Alarm();
+	private Alarm alarm;
 	
-	@ManyToMany
-	@Fetch(FetchMode.JOIN)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinTable(name="task_equipment",
 			joinColumns=@JoinColumn(name="task_id"),
 			inverseJoinColumns=@JoinColumn(name="equipment_id"))
-	private Set<Equipment> equipments = new HashSet<Equipment>();
+	private Set<Equipment> equipments;
 	
-	@OneToMany(mappedBy = "task", targetEntity = TaskCondition.class)
-	@Fetch(FetchMode.JOIN)
-	@Cascade({CascadeType.ALL, CascadeType.PERSIST})	
-	private Set<TaskCondition> conditions = new HashSet<TaskCondition>();
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="tmi_task_id", referencedColumnName = "tmh_id")
+	@Cascade({CascadeType.SAVE_UPDATE})
+	private Set<TaskCondition> conditions;
 	
 	@Column(updatable=false, name = "usr_insert")
-	private String insert = new String();
+	private String insert;
 	
 	@Column(insertable=false, name = "usr_update")
-	private String update = new String();
+	private String update;
 
 	public Task(){}
-	
-	public Task(Integer id, String desc, String active, Alarm alarm, Set<Equipment> equipments,
-			Set<TaskCondition> conditions, String insert, String update) {
+
+	public Task(Integer id, String desc, String active, Alarm alarm,
+			Set<Equipment> equipments, Set<TaskCondition> conditions,
+			String insert, String update) {
 		super();
 		this.id = id;
 		this.desc = desc;

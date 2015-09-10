@@ -2,16 +2,12 @@ package br.com.ttrans.samapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -24,11 +20,6 @@ public class TaskCondition {
 	@Column(name="tmi_id")
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_TASK_ITEMS")
 	private int id;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="tmi_task_id")
-	@JsonBackReference(value="conditions")
-	private Task task;
 	
 	@Column(name="tmi_seq")
 	private String seq;
@@ -57,13 +48,12 @@ public class TaskCondition {
 	public TaskCondition(){
 		super();
 	}
-	
-	public TaskCondition(int id, Task task, String seq, String logicOper,
-			String type, String field, String relOper, int value,
-			String insert, String update) {
+
+	public TaskCondition(int id, String seq, String logicOper, String type,
+			String field, String relOper, int value, String insert,
+			String update) {
 		super();
 		this.id = id;
-		this.task = task;
 		this.seq = seq;
 		this.logicOper = logicOper;
 		this.type = type;
@@ -80,14 +70,6 @@ public class TaskCondition {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Task getTask() {
-		return task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
 	}
 
 	public String getSeq() {
@@ -153,6 +135,4 @@ public class TaskCondition {
 	public void setUpdate(String update) {
 		this.update = update;
 	}
-
-	
 }
