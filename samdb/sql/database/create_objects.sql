@@ -190,16 +190,14 @@ INSERT INTO USERS (USERNAME,PASSWORD,STATUS,ROLEID) VALUES ('SYSTEM','440e22afa3
 
 -- Tabela: MENU
 
-/********************
- * Types:
- ********************
- * 
+/********************************************************************************
+ ********************************* TYPES ****************************************
+ ********************************************************************************
  * PN | Panel Render (Ext Views)
  * SR | Spago Report (Spago Report for rendering in 'report.jsp' file)
  * EU | External Url (Render in a new TAB. Requires URL field) 
  * IU | Internal Url (Render inside SAM. Requires URL field)
- * 
- ********************/ 
+ ********************************************************************************/ 
 
 
 -- Sub-Menu: Alarmes
@@ -231,6 +229,7 @@ INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Tipos de L
 INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Locais'									,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros' AND PARENT_ID IS NULL),'sitegrid');
 INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Tipos de OS'								,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros' AND PARENT_ID IS NULL),'serviceordertypegrid');
 INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Status de OS'								,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros' AND PARENT_ID IS NULL),'serviceorderstatusgrid');
+INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Perfis de Usuário'						,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros' AND PARENT_ID IS NULL),'userrolegrid');
 INSERT INTO MENU (TYPE,URL,TEXT,PARENT_ID,CLASSNAME)VALUES('PN',NULL,'Regras de Supervisao'						,(SELECT ID FROM MENU WHERE TEXT = 'Cadastros' AND PARENT_ID IS NULL),'taskgrid');	
 
 -- Sub-Menu: Relatórios
@@ -2441,7 +2440,7 @@ COMMIT;
 /*TABLE*/
 CREATE TABLE TASK_MONITOR_ITEMS (
 	TMI_ID				INT			NOT NULL PRIMARY KEY,
-	TMI_TASK_ID			INT			NOT NULL,
+	TMI_TASK_ID			INT			,
 	TMI_SEQ				VARCHAR(02)	NOT NULL,
 	TMI_LOGIC_OP		VARCHAR(03)	NOT NULL,
 	TMI_TYPE			VARCHAR(02)	NOT NULL,
