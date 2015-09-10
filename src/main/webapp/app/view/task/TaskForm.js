@@ -146,7 +146,6 @@ var grid1 = {
 			maxWidth: 32,
 			minWidth: 32,
 			menuDisabled: true,
-			sortable: true,
 		}, {
 			text : 'Op. Logico',
 			flex : 1,

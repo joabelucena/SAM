@@ -96,6 +96,10 @@ Ext.define('Sam.controller.Task', {
 				grdCond.setStore(row.conditions());
 				grdEquip.setStore(row.equipments());
 				
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');				
+				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab);
 				
@@ -151,6 +155,9 @@ Ext.define('Sam.controller.Task', {
 				grdCond.setStore(row.conditions());
 				grdEquip.setStore(row.equipments());
 				
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');
 				
 				//Seta Botão Confirma: 3 - Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
@@ -202,6 +209,10 @@ Ext.define('Sam.controller.Task', {
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
+		var activeTab, grdCond, grdEquip, store = null;
+		
+		store = this.getTaskStore();
+		
 		//Tem Registro Selecionado
 		if(row){
 			
@@ -209,21 +220,29 @@ Ext.define('Sam.controller.Task', {
 			activeTab = this.activateTab(4, row.get('id'), 'taskform', null, true);
 			
 			if(activeTab){
+				
+				
+				//Grid de Condicoes
+				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
+				
+				//Grid de Equipamentos
+				grdEquip = Ext.ComponentQuery.query('#grdEquipments',activeTab)[0];
 			
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				
-				//Carrega registro no form
+				//Carrega dados na tela
 				form.loadRecord(row);
+				grdCond.setStore(row.conditions());
+				grdEquip.setStore(row.equipments());
 				
-				//Campos a desabilitar
-				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');
 				
-				//Desabilita Campos
-				Ext.each(fields,function(f){f.setReadOnly(true)})
-				
-				//Seta Botão Confirma: Exlcuir
+				//Seta Botão Confirma: 3 - Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+				
 			}
 		}
 	},
@@ -293,8 +312,8 @@ Ext.define('Sam.controller.Task', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTaskStore(),						//Store
-			record		= form.getRecord();											//Registro
+			store		= this.getTaskStore(),										//Store
+			record		= store.findRecord('id',values.id);							//Registro
 		
 		if(form.isValid()){
 			
