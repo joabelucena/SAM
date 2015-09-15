@@ -29,7 +29,7 @@ import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.TaskCondition;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.TaskService;
 
 /**
@@ -65,7 +65,7 @@ public class HomeController {
 			Model model, 
 			Authentication authentication) {
 		
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -92,7 +92,7 @@ public class HomeController {
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
 	public ResponseEntity<String> getUser(HttpServletRequest request, Authentication aut){
 		
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
 		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
 	}

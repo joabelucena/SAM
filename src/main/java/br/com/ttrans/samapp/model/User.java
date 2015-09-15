@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Scope("session")
 @Entity
 @Table(name="users")
-public class Users{
+public class User{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -33,8 +33,8 @@ public class Users{
 	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 	
-	public Users(){}
-	public Users(int id, String username, String password, String email,
+	public User(){}
+	public User(int id, String username, String password, String email,
 			Role role, UserStatus status) {
 		super();
 		this.id = id;

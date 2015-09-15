@@ -9,7 +9,7 @@ import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.ServiceStation;
 import br.com.ttrans.samapp.model.Task;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 
 public class JsonDeserialisationTest
 {
@@ -20,7 +20,7 @@ public class JsonDeserialisationTest
     public void allClassesUsedByOurControllersShouldBeDeserialisableByJackson() throws Exception
     {
     	assertCanBeMapped(Role.class);
-    	assertCanBeMapped(Users.class);
+    	assertCanBeMapped(User.class);
     	assertCanBeMapped(Menu.class);
     	assertCanBeMapped(ServiceStation.class);    	
     	assertCanBeMapped(Alarm.class);

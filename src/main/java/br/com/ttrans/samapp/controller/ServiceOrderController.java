@@ -42,7 +42,7 @@ import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.ServiceOrderType;
 import br.com.ttrans.samapp.model.SeverityLevel;
 import br.com.ttrans.samapp.model.StatusRule;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.ServiceOrderJobService;
 import br.com.ttrans.samapp.service.ServiceOrderLogService;
@@ -97,6 +97,9 @@ public class ServiceOrderController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 	
+	/*
+	 * Load Data Methods
+	 */
 	@RequestMapping("/load")
 	@ResponseBody
 	public Map loadData() {
@@ -385,7 +388,7 @@ public class ServiceOrderController {
 		
 		
 		//Retorna usuario logado na secao
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 
 		// Retorna OS
 		ServiceOrder so = soService.get(soId);
@@ -439,9 +442,10 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
 
 			} catch (QueryException e) {
-
+				
 				logger.error(e.getMessage());
 				result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+				
 			}
 		}else{
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale)+
@@ -481,21 +485,14 @@ public class ServiceOrderController {
 			HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("result", "");
-		result.put("type", "");
+		
+		result.put("result"	, "");
+		result.put("type"	, "");
 		
 		List<ServiceOrderType> types = soTypeService.loadData();
-		/*
-		String[][] types = new String[vType.size()][2];
-
-		for (int i = 0; i < types.length; i++) {
-			types[i][0] = vType.get(i)[0].toString();
-			types[i][1] = vType.get(i)[1].toString();
-		}
-
-		*/
-		result.put("result",messageSource.getMessage("response.Ok", null, locale));
-		result.put("type", types);
+		
+		result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
+		result.put("type"	, types);
 		
 		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}
@@ -510,7 +507,7 @@ public class ServiceOrderController {
 		ServiceOrder so = soService.get(soId);
 		
 		//Retorna usuario logado na secao
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
 		List<ServiceOrderStatus> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), so.getStatus());
 		

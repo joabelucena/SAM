@@ -7,7 +7,7 @@
     <session-factory>        
         
         <mapping class="br.com.ttrans.samapp.model.Parameter" />
-        <mapping class="br.com.ttrans.samapp.model.Users" />
+        <mapping class="br.com.ttrans.samapp.model.User" />
         <mapping class="br.com.ttrans.samapp.model.Role" />
         <mapping class="br.com.ttrans.samapp.model.Menu" />
         <mapping class="br.com.ttrans.samapp.model.Event" />

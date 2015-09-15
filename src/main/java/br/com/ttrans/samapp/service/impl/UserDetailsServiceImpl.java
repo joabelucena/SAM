@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.UserDao;
 import br.com.ttrans.samapp.model.UserStatus;
-import br.com.ttrans.samapp.model.Users;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -28,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		
-		Users user = userDao.findUserByName(username); //our own Users model class
+		br.com.ttrans.samapp.model.User user = userDao.findUserByName(username); //our own Users model class
 		
 		if(user!=null){
 			
