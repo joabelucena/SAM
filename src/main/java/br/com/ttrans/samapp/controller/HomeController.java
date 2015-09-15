@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.TaskCondition;
@@ -40,6 +41,9 @@ public class HomeController {
 	
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private MailClient client;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -91,6 +95,22 @@ public class HomeController {
 		Users user = (Users) request.getSession().getAttribute("loggedUser");
 		
 		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+	@ResponseBody
+	public String taskTest(){
+		
+		String cMessage = "<html>Oi <b>Joabe</b><br><br></html>";
+		
+		
+		client.sendMail(new String[]{"joabelucena@gmail.com"},
+				new String[]{"gabriellypontez.gp@gmail.com","joabelucena@hotmail.com"},
+				new String[]{"jlucena@ttrans.com.br"},
+				"TESTE com CC e CCO",
+				cMessage);
+		
+		return "test";
 	}
 	
 	@RequestMapping(value = "/test/task", method = RequestMethod.POST)

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.service.TaskService;
 
 @Component
@@ -16,6 +17,9 @@ public class Maintenance {
 	
 	@Autowired
 	private TaskService service;
+	
+	@Autowired
+	private MailClient mail;
 	
 	private static final Logger logger = LoggerFactory.getLogger(Maintenance.class);
 	
@@ -32,9 +36,17 @@ public class Maintenance {
 		} catch (Exception e) {
 			logger.error("** The following error(s) were found: ");
 			logger.error(e.getMessage());
+			
+			mail.sendMail(new String[]{"joabelucena@gmail.com"}, 
+					null, 
+					null, 
+					"Erro na execução das tarefas.", 
+					e.getMessage());
 		}
 		
 		logger.info(new SimpleDateFormat("dd/mm/YYYY hh:mm:ss a").format(new Date()) + " - Done");
 	}
+	
+	
 
 }

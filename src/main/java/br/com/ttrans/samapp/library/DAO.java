@@ -91,6 +91,23 @@ public class DAO {
 		}
 	}
 
+	
+	
+	/**
+	 * This function returns the Parameter content if exists or an empty String.
+	 * 
+	 * @param xParameter Parameter name
+	 * @return Parameter content
+	 */
+	@Transactional
+	public String getMv(String xParameter) {
+		String cReturn = this.getMv(xParameter, "");		
+		
+		return cReturn;
+
+	}
+	
+	
 	/**
 	 * This function returns the Parameter content if exists or xDefault value if doesn't.
 	 * 
