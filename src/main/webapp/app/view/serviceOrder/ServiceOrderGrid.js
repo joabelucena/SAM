@@ -11,7 +11,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	itemId: 'serviceordergrid',
 	
 	scrollable: true,
-
+	
 	columns : [
 	   {
 		   text: 'Código',
@@ -75,26 +75,68 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		    dock: 'bottom',
 		    
 		    items: [{
+	            xtype:'splitbutton',
+	            text:'Ações',
+	            width: 80,
+//	            cls:'x-btn-default-small',
+	            iconCls: 'toolbox',
+//	            glyph: 61,
+	            menu:[]
+	        }, '-', {
 		        xtype:'button',
 		    	id:'btnNewSo',
-		    	text:'Nova OS',
+		    	text:'Nova',
+		    	width: 80,
 		        tooltip:'Abrir Nova Ordem de Serviço',
 		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
+		        iconCls: 'blueprint-plus'
 		    },{
 		        xtype:'button',
-		    	id:'btnChangeSts',
-		    	text:'Mudar Estado',
-		        tooltip:'Mudar Estado da Ordem de Serviço',
+		    	id:'btnEdit',
+		    	text:'Apontar',
+		    	width: 80,
+		        tooltip:'Informar Serviços Realizados',
 		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
-		    },{
+		        iconCls: 'blueprint-pencil'
+		    }, '-',{
 		        xtype:'button',
 		    	id:'btnShowSo',
 		    	text:'Visualizar',
+		    	width: 80,
 		        tooltip:'Visuzalizar Ordem de Serviço',
 		        cls:'x-btn-default-small',
-		        iconCls: 'tick-button'
+		        iconCls: 'blueprint'
 		    }]
-		}]
+		}],
+
+		listeners:{
+			
+			beforerender: function(me, eOpts){
+				
+				Ext.Ajax.request({
+            		url : 'so/getAllowedStatus',
+            		method : 'POST',
+            		
+            		success: function (result, request) {
+            			
+            			var action = Ext.util.JSON.decode(result.responseText),
+            					menu = me.down('toolbar')
+            							.down('splitbutton')
+            							.getMenu();
+            			
+            			//Itera array de retorno e adiciona os valores no menu
+            			Ext.each(action.data,function(data){
+            				menu.add({
+            					text: data.feature.description,
+            					handler: function(item, event){
+            						this.fireEvent('change', item, event, data.id, (data.remark === "Y"));
+            					},
+            				});
+            			});
+            		}
+            	});
+			}
+		}
+
+
 });

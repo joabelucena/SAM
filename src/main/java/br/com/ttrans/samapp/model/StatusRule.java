@@ -39,9 +39,6 @@ public class StatusRule implements Serializable {
 	@JoinColumn(name="sru_nxt_status_id")
 	private ServiceOrderStatus nxtstatus;
 	
-	@Column(name="sru_log_remark")
-	private String remark;
-	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
 	
@@ -80,14 +77,6 @@ public class StatusRule implements Serializable {
 
 	public void setNxtstatus(ServiceOrderStatus nxtstatus) {
 		this.nxtstatus = nxtstatus;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 	public String getInsert() {

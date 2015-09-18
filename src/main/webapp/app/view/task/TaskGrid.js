@@ -24,7 +24,7 @@ Ext.define('Sam.view.task.TaskGrid', {
 	        }else{
 	        	metadata.tdCls = 'traffic-light-red';
 	        }
-		}		
+		}
 	},{
 		text : 'Código',
 		dataIndex : 'id',

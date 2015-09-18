@@ -132,9 +132,6 @@ var grid1 = {
 	width: '100%',
 	height: 150,
 
-//	store : 'Sam.store.TaskCondition',
-	
-	
 	columns : {
 		defaults: {
 			menuDisabled: true,

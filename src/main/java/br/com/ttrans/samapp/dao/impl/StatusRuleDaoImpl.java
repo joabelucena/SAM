@@ -69,7 +69,21 @@ public class StatusRuleDaoImpl implements StatusRuleDao {
 		
 		return crit.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ServiceOrderStatus> getStatusByRole(Role role){
 
+		Criteria crit = session.getCurrentSession().createCriteria(StatusRule.class);
+		
+		crit.setProjection(Projections.projectionList().
+				add(Projections.groupProperty("nxtstatus")));		
+		
+		crit.add(Restrictions.eq("role",role));
+		
+		return crit.list();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<StatusRule> loadData() {
