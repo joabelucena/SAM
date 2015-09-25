@@ -9,10 +9,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Table(name="parameters")
 @Entity
 @SequenceGenerator(name = "INC_PARAMETER", sequenceName = "GEN_PAR_ID")
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Parameter {
 	
 	@Id

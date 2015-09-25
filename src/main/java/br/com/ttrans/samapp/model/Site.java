@@ -10,9 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Sites")
 @SequenceGenerator(name = "INC_SITE", sequenceName = "GEN_SIT_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Site {
 
 	@Id

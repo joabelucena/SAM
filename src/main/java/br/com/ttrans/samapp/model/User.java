@@ -13,10 +13,12 @@ import javax.persistence.Table;
 import org.springframework.context.annotation.Scope;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Scope("session")
 @Entity
 @Table(name="users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

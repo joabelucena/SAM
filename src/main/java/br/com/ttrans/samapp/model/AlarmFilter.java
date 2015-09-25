@@ -10,9 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Alarms_Filter")
 @SequenceGenerator(name="INC_ALARMS_FILTER",sequenceName="GEN_AFI_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AlarmFilter {
 	
 	@Id

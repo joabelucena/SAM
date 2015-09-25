@@ -386,6 +386,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 								buttons : [ {
 									text : 'Confirma',
 									itemId: 'submit',
+									scope: me,
 							        cls:'x-btn-default-small',
 							        iconCls: 'tick-button',
 							        handler: function(button) {

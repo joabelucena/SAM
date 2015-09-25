@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.model;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -238,5 +239,41 @@ public class ServiceOrder {
 
 	public void setUpdate(String update) {
 		this.update = update;
+	}
+	
+	/**
+	 * Retrieves the last Log record.
+	 * 	 * 
+	 * @return ServiceOrderLog
+	 */
+	public ServiceOrderLog getLastLog(){
+		
+		Iterator<ServiceOrderLog> it = this.getLog().iterator(); 
+		
+		while(it.hasNext()){
+			
+			ServiceOrderLog log = it.next();
+			
+			if(!it.hasNext()) return log;			
+		}
+		
+		return null;
+	}
+
+	
+	/**
+	 * Check if last status log is not equals to current.
+	 * 
+	 * @return Boolean
+	 */
+	public boolean statusChanged(){
+		
+		if(this.getLastLog() != null){ 
+		
+			if(!this.getLastLog().getCurstatus().equals(this.status)) return true;
+			
+		}
+		
+		return false;
 	}
 }

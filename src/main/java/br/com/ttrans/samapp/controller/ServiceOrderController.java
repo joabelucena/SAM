@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
@@ -537,28 +535,22 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/update.action")
 	@ResponseBody
-	public Map updateSo(@RequestBody Map so, 
+	public Map updateSo(@RequestBody ServiceOrder so, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		mapper.convertValue(so, ServiceOrder.class);
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			//soService.edit(so, authentication);
+			soService.edit(so, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
 		
 		return result;
 	}
-	
-	
 	
 	/**
 	 * CRUD Operations for: ServiceOrderJob

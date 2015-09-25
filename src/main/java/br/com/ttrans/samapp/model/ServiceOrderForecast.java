@@ -10,9 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @SequenceGenerator(name="INC_FORECAST",sequenceName="GEN_SOF_ID")
 @Table(name="Service_Order_Forecast")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrderForecast {
 	
 	@Id
