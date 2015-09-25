@@ -15,7 +15,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	
 	<!-- Servlets Files Mapping -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -76,6 +75,7 @@
 	<servlet-mapping>
 		<servlet-name>ws</servlet-name>
 		<url-pattern>/eventsService/*</url-pattern>
+		<url-pattern>/alarmService/*</url-pattern>
 		<url-pattern>/systemService/*</url-pattern>
 	</servlet-mapping>
 	
