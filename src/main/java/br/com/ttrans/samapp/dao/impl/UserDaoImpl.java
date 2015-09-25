@@ -5,24 +5,23 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.UserDao;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 @Repository
 public class UserDaoImpl implements UserDao {
 	@Autowired
 	private SessionFactory session;
 	
 	@Override
-	public void addUser(Users user) {
+	public void addUser(User user) {
 		session.getCurrentSession().save(user);
 	}
 
 	@Override
-	public void editUser(Users user) {
+	public void editUser(User user) {
 		session.getCurrentSession().update(user);
 	}
 
@@ -32,20 +31,23 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Users findUser(int userId) {
-		return (Users) session.getCurrentSession().get(Users.class, userId);
+	public User findUser(int userId) {
+		return (User) session.getCurrentSession().get(User.class, userId);
 	}
 
 	@Override
-	public Users findUserByName(String username) {
-		Criteria criteria = session.getCurrentSession().createCriteria(Users.class);
+	public User findUserByName(String username) {
+		Criteria criteria = session.getCurrentSession().createCriteria(User.class);
 		criteria.add(Restrictions.eq("username", username));
-		return (Users) criteria.uniqueResult();
+		return (User) criteria.uniqueResult();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Users> getAllUsers() {
-		return session.getCurrentSession().createQuery("from Users").list();
+	public List<User> getAllUsers() {
+		return session.getCurrentSession().createCriteria(User.class)
+				.setResultTransformer(Criteria.ROOT_ENTITY)
+				.list();
 	}
 
 }

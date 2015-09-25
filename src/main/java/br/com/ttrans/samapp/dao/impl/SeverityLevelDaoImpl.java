@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,12 +36,12 @@ public class SeverityLevelDaoImpl implements SeverityLevelDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<SeverityLevel> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(SeverityLevel.class);
+		return session.getCurrentSession().createCriteria(SeverityLevel.class).list();
 		
-		return crit.list();
 	}
 
 }

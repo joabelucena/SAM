@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 <%@attribute name="authenticationTicket" required="false" type="java.lang.String"%>
 
 <%
+
 StringBuffer mainUrl = new StringBuffer();
 mainUrl.append(spagobiContext + "/servlet/AdapterHTTP?NEW_SESSION=true");
 mainUrl.append("&ACTION_NAME=EXECUTE_DOCUMENT_ACTION");
@@ -53,23 +54,26 @@ if (documentId != null) {
 } else {
 	mainUrl.append("&OBJECT_LABEL=" + documentLabel);
 }
-if (parametersStr != null) mainUrl.append("&PARAMETERS=" + URLEncoder.encode(parametersStr));
+if (parametersStr != null) mainUrl.append("&PARAMETERS=" + URLEncoder.encode(parametersStr,java.nio.charset.StandardCharsets.UTF_8.toString()));
 if (parametersMap != null && !parametersMap.isEmpty()) {
+	
+	@SuppressWarnings("unchecked")
 	Set<String> keys = parametersMap.keySet();
 	Iterator<String> keysIt = keys.iterator();
 	while (keysIt.hasNext()) {
 		String urlName = keysIt.next();
 		Object valueObj = parametersMap.get(urlName);
 		if (valueObj != null) {
-			mainUrl.append("&" + URLEncoder.encode(urlName) + "=" + URLEncoder.encode(valueObj.toString()));
+			mainUrl.append("&" + URLEncoder.encode(urlName, java.nio.charset.StandardCharsets.UTF_8.toString())
+					+ "=" + URLEncoder.encode(valueObj.toString(),java.nio.charset.StandardCharsets.UTF_8.toString()));
 		}
 	}
 }
-if (executionRole != null) mainUrl.append("&ROLE=" + URLEncoder.encode(executionRole));
+if (executionRole != null) mainUrl.append("&ROLE=" + URLEncoder.encode(executionRole,java.nio.charset.StandardCharsets.UTF_8.toString()));
 if (displayToolbar != null) mainUrl.append("&TOOLBAR_VISIBLE=" + displayToolbar.toString());
 if (displaySliders != null) mainUrl.append("&SLIDERS_VISIBLE=" + displaySliders.toString());
 if (theme != null)	mainUrl.append("&theme=" + theme);
-if (authenticationTicket != null) mainUrl.append("&auth_ticket=" + URLEncoder.encode(authenticationTicket));
+if (authenticationTicket != null) mainUrl.append("&auth_ticket=" + URLEncoder.encode(authenticationTicket,java.nio.charset.StandardCharsets.UTF_8.toString()));
 
 String encryptedPassword = null;
 DefaultCipher chiper = new DefaultCipher();

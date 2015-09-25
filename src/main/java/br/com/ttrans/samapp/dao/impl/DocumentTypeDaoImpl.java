@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,12 +33,12 @@ public class DocumentTypeDaoImpl implements DocumentTypeDao {
 		session.getCurrentSession().delete(type);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<DocumentType> loadData() {
 		
-		Criteria crit = session.getCurrentSession().createCriteria(DocumentType.class);
+		return session.getCurrentSession().createCriteria(DocumentType.class).list();
 		
-		return crit.list();
 	}
 
 }

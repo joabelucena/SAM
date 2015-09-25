@@ -40,12 +40,17 @@ public class StatusRuleServiceImpl implements StatusRuleService {
 	}
 	
 	@Transactional
-	public List<String> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
+	public List<ServiceOrderStatus> getAllowedStatus(Role role, ServiceOrderStatus curstatus){
 		return dao.getAllowedStatus(role, curstatus);
 	}
 	
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrderStatus> getStatusByRole(Role role){
+		return dao.getStatusByRole(role);
+	}
+	
+	@Transactional
+	public List<StatusRule> loadData() {
 		return dao.loadData();
 	}
 }

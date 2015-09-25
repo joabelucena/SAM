@@ -22,7 +22,7 @@
 	       	/WEB-INF/spring/appServlet/security-servlet.xml
 	       	/WEB-INF/spring/appServlet/app-servlet.xml
 	       	/WEB-INF/spring/appServlet/ws-servlet.xml
-	       	/WEB-INF/spring/appServlet/task-servlet.xml
+	       	/WEB-INF/spring/appServlet/job-servlet.xml
 	       	/WEB-INF/spring/appServlet/snmp-servlet.xml
 	    </param-value>
 	</context-param>
@@ -82,11 +82,11 @@
 	
 	<!-- Servlet: task-servlet -->
 	<servlet>
-		<servlet-name>taskServlet</servlet-name>
+		<servlet-name>jobServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/task-servlet.xml</param-value>
+			<param-value>/WEB-INF/spring/appServlet/job-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>-1</load-on-startup>
 	</servlet>

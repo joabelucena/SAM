@@ -43,12 +43,13 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 		return (ServiceOrder) session.getCurrentSession().get(ServiceOrder.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrder> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrder.class,"serviceorder");
-
-		return crit.list();		
+		return session.getCurrentSession().createCriteria(ServiceOrder.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 
 	}
 }

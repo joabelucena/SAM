@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.UserDao;
 import br.com.ttrans.samapp.model.UserStatus;
-import br.com.ttrans.samapp.model.Users;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -28,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		
-		Users user = userDao.findUserByName(username); //our own Users model class
+		br.com.ttrans.samapp.model.User user = userDao.findUserByName(username); //our own Users model class
 		
 		if(user!=null){
 			
@@ -39,13 +38,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			boolean credentialsNonExpired = user.getStatus().equals(UserStatus.ACTIVE);
 			boolean accountNonLocked = user.getStatus().equals(UserStatus.ACTIVE);
 			
-			//Let's populate user roles
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			
-			//Single Role Addi'n
 			authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));			
 			
-			//Now let's create Spring Security Users object
 			User securityUser = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 			return securityUser;
 		}else{

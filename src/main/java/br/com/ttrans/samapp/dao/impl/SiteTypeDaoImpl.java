@@ -48,15 +48,17 @@ public class SiteTypeDaoImpl implements SiteTypeDao {
 		return (SiteType)crit.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAll() {
-		return session.getCurrentSession().createQuery("from SiteType").list();
+	public List<SiteType> getAll() {
+		
+		return session.getCurrentSession().createCriteria(SiteType.class).list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
-		Criteria crit = session.getCurrentSession().createCriteria(SiteType.class,"type");
-				
-		return crit.list();
+	public List<SiteType> loadData() {
+		
+		return session.getCurrentSession().createCriteria(SiteType.class).list();		
 	}
 }

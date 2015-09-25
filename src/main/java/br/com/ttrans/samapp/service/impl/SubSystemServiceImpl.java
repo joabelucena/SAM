@@ -33,7 +33,7 @@ public class SubSystemServiceImpl implements SubSystemService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<SubSystem> loadData() {
 		return dao.loadData();
 	}
 

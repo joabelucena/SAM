@@ -1,7 +1,7 @@
  Ext.application({
 	name : 'Sam',
 	
-	requires: ['Sam.lib.AssociatedWriter'],
+	requires: ['Sam.lib.AssociatedWriter','Sam.lib.AdvancedVType'],
 	
 	launch : function() 
 	{

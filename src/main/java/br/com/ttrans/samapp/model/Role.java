@@ -30,9 +30,9 @@ public class Role{
 	@Column
 	private String roleName;
 
-	@OneToMany(mappedBy = "role", targetEntity = Users.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "role", targetEntity = User.class, fetch = FetchType.EAGER)
 //	@JsonManagedReference(value="role")
-	private List<Users> users = new LinkedList<Users>();
+	private List<User> users = new LinkedList<User>();
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="role_features",
@@ -76,11 +76,11 @@ public class Role{
 		this.roleName = roleName;
 	}
 
-	public List<Users> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<Users> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 

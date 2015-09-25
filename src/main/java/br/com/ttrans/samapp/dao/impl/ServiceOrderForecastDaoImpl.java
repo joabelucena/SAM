@@ -43,12 +43,13 @@ public class ServiceOrderForecastDaoImpl implements ServiceOrderForecastDao {
 		return (ServiceOrderForecast) session.getCurrentSession().get(ServiceOrderForecast.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrderForecast> loadData() {
 
-		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderForecast.class,"forecast");
-		
-		return crit.list();
+		return session.getCurrentSession().createCriteria(ServiceOrderForecast.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 

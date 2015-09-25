@@ -22,8 +22,7 @@ Ext.define('Sam.controller.Task', {
 				create: this.onTaskBtnSubmitAdd,
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onTaskBtnSubmitEdit,
-				remove: this.onTaskBtnSubmitDelete,
-				
+				remove: this.onTaskBtnSubmitDelete
 			},
 			
 			'#taskgrid toolbar #btnShow' :{
@@ -94,8 +93,12 @@ Ext.define('Sam.controller.Task', {
 				
 				//Carrega dados na tela
 				form.loadRecord(row);
-				grdCond.getStore().add(store.findRecord('id',row.get('id')).get('items'));
-				grdEquip.getStore().add(store.findRecord('id',row.get('id')).get('equipments'));
+				grdCond.setStore(row.conditions());
+				grdEquip.setStore(row.equipments());
+				
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');				
 				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab);
@@ -125,6 +128,10 @@ Ext.define('Sam.controller.Task', {
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
+		var activeTab, grdCond, grdEquip, store = null;
+		
+		store = this.getTaskStore();
+		
 		//Tem Registro Selecionado
 		if(row){
 			
@@ -133,14 +140,28 @@ Ext.define('Sam.controller.Task', {
 			
 			if(activeTab){
 				
+				
+				//Grid de Condicoes
+				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
+				
+				//Grid de Equipamentos
+				grdEquip = Ext.ComponentQuery.query('#grdEquipments',activeTab)[0];
+			
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				
-				//Carrega registro no form
+				//Carrega dados na tela
 				form.loadRecord(row);
+				grdCond.setStore(row.conditions());
+				grdEquip.setStore(row.equipments());
 				
-				//Seta Botão Confirma: Alterar
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');
+				
+				//Seta Botão Confirma: 3 - Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
+				
 			}
 		}
 	},
@@ -151,13 +172,34 @@ Ext.define('Sam.controller.Task', {
 		//Cria Aba: 2 - Incluir
 		var activeTab = this.activateTab(2, null, 'taskform', null, true);
 		
+		var row = Ext.create('Sam.model.Task');
+		
+		var activeTab, grdCond, grdEquip, store = null;
+		
 		if(activeTab){
 	
+			//Grid de Condicoes
+			grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
+			
+			//Grid de Equipamentos
+			grdEquip = Ext.ComponentQuery.query('#grdEquipments',activeTab)[0];
+		
+			//Retorna Form
+			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+			
+			//Retorna Form
+			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+			
+			//Carrega dados na tela
+			form.loadRecord(row);
+			grdCond.setStore(row.conditions());
+			grdEquip.setStore(row.equipments());
+			
+			
 			//Seta Botão Confirma: Incluir
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 			
-			//Habilita edição do ID
-//			Ext.ComponentQuery.query('#id' , activeTab)[0].setEditable(true);
+
 		}
 
 
@@ -167,6 +209,10 @@ Ext.define('Sam.controller.Task', {
 		//Linha selecionada
 		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
 		
+		var activeTab, grdCond, grdEquip, store = null;
+		
+		store = this.getTaskStore();
+		
 		//Tem Registro Selecionado
 		if(row){
 			
@@ -174,21 +220,29 @@ Ext.define('Sam.controller.Task', {
 			activeTab = this.activateTab(4, row.get('id'), 'taskform', null, true);
 			
 			if(activeTab){
+				
+				
+				//Grid de Condicoes
+				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
+				
+				//Grid de Equipamentos
+				grdEquip = Ext.ComponentQuery.query('#grdEquipments',activeTab)[0];
 			
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				
-				//Carrega registro no form
+				//Carrega dados na tela
 				form.loadRecord(row);
+				grdCond.setStore(row.conditions());
+				grdEquip.setStore(row.equipments());
 				
-				//Campos a desabilitar
-				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				//Ordena a store
+				grdCond.getStore().sort('seq','ASC');
+				grdEquip.getStore().sort('id','ASC');
 				
-				//Desabilita Campos
-				Ext.each(fields,function(f){f.setReadOnly(true)})
-				
-				//Seta Botão Confirma: Exlcuir
+				//Seta Botão Confirma: 3 - Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
+				
 			}
 		}
 	},
@@ -200,7 +254,7 @@ Ext.define('Sam.controller.Task', {
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
 			store		= this.getTaskStore(),										//Store
-			record		= Ext.create('Sam.model.Task');							//Registro
+			record		= Ext.create('Sam.model.Task');								//Registro
 		
 		
 		
@@ -210,8 +264,8 @@ Ext.define('Sam.controller.Task', {
 			record.set(values);
 			
 			//Carrega Objetos
-			record.conditions().add(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
-			record.equipments().add(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
+			record.conditions().setData(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
+			record.equipments().setData(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
 			record.setAlarm(Ext.create('Sam.model.Alarm',{id: values.alarm_id}));
 			
 			
@@ -231,27 +285,18 @@ Ext.define('Sam.controller.Task', {
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
-			values		= form.getValues(),											//Dados do Formulario
 			store		= this.getTaskStore(),										//Store
-			record		= form.getRecord();											//Registro
+			updated		= form.getRecord(),											//Dados atualizado
+			record		= store.findRecord('id',updated.get('id'));					//Registro
 		
 		if(form.isValid()){
-			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set(values);
 			
-			//Carrega Objetos
-			store.findRecord('id',record.get('id')).set(
-					{	group:		Ext.create('Sam.model.TaskGroup'		,{id: values.group_id	, desc: values.group_desc	}),
-						type:		Ext.create('Sam.model.TaskType'		,{id: values.type_id	, desc: values.type_desc	}),
-						model: 		Ext.create('Sam.model.EquipmentModel'	,{id: values.model_id	, desc: values.model_desc	}),
-						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
-			});
+			form.updateRecord();
 			
-			if(values.task_id !== ""){
-				store.findRecord('id',record.get('id')).set(
-					{	normTask:	Ext.create('Sam.model.Task'			,{id: values.task_id	, desc: values.task_desc	})
-				});
-			}
+			//Carrega dados do Formulario no registro
+			record.set(updated.getData());
+			record.conditions().setData(updated.conditions().getData());
+			record.equipments().setData(updated.equipments().getData());
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#taskgrid');
@@ -267,8 +312,8 @@ Ext.define('Sam.controller.Task', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTaskStore(),						//Store
-			record		= form.getRecord();											//Registro
+			store		= this.getTaskStore(),										//Store
+			record		= store.findRecord('id',values.id);							//Registro
 		
 		if(form.isValid()){
 			
@@ -343,7 +388,6 @@ Ext.define('Sam.controller.Task', {
 				break;
 			default:
 				title = uTitle;
-		
 		}
 		
 		var newTab = mainPanel.items.findBy(
@@ -356,7 +400,6 @@ Ext.define('Sam.controller.Task', {
 				id: tabId,
 				xtype: xtype,
 				closable: true,
-//				autoDestroy: false,
 				iconCls: 'magnifier-zoom',
 				title: title
 			});

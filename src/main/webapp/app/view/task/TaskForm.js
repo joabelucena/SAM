@@ -132,9 +132,6 @@ var grid1 = {
 	width: '100%',
 	height: 150,
 
-	store : 'Sam.store.TaskCondition',
-	
-	
 	columns : {
 		defaults: {
 			menuDisabled: true,
@@ -146,7 +143,6 @@ var grid1 = {
 			maxWidth: 32,
 			minWidth: 32,
 			menuDisabled: true,
-			sortable: true,
 		}, {
 			text : 'Op. Logico',
 			flex : 1,
@@ -268,9 +264,9 @@ var grid2 = {
 	scrollable: true,
 	height: 150,
 	dockedItems:[],
-	store: Ext.create('Sam.store.Equipment',{
-		autoLoad: false
-	}),
+//	store: Ext.create('Sam.store.Equipment',{
+//		autoLoad: false
+//	}),
 	columns: {
 	defaults: {
 			menuDisabled: true,

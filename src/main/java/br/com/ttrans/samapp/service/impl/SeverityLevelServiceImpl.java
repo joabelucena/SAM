@@ -33,7 +33,7 @@ public class SeverityLevelServiceImpl implements SeverityLevelService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<SeverityLevel> loadData() {
 		return dao.loadData();
 	}
 

@@ -32,7 +32,8 @@ Ext.define('Sam.view.event.openSO.histSO.EventHistSO', {
 	        	 collapsible: true,
 	             region: 'south',
 	             margin: '5 0 0 0',
-	             minHeight: 100,
+	             minHeight: 250,
+	             Height: 250
         }
     ]
 });

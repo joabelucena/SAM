@@ -16,10 +16,12 @@ Ext.define('Sam.model.Task', {
 	        {name: 'alarm_desc'		, type: 'string'	, mapping: 'alarm.desc'		}
 	        
         ],
+        
+        idProperty: 'mockId',	// <-- This must exist for avoid ext to creating an 'id' property as string
 	
-    belongsTo:  [{name: 'alarm', model: 'Sam.model.Alarm'	, foreignKey: 'alarm_id'	}],
+        belongsTo:  [{name: 'alarm', model: 'Sam.model.Alarm'	, foreignKey: 'alarm_id'	}],
     
-    hasMany: [{name: 'conditions', model: 'Sam.model.TaskCondition'	, foreignKey: 'task_id'},
-              {name: 'equipments', model: 'Sam.model.Equipment'		}]
+        hasMany: [{name: 'conditions', model: 'Sam.model.TaskCondition'	, foreignKey: 'task_id'},
+                  {name: 'equipments', model: 'Sam.model.Equipment'		}]
 
 });

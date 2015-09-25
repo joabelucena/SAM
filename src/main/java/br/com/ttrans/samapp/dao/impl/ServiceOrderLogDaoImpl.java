@@ -37,12 +37,13 @@ public class ServiceOrderLogDaoImpl implements ServiceOrderLogDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrderLog> loadData() {
 		
-		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderLog.class,"log");
-		
-		return crit.list();
+		return session.getCurrentSession().createCriteria(ServiceOrderLog.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 }

@@ -41,7 +41,7 @@ public class ServiceOrderForecastServiceImpl implements
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrderForecast> loadData() {
 		return dao.loadData();
 	}
 }

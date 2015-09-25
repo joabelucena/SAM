@@ -3,13 +3,16 @@ package br.com.ttrans.samapp.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.AlarmType;
 import br.com.ttrans.samapp.model.Counter;
 import br.com.ttrans.samapp.model.Counter.CounterId;
 import br.com.ttrans.samapp.model.Equipment;
@@ -89,11 +92,33 @@ public class CounterDaoImpl implements CounterDao {
 	public Counter get(CounterId id){
 		return (Counter) session.getCurrentSession().get(Counter.class, id);
 	}
+	
+	@Override
+	public Integer getCountByType(Equipment equipment, AlarmType type){
+		
+		String cQuery = "SELECT"
+				+ " COALESCE(SUM(ACO_COUNTER),0) as COUNTER"
+				+ " FROM ALARM_COUNTER"
+				+ " LEFT JOIN ALARMS"
+				+ " ON ACO_ALARM_ID = ALM_ID"
+				+ " LEFT JOIN ALARMS_TYPE"
+				+ " ON ALM_TYPE_ID = ATY_ID"
+				+ " WHERE"
+				+ " ACO_EQUIPMENT_ID = '" + equipment.getId() + "'"
+				+ " AND ATY_ID = " + type.getId();
+		
+		SQLQuery query = session.getCurrentSession().createSQLQuery(cQuery)
+				.addScalar("COUNTER", Hibernate.INTEGER);
+		
+		//Attributes counter value to counter variable
+		return ((Integer) query.uniqueResult()).intValue();
+	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Counter> loadData() {
 
-		return (List<Counter>) session.getCurrentSession().createCriteria(Counter.class).list();
+		return session.getCurrentSession().createCriteria(Counter.class).list();
 		
 	}
 }

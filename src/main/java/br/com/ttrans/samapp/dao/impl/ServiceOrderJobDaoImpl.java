@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,12 +41,12 @@ public class ServiceOrderJobDaoImpl implements ServiceOrderJobDao {
 		return (ServiceOrderJob) session.getCurrentSession().get(ServiceOrderJob.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<ServiceOrderJob> loadData() {
 		
-		Criteria crit = session.getCurrentSession().createCriteria(ServiceOrderJob.class);
+		return session.getCurrentSession().createCriteria(ServiceOrderJob.class).list();		
 		
-		return crit.list();
 	}
 
 }

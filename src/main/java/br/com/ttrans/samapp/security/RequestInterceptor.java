@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import br.com.ttrans.samapp.model.SystemFeature;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 
 @Component
 public class RequestInterceptor extends HandlerInterceptorAdapter {
@@ -28,7 +28,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 		
 		boolean lReturn = true;
 				
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
 		if (!user.getRole().getFeatures().contains(new SystemFeature(request.getServletPath()))){
 			

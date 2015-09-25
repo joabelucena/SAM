@@ -21,12 +21,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Menu;
-import br.com.ttrans.samapp.model.Task;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.ServiceOrderStatus;
+import br.com.ttrans.samapp.model.User;
+import br.com.ttrans.samapp.service.StatusRuleService;
 import br.com.ttrans.samapp.service.TaskService;
 
 /**
@@ -38,6 +39,12 @@ public class HomeController {
 	
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private StatusRuleService ruleService;	
+	
+	@Autowired
+	private MailClient client;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -54,9 +61,12 @@ public class HomeController {
 	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> menuLoad(HttpServletRequest request, Locale locale, Model model, Authentication authentication) {
+	public Map<String, Object> menuLoad(HttpServletRequest request, 
+			Locale locale, 
+			Model model, 
+			Authentication authentication) {
 		
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -66,9 +76,7 @@ public class HomeController {
 		
 		while(it.hasNext()){
 			Menu mn = it.next();
-			if(mn.getParent() == null){
-				menu.add(mn);
-			}
+			if(mn.getParent() == null) menu.add(mn);
 		}
 		
 		result.put("items", menu);
@@ -83,66 +91,42 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
-	public ResponseEntity<String> getUser(HttpServletRequest request, Authentication aut){
+	@ResponseBody
+	public String getUser(HttpServletRequest request, Authentication aut){
 		
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
-		return new ResponseEntity<String>(user.getUsername() + " | " +user.getRole().getRoleName() , HttpStatus.OK);
+		return user.getUsername() + " | " +user.getRole().getRoleName();
 	}
 	
-	@RequestMapping(value = "/test/task", method = RequestMethod.POST)
+	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
 	@ResponseBody
-	public String taskTest(
-			@RequestParam(defaultValue="",required=false,value="str1") String str1,
-			@RequestParam(defaultValue="",required=false,value="str2") String str2,
-			@RequestParam(defaultValue="",required=false,value="int1") int int1,
-			@RequestParam(defaultValue="",required=false,value="int2") int int2,
-			HttpServletRequest request, Authentication aut){
+	public String taskTest(){
 		
-		Task task = taskService.get(int1);
-		/*
-		Task task = new Task();
-		Set<TaskCondition> conditions = new HashSet<TaskCondition>();
-		TaskCondition cond = new TaskCondition();
+		String cMessage = "<html>Oi <b>Joabe</b><br><br></html>";
 		
-		cond.setField("test");
-		cond.setLogicOper("OU");
-		cond.setRelOper(">=");
-		cond.setTask(task);
-		cond.setType(TaskType.ALARM);
-		cond.setSeq("01");
-		cond.setValue(2);
-		cond.setInsert("JOABE");
 		
-		conditions.add(cond);
+		client.sendMail(new String[]{"joabelucena@gmail.com"},
+				new String[]{"gabriellypontez.gp@gmail.com","joabelucena@hotmail.com"},
+				new String[]{"jlucena@ttrans.com.br"},
+				"TESTE com CC e CCO",
+				cMessage);
 		
-		task.setActive(1);
-		task.setAlarm(new Alarm("XPTOLEVE"));
-		task.setDesc("TESTE HIBERNATE");
-		task.setInsert("JOABE");
-		task.setItems(conditions);
-
+		return "test";
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> testeSam(HttpServletRequest request){
 		
-		taskService.add(task, aut);
-		*/
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
-		//Alarm al2 = new Alarm("LALAL");
-		/*
-		Alarm al = alarmService.get(alarm);
-		Equipment eq = equipmentService.get(equipment);
+		List<ServiceOrderStatus> status = ruleService.getStatusByRole(user.getRole());
 		
-		counterService.countIt(al,eq);
-		//taskService.proccess(task);
-		*/
+		Map<String,Object> result = new HashMap<String, Object>();
 		
-		/*
-		Alarm al = new Alarm(alarm);
-		Equipment eq = new Equipment(equipment);
+		result.put("data", status);
 		
-		counterService.reset(al, eq);
-		*/
-		
-		taskService.proccess(task);
-		return "SAM test method";
+		return result;
 	}
 }

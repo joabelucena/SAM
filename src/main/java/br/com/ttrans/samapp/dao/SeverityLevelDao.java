@@ -6,10 +6,10 @@ import org.springframework.security.core.Authentication;
 
 import br.com.ttrans.samapp.model.SeverityLevel;
 
-@SuppressWarnings("rawtypes")
+
 public interface SeverityLevelDao {
 	public void add(SeverityLevel severity, Authentication authentication);
 	public void edit(SeverityLevel severity, Authentication authentication);
 	public void delete(SeverityLevel severity, Authentication authentication);
-	public List loadData();
+	public List<SeverityLevel> loadData();
 }

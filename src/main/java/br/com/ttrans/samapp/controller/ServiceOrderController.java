@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -42,7 +40,7 @@ import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.ServiceOrderType;
 import br.com.ttrans.samapp.model.SeverityLevel;
 import br.com.ttrans.samapp.model.StatusRule;
-import br.com.ttrans.samapp.model.Users;
+import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.ServiceOrderJobService;
 import br.com.ttrans.samapp.service.ServiceOrderLogService;
@@ -75,7 +73,7 @@ public class ServiceOrderController {
 	private ServiceOrderLogService soLogService;
 	
 	@Autowired
-	private StatusRuleService soStatusRuleService;
+	private StatusRuleService ruleService;
 
 	@Autowired
 	private StatusRuleValidator statusRuleValidator;
@@ -97,6 +95,9 @@ public class ServiceOrderController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 	
+	/**
+	 * Load Data Methods
+	 */
 	@RequestMapping("/load")
 	@ResponseBody
 	public Map loadData() {
@@ -158,13 +159,13 @@ public class ServiceOrderController {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		result.put("data", soStatusRuleService.loadData());
+		result.put("data", ruleService.loadData());
 		
 		return result;
 	}
 	
 	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
-	public ResponseEntity<Map> newFromEvent(
+	public Map<String, Object> newFromEvent(
 			@RequestParam(value = "eveId"			, required = true) long eveId,
 			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
 			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
@@ -187,7 +188,7 @@ public class ServiceOrderController {
 		Event event = eventService.get(eveId);
 		
 		//Retorna status inicial cadastrado em parametro		
-		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.getMv("SAM_SOSTATUS", "")); 
 
 		//Cria objeto de log
 		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
@@ -226,7 +227,7 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
 				result.put("soId"	, id);
 				
-				return new ResponseEntity<Map>(result, HttpStatus.OK);
+				return result;
 				
 			}else{
 				
@@ -234,7 +235,7 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.so.Failure", null, locale)+
 						errorMessageHandler.toStringList(err, locale));
 				
-				return new ResponseEntity<Map>( result, HttpStatus.OK);
+				return result;
 			}
 			
 		//Query Errors
@@ -243,7 +244,7 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 
 		//Not Found Objects
 		} catch (NullPointerException e) {
@@ -251,7 +252,7 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.so.NullPointer", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 		
 		//Erros genericos
 		} catch (GenericJDBCException e){
@@ -259,13 +260,13 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 			
 		} 
 	}
 	
 	@RequestMapping(value = "/newFromSo", method = RequestMethod.POST)
-	public ResponseEntity<Map> newFromSo(
+	public Map<String, Object> newFromSo(
 			@RequestParam(value = "equipId"			, required = true) String equipId,
 			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
 			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
@@ -286,7 +287,7 @@ public class ServiceOrderController {
 		Errors err = new BindException(so, "serviceorder");
 		
 		//Retorna status inicial cadastrado em parametro		
-		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.GetMv("SAM_SOSTATUS", "")); 
+		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.getMv("SAM_SOSTATUS", "")); 
 
 		//Cria objeto de log
 		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
@@ -325,7 +326,7 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
 				result.put("soId"	, id);
 				
-				return new ResponseEntity<Map>(result, HttpStatus.OK);
+				return result;
 				
 			}else{
 				
@@ -333,7 +334,7 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.so.Failure", null, locale)+
 						errorMessageHandler.toStringList(err, locale));
 				
-				return new ResponseEntity<Map>( result, HttpStatus.OK);
+				return result;
 			}
 			
 		//Query Errors
@@ -342,7 +343,7 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 
 		//Not Found Objects
 		} catch (NullPointerException e) {
@@ -350,7 +351,7 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.so.NullPointer", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 		
 		//Erros genericos
 		} catch (GenericJDBCException e){
@@ -358,20 +359,20 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 			
 		}catch (UncategorizedSQLException e){
 			
 			logger.error(e.getMessage());
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
 			
-			return new ResponseEntity<Map>(result , HttpStatus.OK);
+			return result;
 			
 		}
 	}
 	
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
-	public ResponseEntity<Map> changeStatus(
+	public Map<String, Object> changeStatus(
 			@RequestParam(value = "soId"	, required = true)	int soId,
 			@RequestParam(value = "stsId"	, required = true)	int stsId,
 			@RequestParam(value = "stop"	, required = false)	String stop,
@@ -385,7 +386,7 @@ public class ServiceOrderController {
 		
 		
 		//Retorna usuario logado na secao
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		User user = (User) request.getSession().getAttribute("loggedUser");
 
 		// Retorna OS
 		ServiceOrder so = soService.get(soId);
@@ -427,7 +428,6 @@ public class ServiceOrderController {
 		rule.setNxtstatus(newStatus);
 		
 		rule.setRole(user.getRole());
-		rule.setRemark(!obs.isEmpty() ? "Y" : "N");
 
 		statusRuleValidator.validate(rule, err, "edit");
 
@@ -439,20 +439,21 @@ public class ServiceOrderController {
 				result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
 
 			} catch (QueryException e) {
-
+				
 				logger.error(e.getMessage());
 				result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
+				
 			}
 		}else{
 			result.put("result"	,messageSource.getMessage("response.Failure", null, locale)+
 					errorMessageHandler.toStringList(err, locale));
 		}
 
-		return new ResponseEntity<Map>(result , HttpStatus.OK);
+		return result;
 	}
 	
 	@RequestMapping(value = "/get", method = RequestMethod.POST)
-	public ResponseEntity<Map> get(
+	public Map<String, Object> get(
 			@RequestParam(value = "soId"	, required = true)	int id,
 			Authentication authentication,
 			Locale locale,
@@ -472,61 +473,75 @@ public class ServiceOrderController {
 			logger.error(e.getMessage());
 			
 		}
-		return new ResponseEntity<Map>(result, HttpStatus.OK);
+		return result;
 	}
 	
 	@RequestMapping(value = "/gettypes")
-	public ResponseEntity<Map> getTypes(
+	@ResponseBody
+	public Map<String, Object> getTypes(
 			Authentication authentication, Locale locale,
 			HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("result", "");
-		result.put("type", "");
 		
-		List<Object[]> types = soTypeService.loadData();
-		/*
-		String[][] types = new String[vType.size()][2];
-
-		for (int i = 0; i < types.length; i++) {
-			types[i][0] = vType.get(i)[0].toString();
-			types[i][1] = vType.get(i)[1].toString();
-		}
-
-		*/
-		result.put("result",messageSource.getMessage("response.Ok", null, locale));
-		result.put("type", types);
+		result.put("result"	, "");
+		result.put("type"	, "");
 		
-		return new ResponseEntity<Map>(result, HttpStatus.OK);
+		List<ServiceOrderType> types = soTypeService.loadData();
+		
+		result.put("result"	,messageSource.getMessage("response.Ok", null, locale));
+		result.put("type"	, types);
+		
+		return result;
 	}
 
-	@RequestMapping(value = "/getallowedstatus")
-	public ResponseEntity<Map> getAllowedStatus(
-			@RequestParam(value = "soId"	, required = true)	int soId,
+	@RequestMapping("/getAllowedStatus")
+	@ResponseBody
+	public Map<String, Object> getAllowedStatus(
 			Authentication authentication,
-			Locale locale,
 			HttpServletRequest request) {
 		
-		ServiceOrder so = soService.get(soId);
+		User user = (User) request.getSession().getAttribute("loggedUser");
 		
-		//Retorna usuario logado na secao
-		Users user = (Users) request.getSession().getAttribute("loggedUser");
+		List<ServiceOrderStatus> status = ruleService.getStatusByRole(user.getRole());
 		
-		List<Object[]> rulesResult = soStatusRuleService.getAllowedStatus(user.getRole(), so.getStatus());
+		Map<String,Object> result = new HashMap<String, Object>();
 		
-		//Result Map
-		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("data", status);
 		
-		result.put("result", "");
-		result.put("rule", "");
+		return result;
 		
-		result.put("result",messageSource.getMessage("response.Ok", null, locale));
-		result.put("rule", rulesResult);
-		
-		return new ResponseEntity<Map>(result, HttpStatus.OK);
 	}
 
-	/*
+	/**
+	 * CRUD Operations for: ServiceOrder
+	 */
+	@RequestMapping("/add.action")
+	@ResponseBody
+	public Map addSo(@RequestBody ServiceOrder so, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("result"	,"");
+		result.put("soId"	, 0);
+
+		try{
+			soService.add(so, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	/**
 	 * CRUD Operations for: ServiceOrderJob
 	 */
 	@RequestMapping("/job/add.action")
@@ -588,7 +603,7 @@ public class ServiceOrderController {
 		return result;
 	}
 	
-	/*
+	/**
 	 * CRUD Operations for: ServiceOrderType
 	 */
 	@RequestMapping("/type/add.action")
@@ -645,12 +660,11 @@ public class ServiceOrderController {
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
-
 		
 		return result;
 	}
 	
-	/*
+	/**
 	 * CRUD Operations for: SO Status Service
 	 */
 	@RequestMapping("/status/add.action")
@@ -712,7 +726,7 @@ public class ServiceOrderController {
 		return result;
 	}
 	
-	/*
+	/**
 	 * CRUD Operations for: SO Status Rules
 	 */
 	@RequestMapping("/rules/add.action")
@@ -728,8 +742,6 @@ public class ServiceOrderController {
 		
 		sorules.setId((int) payload.get("id"));
 		
-		sorules.setRemark((String) payload.get("remark"));
-		
 		sorules.setCurstatus((ServiceOrderStatus) payload.get("curstatus"));
 		
 		sorules.setNxtstatus((ServiceOrderStatus) payload.get("nxtstatus"));
@@ -740,7 +752,7 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			soStatusRuleService.add(sorules, authentication);
+			ruleService.add(sorules, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -759,7 +771,7 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			soStatusRuleService.edit(sorules, authentication);
+			ruleService.edit(sorules, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -779,7 +791,7 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		try{
-			soStatusRuleService.delete(sorules, authentication);
+			ruleService.delete(sorules, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

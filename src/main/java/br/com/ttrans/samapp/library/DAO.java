@@ -33,7 +33,7 @@ public class DAO {
 	 * @return boolean
 	 */
 	@Transactional
-	public boolean ExistCPO(Class alias, Map<String, Object> map) {
+	public boolean existCpo(Class alias, Map<String, Object> map) {
 
 		boolean lReturn = false;
 
@@ -91,6 +91,23 @@ public class DAO {
 		}
 	}
 
+	
+	
+	/**
+	 * This function returns the Parameter content if exists or an empty String.
+	 * 
+	 * @param xParameter Parameter name
+	 * @return Parameter content
+	 */
+	@Transactional
+	public String getMv(String xParameter) {
+		String cReturn = this.getMv(xParameter, "");		
+		
+		return cReturn;
+
+	}
+	
+	
 	/**
 	 * This function returns the Parameter content if exists or xDefault value if doesn't.
 	 * 
@@ -99,7 +116,7 @@ public class DAO {
 	 * @return Parameter content
 	 */
 	@Transactional
-	public String GetMv(String xParameter, String xDefault) {
+	public String getMv(String xParameter, String xDefault) {
 
 		String cReturn = xDefault;
 

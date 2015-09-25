@@ -32,6 +32,10 @@ Ext.define('Sam.controller.ServiceOrder', {
 	init: function() {
 		
 		this.control({
+			
+			'#serviceordergrid toolbar splitbutton menuitem':{
+				change: this.onToolbarItemSelect
+			},			
 			'serviceordergrid': {
 				itemdblclick: this.onBtnShowSoClick
 			},
@@ -212,30 +216,159 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 	},
 
+	/** COMENTADO POR JOBS **/
 	//ServiceOrder > form > trigger:equipment_id: confirm button
 	f3Confirm: function(component) {
 		
-		var grid = Ext.ComponentQuery.query('popup grid')[0];
-		var equipmentId = grid.getSelection()[0].get('id');
-		
-		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
-		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
-		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
-		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('system'));
-		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('site'));
-		Ext.ComponentQuery.query('popup')[0].close();
+//		var grid = Ext.ComponentQuery.query('popup grid')[0];
+//		var equipmentId = grid.getSelection()[0].get('id');
+//		
+//		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
+//		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
+//		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
+//		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('system'));
+//		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('site'));
+//		Ext.ComponentQuery.query('popup')[0].close();
 	
 	},	
 	
+	
+	/** COMENTADO POR JOBS **/
 	//ServiceOrder > form > trigger:equipment_id: popup button
 	onTriggerClick: function(){
 	
-		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderform_equipment'});
-		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
+//		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderform_equipment'});
+//		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
+//		
+//		equipmentsPopUp.setTitle('Selecionar Equipamento');
+//		equipmentsPopUp.add(grid);
+//		equipmentsPopUp.show();
 		
-		equipmentsPopUp.setTitle('Selecionar Equipamento');
-		equipmentsPopUp.add(grid);
-		equipmentsPopUp.show();
+	},
+	
+	onToolbarItemSelect: function(item, event, nStatus, lRemark) {
+		
+		var record = item.up('grid').getSelection()[0];
+		
+		var lChange = false;
+		
+		
+		
+		//Verifica se existe algum item selecionado
+		if(record){
+			
+			/***********************
+			 * 1	NOVA
+			 * 2	ATRIBUIDA
+			 * 3	EM ANALISE
+			 * 4	REATRIBUIR
+			 * 5	REJEITADO
+			 * 6	AGUARDANDO AUTORIZACAO
+			 * 7	ACESSO LIBERADO
+			 * 8	EM ANDAMENTO
+			 * 9	EM ESPERA
+			 * 10	CONCLUIDO
+			 * 11	FINALIZADO
+			 * 12	REABERTO
+			 ***********************/
+			
+			//Verifica qual a seleção
+			switch(nStatus){
+			
+			case 2:
+				
+				Ext.create('Sam.view.components.PopUp',{
+					title: 'Escolha um Técnico para Atribuir à OS',
+					buttons : [ {
+						text : 'Confirma',
+						itemId: 'submit',
+				        cls:'x-btn-default-small',
+				        iconCls: 'tick-button',
+				        handler: function(button) {
+				        	
+				        	//Aba Objecto Pai
+			        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+			        			window = button.up('window'),
+			        			record = button.up('window').down('grid').getSelection()[0];
+			        		
+				        	if(record){
+
+				        		//Conditions grid selection
+				        		var row = Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getSelection()[0];
+				        		
+				        		row.set({'field': record.get('id')});
+				        		
+				        		window.close();
+				        		
+				        	}
+				        }
+				        
+					} ],
+					items:	[Ext.create('Sam.view.technician.TechnicianGrid',{
+						dockedItems:[],
+					})],
+
+				}).show();
+				
+			default:
+				
+				if(lRemark){
+					Ext.create('Sam.view.components.PopUp',{
+						resizable: false,
+						maximizable: false,
+						width : 440,
+						height : 220,
+						title: 'Digite o motivo',
+						buttons : [ {
+							text : 'Confirma',
+							itemId: 'submit',
+					        cls:'x-btn-default-small',
+					        iconCls: 'tick-button',
+					        handler: function(button) {
+					        	
+					        	//Aba Objecto Pai
+				        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+				        			window = button.up('window'),
+				        			record = button.up('window').down('grid').getSelection()[0];
+				        		
+					        }
+					        
+						} ],
+						items:	[{
+							xtype : 'fieldset',
+							title : 'Motivo',
+							margin: '5 5 5 5',
+//							layout : {
+////								type : 'vbox',
+//							},
+
+							items : [{
+								xtype : 'textareafield',
+								width: '100%',
+								height: '90%',
+								allowBlank : false,
+								inputAttrTpl: " data-qtip='Motivo da troca' "
+									
+							} ]
+
+							}],
+
+					}).show();
+					
+				}else{
+					lChange = true;	
+				}
+				
+			}
+			
+			
+			//Altera o status
+			if(lChange){
+				alert('trocou o estado');
+			}
+			
+			
+		}
 		
 	},
 	
@@ -258,7 +391,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 				id: 'newso',
 				xtype: 'serviceorderform',
 				closable: true,
-				iconCls: 'magnifier-zoom',
+				iconCls: 'blueprint-plus',
 				title: 'Nova OS'
 			});
 		}
@@ -282,31 +415,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Seta Botão Confirma: Incluir
 		Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',2)});
 		
-		// Abertura OS : type ComboBox
-		Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
-			fields: ['id','desc'],
-			proxy: {
-		         type: 'ajax',
-		         url: 'so/gettypes',
-		         reader: {
-		             type: 'json',
-		             root: 'type'
-		         }
-		     },
-		}));
-		
-		// Abertura OS : priority ComboBox
-		Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
-			fields: ['id','desc'],
-			proxy: {
-		         type: 'ajax',
-		         url: 'severity/load',
-		         reader: {
-		             type: 'json',
-		             root: 'data'
-		         }
-		     },
-		}));
 	},
 	
 	//ServiceOrder > form : btnOk button
@@ -700,8 +808,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		gStore.setData(sStore.getById(fieldId.getValue()).data.log);
 		
-		
-		console.log('para');
 	},
 	
 	/*********** Begin Job Controlling ***********/

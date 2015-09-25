@@ -3,4 +3,6 @@ Ext.define('Sam.store.TaskCondition', {
 	
 	model: 'Sam.model.TaskCondition',
 	
+	sorters: { property: 'seq'},
+	
 });

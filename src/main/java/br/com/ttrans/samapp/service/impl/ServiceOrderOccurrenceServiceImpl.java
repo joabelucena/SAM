@@ -34,7 +34,7 @@ public class ServiceOrderOccurrenceServiceImpl implements
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrderOccurrence> loadData() {
 		return dao.loadData();
 	}
 

@@ -43,14 +43,12 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		session.getCurrentSession().delete(equipment);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
-		Criteria crit = session.getCurrentSession().createCriteria(
-				Equipment.class, "equipment");
-
-		
-		return crit.list();
-
+	public List<Equipment> loadData() {
+		return session.getCurrentSession().createCriteria(Equipment.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 	}
 
 	@Override

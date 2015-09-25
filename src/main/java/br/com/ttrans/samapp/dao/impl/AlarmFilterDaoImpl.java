@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,12 +35,11 @@ public class AlarmFilterDaoImpl implements AlarmFilterDao {
 		session.getCurrentSession().delete(filter);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List loadData() {
+	public List<AlarmFilter> loadData() {
 		
-		Criteria crit = session.getCurrentSession().createCriteria(AlarmFilter.class,"filter");
-		
-		return crit.list();
+		return session.getCurrentSession().createCriteria(AlarmFilter.class).list();
 
 	}
 

@@ -32,9 +32,8 @@ public class StatusRuleValidator extends Validator {
 		map.put("role"		, rule.getRole()		);
 		map.put("curstatus"	, rule.getCurstatus()	);
 		map.put("nxtstatus"	, rule.getNxtstatus()	);
-		map.put("remark"	,rule.getRemark()		);
 		
-		if(!dao.ExistCPO(StatusRule.class, map)){
+		if(!dao.existCpo(StatusRule.class, map)){
 			e.reject("response.so.Deny");
 		}
 	}

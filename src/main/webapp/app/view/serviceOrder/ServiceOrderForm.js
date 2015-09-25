@@ -49,39 +49,75 @@ var equipmentInfo = {
 	itemId: 'equipmentInfo',
 	layout : {
 		type : 'vbox',
-		//align : 'stretch',
 	},
 
 	items : [ {
 		xtype: 'textfield',
 		fieldLabel : 'Código do Equipamento',
 		itemId: 'trg_equipment_id',
+		name: 'id',
 		editable: false,
 		width: '40%',
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Equipamento da Ordem de Serviço' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function() {
+//			this.fireEvent('click')
+			
+			Ext.create('Sam.view.components.PopUp',{
+					title: 'Selecionar Equipamento',
+					buttons : [ {
+						text : 'Confirma',
+						itemId: 'submit',
+				        cls:'x-btn-default-small',
+				        iconCls: 'tick-button',
+				        handler: function(button) {
+				        	
+				        	//Aba Objecto Pai
+			        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+			        			window = button.up('window'),
+			        			record = button.up('window').down('grid').getSelection()[0],
+			        			form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+			        		
+				        	if(record){
+				        		
+				        		//Loads Equipment record
+				        		form.loadRecord(record)
+				        		
+				        		window.close();
+				        		
+				        	}
+				        }
+				        
+					} ],
+					items:	[Ext.create('Sam.view.equipment.EquipmentsGrid',{dockedItems:[]})],
+					
+				}).show()
+			}}}
 	}, {
 		fieldLabel : 'Modelo',
 		itemId: 'equipment_model',
+		name: 'model_desc',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Modelo do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Fabricante',
 		itemId: 'equipment_manufacturer',
+		name: 'manufacturer_desc',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Fabricante do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Sub-Sistema',
 		itemId: 'equipment_subsystem',
+		name: 'system_desc',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Local de Instalação',
 		itemId: 'equipment_site',
+		name: 'site_desc',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Local do Equipamento da Ordem de Serviço' ",
@@ -132,10 +168,14 @@ var soInfo = {
 		},
 		items : [{
 			xtype:'datefield',
+			vtype: 'daterange',
+			endDateField: 'end_date', // id of the end date field
 			fieldLabel: 'Data de Início Prevista',
+			name: 'start_date',
 			itemId: 'start_date',
 			labelAlign: 'left',
 			format: 'd/m/Y',
+			minValue: new Date(),
 			margin: '0 0 0 0',
 			editable: false,
 			inputAttrTpl: " data-qtip='Data de Início Prevista da Ordem de Serviço' "
@@ -162,7 +202,10 @@ var soInfo = {
 		},
 		items : [{
 			xtype:'datefield',
+			vtype: 'daterange',
+			startDateField: 'start_date', // id of the start date field
 			fieldLabel: 'Data de Término Prevista',
+			name: 'end_date',
 			itemId: 'end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
@@ -185,6 +228,17 @@ var soInfo = {
 		valueField: 'id',
         displayField: 'desc',
 		xtype : 'combobox',
+		store: Ext.data.Store({
+			fields: ['id','desc'],
+			proxy: {
+		         type: 'ajax',
+		         url: 'so/load/type',
+		         reader: {
+		             type: 'json',
+		             root: 'data'
+		         }
+		     },
+		}),
 		allowBlank : false,
 		editable: false,
 		width: '30%',
@@ -195,6 +249,17 @@ var soInfo = {
 		valueField: 'id',
         displayField: 'desc',
 		xtype : 'combobox',
+		store: Ext.data.Store({
+			fields: ['id','desc'],
+			proxy: {
+		         type: 'ajax',
+		         url: 'severity/load',
+		         reader: {
+		             type: 'json',
+		             root: 'data'
+		         }
+		     },
+		}),
 		allowBlank : false,
 		editable: false,
 		width: '35%',
@@ -294,10 +359,6 @@ var footer = {
 
 
 /******* Service Order Main Page *******/
-
-	
-	
-	
 Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	extend: 'Ext.Panel',
 	alias:  'widget.serviceorderform',
@@ -330,8 +391,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 				margin: '5 0 0 0',
 				minHeight: 250,
 				Height: 250,
-            }
-            ],
+            }],
+            
 	dockedItems: [{
 	    xtype: 'toolbar',
 	    dock: 'bottom',
@@ -364,33 +425,3 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	    }]
 	}]
 });
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

@@ -33,7 +33,7 @@ public class AlarmTypeServiceImpl implements AlarmTypeService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<AlarmType> loadData() {
 		return dao.loadData();
 	}
 

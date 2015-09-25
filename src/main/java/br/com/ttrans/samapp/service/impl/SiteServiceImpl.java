@@ -38,12 +38,12 @@ public class SiteServiceImpl implements SiteService {
 	}
 
 	@Transactional
-	public List getAll() {
+	public List<Site> getAll() {
 		return siteDao.getAll();
 	}
 	
 	@Transactional
-	public List loadData() {
+	public List<Site> loadData() {
 		return siteDao.loadData();
 	}
 
@@ -53,7 +53,7 @@ public class SiteServiceImpl implements SiteService {
 	}
 
 	@Transactional
-	public List trackIt(int id) {
+	public List<String[]> trackIt(int id) {
 		return siteDao.trackIt(id);
 	}
 

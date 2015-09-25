@@ -19,6 +19,9 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 
 	@Transactional
 	public int add(ServiceOrder serviceorder, Authentication authentication) {
+		
+		
+		
 		return dao.add(serviceorder, authentication);		
 	}
 
@@ -38,7 +41,7 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	}
 
 	@Transactional
-	public List loadData() {
+	public List<ServiceOrder> loadData() {
 		return dao.loadData();
 	}
 }

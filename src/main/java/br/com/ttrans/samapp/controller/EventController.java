@@ -67,7 +67,7 @@ public class EventController {
 		Event event = eventService.get(id);
 		
 		//Instancia Vetor de Tipos de OS permitidos para abertura na tela de Alarmes.
-		String[] vType = dao.GetMv("SAM_EVESOTYPE", "").split(";");
+		String[] vType = dao.getMv("SAM_EVESOTYPE", "").split(";");
 		
 		String[][] types = new String[vType.length][1];
 		
