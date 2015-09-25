@@ -3,7 +3,7 @@ Ext.define('Sam.store.System', {
 	
 	requires: ['Sam.model.System'],
 	
-	model: 'Sam.model.ServiceStation',
+	model: 'Sam.model.System',
 	
 	autoLoad: true,
 	async: true,

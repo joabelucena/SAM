@@ -1,10 +1,10 @@
-Ext.define('Sam.view.equipment.subSystem.SubSystemForm', {
+Ext.define('Sam.view.equipment.system.SystemForm', {
 	extend: 'Ext.Panel',
 	requires:['Sam.view.components.FormToolbar'],
 	
-	alias:  'widget.subsystemform',
+	alias:  'widget.systemform',
 	
-	itemId: 'subsystemform',
+	itemId: 'systemform',
 	
 	closable: true,
 	

@@ -6,7 +6,7 @@
 //
 
 
-package br.com.ttrans.samapp.ws.payload;
+package br.com.ttrans.samapp.ws.system;
 
 import java.util.Date;
 
@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="sessionInstanceId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
+ *         &lt;element name="connectionStatus" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,10 +44,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "creatorId",
     "sessionInstanceId",
-    "timeStamp"
+    "timeStamp",
+    "connectionStatus"
 })
-@XmlRootElement(name = "DisconnectionRequest")
-public class DisconnectionRequest {
+@XmlRootElement(name = "AliveRequest")
+public class AliveRequest {
 
     @XmlElement(required = true)
     protected String creatorId;
@@ -55,6 +57,7 @@ public class DisconnectionRequest {
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
     protected Date timeStamp;
+    protected int connectionStatus;
 
     /**
      * Gets the value of the creatorId property.
@@ -126,6 +129,22 @@ public class DisconnectionRequest {
      */
     public void setTimeStamp(Date value) {
         this.timeStamp = value;
+    }
+
+    /**
+     * Gets the value of the connectionStatus property.
+     * 
+     */
+    public int getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    /**
+     * Sets the value of the connectionStatus property.
+     * 
+     */
+    public void setConnectionStatus(int value) {
+        this.connectionStatus = value;
     }
 
 }

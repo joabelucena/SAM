@@ -6,7 +6,7 @@
 //
 
 
-package br.com.ttrans.samapp.ws.payload;
+package br.com.ttrans.samapp.ws.system;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

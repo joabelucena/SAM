@@ -152,7 +152,9 @@ public class SnmpServer implements CommandResponder {
 			@SuppressWarnings("unchecked")
 			Vector<? extends VariableBinding> recVBs = event.getPDU()
 					.getVariableBindings();
-
+			
+			System.out.println(event.getPDU().getVariableBindings());
+			
 			// Parsing Trap IP
 			String PeerAddress = event.getPeerAddress().toString();
 			String[] IpParts = PeerAddress.split("/");

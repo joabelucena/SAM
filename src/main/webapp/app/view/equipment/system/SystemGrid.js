@@ -1,12 +1,12 @@
-Ext.define('Sam.view.equipment.subsystem.SubSystemGrid', {
+Ext.define('Sam.view.equipment.system.SystemGrid', {
 	extend : 'Ext.grid.Panel',
-	alias : 'widget.subsystemgrid',
+	alias : 'widget.systemgrid',
 
 	requires : ['Ext.grid.filters.Filters'],
 	           
 	store : Ext.create('Sam.store.System'),
 	
-	itemId: 'subsystemgrid',
+	itemId: 'systemgrid',
 
 	columns : [ {
 		text : 'Código',

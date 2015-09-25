@@ -21,5 +21,11 @@
 		targetNamespace="http://localhost/systemService">
 		<sws:xsd location="/WEB-INF/schemas/systemServices.xsd" />
 	</sws:dynamic-wsdl>
+	
+	<sws:dynamic-wsdl id="alarmServices" portTypeName="AlarmServices"
+		locationUri="/alarmService/" 
+		targetNamespace="http://localhost/alarmService">
+		<sws:xsd location="/WEB-INF/schemas/alarmServices.xsd" />
+	</sws:dynamic-wsdl>
 
 </beans>

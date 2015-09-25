@@ -6,11 +6,9 @@
 //
 
 
-package br.com.ttrans.samapp.ws.payload;
+package br.com.ttrans.samapp.ws.system;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +31,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="sessionInstanceId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="applications" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,11 +43,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "creatorId",
     "sessionInstanceId",
-    "timeStamp",
-    "applications"
+    "timeStamp"
 })
-@XmlRootElement(name = "ActiveRequest")
-public class ActiveRequest {
+@XmlRootElement(name = "SessionDetailRequest")
+public class SessionDetailRequest {
 
     @XmlElement(required = true)
     protected String creatorId;
@@ -59,8 +55,6 @@ public class ActiveRequest {
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
     protected Date timeStamp;
-    @XmlElement(required = true)
-    protected List<String> applications;
 
     /**
      * Gets the value of the creatorId property.
@@ -132,35 +126,6 @@ public class ActiveRequest {
      */
     public void setTimeStamp(Date value) {
         this.timeStamp = value;
-    }
-
-    /**
-     * Gets the value of the applications property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the applications property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getApplications().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
-     */
-    public List<String> getApplications() {
-        if (applications == null) {
-            applications = new ArrayList<String>();
-        }
-        return this.applications;
     }
 
 }
