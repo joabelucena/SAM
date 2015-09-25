@@ -13,11 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Service_Order_Log")
 @SequenceGenerator(name="INC_SERVICE_ORDER_LOG",sequenceName="GEN_SOL_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrderLog implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -26,11 +27,7 @@ public class ServiceOrderLog implements Serializable {
 	@Column(name="sol_id")
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="INC_SERVICE_ORDER_LOG") 
 	private int id;
-	
-	@ManyToOne
-	@JoinColumn(name="sol_service_order_id")
-	@JsonBackReference
-	private ServiceOrder serviceorder;
+
 	
 	@ManyToOne
 	@JoinColumn(name="sol_pre_status_id")
@@ -77,15 +74,7 @@ public class ServiceOrderLog implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public ServiceOrder getServiceorder() {
-		return serviceorder;
-	}
-
-	public void setServiceorder(ServiceOrder serviceorder) {
-		this.serviceorder = serviceorder;
-	}
-
+	
 	public ServiceOrderStatus getPrevstatus() {
 		return prevstatus;
 	}

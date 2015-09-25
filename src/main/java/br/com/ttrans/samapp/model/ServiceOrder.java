@@ -14,17 +14,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Service_Order")
 @SequenceGenerator(name = "INC_SERVICE_ORDER", sequenceName = "GEN_SOR_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrder {
 
 	@Id
@@ -48,15 +48,14 @@ public class ServiceOrder {
 	@JoinColumn(name = "sor_parent_id")
 	private ServiceOrder parent;
 
-	@Fetch(FetchMode.SELECT)
-	@Cascade({CascadeType.SAVE_UPDATE})
-	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderOccurrence.class, fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="soo_service_order_id", referencedColumnName = "sor_id")
+	@Cascade({CascadeType.SAVE_UPDATE})	
 	private Set<ServiceOrderOccurrence> occurrences;
 
-	@Fetch(FetchMode.SELECT)
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="sol_service_order_id", referencedColumnName = "sor_id")
 	@Cascade({CascadeType.SAVE_UPDATE})
-	@OneToMany(mappedBy = "serviceorder", targetEntity = ServiceOrderLog.class, fetch = FetchType.EAGER)
-	@JsonManagedReference(value="serviceorder")
 	private Set<ServiceOrderLog> log;
 
 	@ManyToOne
@@ -85,10 +84,10 @@ public class ServiceOrder {
 
 	@Column(name="sor_remarks")
 	private String remark;
-
-	@Column(name="sor_equipment_stop")
-	private String stoped;
-
+	
+	@Transient
+	private String logRemark;
+	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
 	
@@ -217,12 +216,12 @@ public class ServiceOrder {
 		this.remark = remark;
 	}
 
-	public String getStoped() {
-		return stoped;
+	public String getLogRemark() {
+		return logRemark;
 	}
 
-	public void setStoped(String stoped) {
-		this.stoped = stoped;
+	public void setLogRemark(String logRemark) {
+		this.logRemark = logRemark;
 	}
 
 	public String getInsert() {

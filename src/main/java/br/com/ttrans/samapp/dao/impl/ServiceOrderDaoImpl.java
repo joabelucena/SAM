@@ -20,7 +20,7 @@ public class ServiceOrderDaoImpl implements ServiceOrderDao {
 	@Override
 	public int add(ServiceOrder serviceorder, Authentication authentication) {
 		serviceorder.setInsert(authentication.getName());
-		session.getCurrentSession().persist(serviceorder);
+		session.getCurrentSession().save(serviceorder);
 		return serviceorder.getId();
 
 	}

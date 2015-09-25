@@ -14,19 +14,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Service_Order_Occurrences")
 @SequenceGenerator(name = "INC_SERVICE_ORDER_OCCURRENCES", sequenceName = "GEN_SOO_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrderOccurrence {
 
 	@Id
 	@Column(name="soo_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SERVICE_ORDER_OCCURRENCES")
 	private int id;
-
-	@ManyToOne
-	@JoinColumn(name = "soo_service_order_id")
-	private ServiceOrder serviceorder;
 
 	@ManyToOne
 	@JoinColumn(name = "soo_service_id")
@@ -62,15 +61,7 @@ public class ServiceOrderOccurrence {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public ServiceOrder getServiceorder() {
-		return serviceorder;
-	}
-
-	public void setServiceorder(ServiceOrder serviceorder) {
-		this.serviceorder = serviceorder;
-	}
-
+	
 	public ServiceOrderJob getService() {
 		return service;
 	}

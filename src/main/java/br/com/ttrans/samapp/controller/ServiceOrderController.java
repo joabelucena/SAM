@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
@@ -204,7 +206,6 @@ public class ServiceOrderController {
 		try {
 
 			//Log da OS
-			log.setServiceorder(so);
 			logSet.add(log);
 
 			//OS
@@ -214,7 +215,6 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);								// Status
 			so.setStartForecast(startForecast);					// Previsao de Inicio
 			so.setEndForecast(endForecast);						// Previsao de Termino
-			so.setStoped("N");									// Equipamento Parado(nao)
 			so.setLog(logSet);									// Log Inicial
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setRemark(obs);									// Observação
@@ -303,7 +303,7 @@ public class ServiceOrderController {
 		try {
 
 			//Log da OS
-			log.setServiceorder(so);
+//			log.setServiceorder(so);
 			logSet.add(log);
 			
 			//OS
@@ -313,7 +313,6 @@ public class ServiceOrderController {
 			so.setStatus(sNewSts);						// Status
 			so.setStartForecast(startForecast);			// Previsao de Inicio
 			so.setEndForecast(endForecast);				// Previsao de Termino
-			so.setStoped("N");							// Equipamento Parado(NAO)
 			so.setLog(logSet);							// Log Inicial
 			so.setPriority(new SeverityLevel(prioId));	// Severidade
 			so.setRemark(obs);							// Observação
@@ -408,14 +407,11 @@ public class ServiceOrderController {
 													user.getUsername());	// Usuario inserção (USR_INSERT)
 		
 		// Atribui ordem de servico no Log
-		log.setServiceorder(so);
+//		log.setServiceorder(so);
 
 		// Muda Status da OS
 		so.setStatus(newStatus);
 		
-		//Equipamneto parado
-		so.setStoped(stop);
-
 		// Adiciona novo registro no log
 		so.getLog().add(log);
 
@@ -476,6 +472,7 @@ public class ServiceOrderController {
 		return result;
 	}
 	
+	/*
 	@RequestMapping(value = "/gettypes")
 	@ResponseBody
 	public Map<String, Object> getTypes(
@@ -494,6 +491,7 @@ public class ServiceOrderController {
 		
 		return result;
 	}
+	*/
 
 	@RequestMapping("/getAllowedStatus")
 	@ResponseBody
@@ -527,9 +525,9 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("result"	,"");
 		result.put("soId"	, 0);
-
+		
 		try{
-			soService.add(so, authentication);
+			result.put("soId"	, soService.add(so, authentication));			
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -537,7 +535,28 @@ public class ServiceOrderController {
 		return result;
 	}
 	
-	
+	@RequestMapping("/update.action")
+	@ResponseBody
+	public Map updateSo(@RequestBody Map so, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		mapper.convertValue(so, ServiceOrder.class);
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			//soService.edit(so, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
 	
 	
 	
@@ -578,7 +597,6 @@ public class ServiceOrderController {
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
-
 		
 		return result;
 	}

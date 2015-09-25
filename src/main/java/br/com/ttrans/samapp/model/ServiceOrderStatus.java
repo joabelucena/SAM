@@ -10,9 +10,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Service_Order_Status")
 @SequenceGenerator(name="INC_SERVICE_ORDER_STATUS",sequenceName="GEN_SOS_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrderStatus {
 	
 	@Id
@@ -37,9 +40,9 @@ public class ServiceOrderStatus {
 	private String update;
 	
 	public ServiceOrderStatus(){}
-	public ServiceOrderStatus(String desc){
+	public ServiceOrderStatus(int id){
 		super();
-		this.desc = desc;
+		this.id = id;
 	}
 	public int getId() {
 		return id;

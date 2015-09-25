@@ -1,7 +1,10 @@
  Ext.application({
 	name : 'Sam',
 	
-	requires: ['Sam.lib.AssociatedWriter','Sam.lib.AdvancedVType'],
+	requires: ['Sam.lib.AssociatedWriter'
+	           ,'Sam.lib.AdvancedVType'
+	           ,'Sam.lib.DateTimePicker'
+	           ,'Sam.lib.DateTimeField'],
 	
 	launch : function() 
 	{
@@ -22,7 +25,7 @@
 	     	,'Site'						,'ServiceOrderType'
 	     	,'DocumentType'				,'ServiceOrderRules'
 	     	,'ServiceOrderStatus'		,'UserRole'
-	     	,'Sam.store.TaskCondition'],
+	     	,'Sam.store.TaskCondition'	,'ServiceOrderOccurrence'],
    
 	controllers : [ 'Menu'				,'Events'
 	               ,'ServiceOrder'		,'Equipment'

@@ -12,7 +12,6 @@ Ext.define('Sam.controller.ServiceOrder', {
            {    ref: 'lookup',     selector: 'popup'   }
        ],
 
-
 	views: ['Sam.view.serviceOrder.ServiceOrderGrid',
 	        'Sam.view.serviceOrder.ServiceOrderForm',
 	        'Sam.view.serviceOrder.log.ServiceOrderLog',
@@ -20,7 +19,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 	        'Sam.view.serviceOrder.log.ServiceOrderLogForm',
 	        'Sam.view.serviceOrder.job.JobGrid',
 	        'Sam.view.serviceOrder.job.JobForm',
-	        'Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.serviceOrder.type.TypeGrid',
 	        'Sam.view.serviceOrder.type.TypeForm',
 	        'Sam.view.serviceOrder.status.StatusGrid',
@@ -33,35 +31,34 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 		this.control({
 			
+			'#serviceorderform toolbar #btnSubmit' :{
+				create: this.onSoBtnSubmitAdd,
+				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
+				update: this.onSoBtnSubmitEdit
+			},
+			
+			'#serviceordergrid toolbar #btnShow' :{
+				click: this.onSoBtnShowClick
+			},
+			
+			'#serviceordergrid toolbar #btnEdit' :{
+				click: this.onSoBtnEditClick
+			},
+			
+			'#serviceordergrid toolbar #btnAdd' :{
+				click: this.onSoBtnAddClick
+			},
+			
 			'#serviceordergrid toolbar splitbutton menuitem':{
 				change: this.onToolbarItemSelect
-			},			
-			'serviceordergrid': {
-				itemdblclick: this.onBtnShowSoClick
 			},
-			'toolbar #btnNewSo' :{
-				click: this.onBtnNewSoClick
-			},
+			
+			/****************************************/
 			'serviceorderloggrid':{
 				itemmouseup: this.onItemMouseUp,
 			},
-			'toolbar #btnOk' :{
-				click: this.onBtnOkClick
-			},
-			'toolbar #btnShowSo' :{
-				click: this.onBtnShowSoClick
-			},
 			'toolbar #btnShowLog' :{
 				click: this.onBtnShowLogClick
-			},
-			'toolbar #btnChangeSts' :{
-				click: this.onBtnChangeStsClick
-			},
-			'#trg_equipment_id' :{
-				click: this.onTriggerClick,
-			},
-			'#serviceorderform_equipment #submit' :{ 
-				click: this.f3Confirm,
 			},
 			
 			/* Buttons Listeners: Job
@@ -72,7 +69,6 @@ Ext.define('Sam.controller.ServiceOrder', {
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
 				update: this.onJobBtnSubmitEdit,
 				remove: this.onJobBtnSubmitDelete,
-				
 			},
 			
 			'#serviceorderjobgrid toolbar #btnShow' :{
@@ -197,6 +193,90 @@ Ext.define('Sam.controller.ServiceOrder', {
 		});
 	},
 	
+	onSoBtnSubmitAdd: function(button, event){
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+		activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+		form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
+		values		= form.getValues(),											//Dados do Formulario
+		store		= this.getServiceOrderStore(),								//Store
+		record		= Ext.create('Sam.model.ServiceOrder');
+		
+		if(form.isValid()){
+			
+			//Carrega dados do Formulario no registro
+			record.set(values);
+			
+			record.set({
+					type			: Ext.create('Sam.model.ServiceOrderType'	,{id: values.type_id})								,
+					priority		: Ext.create('Sam.model.SeverityLevel'		,{id: values.priority_id})							,
+					equipment		: Ext.create('Sam.model.Equipment'			,{id: values.equipment_id})							,
+					startForecast	: Ext.Date.parse(values.start_forecast_date + " " + values.start_forecast_time	, "d/m/Y H:i")	,
+					endForecast		: Ext.Date.parse(values.end_forecast_date	+ " " + values.end_forecast_time	, "d/m/Y H:i")	
+					});
+			
+			//Adiciona registro na store
+			store.add(record);
+			
+			//Sincroniza e Atualiza Store
+			this.syncStore(store, 'serviceordergrid',false);
+			
+			//Fecha Aba
+			activeTab.close();
+		}
+	},
+	
+	onSoBtnSubmitEdit: function(button, event){
+		
+	},
+	
+	onSoBtnShowClick: function(button, event){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'serviceorderform', null, false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
+				
+			}
+		}
+	},
+	
+	onSoBtnAddClick: function(item, event){
+			
+		//Cria Aba: 2 - Incluir
+		var activeTab = this.activateTab(2, null, 'serviceorderform', null, true);
+		
+		if(activeTab){
+			
+			//'Minimiza' seção de apontamentos
+			activeTab.down('#footer').collapse(Ext.Component.DIRECTION_BOTTOM,false)
+	
+			//Seta Botão Confirma: Incluir
+			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
+		}
+	},
+	
+	
 	//ServiceOrder > Log > grid: itemMouseUp
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
 		
@@ -215,47 +295,21 @@ Ext.define('Sam.controller.ServiceOrder', {
 		Ext.ComponentQuery.query('form #log_remark',activeTab)[0].setValue(record.get('remarks'));
 		
 	},
-
-	/** COMENTADO POR JOBS **/
-	//ServiceOrder > form > trigger:equipment_id: confirm button
-	f3Confirm: function(component) {
-		
-//		var grid = Ext.ComponentQuery.query('popup grid')[0];
-//		var equipmentId = grid.getSelection()[0].get('id');
-//		
-//		Ext.ComponentQuery.query('form #trg_equipment_id')[0].setValue(grid.getSelection()[0].get('id'));
-//		Ext.ComponentQuery.query('form #equipment_model')[0].setValue(grid.getSelection()[0].get('model'));
-//		Ext.ComponentQuery.query('form #equipment_manufacturer')[0].setValue(grid.getSelection()[0].get('manufacturer'));
-//		Ext.ComponentQuery.query('form #equipment_subsystem')[0].setValue(grid.getSelection()[0].get('system'));
-//		Ext.ComponentQuery.query('form #equipment_site')[0].setValue(grid.getSelection()[0].get('site'));
-//		Ext.ComponentQuery.query('popup')[0].close();
-	
-	},	
-	
-	
-	/** COMENTADO POR JOBS **/
-	//ServiceOrder > form > trigger:equipment_id: popup button
-	onTriggerClick: function(){
-	
-//		var equipmentsPopUp = Ext.create('Sam.view.components.PopUp',{itemId: 'serviceorderform_equipment'});
-//		var grid = Ext.create('Sam.view.equipment.EquipmentsGrid');
-//		
-//		equipmentsPopUp.setTitle('Selecionar Equipamento');
-//		equipmentsPopUp.add(grid);
-//		equipmentsPopUp.show();
-		
-	},
 	
 	onToolbarItemSelect: function(item, event, nStatus, lRemark) {
 		
-		var record = item.up('grid').getSelection()[0];
-		
-		var lChange = false;
-		
+		var me		= this									// Controller
+			store	= me.getServiceOrderStore(),			// Store
+			row		= item.up('grid').getSelection()[0]		// Record
+			lChange = false;
 		
 		
 		//Verifica se existe algum item selecionado
-		if(record){
+		if(row){
+			
+			//Atualiza Status na Store
+			store.findRecord('id',row.get('id'))
+				.setStatus(Ext.create('Sam.model.ServiceOrderStatus', {id: nStatus}));
 			
 			/***********************
 			 * 1	NOVA
@@ -278,489 +332,111 @@ Ext.define('Sam.controller.ServiceOrder', {
 			case 2:
 				
 				Ext.create('Sam.view.components.PopUp',{
-					title: 'Escolha um Técnico para Atribuir à OS',
-					buttons : [ {
-						text : 'Confirma',
-						itemId: 'submit',
-				        cls:'x-btn-default-small',
-				        iconCls: 'tick-button',
-				        handler: function(button) {
-				        	
-				        	//Aba Objecto Pai
-			        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
-			        			window = button.up('window'),
-			        			record = button.up('window').down('grid').getSelection()[0];
-			        		
-				        	if(record){
+								title: 'Escolha um Técnico para Atribuir à OS',
+								scope: me,
+								buttons : [ {
+									text : 'Confirma',
+									itemId: 'submit',
+									scope: me,
+							        cls:'x-btn-default-small',
+							        iconCls: 'tick-button',
+							        handler: function(button) {
+							        	
+							        	//Aba Objecto Pai
+						        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+						        			window = button.up('window'),
+						        			record = button.up('window').down('grid').getSelection()[0];
+						        		
+						        		if(record){
+						        			
+							        		//Atualiza tecnico na store
+							        		store.findRecord('id',row.get('id'))
+							        			.setTechnician(Ext.create('Sam.model.Technician',{id: record.get('id')}));
+							    			
+							        		//Sincroniza e Atualiza Store
+							    			this.syncStore(store, 'serviceordergrid',true);
+							        		
+							    			//Fecha janela
+							        		window.close();
+							        	}
+							        }
+							        
+								} ],
+								items:	[Ext.create('Sam.view.technician.TechnicianGrid',{
+									dockedItems:[],
+								})],
+			
+							}).show();
+				
+				break;
 
-				        		//Conditions grid selection
-				        		var row = Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getSelection()[0];
-				        		
-				        		row.set({'field': record.get('id')});
-				        		
-				        		window.close();
-				        		
-				        	}
-				        }
-				        
-					} ],
-					items:	[Ext.create('Sam.view.technician.TechnicianGrid',{
-						dockedItems:[],
-					})],
-
-				}).show();
 				
 			default:
 				
+				// DEMAIS ESTADOS
 				if(lRemark){
-					Ext.create('Sam.view.components.PopUp',{
-						resizable: false,
-						maximizable: false,
-						width : 440,
-						height : 220,
-						title: 'Digite o motivo',
-						buttons : [ {
-							text : 'Confirma',
-							itemId: 'submit',
-					        cls:'x-btn-default-small',
-					        iconCls: 'tick-button',
-					        handler: function(button) {
-					        	
-					        	//Aba Objecto Pai
-				        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
-				        			window = button.up('window'),
-				        			record = button.up('window').down('grid').getSelection()[0];
-				        		
-					        }
-					        
-						} ],
-						items:	[{
-							xtype : 'fieldset',
-							title : 'Motivo',
-							margin: '5 5 5 5',
-//							layout : {
-////								type : 'vbox',
-//							},
-
-							items : [{
-								xtype : 'textareafield',
-								width: '100%',
-								height: '90%',
-								allowBlank : false,
-								inputAttrTpl: " data-qtip='Motivo da troca' "
-									
-							} ]
-
-							}],
-
-					}).show();
+					
+					var win = Ext.create('Sam.view.components.PopUp',{
+								resizable: false,
+								scope: me,
+								maximizable: false,
+								width : 440,
+								height : 220,
+								title: 'Digite o motivo',
+								buttons : [ {
+									text : 'Confirma',
+									itemId: 'submit',
+							        cls:'x-btn-default-small',
+							        iconCls: 'tick-button',
+							        handler: function(button) {
+							        	
+							        	var box = button.up('window').down('textareafield'),
+							        		window = button.up('window');
+							        	
+							        	if(box.isValid()){
+							        		
+							        		//Atualiza valores na store
+							        		store.findRecord('id',row.get('id')).set({
+						    					logRemark	: box.getValue()
+						    				});
+							        		
+							        		//Sincroniza e Atualiza Store
+							    			this.syncStore(store, 'serviceordergrid',true);
+							        		
+							        		//Fecha janela
+							        		window.close();
+							        	}
+							        }
+							        
+								}],
+								items:	[{
+										xtype : 'fieldset',
+										title : 'Motivo',
+										margin: '5 5 5 5',
+										items : [{
+											xtype : 'textareafield',
+											width: '100%',
+											height: '90%',
+											allowBlank : false,
+											inputAttrTpl: " data-qtip='Motivo da troca' "
+										}]
+									}],
+							})
+					
+					win.show();
 					
 				}else{
-					lChange = true;	
+					
+					//Sincroniza e Atualiza Store
+	    			this.syncStore(store, 'serviceordergrid',true);
 				}
 				
+				break;
 			}
-			
-			
-			//Altera o status
-			if(lChange){
-				alert('trocou o estado');
-			}
-			
-			
-		}
-		
+		}		
 	},
 	
-	//ServiceOrder > grid : btnNewSo button
-	onBtnNewSoClick: function() {
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		var newTab = mainPanel.items.findBy(
-				function(tab){
-					return tab.id === 'newso';
-				});
-		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				id: 'newso',
-				xtype: 'serviceorderform',
-				closable: true,
-				iconCls: 'blueprint-plus',
-				title: 'Nova OS'
-			});
-		}
-		
-		mainPanel.setActiveTab(newTab);
-		
-		activeTab = mainPanel.getActiveTab();
-		
-		//Formulario
-		var form = Ext.ComponentQuery.query('form',activeTab)[0];
-		
-		//Desabilita exibicao do log
-		Ext.ComponentQuery.query('#btnShowLog',activeTab)[0].setVisible(false);
-		
-		//Disabilita o campo 'Codigo da OS'
-		Ext.ComponentQuery.query('form #id',activeTab)[0].setVisible(false);
-		
-		//Desabilita Novo Status
-		form.remove(Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0]);
-		
-		//Seta Botão Confirma: Incluir
-		Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',2)});
-		
-	},
 	
-	//ServiceOrder > form : btnOk button
-	onBtnOkClick: function(action){
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		//Formulario
-		var form = Ext.ComponentQuery.query('form',activeTab)[0];
-		
-		//1 - Visualiza
-		if(action == 1){
-		
-		//2 - Incluir
-		}else if(action == 2){
-			
-			/** Abertura de Ordem de Serviço **/
-			
-			// Verifica se o form eh valido
-			if(form.isValid()){
-				
-				Ext.MessageBox.show({
-			        title: 'Abertura de OS',
-			        msg: 'Confirma a Abertura da OS?',
-			        buttons: Ext.MessageBox.OKCANCEL,
-			        icon: Ext.MessageBox.WARNING,
-			        fn: function(btn,  knowId, knowCheck){
-			            if(btn == 'ok'){
-			            	
-			            	Ext.Ajax.request({
-			            		url : 'so/newFromSo',
-			            		method : 'POST',
-			            		
-			            		params: {
-			            			equipId: Ext.ComponentQuery.query('form #trg_equipment_id',activeTab)[0].getRawValue(),
-			            			startForecast: Ext.ComponentQuery.query('form #start_date',activeTab)[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #start_hour',activeTab)[0].getRawValue(),
-			            			endForecast: Ext.ComponentQuery.query('form #end_date',activeTab)[0].getRawValue() + " - " + Ext.ComponentQuery.query('form #end_hour',activeTab)[0].getRawValue(),
-			            			type: Ext.ComponentQuery.query('form #type',activeTab)[0].getValue(),
-			            			priorityId: Ext.ComponentQuery.query('form #priority',activeTab)[0].getValue(),
-			            			obs: Ext.ComponentQuery.query('form #remark',activeTab)[0].getRawValue()	            			
-			            			
-			            		},
-		
-			            		success: function (result, request) {
-			            			
-			            			var jsonResp = Ext.util.JSON.decode(result.responseText);
-		
-				                    if (jsonResp.result != "SUCCESS") {
-				                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
-				                    }else{
-				                    	
-				                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
-				                    	
-				                    	//Fecha aba de abertura de OS
-				                    	if(activeTab){
-				                    		activeTab.close();
-				                    	}
-				                    	
-				                    	//Atualiza Stores dos grids de OS abertos
-				                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
-				                    		f.getStore().reload();
-				                    	});
-				                    	
-				                    }
-			                             
-			            		},
-			                    
-			            		failure: function (result, request) {
-			            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
-			                    }
-			            			
-			            	});
-		            	
-		            } else if(btn == 'cancel') {
-		            	
-		            }
-		        }
-				});
-			}
-			
-			/* FIM */
-			
-		//3 - Alterar
-		}else if (action == 3){
-			alert('Altera');
-
-		//4 - Mudar Status 
-		}else if (action == 4){
-			
-			var nStatus = Ext.ComponentQuery.query('form #n_cmbStatus',activeTab)[0].getValue();
-			var nStoped = Ext.ComponentQuery.query('form #n_cmbEquipStop',activeTab)[0].getValue();
-			var nId = Ext.ComponentQuery.query('form #id',activeTab)[0].getValue();
-			var cObs = Ext.ComponentQuery.query('form #n_txtRemark',activeTab)[0].getValue();
-			
-			Ext.Ajax.request({
-        		url : 'so/changestatus',
-        		method : 'POST',
-        		
-        		params: {
-        			soId	: nId,
-        			stsId	: nStatus,
-        			stop	: nStoped,
-        			obs		: cObs
-        		},
-
-        		success: function (result, request) {
-        			
-        			var jsonResp = Ext.util.JSON.decode(result.responseText);
-
-                    if (jsonResp.result != "SUCCESS") {
-                    	Ext.Msg.alert('Falha na Mudança de Estado', jsonResp.result);        	 
-                    }else{
-                    	
-                    	Ext.Msg.alert('Mudança Gerada com Sucesso', 'Mudança Gerada com Sucesso!');
-                    	
-                    	//Fecha aba de abertura de OS
-                    	if(activeTab){
-                    		activeTab.close();
-                    	}
-                    	
-                    	gridOs = mainPanel.getActiveTab();
-                    	
-                    	gridOs.getStore().load();
-
-                    }
-        		},
-                
-        		failure: function (result, request) {
-        			Ext.Msg.alert('Falha na Mudança de Estado', result.status); 
-                }
-        	});
-			
-		}else{
-
-		}
-
-	},
-	
-	//ServiceOrder > grid : BtnChangeSts button
-	onBtnChangeStsClick:function(){
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		//Linha selecionada
-		var row = activeTab.getSelection()[0];
-		
-		var tabId = 'cgsts-'+row.get('id');
-		
-		//Tem Registro Selecionado
-		if(typeof row !== 'undefined'){
-			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
-			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'serviceorderform',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Mudar Estado OS: '+row.get('id')
-				});
-			}
-			
-			mainPanel.setActiveTab(newTab);
-			
-			/*** 'Seta funcao do botao ***/
-			activeTab = mainPanel.getActiveTab();
-			
-			//Seta Botão Confirma: Inlcuir
-			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',4)});
-			
-			
-			// MudarStatus: ComboBox
-			Ext.ComponentQuery.query('form #n_cmbStatus',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['id','desc'],
-				
-				proxy: {
-			         type: 'ajax',
-			         url: 'so/getallowedstatus',
-			         
-			         extraParams: {
-			        	 soId: row.get('id')	            			
-			         },
-			         
-			         reader: {
-			             type: 'json',
-			             root: 'rule'
-			         }
-			     },
-			}));
-			
-			//Campos a desabilitar
-			var fields = Ext.ComponentQuery.query('form #soInfo field, form #equipmentInfo field',activeTab)
-			
-			//Desabilita Campos
-			Ext.each(fields,function(f){f.setReadOnly(true)})
-			
-			
-			/**** Seta Campos do Form *****/
-			
-			// Visulizar OS : type ComboBox
-			Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['id','desc'],
-				data: [{id: row.data.type.sot_id, desc: row.data.type.sot_description}]
-			}));
-			
-			// Visulizar OS : priority ComboBox
-			Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['id','desc'],
-				data: [{id: row.data.priority.sle_id, desc: row.data.priority.sle_description}]
-			}));
-			
-			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-			
-			Ext.ComponentQuery.query('#end_date',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'd/m/Y'));	//data termino
-			Ext.ComponentQuery.query('#end_hour',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.data.priority.sle_description);
-			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
-			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
-			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.desc)
-			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
-			
-			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.desc);
-			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.desc);
-			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.desc);
-			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.desc);
-			
-			
-			/************************************ Missing Fields ************************************/
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('equipment_stop'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('event_id'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('parent_id'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));	
-			/******************************/
-		}
-	},
-	
-	//ServiceOrder > grid : BtnShowSo button
-	onBtnShowSoClick:function(){
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		//Linha selecionada
-		var row = activeTab.getSelection()[0];
-		
-		var tabId = 'show-'+row.get('id');
-		
-		//Tem Registro Selecionado
-		if(typeof row !== 'undefined'){
-			
-			var newTab = mainPanel.items.findBy(
-					function(tab){
-						return tab.id === tabId;
-					});
-			
-			if (!newTab) {
-				newTab = mainPanel.add({
-					id: tabId,
-					xtype: 'serviceorderform',
-					closable: true,
-					iconCls: 'magnifier-zoom',
-					title: 'Visualizar OS: '+row.get('id')
-				});
-			}
-			
-			mainPanel.setActiveTab(newTab);
-			
-			/*** 'Seta funcao do botao ***/
-			activeTab = mainPanel.getActiveTab();
-			
-			//Seta Botão Confirma: Visualizar
-			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setHandler(function() {this.fireEvent('click',1)});
-			
-			//Desabilita Novo Status
-			Ext.ComponentQuery.query('form #fldNewStatus',activeTab)[0].setVisible(false);
-			
-			//Campos a desabilitar
-			var fields = Ext.ComponentQuery.query('form #soInfo field, form #equipmentInfo field',activeTab)
-			
-			//Desabilita botão 'Confirma'
-			Ext.ComponentQuery.query('#btnOk',activeTab)[0].setVisible(false);
-			
-			//Desabilita Campos
-			Ext.each(fields,function(f){f.setReadOnly(true)})
-			
-			/**** Seta Campos do Form *****/
-			
-			// Visulizar OS : type ComboBox
-			Ext.ComponentQuery.query('form #type',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['id','desc'],
-				data: [{id: row.data.type.sot_id, desc: row.data.type.sot_description}]
-			}));
-			
-			// Visulizar OS : priority ComboBox
-			Ext.ComponentQuery.query('form #priority',activeTab)[0].setStore(Ext.data.Store({
-				fields: ['id','desc'],
-				data: [{id: row.data.priority.sle_id, desc: row.data.priority.sle_description}]
-			}));
-			
-			Ext.ComponentQuery.query('#id',activeTab)[0].setValue(row.get('id'));
-			
-			Ext.ComponentQuery.query('#end_date',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'd/m/Y'));	//data termino
-			Ext.ComponentQuery.query('#end_hour',activeTab)[0].setValue(Ext.Date.format(row.get('end_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#priority',activeTab)[0].setValue(row.data.priority.sle_description);
-			Ext.ComponentQuery.query('#remark',activeTab)[0].setValue(row.get('remarks'));
-			Ext.ComponentQuery.query('#start_date',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'd/m/Y'));	//data termino
-			Ext.ComponentQuery.query('#start_hour',activeTab)[0].setValue(Ext.Date.format(row.get('start_forecast'), 'g:i'));	//hora termino
-			Ext.ComponentQuery.query('#type',activeTab)[0].setValue(row.data.type.desc)
-			Ext.ComponentQuery.query('#trg_equipment_id',activeTab)[0].setValue(row.get('equipment_id'));
-			
-			Ext.ComponentQuery.query('#equipment_model',activeTab)[0].setValue(row.data.equipment.type.desc);
-			Ext.ComponentQuery.query('#equipment_manufacturer',activeTab)[0].setValue(row.data.equipment.manufacturer.desc);
-			Ext.ComponentQuery.query('#equipment_subsystem',activeTab)[0].setValue(row.data.equipment.system.desc);
-			Ext.ComponentQuery.query('#equipment_site',activeTab)[0].setValue(row.data.equipment.site.desc);
-			
-			
-			/************************************ Missing Fields ************************************/
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('equipment_stop'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('event_id'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('parent_id'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('end'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('start'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('status'));
-			//Ext.ComponentQuery.query('#XXXX',activeTab)[0].setValue(row.get('technician'));
-			/******************************/
-		}
-	},
 	
 	//ServiceOrder > form : BtnShowLog button
 	onBtnShowLogClick: function(action) {
@@ -932,7 +608,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderjobgrid');
+			this.syncStore(store, 'serviceorderjobgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -953,7 +629,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderjobgrid');
+			this.syncStore(store, 'serviceorderjobgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -975,7 +651,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderjobgrid');
+			this.syncStore(store, 'serviceorderjobgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1111,7 +787,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceordertypegrid');
+			this.syncStore(store, 'serviceordertypegrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1132,7 +808,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceordertypegrid');
+			this.syncStore(store, 'serviceordertypegrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1154,7 +830,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceordertypegrid');
+			this.syncStore(store, 'serviceordertypegrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1290,7 +966,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderstatusgrid');
+			this.syncStore(store, 'serviceorderstatusgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1311,7 +987,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderstatusgrid');
+			this.syncStore(store, 'serviceorderstatusgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1333,7 +1009,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderstatusgrid');
+			this.syncStore(store, 'serviceorderstatusgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1587,7 +1263,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderrulesgrid');
+			this.syncStore(store, 'serviceorderrulesgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1608,7 +1284,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderrulesgrid');
+			this.syncStore(store, 'serviceorderrulesgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1630,7 +1306,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, 'serviceorderrulesgrid');
+			this.syncStore(store, 'serviceorderrulesgrid',false);
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1713,22 +1389,59 @@ Ext.define('Sam.controller.ServiceOrder', {
 		
 	},
 	
-	syncStore: function(store, comp){
+	syncStore: function(store, comp, lConfirm){
 		
-		//Sincroniza Store
-		store.sync({
-			success: function(){
-				
-				//Recarrega Store
-				store.reload();
-				
-				//Atualiza stores e views
-				Ext.each(Ext.ComponentQuery.query(comp),function(f){
-					f.getStore().reload();
-				});
-			},
-			scope: this
-		});
+		var lConfirm = typeof lConfirm != 'undefined' ? lConfirm : false;
+
+		if(lConfirm){
+			Ext.Msg.show({
+			    title:'Confirma troca?',
+			    message: 'Voce está prestes a mudar o estado da OS. Confirma operação?',
+			    buttons: Ext.Msg.YESNO,
+			    icon: Ext.Msg.QUESTION,
+			    fn: function(btn) {
+			        if (btn === 'yes') {
+
+			        	//Sincroniza Store
+						store.sync({
+							success: function(){
+								
+								//Recarrega Store
+								store.reload();
+								
+								//Atualiza stores e views
+								Ext.each(Ext.ComponentQuery.query(comp),function(f){
+									f.getStore().reload();
+								});
+							},
+							scope: this
+						});
+						
+			        } else if (btn === 'no') {
+			            console.log('No pressed');
+			        } else {
+			            console.log('Cancel pressed');
+			        } 
+			    }
+			});
+			
+		}else{
+			
+			//Sincroniza Store
+			store.sync({
+				success: function(){
+					
+					//Recarrega Store
+					store.reload();
+					
+					//Atualiza stores e views
+					Ext.each(Ext.ComponentQuery.query(comp),function(f){
+						f.getStore().reload();
+					});
+				},
+				scope: this
+			});			
+		}	
 		
 	}
 	

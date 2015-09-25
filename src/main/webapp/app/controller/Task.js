@@ -58,9 +58,6 @@ Ext.define('Sam.controller.Task', {
 		});
 		
 		window.close();
-		
-		
-			
 	},
 	
 	/*********** Begin Task Controlling ***********/
@@ -80,7 +77,6 @@ Ext.define('Sam.controller.Task', {
 			activeTab = this.activateTab(1, row.get('id'), 'taskform', null, true);
 			
 			if(activeTab){
-				
 				
 				//Grid de Condicoes
 				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];

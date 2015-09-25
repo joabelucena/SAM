@@ -1,46 +1,3 @@
-/******* Status Change 'container' *******/
-var newStatus = {
-	xtype : 'fieldset',
-	itemId: 'fldNewStatus',
-	defaultType : 'textfield',
-	title : 'Novo Estado',
-	layout : {
-		type : 'vbox',
-		//align : 'stretch',
-	},
-
-	items : [{
-		fieldLabel : 'Estado',
-		itemId: 'n_cmbStatus',
-		valueField: 'id',
-        displayField: 'desc',
-		xtype : 'combobox',
-		allowBlank : false,
-		editable: false,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Estado do Equipamento' "
-	},{
-		fieldLabel : 'Equipamento Parado',
-		itemId: 'n_cmbEquipStop',
-		store:  Ext.create('Sam.view.components.store.ComboBox'),
-		queryMode: 'local',
-		valueField: 'id',
-        displayField: 'desc',
-		xtype : 'combobox',
-		allowBlank : false,
-		editable: false,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Número da Ordem de Serviço' "
-	},{
-		fieldLabel : 'Observação',
-		itemId: 'n_txtRemark',
-		xtype : 'textareafield',
-		allowBlank : false,
-		width: '60%',
-		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
-	}],
-};
-
 /******* Equipment 'container' *******/
 var equipmentInfo = {
 	xtype : 'fieldset',
@@ -54,14 +11,13 @@ var equipmentInfo = {
 	items : [ {
 		xtype: 'textfield',
 		fieldLabel : 'Código do Equipamento',
-		itemId: 'trg_equipment_id',
-		name: 'id',
+		itemId: 'equipment_id',
+		name: 'equipment_id',
 		editable: false,
 		width: '40%',
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Equipamento da Ordem de Serviço' ",
 		triggers: {f3: {handler: function() {
-//			this.fireEvent('click')
 			
 			Ext.create('Sam.view.components.PopUp',{
 					title: 'Selecionar Equipamento',
@@ -96,28 +52,28 @@ var equipmentInfo = {
 	}, {
 		fieldLabel : 'Modelo',
 		itemId: 'equipment_model',
-		name: 'model_desc',
+		name: 'equipment_model',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Modelo do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Fabricante',
-		itemId: 'equipment_manufacturer',
-		name: 'manufacturer_desc',
+		itemId: 'equipment_manuf',
+		name: 'equipment_manuf',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Fabricante do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Sub-Sistema',
-		itemId: 'equipment_subsystem',
-		name: 'system_desc',
+		itemId: 'equipment_system',
+		name: 'equipment_system',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento da Ordem de Serviço' ",
 	}, {
 		fieldLabel : 'Local de Instalação',
 		itemId: 'equipment_site',
-		name: 'site_desc',
+		name: 'equipment_site',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Local do Equipamento da Ordem de Serviço' ",
@@ -149,6 +105,7 @@ var soInfo = {
 			xtype:'textfield',
 			fieldLabel: 'Código da Ordem de Servico',
 			itemId: 'id',
+			name: 'id',
 			labelAlign: 'left',
 			format: 'd/m/Y',
 			margin: '0 0 0 0',
@@ -166,29 +123,32 @@ var soInfo = {
 			   padding: '0 0 5 0',
 			   margin: '0 0 0 0'
 		},
-		items : [{
-			xtype:'datefield',
-			vtype: 'daterange',
-			endDateField: 'end_date', // id of the end date field
-			fieldLabel: 'Data de Início Prevista',
-			name: 'start_date',
-			itemId: 'start_date',
-			labelAlign: 'left',
-			format: 'd/m/Y',
-			minValue: new Date(),
-			margin: '0 0 0 0',
-			editable: false,
-			inputAttrTpl: " data-qtip='Data de Início Prevista da Ordem de Serviço' "
-		},{
-			xtype:'timefield',
-			fieldLabel: 'Hora de Início Prevista',
-			itemId: 'start_hour',
-			labelAlign: 'right',
-			format: 'H:i',
-			margin: '0 0 0 0',
-			editable: false,
-			inputAttrTpl: " data-qtip='Hora de Início Prevista da Ordem de Serviço' "
-		}]
+		items : [
+		         {
+		        	 xtype:'datefield',
+		        	 vtype: 'daterange',
+		        	 endDateField: 'end_forecast_date', // id of the end date field
+		        	 fieldLabel: 'Data de Início Prevista',
+		        	 name: 'start_forecast_date',
+		        	 itemId: 'start_forecast_date',
+		        	 labelAlign: 'left',
+		        	 format: 'd/m/Y',
+		        	 minValue: new Date(),
+		        	 margin: '0 0 0 0',
+		        	 editable: false,
+		        	 inputAttrTpl: " data-qtip='Data de Início Prevista da Ordem de Serviço' "
+		         },{
+		        	 xtype:'timefield',
+		        	 fieldLabel: 'Hora de Início Prevista',
+		        	 itemId: 'start_forecast_time',
+		        	 name: 'start_forecast_time',
+		        	 labelAlign: 'right',
+		        	 format: 'H:i',
+		        	 margin: '0 0 0 0',
+		        	 editable: false,
+		        	 inputAttrTpl: " data-qtip='Hora de Início Prevista da Ordem de Serviço' "
+		         }			
+			]
 	
 	}, {
 		xtype: 'container',
@@ -203,10 +163,10 @@ var soInfo = {
 		items : [{
 			xtype:'datefield',
 			vtype: 'daterange',
-			startDateField: 'start_date', // id of the start date field
+			startDateField: 'start_forecast_date', // id of the start date field
 			fieldLabel: 'Data de Término Prevista',
-			name: 'end_date',
-			itemId: 'end_date',
+			name: 'end_forecast_date',
+			itemId: 'end_forecast_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0',
@@ -215,7 +175,8 @@ var soInfo = {
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
-			itemId: 'end_hour',
+			itemId: 'end_forecast_time',
+			name: 'end_forecast_time',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
@@ -224,12 +185,14 @@ var soInfo = {
 		}]
 	}, {
 		fieldLabel : 'Tipo da OS',
-		itemId: 'type',
+		itemId: 'type_id',
+		name: 'type_id',
 		valueField: 'id',
         displayField: 'desc',
 		xtype : 'combobox',
 		store: Ext.data.Store({
 			fields: ['id','desc'],
+			autoLoad: true,
 			proxy: {
 		         type: 'ajax',
 		         url: 'so/load/type',
@@ -241,16 +204,18 @@ var soInfo = {
 		}),
 		allowBlank : false,
 		editable: false,
-		width: '30%',
+		width: '40%',
 		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	}, {
 		fieldLabel : 'Prioridade de Execução',
-		itemId: 'priority',
+		itemId: 'priority_id',
+		name: 'priority_id',
 		valueField: 'id',
         displayField: 'desc',
 		xtype : 'combobox',
 		store: Ext.data.Store({
 			fields: ['id','desc'],
+			autoLoad: true,
 			proxy: {
 		         type: 'ajax',
 		         url: 'severity/load',
@@ -262,11 +227,12 @@ var soInfo = {
 		}),
 		allowBlank : false,
 		editable: false,
-		width: '35%',
+		width: '40%',
 		inputAttrTpl: " data-qtip='Prioridade de Execução da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
 		itemId: 'remark',
+		name: 'remark',
 		xtype : 'textareafield',
 		allowBlank : false,
 		width: '60%',
@@ -301,7 +267,7 @@ var header = {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ newStatus, equipmentInfo, soInfo ],
+		items : [ equipmentInfo, soInfo ],
 		
 		scrollable: true,
 
@@ -362,6 +328,8 @@ var footer = {
 Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	extend: 'Ext.Panel',
 	alias:  'widget.serviceorderform',
+	
+	itemId: 'serviceorderform',
 
     closable: false,
 	
@@ -380,11 +348,13 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
             {
                 title: 'Ordem de Serviço',
                 items:[header],
+                itemId: 'center',
                 region: 'center',
                 scrollable: true,
                 margin: '5 0 0 0',
             },{
 				title: 'Apontamentos',
+				itemId: 'footer',
 				items: [footer],
 				collapsible: true,
 				region: 'south',
@@ -409,6 +379,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	    },{
 			xtype: 'button',
 			width: 50,
+			disabled: true,
 			iconCls: 'plus',
 			handler: function(){
 				alert('Ola');
@@ -417,7 +388,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	    	xtype: 'tbseparator'
 	    },{
 	        xtype:'button',
-	    	itemId:'btnOk',
+	    	itemId:'btnSubmit',
 	    	text:'Confirma',
 	        tooltip:'Confirma',
 	        cls:'x-btn-default-small',

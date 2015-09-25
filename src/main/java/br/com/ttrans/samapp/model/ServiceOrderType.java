@@ -8,9 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Service_Order_Type")
 @SequenceGenerator(name="INC_SERVICE_ORDER_TYPE",sequenceName="GEN_SOT_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceOrderType {
 	
 	@Id

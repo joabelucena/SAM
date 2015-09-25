@@ -78,13 +78,20 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	            xtype:'splitbutton',
 	            text:'Ações',
 	            width: 80,
-//	            cls:'x-btn-default-small',
 	            iconCls: 'toolbox',
-//	            glyph: 61,
-	            menu:[]
+	            menu:[{
+	            	text: 'Legenda',
+	            	menu: [{
+	            		text: 'Legenda1',
+	            		hideOnClick: false
+	            	},{
+	            		text: 'Legenda2',
+	            		hideOnClick: false
+	            	}]
+	            }]
 	        }, '-', {
 		        xtype:'button',
-		    	id:'btnNewSo',
+		    	itemId:'btnAdd',
 		    	text:'Nova',
 		    	width: 80,
 		        tooltip:'Abrir Nova Ordem de Serviço',
@@ -92,7 +99,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		        iconCls: 'blueprint-plus'
 		    },{
 		        xtype:'button',
-		    	id:'btnEdit',
+		    	itemId:'btnEdit',
 		    	text:'Apontar',
 		    	width: 80,
 		        tooltip:'Informar Serviços Realizados',
@@ -100,7 +107,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 		        iconCls: 'blueprint-pencil'
 		    }, '-',{
 		        xtype:'button',
-		    	id:'btnShowSo',
+		    	itemId:'btnShow',
 		    	text:'Visualizar',
 		    	width: 80,
 		        tooltip:'Visuzalizar Ordem de Serviço',
@@ -124,15 +131,21 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
             							.down('splitbutton')
             							.getMenu();
             			
-            			//Itera array de retorno e adiciona os valores no menu
-            			Ext.each(action.data,function(data){
-            				menu.add({
-            					text: data.feature.description,
-            					handler: function(item, event){
-            						this.fireEvent('change', item, event, data.id, (data.remark === "Y"));
-            					},
-            				});
-            			});
+            			if(action.data.length > 0) {
+            				
+            				//Separador
+                			menu.add('-');
+                			
+                			//Itera array de retorno e adiciona os valores no menu
+                			Ext.each(action.data,function(data){
+                				menu.add({
+                					text: data.feature.description,
+                					handler: function(item, event){
+                						this.fireEvent('change', item, event, data.id, (data.remark === "Y"));
+                					},
+                				});
+                			});
+            			}
             		}
             	});
 			}
