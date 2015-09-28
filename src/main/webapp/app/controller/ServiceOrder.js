@@ -1405,7 +1405,19 @@ Ext.define('Sam.controller.ServiceOrder', {
 
 			        	//Sincroniza Store
 						store.sync({
-							success: function(){
+							success: function(batch, options){
+								
+								var response = Ext.util.JSON.decode(batch.getOperations()[0].getResponse().responseText);
+								
+								if(typeof response.message != "undefined"){
+									 //Exibir Mensagem
+					            	Ext.MessageBox.show({
+								        title: 'SAM | Info',
+								        msg:  response.message,
+								        buttons: Ext.MessageBox.OK,
+								        icon: Ext.MessageBox.WARNING
+									});
+								}
 								
 								//Recarrega Store
 								store.reload();
@@ -1415,7 +1427,14 @@ Ext.define('Sam.controller.ServiceOrder', {
 									f.getStore().reload();
 								});
 							},
-							scope: this
+							
+							callback: function(batch, options){
+								
+								
+								
+								
+							}
+							
 						});
 						
 			        } else if (btn === 'no') {
@@ -1430,7 +1449,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			//Sincroniza Store
 			store.sync({
-				success: function(){
+				success: function(proxy, response, operation){
 					
 					//Recarrega Store
 					store.reload();

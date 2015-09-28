@@ -1,7 +1,10 @@
 package br.com.ttrans.samapp.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -51,12 +55,14 @@ public class ServiceOrder {
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="soo_service_order_id", referencedColumnName = "sor_id")
-	@Cascade({CascadeType.SAVE_UPDATE})	
+	@Cascade({CascadeType.SAVE_UPDATE})
+	@OrderBy("id")
 	private Set<ServiceOrderOccurrence> occurrences;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="sol_service_order_id", referencedColumnName = "sor_id")
 	@Cascade({CascadeType.SAVE_UPDATE})
+	@OrderBy("id")
 	private Set<ServiceOrderLog> log;
 
 	@ManyToOne
@@ -248,16 +254,17 @@ public class ServiceOrder {
 	 */
 	public ServiceOrderLog getLastLog(){
 		
-		Iterator<ServiceOrderLog> it = this.getLog().iterator(); 
+		List<ServiceOrderLog> list = new ArrayList<ServiceOrderLog>(this.getLog());
 		
-		while(it.hasNext()){
-			
-			ServiceOrderLog log = it.next();
-			
-			if(!it.hasNext()) return log;			
-		}
+		Collections.sort(list, new Comparator<ServiceOrderLog>() {
+		    public int compare(ServiceOrderLog log1, ServiceOrderLog log2) {
+		        int i1 = log1.getId();
+		        int i2 = log2.getId();
+		        return (i1 < i2 ? -1 : (i1 == i2 ? 0 : 1));
+		    }
+		});
 		
-		return null;
+		return list.get(list.size()-1);
 	}
 
 	

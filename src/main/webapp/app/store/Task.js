@@ -24,8 +24,7 @@ Ext.define('Sam.store.Task', {
         },
         writer: {
             type: 'associatedjson',
-            writeAllFields: true,
-            root: 'task'
+            writeAllFields: true
         },
         listeners: {
         	success: function(proxy, response, operation){
