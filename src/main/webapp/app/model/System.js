@@ -5,6 +5,6 @@ Ext.define('Sam.model.System', {
 	        
 	        {name: 'id'		, type: 'string'	},
 	        {name: 'desc'	, type: 'string'	}
-
+	        
 	       ]
 });

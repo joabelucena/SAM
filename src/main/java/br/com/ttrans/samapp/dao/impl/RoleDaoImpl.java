@@ -28,7 +28,7 @@ public class RoleDaoImpl implements RoleDao {
 
 	@Override
 	public void delete(Role role) {
-		session.getCurrentSession().delete(role.getId());
+		session.getCurrentSession().delete(role);
 	}
 
 	@Override

@@ -308,7 +308,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true);
+			activeTab = this.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true);
 			
 			if(activeTab){
 			

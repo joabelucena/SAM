@@ -25,6 +25,20 @@ Ext.define('Sam.view.serviceOrder.status.StatusGrid', {
 		filter : {
 			type : 'string'
 		}
+	}, {
+		text : 'Exige Obs?',
+		flex : 1,
+		sortable : true,
+		dataIndex : 'remark',
+		renderer: function(value){
+	        if (value === 'Y') {
+	            return 'Sim';
+	        }
+	        return 'Não';
+	        },
+		filter : {
+			type : 'string'
+		}
 	}],
 	
 	dockedItems: [{

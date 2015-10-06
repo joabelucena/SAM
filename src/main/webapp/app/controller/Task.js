@@ -213,6 +213,7 @@ Ext.define('Sam.controller.Task', {
 			
 			if(activeTab){
 				
+
 				
 				//Grid de Condicoes
 				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
@@ -230,9 +231,27 @@ Ext.define('Sam.controller.Task', {
 				
 				//Ordena a store
 				grdCond.getStore().sort('seq','ASC');
-				grdEquip.getStore().sort('id','ASC');
+				grdEquip.getStore().sort('id','ASC');				
 				
-				//Seta Botão Confirma: 3 - Alterar
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab);
+				
+				//Desabilita Campos
+				Ext.each(fields,function(f){f.setReadOnly(true)})
+				
+				grdCond.removePlugin(grdCond.findPlugin('cellediting'));
+				
+				grdCond.headerCt.items.getAt(grdCond.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
+				grdEquip.headerCt.items.getAt(grdEquip.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
+				
+				//Desabilita botoes
+				Ext.each(Ext.ComponentQuery.query('fieldset',activeTab),function(f){
+					   Ext.each(Ext.ComponentQuery.query('button', f),function(b){
+					      b.setDisabled(true);
+					   })
+				});
+			
+				//Seta Botão Confirma: 4 - Excluir
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('remove')});
 				
 			}
@@ -287,6 +306,7 @@ Ext.define('Sam.controller.Task', {
 			
 			//Carrega dados do Formulario no registro
 			record.set(updated.getData());
+			record.setAlarm(updated.getAlarm());
 			record.conditions().setData(updated.conditions().getData());
 			record.equipments().setData(updated.equipments().getData());
 			

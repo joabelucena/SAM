@@ -41,6 +41,19 @@ Ext.define('Sam.view.serviceOrder.status.StatusForm', {
 			width: '20%',
 			inputAttrTpl: " data-qtip='Código do Tipo de Ordem de Serviço' "
 		},{
+			fieldLabel : 'Exige Obs.?',
+			itemId: 'remark',
+			name: 'remark',
+			store:  Ext.create('Sam.view.components.store.ComboBox'),
+			queryMode: 'local',
+			valueField: 'id',
+	        displayField: 'desc',
+			xtype : 'combobox',
+			allowBlank : false,
+			editable: false,
+			width: '25%',
+			inputAttrTpl: " data-qtip='Indica se para mudar para esse estado o usuário deve informar um motivo..' "
+		},{
 			fieldLabel : 'Descrição',
 			itemId: 'desc',
 			name: 'desc',

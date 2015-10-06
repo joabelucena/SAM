@@ -127,7 +127,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			},
 			
 			'#serviceorderstatusgrid toolbar #btnShow' :{
-				click: this.onServiceOrderStautsBtnShowClick
+				click: this.onServiceOrderStatusBtnShowClick
 			},
 			
 			'#serviceorderstatusgrid toolbar #btnEdit' :{
@@ -620,7 +620,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 
 			
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'serviceorderjobform', null, true);
+		var activeTab = this.activateTab(2, null, 'serviceorderjobform', null, false);
 		
 		if(activeTab){
 	
@@ -1446,6 +1446,16 @@ Ext.define('Sam.controller.ServiceOrder', {
 		if(action == 2 && lockId){
 			Ext.ComponentQuery.query('#id', newTab)[0].setVisible(false);
 			
+			var fld = Ext.ComponentQuery.query('#id', newTab)[0].up('fieldset');
+			
+			if (fld){
+				
+				//Se possui um fieldset verifica se possui apenas o campo id desabilita ele também 
+				if(fld.items.items.length == 1){
+					fld.setVisible(false);
+				}
+			}
+			
 		} else if (action == 2 && lockId == false) {
 			Ext.ComponentQuery.query('#id', newTab)[0].setEditable(true);
 			
@@ -1494,15 +1504,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 								Ext.each(Ext.ComponentQuery.query(comp),function(f){
 									f.getStore().reload();
 								});
-							},
-							
-							callback: function(batch, options){
-								
-								
-								
-								
-							}
-							
+							}							
 						});
 						
 			        } else if (btn === 'no') {

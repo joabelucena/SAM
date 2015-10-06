@@ -1,32 +1,20 @@
-var rulesSO = {
+var fldId = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
-	title : 'Id e Descrição',
+	title : 'Dados Regra',
 	layout : {
 		type : 'vbox'
 	},
 
 	items : [ {
-		fieldLabel : 'Id',
+		fieldLabel : 'Código',
 		itemId: 'id',
 		name: 'id',
-		width: '40%',
+		width: '30%',
 		inputAttrTpl: " data-qtip='Id da Regra da Ordem de Serviço' "
-	},{
-		fieldLabel : 'Exige Observação?',
-		itemId: 'remark',
-		name: 'remark',
-		store:  Ext.create('Sam.view.components.store.ComboBox'),
-		valueField: 'id',
-        displayField: 'desc',
-		queryMode: 'local',
-		xtype : 'combobox',
-		allowBlank : false,
-		editable: false,
-		width: '25%',
-		inputAttrTpl: " data-qtip='Exige que o usuário informe uma observação para mudar a OS de Status?' "
-	}],
+	}]		
 };
+
 
 var rules = {
 	xtype : 'fieldset',
@@ -131,17 +119,12 @@ Ext.define('Sam.view.serviceOrder.rules.RulesForm', {
 		defaults:{
 			allowBlank : false
 		},
-
-		layout : {
-			type : 'vbox',
-			align : 'stretch'
-		},
 		
 		scrollable: true,
 
 		bodyPadding : 10,
 		border : false,
-		items : [ rulesSO, rules, currentStatus, nextStatus ],
+		items : [ fldId , rules, currentStatus, nextStatus ],
 		
 		dockedItems: [{
 			xtype: 'formtoolbar'

@@ -4,6 +4,8 @@ Ext.define('Sam.store.UserRole', {
 	model: 'Sam.model.UserRole',
 		
 	autoLoad: true,
+	
+	sorters: { property: 'id'},
 
 	proxy: {
         type: 'ajax',

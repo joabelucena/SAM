@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
-import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderJob;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
@@ -525,28 +524,16 @@ public class ServiceOrderController {
 	 */
 	@RequestMapping("/rules/add.action")
 	@ResponseBody
-	public Map addRule(@RequestBody Map payload, 
+	public Map addRule(@RequestBody StatusRule rule, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
-		/*Implementar isso no Status Rules*/
-		
-		StatusRule sorules = new StatusRule();
-		
-		sorules.setId((int) payload.get("id"));
-		
-		sorules.setCurstatus((ServiceOrderStatus) payload.get("curstatus"));
-		
-		sorules.setNxtstatus((ServiceOrderStatus) payload.get("nxtstatus"));
-		
-		sorules.setRole((Role) payload.get("role"));
-				
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			ruleService.add(sorules, authentication);
+			ruleService.add(rule, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -556,7 +543,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/rules/update.action")
 	@ResponseBody
-	public Map updateRule(@RequestBody StatusRule sorules, 
+	public Map updateRule(@RequestBody StatusRule rule, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -565,7 +552,7 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
-			ruleService.edit(sorules, authentication);
+			ruleService.edit(rule, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}
@@ -576,7 +563,7 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/rules/delete.action")
 	@ResponseBody
-	public Map deleteStatus(@RequestBody StatusRule sorules,
+	public Map deleteStatus(@RequestBody StatusRule rule,
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
@@ -585,7 +572,7 @@ public class ServiceOrderController {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
 		try{
-			ruleService.delete(sorules, authentication);
+			ruleService.delete(rule, authentication);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

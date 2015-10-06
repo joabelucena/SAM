@@ -4,7 +4,8 @@ Ext.define('Sam.model.ServiceOrderStatus', {
 	fields:[
 	        
 	        {name: 'id'		, type: 'number'	},
-	        {name: 'desc'	, type: 'string'	}
+	        {name: 'desc'	, type: 'string'	},
+	        {name: 'remark'	, type: 'string'	}
 
 	       ],
 	       
