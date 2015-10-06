@@ -14,7 +14,7 @@ Ext.define('Sam.view.equipment.system.SystemGrid', {
 		width: 100,
 		sortable: true,
 		filter : {
-			type : 'number'
+			type : 'string'
 		}
 	}, {
 		text : 'Descrição',

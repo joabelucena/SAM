@@ -25,7 +25,7 @@ Ext.define('Sam.store.System', {
         },
         writer: {
             type: 'json',
-            writeAllFields: false,
+            writeAllFields: true,
             root: 'data'
         },
         listeners: {
