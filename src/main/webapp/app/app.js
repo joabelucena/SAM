@@ -6,7 +6,7 @@
 	           ,'Sam.lib.DateTimePicker'
 	           ,'Sam.lib.DateTimeField'],
 	
-	launch : function() 
+	launch : function()
 	{
 		Ext.widget('mainviewport');
 	},

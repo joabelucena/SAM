@@ -1,6 +1,9 @@
 Ext.define('Sam.model.ServiceOrderJob', {
 	extend: 'Ext.data.Model',
 	
-	fields:['id', 'desc', 'usr_insert', 'usr_update', 'deleted']
+	fields:[
+	        {name: 'id'					, type: 'string'	},
+	        {name: 'desc'				, type: 'string'	}
+	]
 
 });

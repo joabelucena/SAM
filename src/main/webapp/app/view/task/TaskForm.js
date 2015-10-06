@@ -1,4 +1,3 @@
-{
 /**** Creates Stores ****/
 var logicOperatorStore = Ext.create('Sam.view.components.store.LogicOperator'),
 	relationalOperatorStore = Ext.create('Sam.view.components.store.RelationalOperator'),
@@ -84,50 +83,50 @@ var grid1 = {
 	itemId : 'grdConditions',
 	
 
-			plugins : [ {
-			ptype : 'cellediting',
-			clicksToEdit : 2,
-			listeners : {
-				beforeedit : function(e, editor) {
-
-					/** ** Trava primeira celula da primeira linha *** */
-					if (editor.rowIdx == 0 && editor.colIdx == 1) {
+	plugins : [ {
+		ptype : 'cellediting',
+		clicksToEdit : 2,
+		listeners : {
+			beforeedit : function(e, editor) {
+	
+				/** ** Trava primeira celula da primeira linha *** */
+				if (editor.rowIdx == 0 && editor.colIdx == 1) {
+					return false;
+				};
+	
+				/** ** Trava demais campos quando tipo for MT *** */
+				if (editor.store.getAt(editor.rowIdx).data.type == "MT") {
+					if (editor.colIdx != 2 && editor.colIdx != 1) {
+						Ext.Msg.alert('MTBF','Tipo MTBF Selecionado. Não é necessario preencher os demais campos pois, os valores são gerados automaticamente.');
 						return false;
-					};
-
-					/** ** Trava demais campos quando tipo for MT *** */
-					if (editor.store.getAt(editor.rowIdx).data.type == "MT") {
-						if (editor.colIdx != 2 && editor.colIdx != 1) {
-							Ext.Msg.alert('MTBF','Tipo MTBF Selecionado. Não é necessario preencher os demais campos pois, os valores são gerados automaticamente.');
-							return false;
-						}
-					};
-
-					/**
-					 * ** Muda editor do campo 'Campo' de acordo com o 'Tipo'
-					 * selecionado ***
-					 */
-					if (editor.colIdx == 3) {
-
-						if (editor.store.getAt(editor.rowIdx).data.type == "") {
-
-							// Exige que seja preenchido primeiro o Campo 'Tipo'
-							return false;
-
-						} else if (editor.store.getAt(editor.rowIdx).data.type == "AT") {
-							// TIPO DE ALARME
-							editor.column.setEditor(edtType);
-
-						} else if (editor.store.getAt(editor.rowIdx).data.type == "AL") {
-							// ALARM
-							editor.column.setEditor(edtAlarm);
-						}
-
-					};
-				}
+					}
+				};
+	
+				/**
+				 * ** Muda editor do campo 'Campo' de acordo com o 'Tipo'
+				 * selecionado ***
+				 */
+				if (editor.colIdx == 3) {
+	
+					if (editor.store.getAt(editor.rowIdx).data.type == "") {
+	
+						// Exige que seja preenchido primeiro o Campo 'Tipo'
+						return false;
+	
+					} else if (editor.store.getAt(editor.rowIdx).data.type == "AT") {
+						// TIPO DE ALARME
+						editor.column.setEditor(edtType);
+	
+					} else if (editor.store.getAt(editor.rowIdx).data.type == "AL") {
+						// ALARM
+						editor.column.setEditor(edtAlarm);
+					}
+	
+				};
 			}
-
-		} ],
+		}
+	
+	} ],
 	
 	width: '100%',
 	height: 150,
@@ -151,7 +150,7 @@ var grid1 = {
 				index = logicOperatorStore.findExact('id',value); 
 	            if (index != -1){
 	                rs = logicOperatorStore.getAt(index).data; 
-	                return rs.desc; 
+	                return rs.desc;
 	            }
 			},
 			editor: {
@@ -319,9 +318,6 @@ var grid2 = {
 			tooltip: 'Excluir Linha',
 			handler: function(view, rowIndex, colIndex, item, e, record, row) {
 
-				
-				var store = Ext.ComponentQuery.query('#grdEquipments')[0].getStore();
-				
 				Ext.MessageBox.show({
 			        title: 'Atenção',
 			        msg: 'Confirma exclusão da linha?',
@@ -329,15 +325,10 @@ var grid2 = {
 			        icon: Ext.MessageBox.WARNING,
 			        fn: function(btn,  knowId, knowCheck){
 			            if(btn == 'ok'){
-			            	
-			            	store.remove(record);
-
-			            } else if(btn == 'cancel') {
-			            	
+			            	view.getStore().remove(record);
 			            }
-			            	
-			            }
-			        });
+			        }
+				});
 				
 			
 			}
@@ -769,15 +760,6 @@ Ext.define('Sam.view.task.TaskForm', {
 		}
 	},
 	
-//	initComponent: function(){
-//		Ext.apply(this,{
-//			
-//			
-//		});
-//		
-//		this.callParent(arguments);
-//	},
-
 	items : [{
 		xtype : 'form',
 
@@ -802,4 +784,3 @@ Ext.define('Sam.view.task.TaskForm', {
 		}]
 	}]
 });
-}

@@ -48,7 +48,6 @@ public class TaskServiceImpl implements TaskService {
 		//Sets insert user and relational conditions
 		while(conditions.hasNext()){
 			TaskCondition cond = conditions.next();
-//			cond.setTask(task);
 			cond.setInsert(authentication.getName());
 		}
 		
@@ -66,9 +65,13 @@ public class TaskServiceImpl implements TaskService {
 		//Sets update user and relational conditions
 		while(conditions.hasNext()){
 			TaskCondition cond = conditions.next();
-//			cond.setTask(task);
-			cond.setInsert(task.getInsert());
-			cond.setUpdate(authentication.getName());
+			
+			//Eh registro novo
+			if(cond.getInsert() == null){
+				cond.setInsert(authentication.getName());				
+			}else{
+				cond.setUpdate(authentication.getName());
+			}			
 		}
 		
 		task.setUpdate(authentication.getName());

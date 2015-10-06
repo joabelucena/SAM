@@ -2,6 +2,7 @@ package br.com.ttrans.samapp.service.impl;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
+import br.com.ttrans.samapp.model.ServiceOrderOccurrence;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.service.ServiceOrderService;
 
@@ -60,6 +62,10 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	@Transactional
 	public void edit(ServiceOrder so, Authentication authentication) {
 		
+		
+		/**
+		 * Verifica se houve mudanca de estado para alterar o log
+		 */
 		if(so.statusChanged()){
 			
 			so.getLog().add(new ServiceOrderLog(	so.getLastLog().getCurstatus(),		//Status De 
@@ -68,8 +74,32 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 													new Date(),							//Data/Hora
 													so.getLogRemark(),					//Observacao						
 													authentication.getName()));			//Usuario inserção (USR_INSERT)
-			
 		}
+		
+		
+		
+		/**
+		 * Log do sistema
+		 */
+		Iterator<ServiceOrderOccurrence> it = so.getOccurrences().iterator();
+		
+		//Sets update user and relational conditions
+		while(it.hasNext()){
+			ServiceOrderOccurrence occurrence = it.next();
+			
+			//Eh registro novo
+			if(occurrence.getInsert() == null){
+				occurrence.setInsert(authentication.getName());				
+			}else{
+				occurrence.setUpdate(authentication.getName());
+			}			
+		}
+		
+		
+		/**
+		 * Log de alteração da OS
+		 */
+		so.setUpdate(authentication.getName());
 		
 		dao.edit(so, authentication);
 	}

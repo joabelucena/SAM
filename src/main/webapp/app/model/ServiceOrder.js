@@ -18,7 +18,7 @@ Ext.define('Sam.model.ServiceOrder', {
 	        {name: 'event_id'			, type: 'number'	, mapping: 'event.id'									},
 	        {name: 'parent_id'			, type: 'number'	, mapping: 'parent.id'									},
 	        {name: 'technician_id'		, type: 'string'	, mapping: 'technician.id'								},
-	        {name: 'priority_id'		, type: 'number'	, mapping: 'priority.id'								},
+	        {name: 'priority_id'		, type: 'string'	, mapping: 'priority.id'								},
 	        {name: 'equipment_id'		, type: 'string'	, mapping: 'equipment.id'								},
 	        
 	        /** Grid Fields **/

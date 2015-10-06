@@ -53,13 +53,15 @@ Ext.define('Sam.controller.ServiceOrder', {
 				change: this.onToolbarItemSelect
 			},
 			
+			'#serviceorderform toolbar #btnShowLog' :{
+				click: this.onBtnShowLogClick
+			},
+			
 			/****************************************/
 			'serviceorderloggrid':{
 				itemmouseup: this.onItemMouseUp,
 			},
-			'toolbar #btnShowLog' :{
-				click: this.onBtnShowLogClick
-			},
+			
 			
 			/* Buttons Listeners: Job
 			 *  
@@ -194,7 +196,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	},
 	
 	onSoBtnSubmitAdd: function(button, event){
-		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+		var mainPanel	= Ext.getCmp('viewportpanel'),							//Aba Objecto Pai
 		activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 		form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 		values		= form.getValues(),											//Dados do Formulario
@@ -227,6 +229,39 @@ Ext.define('Sam.controller.ServiceOrder', {
 	
 	onSoBtnSubmitEdit: function(button, event){
 		
+		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario
+			store		= this.getServiceOrderStore(),								//Store
+			updated		= form.getRecord(),											//Dados atualizado
+			record		= store.findRecord('id',updated.get('id'));					//Registro
+			
+		
+		form.updateRecord();
+		
+		//Ajusta as datas
+		Ext.each(updated.occurrences().data.items,function(item){
+			var date_ini = Ext.Date.format(item.get('start_date'), "d/m/Y"),
+				time_ini = Ext.Date.format(item.get('start_time'), "H:i"),
+				date_fim = Ext.Date.format(item.get('end_date'), "d/m/Y"),
+				time_fim = Ext.Date.format(item.get('end_time'), "H:i");
+			
+			item.set({	service		: Ext.create('Sam.model.ServiceOrderJob'	,{id: item.get('service_id')}	),
+						technician	: Ext.create('Sam.model.Technician'		,{id: item.get('technician_id')}	),
+						start		: Ext.Date.parse(date_ini + " " + time_ini , "d/m/Y H:i"					),
+						end			: Ext.Date.parse(date_fim + " " + time_fim , "d/m/Y H:i"					)
+			});
+		});
+
+		//Carrega dados do Formulario no registro
+		record.set(updated.getData());
+		record.occurrences().setData(updated.occurrences().getData());
+		 
+		//Sincroniza e Atualiza Store
+		this.syncStore(store, '#serviceordergrid', false);
+		
+		//Fecha Aba
+		activeTab.close();
 	},
 	
 	onSoBtnShowClick: function(button, event){
@@ -245,23 +280,80 @@ Ext.define('Sam.controller.ServiceOrder', {
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				
+				//Grid de apontamentos
+				var grdOccur = Ext.ComponentQuery.query('#occurrencesGrid',activeTab)[0];
+				
 				//Carrega registro no form
 				form.loadRecord(row);
+				grdOccur.setStore(row.occurrences());
+				
+				//Desabilita edicao e remove coluna de acao
+				grdOccur.removePlugin(grdOccur.findPlugin('cellediting'));
+				grdOccur.headerCt.items.getAt(grdOccur.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
 				
 				//Campos a desabilitar
-				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				var fields = Ext.ComponentQuery.query('form field',activeTab);
 				
 				//Desabilita Campos
-				Ext.each(fields,function(f){f.setReadOnly(true)})
+				Ext.each(fields,function(f){f.setReadOnly(true), f.unsetActiveError()})
 				
 				//Seta Botão Confirma: 1 - Visualizar
-				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
-				
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});				
 			}
 		}
 	},
 	
-	onSoBtnAddClick: function(item, event){
+	onSoBtnEditClick: function(button, event){
+		
+		//Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		//Tem Registro Selecionado
+		if(row){
+			
+			if(row.getStatus().get("id") != 8){
+				//Exibir Mensagem
+            	Ext.MessageBox.show({
+			        title: 'SAM | Operação não Permitida',
+			        msg:  "Não foi inciado o atendimento para a OS. Inicie o atendimento para realizar os apontamentos.",
+			        buttons: Ext.MessageBox.OK,
+			        icon: Ext.MessageBox.WARNING
+				});
+            	
+            	return
+			}
+			
+			//Cria Aba: 1 - Visualizar
+			activeTab = this.activateTab(1, row.get('id'), 'serviceorderform', 'Apontamento de Serviços', false);
+			
+			if(activeTab){
+			
+				//Retorna Form
+				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+				
+				//Grid de apontamentos
+				var grdOccur = Ext.ComponentQuery.query('#occurrencesGrid',activeTab)[0];
+				
+				//Carrega registro no form
+				form.loadRecord(row);
+				grdOccur.setStore(row.occurrences());
+				
+				//Campos a desabilitar
+				var fields = Ext.ComponentQuery.query('form field',activeTab)
+				
+				//Retira mensagens de erros das validacoes
+				Ext.each(fields,function(f){f.setReadOnly(true), f.unsetActiveError()})
+				
+				//Habilita apontamento
+				Ext.ComponentQuery.query('#btnAddJob',activeTab)[0].setDisabled(false);
+				
+				//Seta Botão Confirma: 1 - Visualizar
+				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});				
+			}
+		}
+	},
+	
+	onSoBtnAddClick: function(button, event){
 			
 		//Cria Aba: 2 - Incluir
 		var activeTab = this.activateTab(2, null, 'serviceorderform', null, true);
@@ -281,18 +373,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 	onItemMouseUp : function( me, record, item, index, e, eOpts ){
 		
 		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
+		var mainPanel = Ext.getCmp('viewportpanel'),
+			activeTab = mainPanel.getActiveTab(),
+			form = activeTab.down('form'),
+			grid = activeTab.down('grid');
 		
-		//Aba ativa
-		var activeTab = mainPanel.getActiveTab();
-		
-		//Seta Valores do grid no Form
-		Ext.ComponentQuery.query('form #log_os',activeTab)[0].setValue(record.get('serviceorder_id'));
-		Ext.ComponentQuery.query('form #log_prevstatus',activeTab)[0].setValue(record.get('prevstatus'));
-		Ext.ComponentQuery.query('form #log_curstatus',activeTab)[0].setValue(record.get('curstatus'));
-		Ext.ComponentQuery.query('form #log_user',activeTab)[0].setValue(record.get('user_id'));
-		Ext.ComponentQuery.query('form #log_datetime',activeTab)[0].setValue(Ext.Date.format(record.get('datetime'), 'm-d-Y g:i A'));
-		Ext.ComponentQuery.query('form #log_remark',activeTab)[0].setValue(record.get('remarks'));
+		form.loadRecord(record);
 		
 	},
 	
@@ -442,13 +528,11 @@ Ext.define('Sam.controller.ServiceOrder', {
 	//ServiceOrder > form : BtnShowLog button
 	onBtnShowLogClick: function(action) {
 	
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		var activeTab = mainPanel.getActiveTab();
-		
-		var fieldId = Ext.ComponentQuery.query('#id',activeTab)[0];
-		
-		var tabId = 'solog-'+fieldId.getRawValue();
+		var mainPanel = Ext.getCmp('viewportpanel'),
+			activeTab = mainPanel.getActiveTab(),
+			fieldId = Ext.ComponentQuery.query('#id',activeTab)[0],
+			tabId = 'solog-'+fieldId.getRawValue(),
+			record = activeTab.down('form').getRecord();
 		
 		var newTab = mainPanel.items.findBy(
 				function(tab){
@@ -465,25 +549,9 @@ Ext.define('Sam.controller.ServiceOrder', {
 			});
 		}
 		
-		
 		mainPanel.setActiveTab(newTab);
 		
-		activeTab = mainPanel.getActiveTab();
-		
-		var gridLog = Ext.ComponentQuery.query('grid',activeTab)[0]
-		/*
-		//Filtra Store
-		gridLog.getStore().setFilters([{
-			exactMatch: true,
-			property: 'serviceorder_id',
-			value: parseInt(fieldId.getValue())
-			}
-		]);
-		*/
-		var gStore = gridLog.getStore();
-		var sStore = this.getServiceOrderStore();
-		
-		gStore.setData(sStore.getById(fieldId.getValue()).data.log);
+		mainPanel.getActiveTab().down('grid').setStore(record.log());
 		
 	},
 	
@@ -1330,25 +1398,25 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			//Visualizar
 			case 1:
-				title = 'Visualizar Cod: ' + id;
+				title = (typeof uTitle != 'undefined' && uTitle != null) ? uTitle : 'Visualizar Cod: ' + id;
 				tabId = 'show-' + xtype + '-' + id;
 				break;
 			
 			//Incluir
 			case 2:
-				title = 'Incluir Novo Registro';
+				title = (typeof uTitle != 'undefined' && uTitle != null) ? uTitle : 'Incluir Novo Registro';
 				tabId = 'add-' + xtype
 				break;
 			
 			//Alterar
 			case 3:
-				title = 'Alterar Cod: ' + id;
+				title = (typeof uTitle != 'undefined' && uTitle != null) ? uTitle : 'Alterar Cod: ' + id;
 				tabId = 'edit-' + xtype + '-' + id;
 				break;
 			
 			//Excluir
 			case 4:
-				title = 'Excluir Cod: ' + id;
+				title = (typeof uTitle != 'undefined' && uTitle != null) ? uTitle : 'Excluir Cod: ' + id;
 				tabId = 'delete-' + xtype + '-' + id;
 				break;
 			default:

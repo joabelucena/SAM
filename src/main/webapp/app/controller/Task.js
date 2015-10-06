@@ -183,14 +183,10 @@ Ext.define('Sam.controller.Task', {
 			//Retorna Form
 			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 			
-			//Retorna Form
-			var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
-			
 			//Carrega dados na tela
 			form.loadRecord(row);
 			grdCond.setStore(row.conditions());
 			grdEquip.setStore(row.equipments());
-			
 			
 			//Seta Botão Confirma: Incluir
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});

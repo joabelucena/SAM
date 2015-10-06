@@ -13,13 +13,13 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 	columns : [
 	   {
 		   text: 'Ordem de Servico',
-		   dataIndex: 'serviceorder_id',
-		   flex: 1,
+		   dataIndex: 'so_id',
+		   width: 100,
        },{
 			text: 'Status Anterior',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'prevstatus',
+			dataIndex: 'prevstatus_desc',
 			filter: {
 				type: 'string'
 			}
@@ -27,7 +27,7 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 			text: 'Status Posterior',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'curstatus',
+			dataIndex: 'curstatus_desc',
 			filter: {
 				type: 'string'
 			}
@@ -52,6 +52,6 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 			text: 'Observações',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'remarks',
+			dataIndex: 'remark',
 		}]
 });

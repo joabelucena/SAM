@@ -1,3 +1,79 @@
+/**** Creates editors ****/
+var edtJobs = {
+			xtype:'textfield',
+			allowBlank : false,
+			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Tipo de Serviço',
+				buttons : [ {
+					text : 'Confirma',
+					itemId: 'submit',
+			        cls:'x-btn-default-small',
+			        iconCls: 'tick-button',
+			        handler: function(button) {
+			        	
+			        	//Aba Objecto Pai
+		        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+		        			window = button.up('window'),
+		        			record = button.up('window').down('grid').getSelection()[0];
+		        		
+			        	if(record){
+
+			        		//Conditions grid selection
+			        		var row = Ext.ComponentQuery.query('#occurrencesGrid',activeTab)[0].getSelection()[0];
+			        		
+			        		row.set({'service_id': record.get('id')});
+			        		
+			        		window.close();
+			        		
+			        	}
+			        }
+			        
+				} ],
+				items:	[Ext.create('Sam.view.serviceOrder.job.JobGrid',{
+					dockedItems:[],
+				})],
+
+			}).show()}}}
+};
+
+var edtTec = {
+		xtype:'textfield',
+		allowBlank : false,
+		triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
+			title: 'Selecionar Tecnico',
+			buttons : [ {
+				text : 'Confirma',
+				itemId: 'submit',
+		        cls:'x-btn-default-small',
+		        iconCls: 'tick-button',
+		        handler: function(button) {
+		        	
+		        	//Aba Objecto Pai
+	        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+	        			window = button.up('window'),
+	        			record = button.up('window').down('grid').getSelection()[0];
+	        		
+		        	if(record){
+
+		        		//Conditions grid selection
+		        		var row = Ext.ComponentQuery.query('#occurrencesGrid',activeTab)[0].getSelection()[0];
+		        		
+		        		row.set({'technician_id': record.get('id')});
+		        		
+		        		window.close();
+		        		
+		        	}
+		        }
+		        
+			} ],
+			items:	[Ext.create('Sam.view.technician.TechnicianGrid',{
+				dockedItems:[],
+			})],
+
+		}).show()}}}
+};
+
+
 /******* Equipment 'container' *******/
 var equipmentInfo = {
 	xtype : 'fieldset',
@@ -277,50 +353,164 @@ var header = {
 /******* FOOTER *******/
 var footer = {
 	xtype: 'gridpanel',
-	
-	itemId : 'conditionsgrid',
-	
+	itemId : 'occurrencesGrid',
 	width: '100%',
-	height: '90%',
-
-	store : Ext.create('Ext.data.Store'),
+	height: '100%',
+	border: false,
 	
-	columns : [{
-		text : 'Cod. Serv.',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'desc'
-	}, {
-		text : 'Tipo',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'desc'
-	}, {
-		text : 'Técnico',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'alarm_desc'
-	}, {
-		text : 'Inicio',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'alarm_desc'
-	}, {
-		text : 'Término',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'alarm_desc'
-	}, {
-		text : 'Observação',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'alarm_desc'
-	}, {
-		text : 'Ação',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'alarm_desc'
-	}]
+	plugins : [ {
+		ptype : 'cellediting',
+		clicksToEdit : 2,
+//		listeners : {
+//			beforeedit : function(e, editor) {
+//	
+//				/** ** Trava primeira celula da primeira linha *** */
+//				if (editor.colIdx == 1) {
+//					return false;
+//				};
+//	
+//				
+//			}
+//		}
+	
+	} ],
+	
+	columns : {
+		
+		defaults:{
+			menuDisabled: true,
+			sortable: false,
+			editor: 'textfield'
+		},
+		
+		items: [
+			{
+				text : 'Serv.',
+				width: 70,
+				sortable : true,
+				dataIndex : 'service_id',
+				editor: edtJobs
+			}, {
+				text : 'Técnico',
+				width: 100,
+				sortable : true,
+				dataIndex : 'technician_id',
+				editor: edtTec
+			}, 
+			
+			
+			/* DateTimeField
+			{
+				text : 'Inicio',
+				xtype: 'datecolumn',
+				format: 'd/m/Y H:i',
+				width: 150,
+				sortable : true,
+				dataIndex : 'start',
+                editor: {
+                    xtype: 'datetimefield',
+                    allowBlank : false,
+                    format: 'd/m/Y H:i',
+                }
+			},{
+				text : 'Término',
+				xtype: 'datecolumn',
+				format: 'd/m/Y H:i',
+				width: 150,
+				sortable : true,
+				dataIndex : 'end',
+                editor: {
+                    xtype: 'datetimefield',
+                    allowBlank : false,
+                    format: 'd/m/Y H:i',
+                }
+			},
+			*******************/
+			
+			
+			{
+				text : 'Dt. Inicio',
+				xtype: 'datecolumn',
+				format: 'd/m/Y',
+				width: 100,
+				sortable : true,
+				dataIndex : 'start_date',
+                editor: {
+                    xtype: 'datefield',
+                    allowBlank : false,
+                    format: 'd/m/Y',
+                }
+			}, {
+				text : 'Hr. Inicio',
+				xtype: 'datecolumn',
+				format: 'H:i',
+				width: 100,
+				sortable : true,
+				dataIndex : 'start_time',
+                editor: {
+                    xtype: 'timefield',
+                    allowBlank : false,
+                    format: 'H:i',
+                }
+			}, {
+				text : 'Dt. Término',
+				xtype: 'datecolumn',
+				format: 'd/m/Y',
+				width: 100,
+				sortable : true,
+				dataIndex : 'end_date',
+                editor: {
+                    xtype: 'datefield',
+                    allowBlank : false,
+                    format: 'd/m/Y',
+                }
+			}, {
+				text : 'Hr. Término',
+				xtype: 'datecolumn',
+				format: 'H:i',
+				width: 100,
+				sortable : true,
+				dataIndex : 'end_time',
+                editor: {
+                    xtype: 'timefield',
+                    allowBlank : false,
+                    format: 'H:i',
+                }
+			},{
+				text : 'Observação',
+				flex : 1,
+				sortable : true,
+				dataIndex : 'remark'
+			}, {
+				text : 'Ação',
+				xtype: 'actioncolumn',
+				itemId: 'actionClm',
+				width: 70,
+				align: 'center',
+				items: [{
+					iconCls: 'minus-circle',
+					tooltip: 'Excluir Linha',
+					handler: function(view, rowIndex, colIndex, item, e, record, row) {
+		
+						Ext.MessageBox.show({
+					        title: 'Atenção',
+					        msg: 'Confirma exclusão da linha?',
+					        buttons: Ext.MessageBox.OKCANCEL,
+					        icon: Ext.MessageBox.WARNING,
+					        fn: function(btn,  knowId, knowCheck){
+					        	if(btn == 'ok'){
+					            	view.getStore().remove(record);
+					            }			            	
+					        }
+						});
+						
+					
+					}
+				}]
+			}
+	]
+	
+	}
 };
 
 
@@ -359,8 +549,10 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 				collapsible: true,
 				region: 'south',
 				margin: '5 0 0 0',
+				layout: 'fit',
+				scrollable: true,
 				minHeight: 250,
-				Height: 250,
+				height: 250,
             }],
             
 	dockedItems: [{
@@ -378,11 +570,40 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderForm', {
 	    	xtype: 'tbfill'
 	    },{
 			xtype: 'button',
+			itemId: 'btnAddJob',
+			tooltip:'Inclui novo apontamento',
 			width: 50,
 			disabled: true,
 			iconCls: 'plus',
-			handler: function(){
-				alert('Ola');
+			handler: function(button){
+
+				var store = button.up('panel').down('grid').getStore(),	// grid Store
+					record = store.getAt(store.data.length-1),			// last record
+					lAdd = false;										// boolean variable for validating last record
+				
+				//Se nao for primeiro registro
+				if(!record){
+					lAdd = true;
+				}else{
+					lAdd = record.isValid();
+				}
+				
+				//Se passou pela validação adiciona registro
+				if(lAdd){
+					
+					//Adiciona novo registro
+					store.add(Ext.create('Sam.model.ServiceOrderOccurrence'));
+					
+				}else{
+					
+					Ext.MessageBox.show({
+				        title: 'SAM | Info',
+				        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+				        buttons: Ext.MessageBox.OK,
+				        icon: Ext.MessageBox.WARNING
+					});
+					
+				}
 			}
 		},{
 	    	xtype: 'tbseparator'

@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -34,17 +32,15 @@ public class ServiceOrderOccurrence {
 	@ManyToOne
 	@JoinColumn(name = "soo_technician_id")
 	private Technician technician;
-
-	@Column(name="soo_event_type")
-	private int type;
-
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name="soo_start")
 	private Date start;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="soo_end")
 	private Date end;
+	
+	@Column(name="soo_remark")
+	private String remark;
 
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -78,14 +74,6 @@ public class ServiceOrderOccurrence {
 		this.technician = technician;
 	}
 
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
 	public Date getStart() {
 		return start;
 	}
@@ -100,6 +88,14 @@ public class ServiceOrderOccurrence {
 
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+	
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public String getInsert() {

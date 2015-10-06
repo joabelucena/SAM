@@ -16,7 +16,7 @@
     'Ext.form.field.Time',
     'Ext.form.Label'
     ],
-    todayText : 'Current Date',
+    todayText : 'Hoje',
     childEls: [
         'innerEl', 'eventEl', 'prevEl', 'nextEl', 'middleBtnEl', 'footerEl'
     ],
@@ -168,7 +168,7 @@
         var me = this;
         me.hourSlider = new Ext.slider.Single({
             xtype: 'slider',
-            fieldLabel: 'Hour',
+            fieldLabel: 'Hora',
             labelAlign: 'top',
             labelSeparator: ' ',
             value: 0,
@@ -182,7 +182,7 @@
         });
 
         me.minuteSlider = new Ext.slider.Single({
-            fieldLabel: 'Minutes',
+            fieldLabel: 'Minutos',
             labelAlign: 'top',
             labelSeparator: ' ',
             value: 0,

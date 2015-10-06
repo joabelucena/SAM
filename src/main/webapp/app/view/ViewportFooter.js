@@ -59,7 +59,7 @@ Ext.define('Sam.view.ViewportFooter', {
 		        			this.date.setMilliseconds(this.interval);
 		        		}
 		        		
-		        		Ext.fly('barclock').setHtml(Ext.Date.format(this.date, 'g:i:s A'));
+		        		Ext.fly('barclock').setHtml(Ext.Date.format(this.date, 'H:i:s A'));
 						
 					};
 					 

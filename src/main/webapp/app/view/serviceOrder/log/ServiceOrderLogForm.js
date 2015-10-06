@@ -7,40 +7,48 @@ var logInfo = {
 		//align : 'stretch',
 	},
 
-	items : [ {
+	items : [{
 		fieldLabel : 'Ordem de Serviço',
-		itemId: 'log_os',
+		itemId: 'so_id',
+		name: 'so_id',
 		readOnly : true,
-		width: '40%',
+		width: '30%',
 		inputAttrTpl: " data-qtip='Número da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Status Anterior',
-		itemId: 'log_prevstatus',
+		itemId: 'prevstatus_desc',
+		name: 'prevstatus_desc',
 		readOnly : true,
-		width: '40%',
+		width: '45%',
 		inputAttrTpl: " data-qtip='Status Anterior da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Status Posterior',
-		itemId: 'log_curstatus',
+		itemId: 'curstatus_desc',
+		name: 'curstatus_desc',
 		readOnly : true,
-		width: '40%',
+		width: '45%',
 		inputAttrTpl: " data-qtip='Status Posterior da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Usuario',
-		itemId: 'log_user',
+		itemId: 'user_id',
+		name: 'user_id',
 		readOnly : true,
-		width: '40%',
+		width: '35%',
 		inputAttrTpl: " data-qtip='Usuário que Abriu a Ordem de Serviço' "
 	},{
 		fieldLabel : 'Data/Hora',
-		itemId: 'log_datetime',
+		xtype: 'datefield',
+		format: 'd/m/Y - G:i:s',
+		itemId: 'datetime',
+		name: 'datetime',
 		readOnly : true,
-		width: '30%',
+		width: '40%',
 		inputAttrTpl: " data-qtip='Data/Hora da Abertura da Ordem de Serviço' "
 	},{
 		xtype: 'textareafield',
 		fieldLabel : 'Observação',
-		itemId: 'log_remark',
+		itemId: 'remark',
+		name: 'remark',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
