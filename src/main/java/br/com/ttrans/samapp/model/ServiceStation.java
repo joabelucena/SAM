@@ -10,9 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Service_Station")
 @SequenceGenerator(name = "INC_SERVICE_STATION", sequenceName = "GEN_SST_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceStation implements Serializable {
 	
 	/**

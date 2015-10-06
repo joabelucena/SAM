@@ -8,9 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Equipments_Protocol")
 @SequenceGenerator(name="INC_EQUIPMENTS_PROTOCOL",sequenceName="GEN_EPR_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EquipmentProtocol {
 	
 	@Id

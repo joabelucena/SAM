@@ -11,10 +11,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Documents")
 @SequenceGenerator(name="INC_DOCUMENT",sequenceName="GEN_DOC_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Document {
 	
 	@Id

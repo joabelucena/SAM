@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
@@ -29,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.ttrans.samapp.library.DAO;
-import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.Role;
 import br.com.ttrans.samapp.model.ServiceOrder;
@@ -40,7 +36,6 @@ import br.com.ttrans.samapp.model.ServiceOrderJob;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.ServiceOrderType;
-import br.com.ttrans.samapp.model.SeverityLevel;
 import br.com.ttrans.samapp.model.StatusRule;
 import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.EventService;
@@ -219,7 +214,7 @@ public class ServiceOrderController {
 			so.setPriority(event.getAlarm().getSeverity());		// Severidade
 			so.setRemark(obs);									// Observação
 
-			serviceOrderValidator.validate(so, err, "add");
+			serviceOrderValidator.validate(so, err, new User(), "add");
 			
 			if(!err.hasErrors()){
 				
@@ -265,6 +260,7 @@ public class ServiceOrderController {
 		} 
 	}
 	
+	/*
 	@RequestMapping(value = "/newFromSo", method = RequestMethod.POST)
 	public Map<String, Object> newFromSo(
 			@RequestParam(value = "equipId"			, required = true) String equipId,
@@ -317,7 +313,7 @@ public class ServiceOrderController {
 			so.setPriority(new SeverityLevel(prioId));	// Severidade
 			so.setRemark(obs);							// Observação
 
-			serviceOrderValidator.validate(so, err, "add");
+			serviceOrderValidator.validate(so, err, new User(), "add");
 			
 			if(!err.hasErrors()){
 				
@@ -369,7 +365,8 @@ public class ServiceOrderController {
 			
 		}
 	}
-	
+	*/
+	/*
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST)
 	public Map<String, Object> changeStatus(
 			@RequestParam(value = "soId"	, required = true)	int soId,
@@ -471,7 +468,7 @@ public class ServiceOrderController {
 		}
 		return result;
 	}
-	
+	*/
 	/*
 	@RequestMapping(value = "/gettypes")
 	@ResponseBody
@@ -537,28 +534,37 @@ public class ServiceOrderController {
 	
 	@RequestMapping("/update.action")
 	@ResponseBody
-	public Map updateSo(@RequestBody Map so, 
+	public Map updateSo(@RequestBody ServiceOrder so, 
 			HttpServletRequest request,
 			Authentication authentication,
             HttpServletResponse response) {
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		mapper.convertValue(so, ServiceOrder.class);
+		Errors errors = new BindException(so, "serviceorder");
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-
-		try{
-			//soService.edit(so, authentication);
-		}catch(Exception e){
-			result.put("message",e.getMessage());
+		
+		serviceOrderValidator.validate(	so														,	// Object to validate
+										errors													,	// Binding Errors Object
+										(User) request.getSession().getAttribute("loggedUser")	,	// Logged User
+										"edit");													// Action
+		//Check if any errors were found
+		if(errors.hasErrors()){
+			
+			//TODO verificar como retornar o erro do objeto BindException
+			result.put("message"	,"Mudanca de estado não permitida. Siga o fluxo da OS.");
+			
+		}else{
+			
+			try{
+				soService.edit(so, authentication);
+			}catch(Exception e){
+				result.put("message",e.getMessage());
+			}
 		}
 		
 		return result;
 	}
-	
-	
 	
 	/**
 	 * CRUD Operations for: ServiceOrderJob

@@ -16,8 +16,10 @@ import org.hibernate.annotations.OrderBy;
 import br.com.ttrans.samapp.library.MenuType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Menu implements Serializable {
 	/**
 	 * 

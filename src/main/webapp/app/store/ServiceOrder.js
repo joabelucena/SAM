@@ -15,8 +15,7 @@ Ext.define('Sam.store.ServiceOrder', {
         api: {
         	read : 		'so/load',
 			create : 	'so/add.action',
-			update : 	'so/update.action',
-//			destroy : 	'so/delete.action',
+			update : 	'so/update.action'
         },
         reader: {
             type: 'json',
@@ -27,7 +26,6 @@ Ext.define('Sam.store.ServiceOrder', {
         writer: {
             type: 'associatedjson',
             writeAllFields: true,
-            root: 'task'
         },
         listeners: {
         	success: function(proxy, response, operation){

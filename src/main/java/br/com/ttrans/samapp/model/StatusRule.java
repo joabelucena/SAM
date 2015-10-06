@@ -12,9 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Status_Rules")
 @SequenceGenerator(name="INC_STATUS_RULES",sequenceName="GEN_SRU_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StatusRule implements Serializable {
 	/**
 	 * 

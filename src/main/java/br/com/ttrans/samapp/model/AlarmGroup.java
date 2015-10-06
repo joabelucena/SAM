@@ -8,9 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Alarms_Group")
 @SequenceGenerator(name="INC_ALARMS_GROUP",sequenceName="GEN_AGR_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AlarmGroup {
 	
 	@Id

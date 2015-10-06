@@ -32,13 +32,13 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	
 
 	@Transactional
-	public int add(ServiceOrder serviceorder, Authentication authentication) {
+	public int add(ServiceOrder so, Authentication authentication) {
 		
-		//Retorna status inicial cadastrado em parametro		
+		//Retorna status inicial cadastrado em parametro
 		ServiceOrderStatus status = statusDao.findByName(lib.getMv("SAM_SOSTATUS", "NOVA")); 
 		
 		//Atualiza OS com o status incial
-		serviceorder.setStatus(status);
+		so.setStatus(status);
 		
 		//Cria objeto de log
 		Set<ServiceOrderLog> log = new HashSet<ServiceOrderLog>();
@@ -47,24 +47,36 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 										status,						//Status Para	
 										authentication.getName(),	//Usuario
 										new Date(),					//Data/Hora
-										serviceorder.getRemark(),	//Observacao						
+										so.getRemark(),				//Observacao						
 										authentication.getName()));	//Usuario inserção (USR_INSERT)
 		
 		//'Seta' log na OS
-		serviceorder.setLog(log);
+		so.setLog(log);
 		
-		return dao.add(serviceorder, authentication);
+		return dao.add(so, authentication);
 		
 	}
 
 	@Transactional
-	public void edit(ServiceOrder serviceorder, Authentication authentication) {
-		dao.edit(serviceorder, authentication);
+	public void edit(ServiceOrder so, Authentication authentication) {
+		
+		if(so.statusChanged()){
+			
+			so.getLog().add(new ServiceOrderLog(	so.getLastLog().getCurstatus(),		//Status De 
+													so.getStatus(),						//Status Para	
+													authentication.getName(),			//Usuario
+													new Date(),							//Data/Hora
+													so.getLogRemark(),					//Observacao						
+													authentication.getName()));			//Usuario inserção (USR_INSERT)
+			
+		}
+		
+		dao.edit(so, authentication);
 	}
 
 	@Transactional
-	public void delete(ServiceOrder serviceorder, Authentication authentication) {
-		dao.delete(serviceorder, authentication);
+	public void delete(ServiceOrder so, Authentication authentication) {
+		dao.delete(so, authentication);
 	}
 	
 	@Transactional
