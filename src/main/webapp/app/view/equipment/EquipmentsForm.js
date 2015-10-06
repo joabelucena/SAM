@@ -238,14 +238,6 @@ var equipment = {
 		width: '40%',
 		inputAttrTpl: " data-qtip='Tempo de Garantia do Equipamento' ",
 	}, {
-		fieldLabel : 'OID',
-		itemId: 'ip',
-		name: 'ip',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Endereço IP do Equipamento' ",
-	}, {
 		fieldLabel : 'MTBF para Preventiva',
 		itemId: 'mtbf_prev',
 		name: 'mtbf_prev',

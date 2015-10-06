@@ -50,8 +50,6 @@ Ext.define('Sam.model.Equipment', {
         {name: 'equipment_system'	, type: 'string'	, mapping: 'system.desc'		},
         {name: 'equipment_site'		, type: 'string'	, mapping: 'site.desc'			},
 		
-		
-		
 	],
 
 	belongsTo: [

@@ -5,6 +5,8 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	requires : [ 'Ext.grid.filters.Filters'],
 	           
 	store : Ext.create('Sam.store.Equipment'),
+	
+	itemId: 'equipmentsgrid',
 
 	columns : [ {
 		text : 'Código',
