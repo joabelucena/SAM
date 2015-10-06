@@ -176,8 +176,8 @@ Ext.define('Sam.controller.ServiceOrder', {
 				remove: this.onServiceOrderRulesBtnSubmitDelete,
 			},
 			
-			'#ServiceOrderRulesgrid toolbar #btnShow' :{
-				click: this.onServiceOrderStatusBtnShowClick
+			'#serviceorderrulesgrid toolbar #btnShow' :{
+				click: this.onServiceOrderRulesBtnShowClick
 			},
 			
 			'#serviceorderrulesgrid toolbar #btnEdit' :{
