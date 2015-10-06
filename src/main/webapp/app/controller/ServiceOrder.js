@@ -1352,6 +1352,12 @@ Ext.define('Sam.controller.ServiceOrder', {
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
 			
+			store.findRecord('id',record.get('id')).set({
+				role: Ext.create('Sam.model.UserRole',{id: values.role_id, roleName: values.role_desc}),
+				curstatus: Ext.create('Sam.model.ServiceOrderStatus',{id: values.curstatus_id, desc: values.curstatus_desc}),
+				nxtstatus: Ext.create('Sam.model.ServiceOrderStatus',{id: values.nxtstatus_id, desc: values.nxtstatus_desc})
+			});
+			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, 'serviceorderrulesgrid',false);
 			

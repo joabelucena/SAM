@@ -4,6 +4,8 @@ Ext.define('Sam.store.ServiceOrderRules', {
 	model: 'Sam.model.ServiceOrderRules',
 		
 	autoLoad: true,
+	
+	sorters: { property: 'id'},
 
 	proxy: {
         type: 'ajax',
