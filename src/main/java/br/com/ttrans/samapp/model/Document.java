@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,10 +32,10 @@ public class Document {
 	@Column(name="doc_url")
 	private String url;
 	
-	@ManyToOne
-	@JoinColumn(name="doc_type_id")
-	private DocumentType type;
-	
+//	@ManyToOne
+//	@JoinColumn(name="doc_type_id")
+//	private DocumentType type;
+
 	@ManyToOne
 	@JoinColumn(name="doc_equipment_id")
 	@JsonBackReference
@@ -71,13 +73,13 @@ public class Document {
 		this.url = url;
 	}
 
-	public DocumentType getType() {
-		return type;
-	}
-
-	public void setType(DocumentType type) {
-		this.type = type;
-	}
+//	public DocumentType getType() {
+//		return type;
+//	}
+//
+//	public void setType(DocumentType type) {
+//		this.type = type;
+//	}
 
 	public Equipment getEquipment() {
 		return equipment;

@@ -111,7 +111,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
-
+	<!-- Message Converter  -->
 	<bean id="jacksonMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="objectMapper" ref="jacksonObjectMapper" />
@@ -126,5 +126,9 @@
 		</property>
 	</bean>
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="5000000" />
+	</bean>
 	
 </beans>

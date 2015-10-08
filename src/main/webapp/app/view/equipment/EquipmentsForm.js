@@ -170,6 +170,7 @@ var documents = {
 		width: '40%',
 		inputAttrTpl: " data-qtip='Descrição do Documento do Equipamento' ",
 	}, {
+		xtype: 'filefield',
 		fieldLabel : 'Caminho do documento',
 		itemId: 'document_url',
 		name: 'document_url',

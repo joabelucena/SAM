@@ -1,5 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Menu;
@@ -36,97 +41,96 @@ import br.com.ttrans.samapp.service.TaskService;
 @Scope("session")
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
-	private StatusRuleService ruleService;	
-	
+	private StatusRuleService ruleService;
+
 	@Autowired
 	private MailClient client;
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(HomeController.class);
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = {"/","/index"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		
+
 		logger.info("Welcome home! The client locale is {}.", locale);
-	
+
 		return "index";
 	}
-	
+
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> menuLoad(HttpServletRequest request, 
-			Locale locale, 
-			Model model, 
-			Authentication authentication) {
-		
+	public Map<String, Object> menuLoad(HttpServletRequest request,
+			Locale locale, Model model, Authentication authentication) {
+
 		User user = (User) request.getSession().getAttribute("loggedUser");
-		
-		Map<String,Object> result = new HashMap<String, Object>();
-		
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		List<Menu> menu = new ArrayList<Menu>();
-		
+
 		Iterator<Menu> it = user.getRole().getMenus().iterator();
-		
-		while(it.hasNext()){
+
+		while (it.hasNext()) {
 			Menu mn = it.next();
-			if(mn.getParent() == null) menu.add(mn);
+			if (mn.getParent() == null)
+				menu.add(mn);
 		}
-		
+
 		result.put("items", menu);
-		
+
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
-	public ResponseEntity<Date> getTime(HttpServletRequest request){
-		
+	public ResponseEntity<Date> getTime(HttpServletRequest request) {
+
 		return new ResponseEntity<Date>(new Date(), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
 	@ResponseBody
-	public String getUser(HttpServletRequest request, Authentication aut){
-		
+	public String getUser(HttpServletRequest request, Authentication aut) {
+
 		User user = (User) request.getSession().getAttribute("loggedUser");
-		
-		return user.getUsername() + " | " +user.getRole().getRoleName();
+
+		return user.getUsername() + " | " + user.getRole().getRoleName();
 	}
-	
+
 	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
 	@ResponseBody
-	public String taskTest(){
-		
+	public String taskTest() {
+
 		String cMessage = "<html>Oi <b>Joabe</b><br><br></html>";
-		
-		
-		client.sendMail(new String[]{"joabelucena@gmail.com"},
-				new String[]{"gabriellypontez.gp@gmail.com","joabelucena@hotmail.com"},
-				new String[]{"jlucena@ttrans.com.br"},
-				"TESTE com CC e CCO",
+
+		client.sendMail(new String[] { "joabelucena@gmail.com" }, new String[] {
+				"gabriellypontez.gp@gmail.com", "joabelucena@hotmail.com" },
+				new String[] { "jlucena@ttrans.com.br" }, "TESTE com CC e CCO",
 				cMessage);
-		
+
 		return "test";
 	}
-	
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> testeSam(HttpServletRequest request){
-		
+	public Map<String, Object> testeSam(HttpServletRequest request) {
+
 		User user = (User) request.getSession().getAttribute("loggedUser");
-		
-		List<ServiceOrderStatus> status = ruleService.getStatusByRole(user.getRole());
-		
-		Map<String,Object> result = new HashMap<String, Object>();
-		
+
+		List<ServiceOrderStatus> status = ruleService.getStatusByRole(user
+				.getRole());
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		result.put("data", status);
-		
+
 		return result;
 	}
 }

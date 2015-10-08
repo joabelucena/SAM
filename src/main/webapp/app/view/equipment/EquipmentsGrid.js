@@ -166,6 +166,97 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	    dock: 'bottom',
 	    
 	    items: [{
+            xtype:'splitbutton',
+            text:'Ações',
+            width: 80,
+            iconCls: 'toolbox',
+            menu:[{
+            		text: 'Enviar Arquivo...',
+            		handler: function(item,event){
+            			Ext.create('Ext.window.Window',{
+            				
+            				autoShow: true,
+            				height: 170,
+            				width: 360,
+            				resizable: false,
+            				layout: {
+            					type: 'fit'
+            				},
+            				//iconCls: 'key',
+            				title: "Enviar Documento",
+            				closeAction: 'hide',
+            				closable: false,			
+            				items: [
+            					{
+            						xtype: 'form',
+            						frame: false,
+            						bodyPadding: 15,
+            						defaults: {
+            							xtype: 'textfield',
+            							anchor: '100%',
+            							labelWidth: 60,
+            							allowBlank :false,
+            							minLength: 3,
+            							msgTarget: 'under',
+            							enableKeyEvents: true,
+            						    listeners: {
+            						        keyup: function(form, e) {
+            						        	//Enter
+            						            if(e.getKey() == 13){
+//            						            	submit();
+            						            //Esc
+            						            }else if(e.getKey() == 27){
+//            						            	fnResetForm(Ext.getCmp('formPanel'))
+            						            }
+            						        }
+            						    }
+            						},
+            						items: [{
+    									xtype : 'filefield',
+    									name: 'image',
+    									fieldLabel: 'Arquivo',
+    									labelWidth: 50,
+    									msgTarget: 'side',
+    									allowBlank: false,
+    									anchor:'100%',
+    									buttonText: 'Selecione um arquivo....'
+    								}]
+            					}
+            				],
+
+            				dockedItems: [
+            					{
+            						xtype: 'toolbar',
+            						dock: 'bottom',
+            						items: [
+            							{
+            								xtype: 'tbfill'
+            							},{
+            								xtype: 'button',
+            								itemId: 'submit',
+            								formBind: true,
+            								text: 'Enviar Arquivo',
+            								cls:'x-btn-default-small',
+            								handler: function(button) {
+            									var form = button.up('window').down('form').getForm();
+            									if(form.isValid()){
+            					                    form.submit({
+            					                        url: 'document/upload/uploadfile',
+            					                        waitMsg: 'Enviando o arquivo...',
+            					                        success: function(fp, o) {
+            					                            Ext.Msg.alert('Success', 'Seu arquivo foi enviado.');
+            					                        }
+            					                    });
+            									}
+            								}
+            							}
+            						]
+            					}
+            				]
+            			});
+            		}
+            	}]
+        }, '-', {
 	        xtype:'button',
 	        itemId:'btnShow',
 	    	text:'Visualizar',
@@ -197,5 +288,6 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	        iconCls: 'tick-button'
 	    }]
 	}]
+	
 
 });
