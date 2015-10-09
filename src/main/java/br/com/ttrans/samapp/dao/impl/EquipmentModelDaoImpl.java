@@ -35,6 +35,11 @@ public class EquipmentModelDaoImpl implements EquipmentModelDao {
 		session.getCurrentSession().delete(model);
 
 	}
+	
+	@Override
+	public EquipmentModel get(int id){
+		return (EquipmentModel) session.getCurrentSession().get(EquipmentModel.class, id);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

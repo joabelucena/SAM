@@ -1,14 +1,21 @@
 package br.com.ttrans.samapp.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -29,6 +36,12 @@ public class EquipmentModel {
 	@ManyToOne
 	@JoinColumn(name = "emo_protocol_id")
 	private EquipmentProtocol protocol;
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="doc_model_id", referencedColumnName = "emo_id")
+	@Cascade({CascadeType.SAVE_UPDATE})
+	private Set<Document> documents;
+	
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -60,6 +73,14 @@ public class EquipmentModel {
 
 	public void setProtocol(EquipmentProtocol protocol) {
 		this.protocol = protocol;
+	}
+	
+	public Set<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<Document> documents) {
+		this.documents = documents;
 	}
 
 	public String getInsert() {

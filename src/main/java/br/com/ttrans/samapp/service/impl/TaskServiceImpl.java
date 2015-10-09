@@ -97,110 +97,110 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Transactional
 	public void proccess(Task task) {
-		Boolean run = false;
-
-		// Task is active, so process it
-		if (task.getActive().equals("Y")) {
-
-			// Instantiate equipment iterator
-			Iterator<Equipment> equipIt = task.getEquipments().iterator();
-
-			// Creates criteria
-			// Criteria crit =
-			// session.getCurrentSession().createCriteria(Counter.class);
-
-			// Instantiate new objects
-			TaskCondition condition;
-			Equipment equipment;
-			Alarm alarm;
-
-			// Iteration on equipments
-			while (equipIt.hasNext()) {
-				
-				int counter = 0;
-
-				equipment = equipIt.next();
-
-				Iterator<TaskCondition> condIt = task.getConditions().iterator();
-				
-				// Iteration on conditions
-				while (condIt.hasNext()) {
-
-					condition = condIt.next();
-
-					switch (condition.getType()) {
-					
-					case "AL":
-
-						/********* Alarm *********/
-						alarm = new Alarm(condition.getField());
-
-						Counter ct = (Counter) counterDao.get(new CounterId(alarm, equipment));
-						
-						//Attributes counter value to counter variable
-						if (ct instanceof Counter) {
-							counter = ct.getCounter();
-						}
-
-						break;
-					case "MT":
-						/********* MTBF *********/
-						break;
-						
-					case "AT":
-						/********* Alarm Type *********/
-						
-						counter = counterDao.getCountByType(equipment, new AlarmType(Integer.parseInt(condition.getField())));
-
-					}
-					
-					//Do the rule
-					switch (condition.getRelOper()) {
-					
-					/**
-					 * if(<logic_operator> == AND){
-					 * 		run = run && counter <rel_operator> value
-					 * }else{
-					 * 		run = run || counter <rel_operator> value
-					 * }
-					 */
-					case ">":
-						run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
-						break;
-					case "<":
-						run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
-						break;
-					case "==":
-						run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
-						break;
-					case ">=":
-						run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
-						break;
-					case "<=":
-						run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
-						break;
-					}
-					
-				} //<--- Conditions
-
-				if(run){
-					Event ev = new Event();
-					ev.setAlarm(task.getAlarm());
-					ev.setEquipment(equipment);
-					ev.setInsert(USR_TASK_INSERT);
-					ev.setDatetime(new Date());
-					
-					try {
-						eventdao.add(ev);
-					} catch (Exception e) {
-						logger.info("Erro na criação do evento para a regra: " + task.getId());
-						e.printStackTrace();
-					}
-				}
-			
-			}//<--- Equipments
-		}
-
+//		Boolean run = false;
+//
+//		// Task is active, so process it
+//		if (task.getActive().equals("Y")) {
+//
+//			// Instantiate equipment iterator
+//			Iterator<Equipment> equipIt = task.getEquipments().iterator();
+//
+//			// Creates criteria
+//			// Criteria crit =
+//			// session.getCurrentSession().createCriteria(Counter.class);
+//
+//			// Instantiate new objects
+//			TaskCondition condition;
+//			Equipment equipment;
+//			Alarm alarm;
+//
+//			// Iteration on equipments
+//			while (equipIt.hasNext()) {
+//				
+//				int counter = 0;
+//
+//				equipment = equipIt.next();
+//
+//				Iterator<TaskCondition> condIt = task.getConditions().iterator();
+//				
+//				// Iteration on conditions
+//				while (condIt.hasNext()) {
+//
+//					condition = condIt.next();
+//
+//					switch (condition.getType()) {
+//					
+//					case "AL":
+//
+//						/********* Alarm *********/
+//						alarm = new Alarm(condition.getField());
+//
+//						Counter ct = (Counter) counterDao.get(new CounterId(alarm, equipment));
+//						
+//						//Attributes counter value to counter variable
+//						if (ct instanceof Counter) {
+//							counter = ct.getCounter();
+//						}
+//
+//						break;
+//					case "MT":
+//						/********* MTBF *********/
+//						break;
+//						
+//					case "AT":
+//						/********* Alarm Type *********/
+//						
+//						counter = counterDao.getCountByType(equipment, new AlarmType(Integer.parseInt(condition.getField())));
+//
+//					}
+//					
+//					//Do the rule
+//					switch (condition.getRelOper()) {
+//					
+//					/**
+//					 * if(<logic_operator> == AND){
+//					 * 		run = run && counter <rel_operator> value
+//					 * }else{
+//					 * 		run = run || counter <rel_operator> value
+//					 * }
+//					 */
+//					case ">":
+//						run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
+//						break;
+//					case "<":
+//						run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
+//						break;
+//					case "==":
+//						run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
+//						break;
+//					case ">=":
+//						run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
+//						break;
+//					case "<=":
+//						run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
+//						break;
+//					}
+//					
+//				} //<--- Conditions
+//
+//				if(run){
+//					Event ev = new Event();
+//					ev.setAlarm(task.getAlarm());
+//					ev.setEquipment(equipment);
+//					ev.setInsert(USR_TASK_INSERT);
+//					ev.setDatetime(new Date());
+//					
+//					try {
+//						eventdao.add(ev);
+//					} catch (Exception e) {
+//						logger.info("Erro na criação do evento para a regra: " + task.getId());
+//						e.printStackTrace();
+//					}
+//				}
+//			
+//			}//<--- Equipments
+//		}
+//
 	}
 
 	@Transactional

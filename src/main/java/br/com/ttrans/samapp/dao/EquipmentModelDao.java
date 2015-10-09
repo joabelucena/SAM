@@ -11,5 +11,6 @@ public interface EquipmentModelDao {
 	public void add(EquipmentModel model, Authentication authentication);
 	public void edit(EquipmentModel model, Authentication authentication);
 	public void delete(EquipmentModel model, Authentication authentication);
+	public EquipmentModel get(int id);
 	public List<EquipmentModel> loadData();
 }

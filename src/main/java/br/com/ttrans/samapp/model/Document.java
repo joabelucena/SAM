@@ -5,14 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -36,11 +31,6 @@ public class Document {
 //	@JoinColumn(name="doc_type_id")
 //	private DocumentType type;
 
-	@ManyToOne
-	@JoinColumn(name="doc_equipment_id")
-	@JsonBackReference
-	private Equipment equipment;
-	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
 	
@@ -48,6 +38,17 @@ public class Document {
 	private String update;
 	
 	public Document(){}
+	
+	public Document(String desc, String url, String insert,
+			String update) {
+		super();
+		this.desc = desc;
+		this.url = url;
+		this.insert = insert;
+		this.update = update;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -81,13 +82,13 @@ public class Document {
 //		this.type = type;
 //	}
 
-	public Equipment getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(Equipment equipment) {
-		this.equipment = equipment;
-	}
+//	public Equipment getEquipment() {
+//		return equipment;
+//	}
+//
+//	public void setEquipment(Equipment equipment) {
+//		this.equipment = equipment;
+//	}
 
 	public String getInsert() {
 		return insert;

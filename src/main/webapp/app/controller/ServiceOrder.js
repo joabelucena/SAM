@@ -455,9 +455,40 @@ Ext.define('Sam.controller.ServiceOrder', {
 							}).show();
 				
 				break;
-
+			case 8:
+				
+				// 8 EM ANDAMENTO
+				if (store.findRecord('id',row.get('id')).get('start') == null){
+					store.findRecord('id',row.get('id')).set({start: new Date()});
+				}
+				
+				lChange = true;
+				
+				break;
+			
+			case 10:
+				
+				// 10 CONCLUIDO
+				store.findRecord('id',row.get('id')).set({end: new Date()});
+				
+				lChange = true;
+				
+				break;
+			case 12:
+				// 10 CONCLUIDO
+				store.findRecord('id',row.get('id')).set({end: null});
+				
+				lChange = true;
+				
+				break;
+				
 				
 			default:
+				lChange = true;
+				break;
+			}
+			
+			if(lChange){
 				
 				// DEMAIS ESTADOS
 				if(lRemark){
@@ -518,8 +549,10 @@ Ext.define('Sam.controller.ServiceOrder', {
 	    			this.syncStore(store, 'serviceordergrid',true);
 				}
 				
-				break;
 			}
+
+			
+			
 		}		
 	},
 	
@@ -1512,12 +1545,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 								});
 							}							
 						});
-						
-			        } else if (btn === 'no') {
-			            console.log('No pressed');
-			        } else {
-			            console.log('Cancel pressed');
-			        } 
+			        }
 			    }
 			});
 			

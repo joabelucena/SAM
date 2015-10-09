@@ -26,7 +26,7 @@
 	     	,'DocumentType'				,'ServiceOrderRules'
 	     	,'ServiceOrderStatus'		,'UserRole'
 	     	,'Sam.store.TaskCondition'	,'ServiceOrderOccurrence'
-	     	,'System'],
+	     	,'System'					,'Document'],
    
 	controllers : [ 'Menu'				,'Events'
 	               ,'ServiceOrder'		,'Equipment'

@@ -5,7 +5,7 @@ Ext.define('Sam.model.EquipmentModel', {
 	 * 
 	 */
 	
-	idProperty: 'id',
+//	idProperty: 'id',
 	
 	fields:[
 	        
@@ -15,6 +15,31 @@ Ext.define('Sam.model.EquipmentModel', {
 	        {name: 'prot_desc'		, type: 'string'		, mapping: 'protocol.desc'	},
         ],
 	
-    belongsTo:  {model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}
+    belongsTo:  [{name: 'protocol', model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}],
+    
+    hasMany: [{name: 'documents', model: 'Sam.model.Document'}],
+    
+    proxy: {
+        type: 'ajax',
+        
+        api: {
+        	read : 		'equipment/load/model',
+			create : 	'equipment/model/add.action',
+			update : 	'equipment/model/update.action',
+			destroy : 	'equipment/model/delete.action',
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            root: 'data'
+        }
+    }
+
 
 });

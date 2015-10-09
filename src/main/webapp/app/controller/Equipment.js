@@ -17,7 +17,8 @@ Ext.define('Sam.controller.Equipment', {
 		     	'EquipmentType',
 		     	'EquipmentProtocol',
 		     	'OperationalState',
-		     	'System'],
+		     	'System',
+		     	'Document'],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.EquipmentsForm',
@@ -902,6 +903,12 @@ Ext.define('Sam.controller.Equipment', {
 				
 				//Carrega registro no form
 				form.loadRecord(row);
+				
+				//Carrega Store
+				activeTab.down('grid').setStore(row.documents());
+				
+				//Habilita envio de Documentos
+				Ext.ComponentQuery.query('#btnAddDoc',activeTab)[0].setDisabled(false);
 				
 				//Seta Botão Confirma: Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});

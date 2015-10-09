@@ -32,7 +32,7 @@ public class DocumentTypeDaoImpl implements DocumentTypeDao {
 	public void delete(DocumentType type, Authentication authentication) {
 		session.getCurrentSession().delete(type);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DocumentType> loadData() {

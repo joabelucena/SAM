@@ -1,22 +1,15 @@
 package br.com.ttrans.samapp.model;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Equipments")
@@ -56,11 +49,6 @@ public class Equipment {
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
 	
-	@Cascade({CascadeType.SAVE_UPDATE})
-	@OneToMany(mappedBy = "equipment", targetEntity = Document.class, fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private Set<Document> documents;
-
 	@Column(name="equ_warranty")
 	private String warranty;
 
@@ -152,12 +140,6 @@ public class Equipment {
 	}
 	public void setSystem(SubSystem system) {
 		this.system = system;
-	}
-	public Set<Document> getDocuments() {
-		return documents;
-	}
-	public void setDocuments(Set<Document> documents) {
-		this.documents = documents;
 	}
 	public String getWarranty() {
 		return warranty;

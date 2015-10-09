@@ -38,7 +38,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			text: 'Status',
 			sortable: true,
 			dataIndex: 'status_desc',
-			width: 100,
+			width: 150,
 			filter: {
 				type: 'string'
 			}
@@ -47,6 +47,13 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			sortable: true,
 			dataIndex: 'event_id',
 			width: 100,
+			renderer: function( value, metadata, record ){
+				if (value === 0) {
+					return '';
+		        }else{
+		        	return value;
+		        }
+			},
 			filter: {
 				type: 'number'
 			}
@@ -61,13 +68,21 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			}
 		},{
 			text: 'Conclusao Real',
-			flex: 1,
 			sortable: true,
 			dataIndex: 'end',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
 			width: 120,
 			filter: {
 				type: 'date'
+			}
+		},{
+			text: 'Técnico',
+			flex: 1,
+			sortable: true,
+			dataIndex: 'technician_name',
+			width: 200,
+			filter: {
+				type: 'string'
 			}
 		}],
 		dockedItems: [{

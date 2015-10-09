@@ -31,6 +31,11 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
 	public void delete(EquipmentModel model, Authentication authentication) {
 		dao.delete(model, authentication);
 	}
+	
+	@Transactional
+	public EquipmentModel get(int id){
+		return dao.get(id);
+	}
 
 	@Transactional
 	public List<EquipmentModel> loadData() {

@@ -1,7 +1,5 @@
 package br.com.ttrans.samapp.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Menu;
@@ -110,10 +105,11 @@ public class HomeController {
 
 		String cMessage = "<html>Oi <b>Joabe</b><br><br></html>";
 
-		client.sendMail(new String[] { "joabelucena@gmail.com" }, new String[] {
-				"gabriellypontez.gp@gmail.com", "joabelucena@hotmail.com" },
-				new String[] { "jlucena@ttrans.com.br" }, "TESTE com CC e CCO",
-				cMessage);
+		client.sendMail(new String[] { "joabelucena@gmail.com" }	//PARA
+				,new String[] { "joabelucena@hotmail.com" }			//CC
+				,new String[] { "jlucena@ttrans.com.br" }			//CCO
+				,"TESTE com CC e CCO",								//ASSUNTO
+				cMessage);											//MENSAGEM
 
 		return "test";
 	}
