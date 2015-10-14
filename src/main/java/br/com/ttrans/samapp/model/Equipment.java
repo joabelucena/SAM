@@ -19,6 +19,9 @@ public class Equipment {
 	@Id
 	@Column(name="equ_id")
 	private String id;
+	
+	@Column(name="equ_desc")
+	private String desc;
 
 	@Column(name="equ_fixed_asset")
 	private String fixedAsset;
@@ -92,6 +95,12 @@ public class Equipment {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 	public String getFixedAsset() {
 		return fixedAsset;
