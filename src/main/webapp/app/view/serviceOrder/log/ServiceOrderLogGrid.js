@@ -10,12 +10,7 @@ Ext.define('Sam.view.serviceOrder.log.ServiceOrderLogGrid' , {
 	
 	plugins: 'gridfilters',
     
-	columns : [
-	   {
-		   text: 'Ordem de Servico',
-		   dataIndex: 'so_id',
-		   width: 100,
-       },{
+	columns : [{
 			text: 'Status Anterior',
 			flex: 1,
 			sortable: true,

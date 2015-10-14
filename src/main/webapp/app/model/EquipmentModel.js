@@ -19,27 +19,4 @@ Ext.define('Sam.model.EquipmentModel', {
     
     hasMany: [{name: 'documents', model: 'Sam.model.Document'}],
     
-    proxy: {
-        type: 'ajax',
-        
-        api: {
-        	read : 		'equipment/load/model',
-			create : 	'equipment/model/add.action',
-			update : 	'equipment/model/update.action',
-			destroy : 	'equipment/model/delete.action',
-        },
-        reader: {
-            type: 'json',
-            successProperty: 'success',
-            root: 'data',
-            messageProperty: 'message'
-        },
-        writer: {
-            type: 'json',
-            writeAllFields: true,
-            root: 'data'
-        }
-    }
-
-
 });

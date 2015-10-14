@@ -14,9 +14,9 @@
         <mapping class="br.com.ttrans.samapp.model.Site" />
         <mapping class="br.com.ttrans.samapp.model.SiteType" />
 		<mapping class="br.com.ttrans.samapp.model.Document" />
-		<mapping class="br.com.ttrans.samapp.model.DocumentType" />
+<!-- 		<mapping class="br.com.ttrans.samapp.model.DocumentType" /> -->
         <mapping class="br.com.ttrans.samapp.model.EquipmentProtocol" />
-        <mapping class="br.com.ttrans.samapp.model.Counter" />
+<!--         <mapping class="br.com.ttrans.samapp.model.Counter" /> -->
         <mapping class="br.com.ttrans.samapp.model.EquipmentManufacturer" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentType" />
         <mapping class="br.com.ttrans.samapp.model.SubSystem" />
@@ -41,6 +41,7 @@
 		<mapping class="br.com.ttrans.samapp.model.SystemFeature" />
 		<mapping class="br.com.ttrans.samapp.model.Task" />
 		<mapping class="br.com.ttrans.samapp.model.TaskCondition" />
+		<mapping class="br.com.ttrans.samapp.model.TaskEquipment" />
 		        
     </session-factory>         
 </hibernate-configuration>

@@ -157,7 +157,8 @@ public class EventController {
 			
 			//Alarm
 			try{
-				result.put("severity"			, event.getAlarm().getSeverity().getDesc());				
+				result.put("severity_id"			, event.getAlarm().getSeverity().getId());
+				result.put("severity_desc"			, event.getAlarm().getSeverity().getDesc());
 			
 			}catch(Exception e){
 				
@@ -187,23 +188,29 @@ public class EventController {
 	
 	
 	@RequestMapping(value = "action/recognize", method = RequestMethod.POST)
-	public ResponseEntity<String> recognize(
+	public Map<String, Object> recognize(
 			@RequestParam(value = "recognizeId", required = false) Long[] ids,
 			Authentication authentication, Locale locale){
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
 
 		try{
 			eventService.recognize(ids, authentication);
 		}catch(Exception e){
-			return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
+			result.put("error", e.getMessage());
 		}
 				
-		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
+		return result;
 	}
 	
 	@RequestMapping(value = "action/normalize", method = RequestMethod.POST)
-	public ResponseEntity<String> normalize(
+	public Map<String, Object> normalize(
 			@RequestParam(value = "normalizeId", required = false) Long id,
 			Authentication authentication, Locale locale){
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
 		
 		Event ev = eventService.get(id);
 		
@@ -214,16 +221,14 @@ public class EventController {
 				try{
 					eventService.normalize(id, authentication);
 				}catch(Exception e){
-					return new ResponseEntity<String>(messageSource.getMessage("response.Failure", null, locale) , HttpStatus.BAD_REQUEST);
+					result.put("error", e.getMessage());
 				}
 			}else{
-				return new ResponseEntity<String>(messageSource.getMessage("response.event.NotNormalizable", null, locale) , HttpStatus.BAD_REQUEST);
+				result.put("message", messageSource.getMessage("response.event.NotNormalizable", null, locale));
 			}
 		}
 		
-		
-		
-		return new ResponseEntity<String>(messageSource.getMessage("response.Ok", null, locale), HttpStatus.OK);
+		return result;
 	}
 	
 	@ResponseBody

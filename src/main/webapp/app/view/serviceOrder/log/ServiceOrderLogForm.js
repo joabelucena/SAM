@@ -8,13 +8,6 @@ var logInfo = {
 	},
 
 	items : [{
-		fieldLabel : 'Ordem de Serviço',
-		itemId: 'so_id',
-		name: 'so_id',
-		readOnly : true,
-		width: '30%',
-		inputAttrTpl: " data-qtip='Número da Ordem de Serviço' "
-	},{
 		fieldLabel : 'Status Anterior',
 		itemId: 'prevstatus_desc',
 		name: 'prevstatus_desc',

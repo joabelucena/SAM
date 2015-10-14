@@ -76,7 +76,7 @@ var edtTec = {
 
 /******* Equipment 'container' *******/
 var equipmentInfo = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Informações do Equipamento',
 	itemId: 'equipmentInfo',
@@ -108,12 +108,15 @@ var equipmentInfo = {
 			        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
 			        			window = button.up('window'),
 			        			record = button.up('window').down('grid').getSelection()[0],
-			        			form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
+			        			form = Ext.ComponentQuery.query('form',activeTab)[0].getForm(),
+			        			groupField = Ext.ComponentQuery.query('#equipmentInfo',activeTab)[0];
 			        		
 				        	if(record){
 				        		
+				        		groupField.loadRecord(record);
+				        		
 				        		//Loads Equipment record
-				        		form.loadRecord(record)
+//				        		form.loadRecord(record)
 				        		
 				        		window.close();
 				        		
@@ -360,19 +363,7 @@ var footer = {
 	
 	plugins : [ {
 		ptype : 'cellediting',
-		clicksToEdit : 2,
-//		listeners : {
-//			beforeedit : function(e, editor) {
-//	
-//				/** ** Trava primeira celula da primeira linha *** */
-//				if (editor.colIdx == 1) {
-//					return false;
-//				};
-//	
-//				
-//			}
-//		}
-	
+		clicksToEdit : 2	
 	} ],
 	
 	columns : {

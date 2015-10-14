@@ -872,6 +872,9 @@ Ext.define('Sam.controller.Equipment', {
 				//Carrega registro no form
 				form.loadRecord(row);
 				
+				//Carrega Store
+				activeTab.down('grid').setStore(row.documents());
+				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab)
 				
@@ -946,6 +949,9 @@ Ext.define('Sam.controller.Equipment', {
 				
 				//Carrega registro no form
 				form.loadRecord(row);
+				
+				//Carrega Store
+				activeTab.down('grid').setStore(row.documents());
 				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab)

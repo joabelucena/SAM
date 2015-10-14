@@ -8,11 +8,11 @@ var eventInfo = {
 	},
 
 	items : [ {
-		fieldLabel : 'ID Alarme',
+		fieldLabel : 'Cod. Evento',
 		id : 'eventshow_event_id',
 		readOnly : true,
 		width: '40%',
-		inputAttrTpl: " data-qtip='ID do Alarme' "
+		inputAttrTpl: " data-qtip='Cod. do Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
 		id : 'eventshow_time_event',

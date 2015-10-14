@@ -358,6 +358,7 @@ var h1 = {
 			fieldLabel: 'Código',
 			itemId: 'id',
 			name: 'id',
+			editable: false,
 			padding: '10 5 0 5',
 			width: '15%',
 			inputAttrTpl: " data-qtip='Código da regra' "

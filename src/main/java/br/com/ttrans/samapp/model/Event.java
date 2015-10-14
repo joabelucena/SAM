@@ -18,6 +18,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * This class has no relations because this one has to accept any incoming entry.
  * 
@@ -27,6 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="events")
 @SequenceGenerator(name = "INC_EVENTS", sequenceName="GEN_EVE_ID")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 	@Id
 	@Column(name="eve_id")

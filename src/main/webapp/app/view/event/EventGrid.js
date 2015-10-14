@@ -53,11 +53,13 @@ Ext.define('Sam.view.event.EventGrid' , {
 		   maxWidth: 70,
 		   minWidth: 70,
 		   dataIndex: 'knowledge_user',
-	   },{
-		   text: 'Código',
-		   dataIndex: 'id',
-		   width: 100
-       },{
+	   }
+//	   ,{
+//		   text: 'Código',
+//		   dataIndex: 'id',
+//		   width: 100
+//       }
+	   ,{
 			text: 'Data/Hora',
 			width: 130,
 			sortable: true,
@@ -66,15 +68,28 @@ Ext.define('Sam.view.event.EventGrid' , {
 			filter: {
 				type: 'date'
 			}
-		},{
-			text: 'Alarme',
-			width: 170,
-			sortable: true,
-			dataIndex: 'event_id',
-			filter: {
-				type: 'string'
-			}
-		},{
+		}
+//	   ,{
+//			text: 'Alarme',
+//			width: 170,
+//			sortable: true,
+//			dataIndex: 'event_id',
+//			filter: {
+//				type: 'string'
+//			}
+//		}
+	   
+	   ,{
+		text: 'Alarme',
+		width: 170,
+		sortable: true,
+		dataIndex: 'event_description',
+		filter: {
+			type: 'string'
+		}
+	   }
+	   
+	   ,{
 			text: 'Equipamento',
 			width: 160,
 			sortable: true,

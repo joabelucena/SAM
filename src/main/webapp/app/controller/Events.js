@@ -63,51 +63,93 @@ Ext.define('Sam.controller.Events', {
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
 		            	
-		            	Ext.Ajax.request({
-		            		url : 'so/newFromEvent',
-		            		method : 'POST',
-		            		
-		            		params: {
-		            			eveId: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').getRawValue(),
-		            			startForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_hour').getRawValue(),
-		            			endForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_hour').getRawValue(),
-		            			type: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').getRawValue(),
-		            			obs: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_obs_os').getRawValue()	            			
-		            			
-		            		},
-	
-		            		success: function (result, request) {
-		            			
-		            			var jsonResp = Ext.util.JSON.decode(result.responseText);
-	
-			                    if (jsonResp.result != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
-			                    }else{
-			                    	
-			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
-			                    	
-			                    	//Recarrega Store do 
-			                    	Ext.getCmp('eventhistsogrid').getStore().load();
-			                    	
-			                    	//Fecha aba de abertura de OS
-			                    	if(openSOTab){
-			                    		openSOTab.close();
-			                    	}
-			                    	
-			                    	//Atualiza Stores dos grids de OS abertos
-			                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
-			                    		f.getStore().reload();
-			                    	});
-			                    	
-			                    }
-		                             
-		            		},
-		                    
-		            		failure: function (result, request) {
-		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
-		                    }
-		            			
-		            	});
+		            	var record	= Ext.create('Sam.model.ServiceOrder');
+		    			
+		    			record.set({
+		    					event			: Ext.create('Sam.model.Event'				,{id: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').getRawValue()}),
+		    					type			: Ext.create('Sam.model.ServiceOrderType'	,{id: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').getValue()})	,
+		    					priority		: Ext.create('Sam.model.SeverityLevel'		,{id: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_severity_id').getValue()})																						,
+		    					equipment		: Ext.create('Sam.model.Equipment'			,{id: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_equip_id').getValue()})	,
+		    					startForecast	: Ext.Date.parse(Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_date').getRawValue() + " " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_hour').getRawValue(), "d/m/Y H:i")	,
+		    					endForecast		: Ext.Date.parse(Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_date').getRawValue() + " " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_hour').getRawValue(), "d/m/Y H:i")		,
+		    					remark			: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_obs_os').getRawValue()
+		    					});
+		    			
+		    			record.save({
+							success: function(e , fn){
+								
+								var response = Ext.util.JSON.decode(fn.getResponse().responseText);
+								
+								if(typeof response.id != "undefined"){
+									 //Exibir Mensagem
+					            	Ext.MessageBox.show({
+								        title: 'SAM | Info',
+								        msg: 'Os No: ' + response.id+' gerada com sucesso!',
+								        buttons: Ext.MessageBox.OK,
+								        icon: Ext.MessageBox.INFO
+									});
+								}
+								
+								//Fecha aba de abertura de OS
+		                    	if(openSOTab){
+		                    		openSOTab.close();
+		                    	}
+		                    	
+		                    	//Atualiza Stores dos grids de OS abertos
+		                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
+		                    		f.getStore().reload();
+		                    	});
+								
+							}
+								
+		    			});
+		    			
+	            	
+//		            	Ext.Ajax.request({
+//		            		url : 'so/newFromEvent',
+//		            		method : 'POST',
+//		            		
+//		            		params: {
+//		            			eveId: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').getRawValue(),
+//		            			startForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_start_hour').getRawValue(),
+//		            			endForecast: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_date').getRawValue() + " - " + Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_end_hour').getRawValue(),
+//		            			type: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').getRawValue(),
+//		            			obs: Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_obs_os').getRawValue()	            			
+//		            			
+//		            		},
+//	
+//		            		success: function (result, request) {
+//		            			
+//		            			var jsonResp = Ext.util.JSON.decode(result.responseText);
+//	
+//			                    if (jsonResp.result != "SUCCESS") {
+//			                    	Ext.Msg.alert('Falha na Abertura da OS', jsonResp.result);        	 
+//			                    }else{
+//			                    	
+//			                    	Ext.Msg.alert('Nova OS', 'Os No: '+jsonResp.soId+' gerada com sucesso!');
+//			                    	
+//			                    	//Recarrega Store do 
+//			                    	Ext.getCmp('eventhistsogrid').getStore().load();
+//			                    	
+//			                    	//Fecha aba de abertura de OS
+//			                    	if(openSOTab){
+//			                    		openSOTab.close();
+//			                    	}
+//			                    	
+//			                    	//Atualiza Stores dos grids de OS abertos
+//			                    	Ext.each(Ext.ComponentQuery.query('#serviceordergrid'),function(f){
+//			                    		f.getStore().reload();
+//			                    	});
+//			                    	
+//			                    }
+//		                             
+//		            		},
+//		                    
+//		            		failure: function (result, request) {
+//		            			Ext.Msg.alert('Falha na Abertura da OS', result.status); 
+//		                    }
+//		            		
+//		            	});
 		            	
 		            } else if(btn == 'cancel') {
 		            	
@@ -170,9 +212,13 @@ Ext.define('Sam.controller.Events', {
 		    			var jsonResp = Ext.util.JSON.decode(result.responseText);
 		
 		    			// Abertura OS: Dados(OS)
+		    			
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_equip_id').setValue(jsonResp.id);
 		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_event_id').setValue(eventID);
 		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_time_event').setValue(jsonResp.datetime);
-		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_severity').setValue(jsonResp.severity);
+		    			/** POG Hidden Field **/
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_severity_id').setValue(jsonResp.severity_id);
+		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_severity_desc').setValue(jsonResp.severity_desc);
 		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_reco_user').setValue(jsonResp.reco_user);
 		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_reco_time').setValue(jsonResp.reco_time);
 		    			
@@ -183,12 +229,12 @@ Ext.define('Sam.controller.Events', {
 		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_subsystem').setValue(jsonResp.subsystem);
 		    			Ext.getCmp('eventinfoeqtoform').getForm().findField('eventpopup_site').setValue(jsonResp.site);
 		    			
-		    			// Abertura OS: Dados(OS) : ComboBox
-		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').setStore(Ext.data.Store({
-		    				fields: ['type'],
-		    				data : jsonResp.so_type
-		    			}));
-	
+//		    			// Abertura OS: Dados(OS) : ComboBox
+//		    			Ext.getCmp('eventdataopensoform').getForm().findField('eventpopup_so_type').setStore(Ext.data.Store({
+//		    				fields: ['type'],
+//		    				data : jsonResp.so_type
+//		    			}));
+//	
 		    			// Abertura OS: Hist OS : Grid (filtro)
 		    			Ext.getCmp('eventhistsogrid').getStore().setFilters([{
 		    					property: 'equipment_id',
@@ -227,9 +273,11 @@ Ext.define('Sam.controller.Events', {
 			            		},
 	
 			            		success: function (result, request) {
+			            			
+			            			var message = Ext.JSON.decode(result.responseText).message
 			                             
-				                    if (result.responseText != "SUCCESS") {
-				                    	Ext.Msg.alert('Falha de Normalização de Alarme', result.responseText);        	 
+				                    if (typeof message != 'undefined') {
+				                    	Ext.Msg.alert('Falha de Normalização de Alarme', message);        	 
 				                    }
 			            		},
 			                    
@@ -329,17 +377,9 @@ Ext.define('Sam.controller.Events', {
 		            		params: {
 		            			recognizeId: Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).get('id'),
 		            		},
-
-		            		success: function (result, request) {
-		                             
-			                    if (result.responseText != "SUCCESS") {
-			                    	Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.responseText);        	 
-			                    }
-		                             
-		            		},
-		                    
+		            		
 		            		failure: function (result, request) {
-		            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+		            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', "Entre em contato com o Administrador do Sistema."); 
 		                    }		
 		            			
 		            	});
@@ -377,16 +417,8 @@ Ext.define('Sam.controller.Events', {
 	            			recognizeId: Ext.pluck(Ext.getCmp('eventgridpanel').getStore().getData('id').items,'id'),
 	            		},
 
-	            		success: function (result, request) {
-	                             
-		                    if (result.responseText != "SUCCESS") {
-		                    	Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.responseText);        	 
-		                    }
-	                             
-	            		},
-	                    
 	            		failure: function (result, request) {
-	            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', result.status); 
+	            			Ext.Msg.alert('Falha de Reconhecimento de Alarme', "Entre em contato com o Administrador do Sistema.");
 	                    }		
 	            			
 	            	});

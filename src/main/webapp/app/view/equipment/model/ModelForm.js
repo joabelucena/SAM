@@ -296,7 +296,7 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 				                											.getRecord(),
 				                								store = record.store;
                 										
-	                										if(record){	                											
+	                										if(record){
 	                							                //Exibir Mensagem
 	                							            	Ext.MessageBox.show({
 	                										        title: 'Upload',
@@ -304,6 +304,10 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 	                										        buttons: Ext.MessageBox.OK,
 	                										        icon: Ext.MessageBox.INFO
 	                											});
+	                							            	
+	                							            	//Atualiza Grid
+	                							            	Sam.app.getController('ServiceOrder')
+	                							            		.syncStore(record.store,'equipmentmodelgrid',false);
 	                											
 	                											wind.close();
 	                										}

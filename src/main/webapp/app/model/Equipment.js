@@ -37,12 +37,6 @@ Ext.define('Sam.model.Equipment', {
 		{name: 'system_id'			,type: 'number'		, mapping: 'system.id'			},		
 		{name: 'system_desc'		,type: 'string'		, mapping: 'system.desc'		},
 		
-		/**Equipment Document Aux Mappings **/
-		{name: 'document_id'		,type: 'number'		, mapping: 'documents.id'		},
-		{name: 'document_desc'		,type: 'string'		, mapping: 'documents.desc'		},
-		{name: 'document_url'		,type: 'string'		, mapping: 'documents.url' 		},
-		
-		
 		/** ServiceOrder Aux Mappings **/
 		{name: 'equipment_id'		, type: 'string'	, mapping: 'id'					},
 		{name: 'equipment_model'	, type: 'string'	, mapping: 'model.desc'			},

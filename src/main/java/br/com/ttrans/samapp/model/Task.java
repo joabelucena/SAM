@@ -2,7 +2,7 @@ package br.com.ttrans.samapp.model;
 
 import java.util.Set;
 
-//import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,6 +50,10 @@ public class Task {
 			inverseJoinColumns=@JoinColumn(name="equipment_id"))
 	private Set<Equipment> equipments;
 	
+//	@OneToMany(fetch = FetchType.EAGER)
+//	@Cascade({CascadeType.SAVE_UPDATE})
+//	private Set<TaskEquipment> equipments;
+	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="tmi_task_id", referencedColumnName = "tmh_id")
 	@Cascade({CascadeType.SAVE_UPDATE})
@@ -63,6 +67,20 @@ public class Task {
 
 	public Task(){}
 
+//	public Task(Integer id, String desc, String active, Alarm alarm,
+//			Set<TaskEquipment> equipments, Set<TaskCondition> conditions,
+//			String insert, String update) {
+//		super();
+//		this.id = id;
+//		this.desc = desc;
+//		this.active = active;
+//		this.alarm = alarm;
+//		this.equipments = equipments;
+//		this.conditions = conditions;
+//		this.insert = insert;
+//		this.update = update;
+//	}
+	
 	public Task(Integer id, String desc, String active, Alarm alarm,
 			Set<Equipment> equipments, Set<TaskCondition> conditions,
 			String insert, String update) {
@@ -109,6 +127,14 @@ public class Task {
 		this.alarm = alarm;
 	}
 
+//	public Set<TaskEquipment> getEquipments() {
+//		return equipments;
+//	}
+//
+//	public void setEquipments(Set<TaskEquipment> equipments) {
+//		this.equipments = equipments;
+//	}
+	
 	public Set<Equipment> getEquipments() {
 		return equipments;
 	}
@@ -116,7 +142,7 @@ public class Task {
 	public void setEquipments(Set<Equipment> equipments) {
 		this.equipments = equipments;
 	}
-
+	
 	public Set<TaskCondition> getConditions() {
 		return conditions;
 	}

@@ -4,17 +4,20 @@
 	requires: ['Sam.lib.AssociatedWriter'
 	           ,'Sam.lib.AdvancedVType'
 	           ,'Sam.lib.DateTimePicker'
-	           ,'Sam.lib.DateTimeField'],
+	           ,'Sam.lib.DateTimeField'
+	           ,'Sam.lib.GroupField'],
 	
 	launch : function()
 	{
 		Ext.widget('mainviewport');
 	},
 	
-	views:['MainViewport', 'reports.spagobi.SpagoBi'],
-	
+	views: [
+	        'MainViewport'	,'reports.spagobi.SpagoBi'
+	        ],
 
-	stores: ['EquipmentManufacturer'	,'Task'
+	stores: [
+	         'EquipmentManufacturer'	,'Task'
 	        ,'ServiceStation'			,'SeverityLevel'
 	     	,'Equipment'				,'EquipmentModel'
 	     	,'EquipmentType'			,'EquipmentProtocol'
@@ -23,15 +26,17 @@
 	     	,'AlarmType'				,'AlarmFilter'
 	     	,'OperationalState'			,'SiteType'
 	     	,'Site'						,'ServiceOrderType'
-	     	,'DocumentType'				,'ServiceOrderRules'
+	     	,'ServiceOrderRules'
 	     	,'ServiceOrderStatus'		,'UserRole'
 	     	,'Sam.store.TaskCondition'	,'ServiceOrderOccurrence'
-	     	,'System'					,'Document'],
+	     	,'System'
+	     	],
    
-	controllers : [ 'Menu'				,'Events'
+	controllers: [
+	              	'Menu'				,'Events'
 	               ,'ServiceOrder'		,'Equipment'
 	               ,'Technician'		,'Site'
 	               ,'SeverityLevel'		,'Alarm'
-	               ,'Document'			,'User'
-	               ,'Task'				]
+	               ,'Task'				,'User'
+	               ,'Home']
 });
