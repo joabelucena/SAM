@@ -80,14 +80,6 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Número de Ativo Fixo',
-		
-		sortable : true,
-		dataIndex : 'fixed_asset',
-		filter : {
-			type : 'string'
-		}
-	}, {
 		text : 'Garantia',
 		
 		sortable : true,

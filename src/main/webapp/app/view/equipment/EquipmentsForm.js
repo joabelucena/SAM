@@ -143,43 +143,6 @@ var system = {
 	}],
 };
 
-var documents = {
-	xtype : 'fieldset',
-	defaultType : 'textfield',
-	title : 'Documentos do Equipamento',
-	itemId: 'fldEquipmentDocuments',
-	layout : {
-		type : 'vbox',
-	},
-
-	items : [ {
-		xtype: 'textfield',
-		fieldLabel : 'Código',
-		itemId: 'document_id',
-		name: 'document_id',
-		editable: false,
-		width: '20%',
-		allowBlank : false,
-		inputAttrTpl: " data-qtip='Código do Documento do Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
-	}, {
-		fieldLabel : 'Descrição',
-		itemId: 'document_desc',
-		name: 'document_desc',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Descrição do Documento do Equipamento' ",
-	}, {
-		xtype: 'filefield',
-		fieldLabel : 'Caminho do documento',
-		itemId: 'document_url',
-		name: 'document_url',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Caminho do Documento do Equipamento' ",
-	}],
-};
-
 var equipment = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
@@ -306,7 +269,7 @@ Ext.define('Sam.view.equipment.EquipmentsForm', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ type, manufacturer, model, site, system, documents, equipment ],
+		items : [ type, manufacturer, model, site, system, equipment ],
 		
 		scrollable: true,
 		
