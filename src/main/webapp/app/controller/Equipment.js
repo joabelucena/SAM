@@ -1822,7 +1822,7 @@ Ext.define('Sam.controller.Equipment', {
 	onEquipmentBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentsform', null, true);
+		var activeTab = this.activateTab(2, null, 'equipmentsform', null, false);
 		
 		if(activeTab){
 	
@@ -1876,6 +1876,13 @@ Ext.define('Sam.controller.Equipment', {
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
+			
+			//Carrega dados do Formulario na Store
+			record.set({type: Ext.create('Sam.model.EquipmentType',{id: values.type_id, desc: values.type_desc})});
+			record.set({manufacturer: Ext.create('Sam.model.EquipmentManufacturer',{id: values.manufacturer_id, desc: values.manufacturer_desc})});
+			record.set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})});
+			record.set({site: Ext.create('Sam.model.Site',{id: values.site_id, desc: values.site_desc})});
+			record.set({system: Ext.create('Sam.model.System',{id: values.system_id, desc: values.system_desc})});
 			
 			//Adiciona registro na store
 			store.add(record);
