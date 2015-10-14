@@ -20,7 +20,7 @@ public class Equipment {
 	@Column(name="equ_id")
 	private String id;
 	
-	@Column(name="equ_desc")
+	@Column(name="equ_description")
 	private String desc;
 
 	@Column(name="equ_fixed_asset")
