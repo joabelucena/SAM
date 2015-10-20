@@ -16,13 +16,13 @@
 		<sws:xsd location="/WEB-INF/schemas/events.xsd" />
 	</sws:dynamic-wsdl>
 	
-	<sws:dynamic-wsdl id="SystemServices" portTypeName="SystemServices"
+	<sws:dynamic-wsdl id="systemServices" portTypeName="SystemServices"
 		locationUri="/systemService/" 
 		targetNamespace="http://localhost/systemService">
 		<sws:xsd location="/WEB-INF/schemas/systemServices.xsd" />
 	</sws:dynamic-wsdl>
 	
-	<sws:dynamic-wsdl id="AlarmServices" portTypeName="AlarmServices"
+	<sws:dynamic-wsdl id="alarmServices" portTypeName="AlarmServices"
 		locationUri="/alarmService/" 
 		targetNamespace="http://localhost/alarmService">
 		<sws:xsd location="/WEB-INF/schemas/alarmServices.xsd" />

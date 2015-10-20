@@ -21,8 +21,8 @@ import br.com.ttrans.samapp.ws.system.SessionDetail;
 @Endpoint
 public class SystemServicesEndpoint {
 	
-	private static final String NAMESPACE_URI = "http://localhost/";
-		
+	private static final String NAMESPACE_URI = "http://localhost/systemService";
+	
 	@Autowired
 	private Map<String,ConnectionRequest> connections;
 	
