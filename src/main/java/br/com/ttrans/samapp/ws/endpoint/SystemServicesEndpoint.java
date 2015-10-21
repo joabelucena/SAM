@@ -17,6 +17,7 @@ import br.com.ttrans.samapp.ws.system.AliveRequest;
 import br.com.ttrans.samapp.ws.system.ConnectionRequest;
 import br.com.ttrans.samapp.ws.system.DisconnectionRequest;
 import br.com.ttrans.samapp.ws.system.SessionDetail;
+import br.com.ttrans.samapp.ws.system.SessionDetailRequest;
 
 @Endpoint
 public class SystemServicesEndpoint {
@@ -92,4 +93,19 @@ public class SystemServicesEndpoint {
 			}
 		}
 	}
+	
+	@PayloadRoot(localPart = "SessionDetailRequest", namespace = NAMESPACE_URI)		
+	public void handleSessionDetailRequest(@RequestPayload SessionDetailRequest request)		
+			throws Exception {
+		
+		
+		System.out.println("*************************");
+		System.out.println("** Detalhes da Seção **");
+		System.out.println("** SessionInstanceId: " + request.getSessionInstanceId());
+		System.out.println("** creatorId: " + request.getCreatorId());
+		System.out.println("** timeStamp: " + request.getTimeStamp());
+		System.out.println("*************************");
+		
+	}	
+	
 }
