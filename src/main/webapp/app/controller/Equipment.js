@@ -233,47 +233,6 @@ Ext.define('Sam.controller.Equipment', {
 			/* Buttons Listeners: Equipment
 			 * 
 			 */
-			
-			'#equipmentsform #type_id' :{
-				click: this.onEquipmentsFormTrgTypeClick
-			},
-						
-			'#equipmentsform_type #submit' :{
-				click: this.onEquipmentsFormTypeSubmitClick
-			},
-			
-			'#equipmentsform #manufacturer_id' :{
-				click:   this.onEquipmentsFormTrgManufacturerClick
-			},
-						
-			'#equipmentsform_manufacturer #submit' :{
-				click: this.onEquipmentsFormManufacturerSubmitClick
-			},
-			
-			'#equipmentsform #model_id' :{
-				click:   this.onEquipmentsTrgModelClick
-			},
-						
-			'#equipmentsform_model #submit' :{
-				click: this.onEquipmentsModelSubmitClick
-			},
-			
-			'#equipmentsform #site_id' :{
-				click:   this.onEquipmentsTrgSiteClick
-			},
-						
-			'#equipmentsform_site #submit' :{
-				click: this.onEquipmentsSiteSubmitClick
-			},
-			
-			'#equipmentsform #system_id' :{
-				click:   this.onEquipmentsTrgSystemClick
-			},
-						
-			'#equipmentsform_system #submit' :{
-				click: this.onEquipmentsSystemSubmitClick
-			},
-			
 			'#equipmentsform toolbar #btnSubmit' :{
 				create: this.onEquipmentBtnSubmitAdd,
 				read:   function(){Ext.getCmp('viewportpanel').getActiveTab().close()},
@@ -1599,169 +1558,6 @@ Ext.define('Sam.controller.Equipment', {
 	/*********** End Operational State Controlling ***********/
 	
 	/*********** Begin Equipment Controlling ***********/
-	
-	/** Equipment Type Grid **/
-	
-	onEquipmentsFormTrgTypeClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentsform_type'});
-		var grid = Ext.create('Sam.view.equipment.type.TypeGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Tipo do Equipamento');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onEquipmentsFormTypeSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-						
-			Ext.ComponentQuery.query('#type_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#type_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	/** Equipment Manufacturer Grid **/
-	
-	onEquipmentsFormTrgManufacturerClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentsform_manufacturer'});
-		var grid = Ext.create('Sam.view.equipment.manufacturer.ManufacturerGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Fabricante de Equipamento');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onEquipmentsFormManufacturerSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-						
-			Ext.ComponentQuery.query('#manufacturer_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#manufacturer_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	/** Equipment Model Grid **/
-	
-	onEquipmentsTrgModelClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentsform_model'});
-		var grid = Ext.create('Sam.view.equipment.model.ModelGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Modelo de Equipamento');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onEquipmentsModelSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-						
-			Ext.ComponentQuery.query('#model_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#model_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	/** Equipment Site Grid **/
-	
-	onEquipmentsTrgSiteClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentsform_site'});
-		var grid = Ext.create('Sam.view.site.SiteGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Local de Equipamento');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onEquipmentsSiteSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-						
-			Ext.ComponentQuery.query('#site_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#site_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	/** Equipment System Grid **/
-	
-	onEquipmentsTrgSystemClick: function(){
-		var popup = Ext.create('Sam.view.components.PopUp',{itemId: 'equipmentsform_system'});
-		var grid = Ext.create('Sam.view.equipment.system.SystemGrid');
-		
-		var buttons = Ext.ComponentQuery.query('toolbar',grid)[0];
-		
-		//Remove Botoes
-		grid.remove(Ext.ComponentQuery.query('toolbar',grid)[0], true);
-		
-		popup.setTitle('Selecionar Sistema de Equipamento');
-		popup.add(grid);
-		popup.show();
-	},
-	
-	onEquipmentsSystemSubmitClick: function(){
-		
-		var row = this.getLookup().down('grid').getSelection()[0];
-		
-		var activeTab = Ext.getCmp('viewportpanel').getActiveTab();
-		
-		if(row){
-						
-			Ext.ComponentQuery.query('#system_id',activeTab)[0].setValue(row.get('id'));
-			Ext.ComponentQuery.query('#system_desc',activeTab)[0].setValue(row.get('desc'));
-			
-			this.getLookup().close();
-		}
-		
-	},
-	
-	/** Equipment Form Buttons **/
-	
 	onEquipmentBtnShowClick: function() {
 		
 		//Linha selecionada
@@ -1878,11 +1674,13 @@ Ext.define('Sam.controller.Equipment', {
 			record.set(values);
 			
 			//Carrega dados do Formulario na Store
-			record.set({type: Ext.create('Sam.model.EquipmentType',{id: values.type_id, desc: values.type_desc})});
-			record.set({manufacturer: Ext.create('Sam.model.EquipmentManufacturer',{id: values.manufacturer_id, desc: values.manufacturer_desc})});
-			record.set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})});
-			record.set({site: Ext.create('Sam.model.Site',{id: values.site_id, desc: values.site_desc})});
-			record.set({system: Ext.create('Sam.model.System',{id: values.system_id, desc: values.system_desc})});
+			record.set({installDate:	Ext.Date.parse(values.installDate	, "d/m/Y"),
+						type:			Ext.create('Sam.model.EquipmentType', {id: values.type_id}),
+						manufacturer:	Ext.create('Sam.model.EquipmentManufacturer', {id: values.manufacturer_id}),
+						model:			Ext.create('Sam.model.EquipmentModel', {id: values.model_id}),
+						site:			Ext.create('Sam.model.Site', {id: values.site_id}),
+						system:			Ext.create('Sam.model.System', {id: values.system_id, desc: values.system_desc})
+			});
 			
 			//Adiciona registro na store
 			store.add(record);
@@ -1907,6 +1705,15 @@ Ext.define('Sam.controller.Equipment', {
 		if(form.isValid()){
 			//Carrega dados do formulario na Store
 			store.findRecord('id',record.get('id')).set(values);
+			
+			store.findRecord('id',record.get('id')).set({
+				installDate:	Ext.Date.parse(values.installDate	, "d/m/Y"),
+				type:			Ext.create('Sam.model.EquipmentType', {id: values.type_id}),
+				manufacturer:	Ext.create('Sam.model.EquipmentManufacturer', {id: values.manufacturer_id}),
+				model:			Ext.create('Sam.model.EquipmentModel', {id: values.model_id}),
+				site:			Ext.create('Sam.model.Site', {id: values.site_id}),
+				system:			Ext.create('Sam.model.System',		{id: values.system_id, desc: values.system_desc})
+			});
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#equipmentsgrid');

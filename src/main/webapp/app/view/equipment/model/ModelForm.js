@@ -113,8 +113,7 @@ var footer = {
 			editor: 'textfield'
 		},
 		
-		items: [
-			{
+		items: [{
 				text : 'Descrição',
 				width: 300,
 				sortable : true,
@@ -164,9 +163,7 @@ var footer = {
 					    }, 100);
 					}
 				}]
-			}
-	]
-	
+			}]
 	}
 };
 
@@ -190,8 +187,7 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
         split: true
     },
     
-    items: [
-		{
+    items: [{
 		    title: 'Dados do Modelo',
 		    items:[header],
 		    itemId: 'center',
@@ -209,8 +205,7 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 			scrollable: true,
 			minHeight: 250,
 			height: 250,
-		}
-		],
+		}],
 	
 		dockedItems: [{
 		    xtype: 'toolbar',

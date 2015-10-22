@@ -1,5 +1,77 @@
+var equipment = {
+	xtype : 'groupfield',
+	defaultType : 'textfield',
+	title : 'Equipamento',
+	itemId: 'fldEquipment',
+	layout : {
+		type : 'vbox',
+	},
+	
+	items : [ {
+		xtype: 'textfield',
+		fieldLabel : 'Código',
+		itemId: 'id',
+		name: 'id',
+		editable: false,
+		width: 200,
+		allowBlank : false,
+		inputAttrTpl: " data-qtip='ID do Equipamento' ",
+	}, {
+		xtype: 'textfield',
+		fieldLabel : 'Descrição',
+		itemId: 'desc',
+		name: 'desc',
+		editable: true,
+		width: 500,
+		allowBlank : false,
+		inputAttrTpl: " data-qtip='ID do Equipamento' ",
+	}, {
+		fieldLabel : 'Ativo Fixo',
+		itemId: 'fixedAsset',
+		name: 'fixedAsset',
+		readOnly : false,
+		allowBlank : true,
+		width: 300,
+		inputAttrTpl: " data-qtip='Código do Ativo Fixo do Equipamento' ",
+	}, {
+		fieldLabel : 'Etiqueta de Manutenção',
+		itemId: 'serviceTag',
+		name: 'serviceTag',
+		readOnly : false,
+		allowBlank : true,
+		width: 300,
+		inputAttrTpl: " data-qtip='Código da Etiqueta de Identificação para Equipe de Manutenção' ",
+	}, {
+		fieldLabel : 'IP',
+		itemId: 'ip',
+		name: 'ip',
+		readOnly : false,
+		allowBlank : true,
+		width: 200,
+		inputAttrTpl: " data-qtip='Endereço IP do Equipamento' ",
+	}, {
+		fieldLabel : 'OID',
+		itemId: 'oid',
+		name: 'oid',
+		readOnly : false,
+		allowBlank : true,
+		width: 350,
+		inputAttrTpl: " data-qtip='OID do Trap SNMP do Equipamento' ",
+	}, {
+		xtype: 'textareafield',
+		fieldLabel : 'Observações',
+		itemId: 'remark',
+		name: 'remark',
+		readOnly : false,
+		allowBlank : true,
+		width: 500,
+		inputAttrTpl: " data-qtip='MTBF do Fabricante' ",
+	}],
+};
+
+/** Tipo do Equipamento **/
 var type = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Tipo de Equipamento',
 	itemId: 'fldEquipmentType',
@@ -13,22 +85,31 @@ var type = {
 		itemId: 'type_id',
 		name: 'type_id',
 		editable: false,
-		width: '20%',
+		width: 250,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Tipo de Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function() {
+			Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Tipo do Equipamento',
+				groupField: this.up('fieldset').itemId,
+				items:	[Ext.create('Sam.view.equipment.type.TypeGrid',{dockedItems:[]})]				
+			}).show();
+		}
+	}
+	}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'type_desc',
 		name: 'type_desc',
 		readOnly : true,
-		width: '40%',
+		width: 400,
 		inputAttrTpl: " data-qtip='Descrição do Tipo de Equipamento' ",
 	}],
 };
 
+/** Fabricante do Equipamento **/
 var manufacturer = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Fabricante do Equipamento',
 	itemId: 'fldEquipmentManufacturer',
@@ -42,22 +123,30 @@ var manufacturer = {
 		itemId: 'manufacturer_id',
 		name: 'manufacturer_id',
 		editable: false,
-		width: '20%',
+		width: 250,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Fabricante do Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function() {
+			Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Fabricante do Equipamento',
+				groupField: this.up('fieldset').itemId,
+				items:	[Ext.create('Sam.view.equipment.manufacturer.ManufacturerGrid',{dockedItems:[]})]				
+			}).show();
+		}}}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'manufacturer_desc',
 		name: 'manufacturer_desc',
 		readOnly : true,
-		width: '40%',
+		width: 400,
 		inputAttrTpl: " data-qtip='Descrição do Fabricante de Equipamento' ",
 	}],
 };
 
+
+/** Modelo do Equipamento **/
 var model = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Modelo do Equipamento',
 	itemId: 'fldEquipmentModel',
@@ -71,22 +160,29 @@ var model = {
 		itemId: 'model_id',
 		name: 'model_id',
 		editable: false,
-		width: '20%',
+		width: 250,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Modelo do Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function() {
+			Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Modelo do Equipamento',
+				groupField: this.up('fieldset').itemId,
+				items:	[Ext.create('Sam.view.equipment.model.ModelGrid',{dockedItems:[]})]				
+			}).show();
+		}}}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'model_desc',
 		name: 'model_desc',
 		readOnly : true,
-		width: '40%',
+		width: 400,
 		inputAttrTpl: " data-qtip='Descrição do Modelo de Equipamento' ",
 	}],
 };
 
+/** Local do Equipamento **/
 var site = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Local do Equipamento',
 	itemId: 'fldEquipmentSite',
@@ -100,22 +196,29 @@ var site = {
 		itemId: 'site_id',
 		name: 'site_id',
 		editable: false,
-		width: '20%',
+		width: 250,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Local do Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function(){
+			Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Local do Equipamento',
+				groupField: this.up('fieldset').itemId,
+				items:	[Ext.create('Sam.view.site.SiteGrid',{dockedItems:[]})]				
+			}).show();
+		}}}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'site_desc',
 		name: 'site_desc',
 		readOnly : true,
-		width: '40%',
+		width: 400,
 		inputAttrTpl: " data-qtip='Descrição do Local de Equipamento' ",
 	}],
 };
 
+/** Sub-Sistema do Equipamento **/
 var system = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Sub-Sistema do Equipamento',
 	itemId: 'fldEquipmentSystem',
@@ -129,110 +232,72 @@ var system = {
 		itemId: 'system_id',
 		name: 'system_id',
 		editable: false,
-		width: '20%',
+		width: 250,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Sub-Sistema do Equipamento' ",
-		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
+		triggers: {f3: {handler: function() {
+			Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Sub-Sistema do Equipamento',
+				groupField: this.up('fieldset').itemId,
+				items:	[Ext.create('Sam.view.equipment.system.SystemGrid',{dockedItems:[]})]				
+			}).show();
+		}}}
 	}, {
 		fieldLabel : 'Descrição',
 		itemId: 'system_desc',
 		name: 'system_desc',
 		readOnly : true,
-		width: '40%',
+		width: 400,
 		inputAttrTpl: " data-qtip='Descrição do Sub-Sistema de Equipamento' ",
 	}],
 };
 
-var equipment = {
-	xtype : 'fieldset',
-	defaultType : 'textfield',
-	title : 'Equipamento',
-	itemId: 'fldEquipment',
+var maintenance = {
+	xtype : 'groupfield',
+	title : 'Manutenção',
+	itemId: 'fldMaintenance',
 	layout : {
 		type : 'vbox',
 	},
 	
-	items : [ {
-		xtype: 'textfield',
-		fieldLabel : 'ID do Equipamento',
-		itemId: 'id',
-		name: 'id',
-		editable: true,
-		width: '20%',
-		allowBlank : false,
-		inputAttrTpl: " data-qtip='ID do Equipamento' ",
-	}, {
-		fieldLabel : 'Ativo Fixo',
-		itemId: 'fixed_asset',
-		name: 'fixed_asset',
+	defaults:{
+		xtype: 'numberfield',
+		minValue: 0,
+	},
+	
+	items : [{
+		xtype: 'datefield',
+		format: 'd/m/Y',
+		fieldLabel : 'Dt. Instalação',
+		itemId: 'installDate',
+		name: 'installDate',
+		allowBlank : true,
+		width: 250,
+		inputAttrTpl: " data-qtip='MTBF Programado para Manutenção Preventiva' ",
+	},{
+		fieldLabel : 'MTBF Calculado (h)',
+		itemId: 'mtbfCalc',
+		name: 'mtbfCalc',
+		readOnly : true,
+		disabled: true,
+		width: 200,
+		inputAttrTpl: " data-qtip='MTBF Calculado pelo SAM' ",
+	},{
+		fieldLabel : 'MTBF Informado (h)',
+		itemId: 'mtbfPrev',
+		name: 'mtbfPrev',
 		readOnly : false,
 		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Código do Ativo Fixo do Equipamento' ",
-	}, {
-		fieldLabel : 'Etiqueta de Manutenção',
-		itemId: 'service_tag',
-		name: 'service_tag',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Código da Etiqueta de Identificação para Equipe de Manutenção' ",
-	}, {
-		fieldLabel : 'IP',
-		itemId: 'ip',
-		name: 'ip',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Endereço IP do Equipamento' ",
-	}, {
-		fieldLabel : 'OID',
-		itemId: 'oid',
-		name: 'oid',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='OID do Trap SNMP do Equipamento' ",
-	}, {
-		fieldLabel : 'Garantia',
-		itemId: 'warranty',
-		name: 'warranty',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Tempo de Garantia do Equipamento' ",
-	}, {
-		fieldLabel : 'MTBF para Preventiva',
-		itemId: 'mtbf_prev',
-		name: 'mtbf_prev',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
+		width: 200,
 		inputAttrTpl: " data-qtip='MTBF Programado para Manutenção Preventiva' ",
 	}, {
-		fieldLabel : 'MTBF Calculado',
-		itemId: 'mtbf_calc',
-		name: 'mtbf_calc',
+		fieldLabel : 'MTBF do Fabricante (h)',
+		itemId: 'mtbfManf',
+		name: 'mtbfManf',
 		readOnly : false,
 		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='MTBF Calculado pelo SAM' ",
-	}, {
-		fieldLabel : 'MTBF do Fabricante',
-		itemId: 'mtbf_manf',
-		name: 'mtbf_manf',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='MTBF do Fabricante' ",
-	}, {
-		fieldLabel : 'Descrição do Equipamento',
-		itemId: 'remark',
-		name: 'remark',
-		readOnly : false,
-		allowBlank : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='MTBF do Fabricante' ",
+		width: 200,
+		inputAttrTpl: " data-qtip='MTBF informado pelo fabricante do equipamento' ",
 	}],
 };
 
@@ -256,7 +321,7 @@ Ext.define('Sam.view.equipment.EquipmentsForm', {
 		defaultType : 'textfield',
 
 		fieldDefaults : {
-			labelWidth : 100
+			labelWidth : 110
 		},
 		defaults:{
 			allowBlank : false
@@ -269,7 +334,7 @@ Ext.define('Sam.view.equipment.EquipmentsForm', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ type, manufacturer, model, site, system, equipment ],
+		items : [ equipment, type, manufacturer, model, site, system, maintenance ],
 		
 		scrollable: true,
 		

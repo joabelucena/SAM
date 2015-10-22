@@ -5,6 +5,8 @@ Ext.define('Sam.view.components.PopUp', {
 	header : {
 		titlePosition : 2,
 	},
+	
+	groupField: '',
 
 	closable : true,
 	maximizable : true,
@@ -22,17 +24,25 @@ Ext.define('Sam.view.components.PopUp', {
 		tooltip:'Seleciona Registro',
         cls:'x-btn-default-small',
         iconCls: 'tick-button',
-        /*
-        handler: function() {
-        	var id, window;
-        	id 		= this.up('window').down('grid').getSelection()[0].get('id');
-        	window 	= this.up('window');
+        
+        handler: function(button) {
         	
-        	window.close();
-        	
-        	return id;
+        	//Aba Objecto Pai
+    		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+    			window = button.up('window'),
+    			record = button.up('window').down('grid').getSelection()[0],
+    			form = Ext.ComponentQuery.query('form',activeTab)[0].getForm(),
+    			groupField = Ext.ComponentQuery.query('#'+window.groupField, activeTab)[0];
+    		
+        	if(record){
+        		
+        		groupField.loadRecord(record);
+        		
+        		window.close();
+        		
+        	}
         }
-        */
+        
 	} ],
 	
 	modal: true

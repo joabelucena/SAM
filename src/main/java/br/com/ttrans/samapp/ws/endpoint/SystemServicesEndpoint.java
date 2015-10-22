@@ -106,6 +106,6 @@ public class SystemServicesEndpoint {
 		System.out.println("** timeStamp: " + request.getTimeStamp());
 		System.out.println("*************************");
 		
-	}	
+	}
 	
 }

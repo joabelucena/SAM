@@ -51,9 +51,6 @@ public class Equipment {
 	@ManyToOne
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
-	
-	@Column(name="equ_warranty")
-	private String warranty;
 
 	@Column(name="equ_oid")
 	private String oid;
@@ -69,12 +66,6 @@ public class Equipment {
 
 	@Column(name="equ_install_date")
 	private Date installDate;
-
-	@Column(name="equ_manufacture_date")
-	private Date manufactureDate;
-
-	@Column(name="equ_acquired_date")
-	private Date acquiredDate;
 
 	@Column(name="equ_remark")
 	private String remark;
@@ -150,12 +141,6 @@ public class Equipment {
 	public void setSystem(SubSystem system) {
 		this.system = system;
 	}
-	public String getWarranty() {
-		return warranty;
-	}
-	public void setWarranty(String warranty) {
-		this.warranty = warranty;
-	}
 	public String getOid() {
 		return oid;
 	}
@@ -185,18 +170,6 @@ public class Equipment {
 	}
 	public void setInstallDate(Date installDate) {
 		this.installDate = installDate;
-	}
-	public Date getManufactureDate() {
-		return manufactureDate;
-	}
-	public void setManufactureDate(Date manufactureDate) {
-		this.manufactureDate = manufactureDate;
-	}
-	public Date getAcquiredDate() {
-		return acquiredDate;
-	}
-	public void setAcquiredDate(Date acquiredDate) {
-		this.acquiredDate = acquiredDate;
 	}
 	public String getRemark() {
 		return remark;

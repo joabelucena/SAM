@@ -13,6 +13,10 @@ Ext.define('Sam.model.EquipmentModel', {
 	        {name: 'desc'			, type: 'string'									},
 	        {name: 'prot_id'		, type: 'number'		, mapping: 'protocol.id'	},
 	        {name: 'prot_desc'		, type: 'string'		, mapping: 'protocol.desc'	},
+	        
+	        /** Form Aux Mappings **/
+			{name: 'model_id'		, type: 'number'	, mapping: 'id'					},
+			{name: 'model_desc'		, type: 'string'	, mapping: 'desc'				}
         ],
 	
     belongsTo:  [{name: 'protocol', model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}],

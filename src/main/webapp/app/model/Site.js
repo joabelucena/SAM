@@ -3,9 +3,9 @@ Ext.define('Sam.model.Site', {
 	
 	fields:[
 	        
-	        {name: 'id'				, type: 'number'	},
-	        {name: 'desc'			, type: 'string'	},
-	        {name: 'shortname'		, type: 'string'	},
+	        {name: 'id'				, type: 'number'								},
+	        {name: 'desc'			, type: 'string'								},
+	        {name: 'shortname'		, type: 'string'								},
 	        
 	        //Station Aux Fields
 	        {name: 'station_id'		, type: 'number'	, mapping: 'station.id'		},
@@ -17,7 +17,11 @@ Ext.define('Sam.model.Site', {
 	        
 	        //Parent Aux Fields
 	        {name: 'parent_id'		, type: 'number'	, mapping: 'parent.id'		},
-	        {name: 'parent_desc'	, type: 'string'	, mapping: 'parent.desc'		},
+	        {name: 'parent_desc'	, type: 'string'	, mapping: 'parent.desc'	},
+	        
+	        /** Form Aux Mappings **/
+			{name: 'site_id'		, type: 'number'	, mapping: 'id'				},
+			{name: 'site_desc'		, type: 'string'	, mapping: 'desc'			}
 
 	       ],
 	       

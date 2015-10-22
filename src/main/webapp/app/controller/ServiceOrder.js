@@ -242,14 +242,14 @@ Ext.define('Sam.controller.ServiceOrder', {
 		//Ajusta as datas
 		Ext.each(updated.occurrences().data.items,function(item){
 			var date_ini = Ext.Date.format(item.get('start_date'), "d/m/Y"),
-				time_ini = Ext.Date.format(item.get('start_time'), "H:i"),
+				time_ini = Ext.Date.format(new Date(item.get('start_time').setHours(item.get('start_time').getHours()+3)), "H:i"),
 				date_fim = Ext.Date.format(item.get('end_date'), "d/m/Y"),
-				time_fim = Ext.Date.format(item.get('end_time'), "H:i");
+				time_fim = Ext.Date.format(new Date(item.get('end_time').setHours(item.get('end_time').getHours()+3)), "H:i");
 			
-			item.set({	service		: Ext.create('Sam.model.ServiceOrderJob'	,{id: item.get('service_id')}	),
-						technician	: Ext.create('Sam.model.Technician'		,{id: item.get('technician_id')}	),
-						start		: Ext.Date.parse(date_ini + " " + time_ini , "d/m/Y H:i"					),
-						end			: Ext.Date.parse(date_fim + " " + time_fim , "d/m/Y H:i"					)
+			item.set({	service		: Ext.create('Sam.model.ServiceOrderJob'		,{id: item.get('service_id')}	),
+						technician	: Ext.create('Sam.model.Technician'				,{id: item.get('technician_id')}),
+						start		: Ext.Date.parse(date_ini + " " + time_ini 	, "d/m/Y H:i"					),
+						end			: Ext.Date.parse(date_fim + " " + time_fim 	, "d/m/Y H:i"					)
 			});
 		});
 

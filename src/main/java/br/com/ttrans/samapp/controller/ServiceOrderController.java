@@ -7,10 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderJob;
 import br.com.ttrans.samapp.model.ServiceOrderStatus;
@@ -33,9 +29,7 @@ import br.com.ttrans.samapp.service.ServiceOrderService;
 import br.com.ttrans.samapp.service.ServiceOrderStatusService;
 import br.com.ttrans.samapp.service.ServiceOrderTypeService;
 import br.com.ttrans.samapp.service.StatusRuleService;
-import br.com.ttrans.samapp.validator.ErrorMessageHandler;
 import br.com.ttrans.samapp.validator.impl.ServiceOrderValidator;
-import br.com.ttrans.samapp.validator.impl.StatusRuleValidator;
 
 @Controller
 @RequestMapping("/so")
@@ -59,9 +53,6 @@ public class ServiceOrderController {
 	
 	@Autowired
 	private StatusRuleService ruleService;
-
-	@Autowired
-	private StatusRuleValidator statusRuleValidator;
 	
 	@Autowired
 	private ServiceOrderValidator serviceOrderValidator;
@@ -69,16 +60,6 @@ public class ServiceOrderController {
 	@Autowired
 	private ServiceOrderJobService jobService;
 	
-	@Autowired
-	private DAO dao;
-	
-	@Autowired
-	private MessageSource messageSource;
-	
-	@Autowired
-	private ErrorMessageHandler errorMessageHandler;
-
-	private static final Logger logger = LoggerFactory.getLogger(ServiceOrderController.class);
 	
 	/**
 	 * Load Data Methods
@@ -148,105 +129,6 @@ public class ServiceOrderController {
 		
 		return result;
 	}
-	
-//	@RequestMapping(value = "/newFromEvent", method = RequestMethod.POST)
-//	public Map<String, Object> newFromEvent(
-//			@RequestParam(value = "eveId"			, required = true) long eveId,
-//			@RequestParam(value = "startForecast"	, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date startForecast,
-//			@RequestParam(value = "endForecast"		, required = true) @DateTimeFormat(pattern="dd/MM/yyyy - HH:mm") Date endForecast,
-//			@RequestParam(value = "type"			, required = true) String type,
-//			@RequestParam(value = "obs"				, required = true) String obs,
-//			Authentication authentication,
-//			Locale locale) {
-//		
-//		Map<String,Object> result = new HashMap<String, Object>();
-//		result.put("result"	,"");
-//		result.put("soId"	, 0);
-//		
-//		//Instancia objeto para tratamento com o banco
-//		ServiceOrder so = new ServiceOrder();
-//		
-//		//Instancia objeto para tratamento de erros
-//		Errors err = new BindException(so, "serviceorder");
-//		
-//		//Retorna evento
-//		Event event = eventService.get(eveId);
-//		
-//		//Retorna status inicial cadastrado em parametro		
-//		ServiceOrderStatus sNewSts = soStatusService.findByName(dao.getMv("SAM_SOSTATUS", "")); 
-//
-//		//Cria objeto de log
-//		ServiceOrderLog log = new ServiceOrderLog(	sNewSts,					//Status De 
-//													sNewSts,					//Status Para	
-//													authentication.getName(),	//Usuario
-//													new Date(),					//Data/Hora
-//													obs,						//Observacao						
-//													authentication.getName());	//Usuario inserção (USR_INSERT)
-//
-//		//Instancia LogSet
-//		Set<ServiceOrderLog> logSet = new HashSet<ServiceOrderLog>();
-//
-//		try {
-//
-//			//Log da OS
-//			logSet.add(log);
-//
-//			//OS
-//			so.setEquipment(event.getEquipment());				// Equipamento
-//			so.setType(soTypeService.findByName(type));			// Tipo de Os (VERIFICAR)
-//			so.setEvent(event);									// Evento
-//			so.setStatus(sNewSts);								// Status
-//			so.setStartForecast(startForecast);					// Previsao de Inicio
-//			so.setEndForecast(endForecast);						// Previsao de Termino
-//			so.setLog(logSet);									// Log Inicial
-//			so.setPriority(event.getAlarm().getSeverity());		// Severidade
-//			so.setRemark(obs);									// Observação
-//
-//			serviceOrderValidator.validate(so, err, new User(), "add");
-//			
-//			if(!err.hasErrors()){
-//				
-//				int id = soService.add(so, authentication);
-//				result.put("result"	, "");
-//				result.put("soId"	, id);
-//				
-//				return result;
-//				
-//			}else{
-//				
-//				//Erros nas validacoes de negocio
-//				result.put("result"	,messageSource.getMessage("response.so.Failure", null, locale)+
-//						errorMessageHandler.toStringList(err, locale));
-//				
-//				return result;
-//			}
-//			
-//		//Query Errors
-//		} catch (QueryException e) {
-//			
-//			logger.error(e.getMessage());
-//			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
-//			
-//			return result;
-//
-//		//Not Found Objects
-//		} catch (NullPointerException e) {
-//			
-//			logger.error(e.getMessage());
-//			result.put("result"	,messageSource.getMessage("response.so.NullPointer", null, locale));
-//			
-//			return result;
-//		
-//		//Erros genericos
-//		} catch (GenericJDBCException e){
-//			
-//			logger.error(e.getMessage());
-//			result.put("result"	,messageSource.getMessage("response.Failure", null, locale));
-//			
-//			return result;
-//			
-//		} 
-//	}
 
 	@RequestMapping("/getAllowedStatus")
 	@ResponseBody
