@@ -33,7 +33,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		bodyPadding : 10,
 		border : false,
 		items : [{
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Dados do Alarme',
 			itemId: 'fldAlarm',
@@ -84,6 +84,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				width: '25%',
 				inputAttrTpl: " data-qtip='Define se o alarme incrementará o contador do equipamento.' "
 			},{
+				
 				fieldLabel : 'É Norm.?',
 				itemId: 'isNorm',
 				name: 'isNorm',
@@ -94,14 +95,22 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				xtype : 'combobox',
 				allowBlank : false,
 				editable: false,
+				listeners: {
+					change: function(me, newValue, oldValue, eOpts ){
+						//GroupField Alarme Norm.
+						me.up('form').query('#fldNorm')[0]
+							.setDisabled(newValue === "Y");
+					}
+			    },
 				width: '25%',
 				inputAttrTpl: " data-qtip='Define se o alarme será um alarme de Normalização.' "
+					
 			}]
 			
 		
 		/*********** Alarm Normalization Information ***********/
 		},{
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Alarme de Normalização',
 			itemId: 'fldNorm',
@@ -135,7 +144,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		
 		/*********** EquipmentModel Information ***********/
 		},{
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Modelo de Equipamento',
 			itemId: 'fldModel',
@@ -168,7 +177,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		
 		/*********** AlarmGroup Information ***********/
 		},{
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Grupo de Alarmes',
 			itemId: 'fldGroup',
@@ -201,7 +210,7 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		
 		/*********** AlarmType Information ***********/
 		}, {
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Tipo de Alarme',
 			itemId: 'fldType',
@@ -234,12 +243,11 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 		
 		/*********** SeverityLevel Information ***********/
 		},{
-			xtype : 'fieldset',
+			xtype : 'groupfield',
 			defaultType : 'textfield',
 			title : 'Severidade do Alarme',
 			itemId: 'fldSeverity',
 			width: '60%',
-			
 			
 			items:[{
 				xtype: 'textfield',
