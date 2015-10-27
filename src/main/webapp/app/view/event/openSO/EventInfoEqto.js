@@ -1,5 +1,6 @@
 var equipmentInfo = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
+	itemId: 'grpEquInfo',
 	defaultType : 'textfield',
 	title : 'Informações do Equipamento',
 	layout : {
@@ -8,33 +9,38 @@ var equipmentInfo = {
 	},
 
 	items : [ {
-		fieldLabel : 'ID',
-		name : 'eventpopup_id',
+		fieldLabel : 'Cód. Equipamento',
+		itemId: 'equipment_id',
+		name: 'equipment_id',
 		readOnly : true,
 		width: '40%',
-		inputAttrTpl: " data-qtip='ID do Equipamento' "
+		inputAttrTpl: " data-qtip='Código do Equipamento' "
 	}, {
 		fieldLabel : 'Modelo',
-		id : 'eventpopup_model',
+		itemId: 'equipment_model',
+		name: 'equipment_model',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Modelo do Equipamento' "
 
 	}, {
 		fieldLabel : 'Fabricante',
-		id : 'eventpopup_manufacturer',
+		itemId: 'equipment_manufacturer',
+		name: 'equipment_manufacturer',
 		readOnly : true,
 		width: '50%',
 		inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
 	}, {
 		fieldLabel : 'Sub-Sistema',
-		id : 'eventpopup_subsystem',
+		itemId: 'system_desc',
+		name: 'system_desc',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
 	}, {
 		fieldLabel : 'Local de Instalação',
-		id : 'eventpopup_site',
+		itemId: 'site_desc',
+		name: 'site_desc',
 		readOnly : true,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
@@ -57,9 +63,8 @@ Ext.define('Sam.view.event.openSO.EventInfoEqto', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'eventinfoeqtoform',
 		fieldDefaults : {
-			labelWidth : 180
+			labelWidth : 150
 		},
 
 		layout : {

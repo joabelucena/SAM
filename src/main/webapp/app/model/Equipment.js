@@ -40,6 +40,7 @@ Ext.define('Sam.model.Equipment', {
 		
 		/** ServiceOrder Aux Mappings **/
 		{name: 'equipment_id'		, type: 'string'	, mapping: 'id'					},
+		{name: 'equipment_desc'		, type: 'string'	, mapping: 'desc'				},
 		{name: 'equipment_model'	, type: 'string'	, mapping: 'model.desc'			},
         {name: 'equipment_manuf'	, type: 'string'	, mapping: 'manufacturer.desc'	},
         {name: 'equipment_system'	, type: 'string'	, mapping: 'system.desc'		},

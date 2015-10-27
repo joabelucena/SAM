@@ -2,10 +2,12 @@ Ext.define('Sam.view.event.EventGrid' , {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.eventgrid',
 	
-	requires: ['Ext.grid.column.Check',
-	           'Ext.grid.filters.Filters'],
-		
-	id: 'eventgridpanel',
+	requires: [
+	           'Ext.grid.column.Check',
+	           'Ext.grid.filters.Filters'
+	],
+	
+	itemId: 'eventgrid',
 	
 	scrollable: true,
 
@@ -16,7 +18,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 
         getRowClass: function(record, index) {
             var s = record.get('severity_id');
-            var r = record.get('knowledge_user');
+            var r = record.get('reco');
             
             if (s == '3' && r == false) {
             
@@ -48,48 +50,32 @@ Ext.define('Sam.view.event.EventGrid' , {
 	columns : [
 	   {
 		   xtype: 'checkcolumn',
-		   id: 'knowledge_check',
 		   text: 'Reconhece',
 		   maxWidth: 70,
 		   minWidth: 70,
-		   dataIndex: 'knowledge_user',
-	   }
-//	   ,{
-//		   text: 'Código',
-//		   dataIndex: 'id',
-//		   width: 100
-//       }
-	   ,{
+		   dataIndex: 'reco',
+	   },{
+		   text: 'Código',
+		   dataIndex: 'id',
+		   width: 100
+       },{
 			text: 'Data/Hora',
 			width: 130,
 			sortable: true,
-			dataIndex: 'event_datetime',
+			dataIndex: 'datetime',
 			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
 			filter: {
 				type: 'date'
 			}
-		}
-//	   ,{
-//			text: 'Alarme',
-//			width: 170,
-//			sortable: true,
-//			dataIndex: 'event_id',
-//			filter: {
-//				type: 'string'
-//			}
-//		}
-	   
-	   ,{
+		},{
 		text: 'Alarme',
 		width: 170,
 		sortable: true,
-		dataIndex: 'event_description',
+		dataIndex: 'alarm_desc',
 		filter: {
 			type: 'string'
 		}
-	   }
-	   
-	   ,{
+	   },{
 			text: 'Equipamento',
 			width: 160,
 			sortable: true,
@@ -109,7 +95,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			text: 'Local',
 			flex: 1,
 			sortable: true,
-			dataIndex: 'site_description',
+			dataIndex: 'site_desc',
 			filter:{
 				type: 'string'
 			}
@@ -117,7 +103,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			text: 'Sistema',
 			width: 75,
 			sortable: true,
-			dataIndex: 'sub_system_id',
+			dataIndex: 'system_id',
 			filter: {
 				type: 'string'
 			}
@@ -125,7 +111,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 			text: 'Severidade',
 			width: 80,
 			sortable: true,
-			dataIndex: 'severity',
+			dataIndex: 'severity_desc',
 			filter: {
 				type: 'string'
 			}
@@ -142,7 +128,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 					iconCls: 'notebook-plus-icon',
 					tooltip: 'Abrir O.S.',
 					handler: function(view, rowIndex, colIndex, item, e, record, row) {
-						 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 1);
+						 this.fireEvent('create', view, rowIndex, colIndex, item, e, record, row, 1);
 					}
 			},{
 					xtype: 'tbfill'
@@ -150,7 +136,7 @@ Ext.define('Sam.view.event.EventGrid' , {
     				iconCls: 'tick-shield',
     				tooltip: 'Normalizar',
     				handler: function(view, rowIndex, colIndex, item, e, record, row) {
-						 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 2);
+						 this.fireEvent('norm', view, rowIndex, colIndex, item, e, record, row, 2);
 					}
 			},{
 					xtype: 'tbfill'
@@ -158,7 +144,7 @@ Ext.define('Sam.view.event.EventGrid' , {
 				iconCls: 'magnifier-zoom',
 				tooltip: 'Visualizar Alarme',
 				handler: function(view, rowIndex, colIndex, item, e, record, row) {
-					 this.fireEvent('itemClick', view, rowIndex, colIndex, item, e, record, row, 3);
+					 this.fireEvent('show', view, rowIndex, colIndex, item, e, record, row, 3);
 				}
 			}]
 		}],
@@ -169,7 +155,7 @@ Ext.define('Sam.view.event.EventGrid' , {
             
             items: [{
                 xtype:'button',
-            	id:'recognizeallbutton',
+            	itemId:'btnRecAll',
             	text:'Reconhecer Todos',
                 tooltip:'Reconhece todos os Alarmes',
                 cls:'x-btn-default-small',

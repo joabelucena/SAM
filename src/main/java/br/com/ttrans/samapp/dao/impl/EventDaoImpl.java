@@ -163,11 +163,14 @@ public class EventDaoImpl implements EventDao {
 		cQuery += "		WHEN THIS.EVE_RECO_USER IS NULL"
 				+ "		THEN 'false'";
 		cQuery += "		ELSE 'true'"
-				+ "		END					AS RECO_USER,";
+				+ "		END					AS RECO,";
+		cQuery += "	COALESCE(THIS.EVE_RECO_USER,'-')		AS RECO_USER,";
+		cQuery += "	COALESCE(THIS.EVE_RECO_DATE,'-')		AS RECO_DATE,";
 		cQuery += "	B.SLE_DESCRIPTION		AS SEVERITY,";
 		cQuery += "	B.SLE_ID				AS SEVERITY_ID,";
 		cQuery += "	THIS.EVE_EQUIPMENT_ID	AS EQUIP_ID,";
-		cQuery += "	D.EMO_DESCRIPTION		AS QUIP_MODEL,";
+		cQuery += "	D.EMO_DESCRIPTION		AS EQUIP_MODEL,";
+		cQuery += "	H.EMA_DESCRIPTION		AS EQUIP_MANUF,";
 		cQuery += "	THIS.EVE_ALARM_ID		AS ALARM_ID,";
 		cQuery += "	A.ALM_DESCRIPTION		AS ALARM_DESC,";
 		cQuery += "	E.SIT_DESCRIPTION		AS SITE_DESC,";
@@ -197,22 +200,28 @@ public class EventDaoImpl implements EventDao {
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " OPERATIONAL_STATE G";
 		cQuery += "     ON THIS.EVE_OPER_STATE_ID=G.OST_ID";
+		cQuery += " LEFT OUTER JOIN";
+		cQuery += " EQUIPMENTS_MANUFACTURER H";
+		cQuery += "     ON C.EQU_MANUFACTURER_ID=H.EMA_ID";
 		cQuery += " WHERE";
 		cQuery += " 	THIS.EVE_SOLV_USER IS NULL";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		
 		qQuery.addScalar("ID"			, Hibernate.STRING);
-		qQuery.addScalar("RECO_USER"	, Hibernate.BOOLEAN);
+		qQuery.addScalar("RECO"			, Hibernate.BOOLEAN);
+		qQuery.addScalar("RECO_USER"	, Hibernate.STRING);
+		qQuery.addScalar("RECO_DATE"	, Hibernate.STRING);
 		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);
 		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);
 		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);
-		qQuery.addScalar("QUIP_MODEL"	, Hibernate.STRING);
+		qQuery.addScalar("EQUIP_MODEL"	, Hibernate.STRING);
+		qQuery.addScalar("EQUIP_MANUF"	, Hibernate.STRING);
 		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING);
 		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING);
 		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);
 		qQuery.addScalar("SYS"			, Hibernate.STRING);
-		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);	
+		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);
 		qQuery.addScalar("DATETIME"		, Hibernate.STRING);
 		
 		return qQuery.list();

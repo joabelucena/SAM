@@ -1,85 +1,129 @@
 var eventInfo = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
+	itemId: 'grpEveInfo',
 	defaultType : 'textfield',
 	title : 'Informações do Alarme',
+	
 	layout : {
-		type : 'vbox',
-		//align : 'stretch'
+		type : 'vbox'
 	},
 
-	items : [ {
+	items : [{
 		fieldLabel : 'Cod. Evento',
-		id : 'eventshow_event_id',
+		itemId: 'id',
+		name: 'id',
 		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Cod. do Alarme' "
+		width: 250,
+		inputAttrTpl: " data-qtip='Código do Evento recebido' "
+	}, {
+		fieldLabel : 'Cod. Alarme',
+		itemId: 'alarm_id',
+		name: 'alarm_id',
+		readOnly : true,
+		width: 250,
+		inputAttrTpl: " data-qtip='Código do Alarme' "
+	}, {
+		fieldLabel : 'Desc. Alarme',
+		itemId: 'alarm_desc',
+		name: 'alarm_desc',
+		readOnly : true,
+		width: 600,
+		inputAttrTpl: " data-qtip='Descrição do Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
-		id : 'eventshow_time_event',
+		xtype: 'datefield',
+		format: 'd/m/Y H:i',
+		itemId: 'datetime',
+		name: 'datetime',
 		readOnly : true,
-		width: '40%',
+		width: 300,
 		inputAttrTpl: " data-qtip='Data/Hora do Alarme' "
-
-	}, {
+	},{
+		xtype : 'combobox',
 		fieldLabel : 'Severidade',
-		id : 'eventshow_severity',
+		itemId: 'severity_id',
+		name: 'severity_id',
 		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='Severidade do Alarme' "
-		
+		valueField: 'id',
+        displayField: 'desc',
+        store: Ext.data.Store({
+			fields: ['id','desc'],
+			autoLoad: true,
+			proxy: {
+		         type: 'ajax',
+		         url: 'severity/load',
+		         reader: {
+		             type: 'json',
+		             root: 'data'
+		         }
+		     },
+		}),
+		width: 300,
+		inputAttrTpl: " data-qtip='Severidade do Alarme' "			
 	}, {
 		fieldLabel : 'Reconhecido por',
-		id : 'eventshow_reco_user',
+		itemId: 'reco_user',
+		name: 'reco_user',
 		readOnly : true,
-		width: '40%',
+		width: 350,
 		inputAttrTpl: " data-qtip='Usuário que Reconheceu o Alarme' "
 	}, {
-		fieldLabel : 'Data/Hora ',
-		id : 'eventshow_reco_time',
+		fieldLabel : 'Data/Hora',
+		xtype: 'datefield',
+		format: 'd/m/Y H:i',
+		itemId: 'reco_date',
+		name: 'reco_date',
 		readOnly : true,
-		width: '40%',
+		width: 300,
 		inputAttrTpl: " data-qtip='Data/Hora do Reconhecimento do Alarme' "
 	} ]
 };
 
 var equipmentInfo = {
-		xtype : 'fieldset',
+		xtype : 'groupfield',
+		itemId: 'grpEquInfo',
 		defaultType : 'textfield',
-		title : 'Informações do Equipamento Alarmado',
+		title : 'Informações do Equipamento',
 		layout : {
 			type : 'vbox',
 			//align : 'stretch',
 		},
 
 		items : [ {
-			fieldLabel : 'ID',
-			name : 'eventshow_id',
+			fieldLabel : 'Cód. Equipamento',
+			itemId: 'equipment_id',
+			name: 'equipment_id',
 			readOnly : true,
 			width: '40%',
-			inputAttrTpl: " data-qtip='ID do Equipamento' "
+			inputAttrTpl: " data-qtip='Código do Equipamento' "
 		}, {
 			fieldLabel : 'Modelo',
-			id : 'eventshow_model',
+			itemId: 'equipment_model',
+			name: 'equipment_model',
 			readOnly : true,
-			width: '40%',
+			width: '50%',
 			inputAttrTpl: " data-qtip='Modelo do Equipamento' "
+
 		}, {
 			fieldLabel : 'Fabricante',
-			id : 'eventshow_manufacturer',
+			itemId: 'equipment_manufacturer',
+			name: 'equipment_manufacturer',
 			readOnly : true,
-			width: '40%',
+			width: '50%',
 			inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
 		}, {
 			fieldLabel : 'Sub-Sistema',
-			id : 'eventshow_subsystem',
+			itemId: 'system_desc',
+			name: 'system_desc',
 			readOnly : true,
-			width: '40%',
+			width: '60%',
 			inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
 		}, {
 			fieldLabel : 'Local de Instalação',
-			id : 'eventshow_site',
+			itemId: 'site_desc',
+			name: 'site_desc',
 			readOnly : true,
-			width: '40%',
+			width: '60%',
 			inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
 		} ],
 	};
@@ -98,9 +142,8 @@ Ext.define('Sam.view.event.EventShow', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'eventshowform',
 		fieldDefaults : {
-			labelWidth : 180
+			labelWidth : 150
 		},
 		defaults:{
 			allowBlank : false

@@ -1,85 +1,102 @@
-var equipmentInfo = {
-	xtype : 'fieldset',
-	defaultType : 'textfield',
-	title : 'Informações do Equipamento',
-	layout : {
-		type : 'vbox',
-		//align : 'stretch',
-	},
-
-	items : [ {
-		fieldLabel : 'Cod. Equipamento',
-		name : 'eventpopup_equip_id',
-		readOnly : true,
-		width: '40%',
-		inputAttrTpl: " data-qtip='ID do Equipamento' "
-	}],
-};
-
-
 var eventInfo = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
+	itemId: 'grpEveInfo',
 	defaultType : 'textfield',
 	title : 'Informações do Alarme',
+	
 	layout : {
-		type : 'vbox',
-		//align : 'stretch'
+		type : 'vbox'
 	},
 
-	items : [ {
-		fieldLabel : 'Cod. Alarme',
-		id : 'eventpopup_event_id',
+	items : [{
+		fieldLabel : 'Cod. Evento',
+		itemId: 'id',
+		name: 'id',
 		readOnly : true,
-		width: '30%',
-		inputAttrTpl: " data-qtip='ID do Alarme' "
+		width: 250,
+		inputAttrTpl: " data-qtip='Código do Evento recebido' "
+	}, {
+		fieldLabel : 'Cód. Equipamento',
+		itemId: 'equipment_id',
+		name: 'equipment_id',
+		readOnly : true,
+		width: 275,
+		inputAttrTpl: " data-qtip='Código do Equipamento' "
+	}, {
+		fieldLabel : 'Cod. Alarme',
+		itemId: 'alarm_id',
+		name: 'alarm_id',
+		readOnly : true,
+		width: 250,
+		inputAttrTpl: " data-qtip='Código do Alarme' "
+	}, {
+		fieldLabel : 'Desc. Alarme',
+		itemId: 'alarm_desc',
+		name: 'alarm_desc',
+		readOnly : true,
+		width: 600,
+		inputAttrTpl: " data-qtip='Descrição do Alarme' "
 	}, {
 		fieldLabel : 'Data/Hora Alarme',
-		id : 'eventpopup_time_event',
+		xtype: 'datefield',
+		format: 'd/m/Y H:i',
+		itemId: 'datetime',
+		name: 'datetime',
 		readOnly : true,
-		width: '40%',
+		width: 300,
 		inputAttrTpl: " data-qtip='Data/Hora do Alarme' "
-	}, 
-	/** POG Field **/
-	{
-		id : 'eventpopup_severity_id',
-		hidden: true,
-		readOnly : true,
-		width: '35%',
-		inputAttrTpl: " data-qtip='Severidade do Alarme' "
-	},
-	
-	{
+	},{
+		xtype : 'combobox',
 		fieldLabel : 'Severidade',
-		id : 'eventpopup_severity_desc',
+		itemId: 'severity_id',
+		name: 'severity_id',
 		readOnly : true,
-		width: '35%',
-		inputAttrTpl: " data-qtip='Severidade do Alarme' "
+		valueField: 'id',
+        displayField: 'desc',
+        store: Ext.data.Store({
+			fields: ['id','desc'],
+			autoLoad: true,
+			proxy: {
+		         type: 'ajax',
+		         url: 'severity/load',
+		         reader: {
+		             type: 'json',
+		             root: 'data'
+		         }
+		     },
+		}),
+		width: 300,
+		inputAttrTpl: " data-qtip='Severidade do Alarme' "			
 	}, {
 		fieldLabel : 'Reconhecido por',
-		id : 'eventpopup_reco_user',
+		itemId: 'reco_user',
+		name: 'reco_user',
 		readOnly : true,
-		width: '40%',
+		width: 350,
 		inputAttrTpl: " data-qtip='Usuário que Reconheceu o Alarme' "
 	}, {
-		fieldLabel : 'Data/Hora ',
-		id : 'eventpopup_reco_time',
+		fieldLabel : 'Data/Hora',
+		xtype: 'datefield',
+		format: 'd/m/Y H:i',
+		itemId: 'reco_date',
+		name: 'reco_date',
 		readOnly : true,
-		width: '40%',
+		width: 300,
 		inputAttrTpl: " data-qtip='Data/Hora do Reconhecimento do Alarme' "
 	} ]
 };
 
 var soInfo = {
-	xtype : 'fieldset',
+	xtype : 'groupfield',
 	defaultType : 'textfield',
 	title : 'Informação da OS',
+	itemId: 'grpSoInfo',
 	layout : {
 		type : 'vbox',
 		//align : 'stretch',
 	},
 
-	
-	items : [ {
+	items : [{
 		xtype: 'container',
 		defaults:{
 			allowBlank : false
@@ -89,28 +106,32 @@ var soInfo = {
 			   padding: '0 0 5 0',
 			   margin: '0 0 0 0'
 		},
-		items : [{
-			xtype:'datefield',
-	       	vtype: 'daterange',
-	       	endDateField: 'end_forecast_date', // id of the end date field
-	       	fieldLabel: 'Data de Início Prevista',
-	       	name: 'start_forecast_date',
-	       	itemId: 'start_forecast_date',
-	       	id: 'eventpopup_start_date',
-	       	minValue: new Date(),
-	       	labelAlign: 'left',
-	       	format: 'd/m/Y',
-	       	margin: '0 0 0 0',
-	       	inputAttrTpl: " data-qtip='Data de Início Prevista para a Ordem de Serviço' "
-		},{
-			xtype:'timefield',
-			fieldLabel: 'Hora de Início Prevista',
-			id: 'eventpopup_start_hour',
-			labelAlign: 'right',
-			format: 'H:i',
-			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Hora de Início Prevista para a Ordem de Serviço' "
-		}]
+		items : [
+		         {
+		        	 xtype:'datefield',
+		        	 vtype: 'daterange',
+		        	 endDateField: 'end_forecast_date', // id of the end date field
+		        	 fieldLabel: 'Data de Início Prevista',
+		        	 name: 'start_forecast_date',
+		        	 itemId: 'start_forecast_date',
+		        	 labelAlign: 'left',
+		        	 format: 'd/m/Y',
+		        	 minValue: new Date(),
+		        	 margin: '0 0 0 0',
+		        	 editable: false,
+		        	 inputAttrTpl: " data-qtip='Data de Início Prevista da Ordem de Serviço' "
+		         },{
+		        	 xtype:'timefield',
+		        	 fieldLabel: 'Hora de Início Prevista',
+		        	 itemId: 'start_forecast_time',
+		        	 name: 'start_forecast_time',
+		        	 labelAlign: 'right',
+		        	 format: 'H:i',
+		        	 margin: '0 0 0 0',
+		        	 editable: false,
+		        	 inputAttrTpl: " data-qtip='Hora de Início Prevista da Ordem de Serviço' "
+		         }			
+			]
 	
 	}, {
 		xtype: 'container',
@@ -129,23 +150,26 @@ var soInfo = {
 			fieldLabel: 'Data de Término Prevista',
 			name: 'end_forecast_date',
 			itemId: 'end_forecast_date',
-			id: 'eventpopup_end_date',
 			format: 'd/m/Y',
 			labelAlign: 'left',
 			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Data de Término Prevista para a Ordem de Serviço' "
+			editable: false,
+			inputAttrTpl: " data-qtip='Data de Término Prevista da Ordem de Serviço' "
 		},{
 			xtype:'timefield',
 			fieldLabel: 'Hora de Término Prevista',
-			id: 'eventpopup_end_hour',
+			itemId: 'end_forecast_time',
+			name: 'end_forecast_time',
 			labelAlign: 'right',
 			format: 'H:i',
 			margin: '0 0 0 0',
-			inputAttrTpl: " data-qtip='Hora de Término Prevista para a Ordem de Serviço' "
+			editable: false,
+			inputAttrTpl: " data-qtip='Hora de Término Prevista da Ordem de Serviço' "
 		}]
 	}, {
-		fieldLabel : 'Tipo da OS',
-		id : 'eventpopup_so_type',
+		fieldLabel : 'Tipo',
+		itemId: 'type_id',
+		name: 'type_id',
 		valueField: 'id',
         displayField: 'desc',
 		xtype : 'combobox',
@@ -167,7 +191,8 @@ var soInfo = {
 		inputAttrTpl: " data-qtip='Tipo da Ordem de Serviço' "
 	},{
 		fieldLabel : 'Observação',
-		id : 'eventpopup_obs_os',
+		itemId: 'remark',
+		name: 'remark',
 		xtype : 'textareafield',
 		allowBlank : false,
 		width: '60%',
@@ -178,8 +203,8 @@ var soInfo = {
 Ext.define('Sam.view.event.openSO.EventDataOpenSO', {
 	extend : 'Ext.Panel',
 	alias : 'widget.eventdataopenso',
-
-	requires : [ 'Sam.view.event.openSO.EventDataOpenSO'],
+	
+	itemId: 'eventdataopenso',
 
 	closable : true,
 
@@ -191,9 +216,8 @@ Ext.define('Sam.view.event.openSO.EventDataOpenSO', {
 		xtype : 'form',
 
 		defaultType : 'textfield',
-		id : 'eventdataopensoform',
 		fieldDefaults : {
-			labelWidth : 180
+			labelWidth : 150
 		},
 		defaults:{
 			allowBlank : false
@@ -206,10 +230,10 @@ Ext.define('Sam.view.event.openSO.EventDataOpenSO', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ equipmentInfo ,eventInfo, soInfo ],
+		items : [ eventInfo, soInfo ],
 
 		buttons : [ {
-			id: 'openSoButtom',
+			itemId: 'btnOpenSo',
 			text : 'Abrir Ordem de Serviço'
 		} ],
 	} ],

@@ -2,9 +2,11 @@ Ext.define('Sam.view.event.openSO.EventOpenSO', {
 	extend: 'Ext.TabPanel',
 	alias:  'widget.eventopenso',
 	
+	itemId: 'eventopenso',
+	
 	requires: ['Sam.view.event.openSO.EventDataOpenSO',
 	           'Sam.view.event.openSO.EventInfoEqto',
-	           'Sam.view.event.openSO.histSO.EventHistSO'],
+	           'Sam.view.event.openSO.EventHistSO'],
 	
 	closable: true,
 	

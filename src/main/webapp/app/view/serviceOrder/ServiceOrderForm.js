@@ -263,7 +263,7 @@ var soInfo = {
 			inputAttrTpl: " data-qtip='Hora de Término Prevista da Ordem de Serviço' "
 		}]
 	}, {
-		fieldLabel : 'Tipo da OS',
+		fieldLabel : 'Tipo',
 		itemId: 'type_id',
 		name: 'type_id',
 		valueField: 'id',
