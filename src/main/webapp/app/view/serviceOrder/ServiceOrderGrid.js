@@ -1,5 +1,5 @@
 Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
-	extend: 'Ext.grid.Panel',
+	extend: 'Sam.lib.AutoGrid',
 	alias: 'widget.serviceordergrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
@@ -7,6 +7,8 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	store: Ext.create('Sam.store.ServiceOrder'),
 
 	plugins: 'gridfilters',
+	
+	refreshRate: 10,
 	
 	itemId: 'serviceordergrid',
 	

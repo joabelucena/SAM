@@ -210,7 +210,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 			
 			record.set({
 					type			: Ext.create('Sam.model.ServiceOrderType'	,{id: values.type_id})								,
-					priority		: Ext.create('Sam.model.SeverityLevel'		,{id: values.severity_id})							,
+					priority		: Ext.create('Sam.model.SeverityLevel'		,{id: values.priority_id})							,
 					equipment		: Ext.create('Sam.model.Equipment'			,{id: values.equipment_id})							,
 					startForecast	: Ext.Date.parse(values.start_forecast_date + " " + values.start_forecast_time	, "d/m/Y H:i")	,
 					endForecast		: Ext.Date.parse(values.end_forecast_date	+ " " + values.end_forecast_time	, "d/m/Y H:i")	

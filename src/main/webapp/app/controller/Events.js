@@ -8,15 +8,11 @@ Ext.define('Sam.controller.Events', {
 	        'event.openSO.EventInfoEqto',
 	        'event.openSO.EventHistSO'
 	        ],
-	
-	eventID: 'null',
-	
+	        
+	        
 	init: function() {
 		
 		this.control({
-			'#eventgrid': {
-				render: this.onRender,
-			},
 			'#eventgrid checkcolumn': {
 				checkchange: this.checkboxChanged,
 			},
@@ -280,8 +276,6 @@ Ext.define('Sam.controller.Events', {
 	
 	recognizeAll: function(button) {
 		
-		
-		
 		Ext.MessageBox.show({
 	        title: 'Reconhecimento de Alarmes',
 	        msg: 'Deseja reconhecer todos os alarmes?',
@@ -310,33 +304,6 @@ Ext.define('Sam.controller.Events', {
 	            }
 	        }
 		});
-	},
-
-	onRender: function(component, options) {
-	
-		var loading = false;
-		
-		var task = {
-				
-		   run : function(){
-			   if (loading == false){
-			   
-				   loading = true
-				   component.getStore().load(
-						   function(records, operation, success) {
-							   loading = false;
-						   }
-				   );
-				   component.getView().setLoading(false);
-				   component.refresh();
-			   }
-		   },
-		   
-		   interval: 5000 //(1 second = 1000)
-		   
-		};
-
-		Ext.TaskManager.start(task);
 	}
 	
 });

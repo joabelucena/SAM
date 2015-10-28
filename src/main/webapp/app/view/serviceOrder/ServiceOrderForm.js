@@ -115,9 +115,6 @@ var equipmentInfo = {
 				        		
 				        		groupField.loadRecord(record);
 				        		
-				        		//Loads Equipment record
-//				        		form.loadRecord(record)
-				        		
 				        		window.close();
 				        		
 				        	}

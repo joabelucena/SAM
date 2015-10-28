@@ -1,5 +1,5 @@
 Ext.define('Sam.view.event.EventGrid' , {
-	extend: 'Ext.grid.Panel',
+	extend: 'Sam.lib.AutoGrid',
 	alias: 'widget.eventgrid',
 	
 	requires: [
@@ -8,6 +8,8 @@ Ext.define('Sam.view.event.EventGrid' , {
 	],
 	
 	itemId: 'eventgrid',
+	
+	refreshRate: 5,
 	
 	scrollable: true,
 
@@ -39,12 +41,6 @@ Ext.define('Sam.view.event.EventGrid' , {
         }
     },
     
-    listeners : {
-        beforeclose: function() {
-        	Ext.TaskManager.stopAll();
-        }
-    },
-	
     plugins: 'gridfilters',
     
 	columns : [

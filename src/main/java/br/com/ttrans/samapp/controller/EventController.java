@@ -1,13 +1,9 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
-import br.com.ttrans.samapp.model.ServiceOrderForecast;
 import br.com.ttrans.samapp.service.EventService;
 
 @SuppressWarnings("rawtypes")
