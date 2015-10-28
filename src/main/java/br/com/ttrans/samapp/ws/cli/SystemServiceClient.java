@@ -23,7 +23,7 @@ public class SystemServiceClient {
     public void sessionDetails(SessionDetail session, String ipAddress) {
 
     	String envelope = getSessionDetailEnvelope();
-    	String url = "http://" + ipAddress + ":8080/samappjs/systemService";
+    	String url = "http://" + ipAddress + ":8080/SAM/systemService";
     	
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
