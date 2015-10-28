@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.dao.ServiceOrderDao;
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.library.DAO;
@@ -32,12 +33,15 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	@Autowired
 	private ServiceOrderStatusDao statusDao;
 	
+	@Autowired
+	private EventDao eventDao; 
+	
 
 	@Transactional
 	public int add(ServiceOrder so, Authentication authentication) {
 		
 		//Retorna status inicial cadastrado em parametro
-		ServiceOrderStatus status = statusDao.findByName(lib.getMv("SAM_SOSTATUS", "NOVA")); 
+		ServiceOrderStatus status = statusDao.findByName(lib.getMv("SAM_SOINISTS", "NOVA")); 
 		
 		//Atualiza OS com o status incial
 		so.setStatus(status);
@@ -74,9 +78,16 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 													new Date(),							//Data/Hora
 													so.getLogRemark(),					//Observacao						
 													authentication.getName()));			//Usuario inserção (USR_INSERT)
+			
+			/**
+			 * Se finalizou normaliza o evento 
+			 */
+			if(so.getStatus().equals(statusDao.findByName(lib.getMv("SAM_SOFINSTS", "FINALIZADO"))) &&
+					so.getEvent() != null){
+				eventDao.normalize(so.getEvent().getId(), authentication);
+			}
+			
 		}
-		
-		
 		
 		/**
 		 * Log do sistema

@@ -60,6 +60,7 @@ Ext.define('Sam.controller.Events', {
 		    					type			: Ext.create('Sam.model.ServiceOrderType'	,{id: values.type_id})								,
 		    					priority		: Ext.create('Sam.model.SeverityLevel'		,{id: values.severity_id})							,
 		    					equipment		: Ext.create('Sam.model.Equipment'			,{id: values.equipment_id})							,
+		    					event			: Ext.create('Sam.model.Event'				,{id: values.id})									,
 		    					startForecast	: Ext.Date.parse(values.start_forecast_date + " " + values.start_forecast_time	, "d/m/Y H:i")	,
 		    					endForecast		: Ext.Date.parse(values.end_forecast_date	+ " " + values.end_forecast_time	, "d/m/Y H:i")	
 		    					});
@@ -123,7 +124,11 @@ Ext.define('Sam.controller.Events', {
 		
 		// Verifica se o Alarme esta reconhecido
 		if(!record.get('reco')){
-			Ext.Msg.alert('Alarme Não Reconhecido', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.'); 
+			Ext.Msg.alert('SAM | Info', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.');
+		}else if(record.get('so_id') !== '-'){
+			Ext.Msg.alert('SAM | Info', 'Já existe uma Ordem de Serviço aberta para esse evento. Dados da Ordem de Serviço: <br><br>'
+					+ 'Código: ' + record.get('so_id') + '<br>'
+					+ 'Estado: '+record.get('so_status'));
 		}else{
 			
 			var mainPanel = Ext.getCmp('viewportpanel');

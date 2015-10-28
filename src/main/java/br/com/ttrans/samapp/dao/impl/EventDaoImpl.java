@@ -158,25 +158,27 @@ public class EventDaoImpl implements EventDao {
 		SQLQuery qQuery;
 
 		cQuery = "SELECT";
-		cQuery += "	THIS.EVE_ID				AS ID,";
+		cQuery += "	THIS.EVE_ID								AS ID,";
 		cQuery += "	CASE";
 		cQuery += "		WHEN THIS.EVE_RECO_USER IS NULL"
 				+ "		THEN 'false'";
 		cQuery += "		ELSE 'true'"
-				+ "		END					AS RECO,";
+				+ "		END									AS RECO,";
 		cQuery += "	COALESCE(THIS.EVE_RECO_USER,'-')		AS RECO_USER,";
 		cQuery += "	COALESCE(THIS.EVE_RECO_DATE,'-')		AS RECO_DATE,";
-		cQuery += "	B.SLE_DESCRIPTION		AS SEVERITY,";
-		cQuery += "	B.SLE_ID				AS SEVERITY_ID,";
-		cQuery += "	THIS.EVE_EQUIPMENT_ID	AS EQUIP_ID,";
-		cQuery += "	D.EMO_DESCRIPTION		AS EQUIP_MODEL,";
-		cQuery += "	H.EMA_DESCRIPTION		AS EQUIP_MANUF,";
-		cQuery += "	THIS.EVE_ALARM_ID		AS ALARM_ID,";
-		cQuery += "	A.ALM_DESCRIPTION		AS ALARM_DESC,";
-		cQuery += "	E.SIT_DESCRIPTION		AS SITE_DESC,";
-		cQuery += "	F.SSY_ID				AS SYS,";
-		cQuery += "	F.SSY_DESCRIPTION		AS SYS_DESC,";
-		cQuery += "	THIS.EVE_DATETIME		AS DATETIME";
+		cQuery += "	B.SLE_DESCRIPTION						AS SEVERITY,";
+		cQuery += "	B.SLE_ID								AS SEVERITY_ID,";
+		cQuery += "	THIS.EVE_EQUIPMENT_ID					AS EQUIP_ID,";
+		cQuery += "	D.EMO_DESCRIPTION						AS EQUIP_MODEL,";
+		cQuery += "	H.EMA_DESCRIPTION						AS EQUIP_MANUF,";
+		cQuery += "	THIS.EVE_ALARM_ID						AS ALARM_ID,";
+		cQuery += "	A.ALM_DESCRIPTION						AS ALARM_DESC,";
+		cQuery += "	E.SIT_DESCRIPTION						AS SITE_DESC,";
+		cQuery += "	F.SSY_ID								AS SYS,";
+		cQuery += "	F.SSY_DESCRIPTION						AS SYS_DESC,";
+		cQuery += "	COALESCE(I.SOR_ID,'-')					AS SO_ID,";
+		cQuery += "	COALESCE(J.SOS_DESCRIPTION,'-')			AS SO_STATUS,";
+		cQuery += "	THIS.EVE_DATETIME						AS DATETIME";
 		cQuery += " FROM";
 		cQuery += "		EVENTS THIS";
 		cQuery += " LEFT OUTER JOIN";
@@ -203,6 +205,15 @@ public class EventDaoImpl implements EventDao {
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " EQUIPMENTS_MANUFACTURER H";
 		cQuery += "     ON C.EQU_MANUFACTURER_ID=H.EMA_ID";
+		cQuery += " LEFT OUTER JOIN";
+		cQuery += " SERVICE_ORDER I";
+		cQuery += "     ON THIS.EVE_ID = I.SOR_EVENT_ID";
+		cQuery += " LEFT OUTER JOIN";
+		cQuery += " SERVICE_ORDER_STATUS J";
+		cQuery += "     ON I.SOR_STATUS_ID = J.SOS_ID";
+		
+		
+		
 		cQuery += " WHERE";
 		cQuery += " 	THIS.EVE_SOLV_USER IS NULL";
 
@@ -222,6 +233,8 @@ public class EventDaoImpl implements EventDao {
 		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);
 		qQuery.addScalar("SYS"			, Hibernate.STRING);
 		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);
+		qQuery.addScalar("SO_ID"		, Hibernate.STRING);
+		qQuery.addScalar("SO_STATUS"	, Hibernate.STRING);
 		qQuery.addScalar("DATETIME"		, Hibernate.STRING);
 		
 		return qQuery.list();

@@ -112,6 +112,14 @@ Ext.define('Sam.view.event.EventGrid' , {
 				type: 'string'
 			}
 		},{
+			text: 'Ord. Serviço',
+			width: 80,
+			sortable: true,
+			dataIndex: 'so_id',
+			filter: {
+				type: 'string'
+			}
+		},{
 			xtype: 'actioncolumn',
 			width: 100,
 			text: 'Ações',

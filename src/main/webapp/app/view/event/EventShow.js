@@ -94,14 +94,14 @@ var equipmentInfo = {
 			itemId: 'equipment_id',
 			name: 'equipment_id',
 			readOnly : true,
-			width: '40%',
+			width: 300,
 			inputAttrTpl: " data-qtip='Código do Equipamento' "
 		}, {
 			fieldLabel : 'Modelo',
 			itemId: 'equipment_model',
 			name: 'equipment_model',
 			readOnly : true,
-			width: '50%',
+			width: 400,
 			inputAttrTpl: " data-qtip='Modelo do Equipamento' "
 
 		}, {
@@ -109,24 +109,53 @@ var equipmentInfo = {
 			itemId: 'equipment_manufacturer',
 			name: 'equipment_manufacturer',
 			readOnly : true,
-			width: '50%',
+			width: 400,
 			inputAttrTpl: " data-qtip='Fabricante do Equipamento' "
 		}, {
 			fieldLabel : 'Sub-Sistema',
 			itemId: 'system_desc',
 			name: 'system_desc',
 			readOnly : true,
-			width: '60%',
+			width: 400,
 			inputAttrTpl: " data-qtip='Sub-Sistema do Equipamento' "
 		}, {
 			fieldLabel : 'Local de Instalação',
 			itemId: 'site_desc',
 			name: 'site_desc',
 			readOnly : true,
-			width: '60%',
+			width: 400,
 			inputAttrTpl: " data-qtip='Local de Instalação do Equipamento' "
 		} ],
 	};
+
+
+
+var soInfo = {
+		xtype : 'groupfield',
+		itemId: 'grpOpenSo',
+		defaultType : 'textfield',
+		title : 'Ordem de Serviço Aberta',
+		layout : {
+			type : 'vbox'
+		},
+
+		items : [ {
+			fieldLabel : 'Cód. da Os',
+			itemId: 'so_id',
+			name: 'so_id',
+			readOnly : true,
+			width: 250,
+			inputAttrTpl: " data-qtip='Código da Ordem de Serviço' "
+		}, {
+			fieldLabel : 'Estado',
+			itemId: 'so_status',
+			name: 'so_status',
+			readOnly : true,
+			width: 300,
+			inputAttrTpl: " data-qtip='Estado da Ordem de Serviço' "
+		}],
+	};
+
 
 Ext.define('Sam.view.event.EventShow', {
 	extend: 'Ext.Panel',
@@ -156,7 +185,7 @@ Ext.define('Sam.view.event.EventShow', {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ eventInfo, equipmentInfo ]
+		items : [ eventInfo, equipmentInfo, soInfo]
 		
 	} ],
 	

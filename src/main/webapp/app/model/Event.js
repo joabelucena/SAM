@@ -16,6 +16,10 @@ Ext.define('Sam.model.Event', {
 	        {name: 'site_desc'				, type: 'string'						},
 	        {name: 'system_id'				, type: 'string'						},
 	        {name: 'system_desc'			, type: 'string'						},
+	        
+	        {name: 'so_id'					, type: 'string'						},
+	        {name: 'so_status'				, type: 'string'						},
+	        
 	        {name: 'datetime'				, type: 'date'		, dateFormat: 'c'	}
 	]
 });

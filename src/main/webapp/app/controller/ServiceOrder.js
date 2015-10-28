@@ -385,7 +385,7 @@ Ext.define('Sam.controller.ServiceOrder', {
 	onToolbarItemSelect: function(item, event, nStatus, lRemark) {
 		
 		var me		= this									// Controller
-			store	= me.getServiceOrderStore(),			// Store
+			store	= item.up('grid').getStore(),			// Store
 			row		= item.up('grid').getSelection()[0]		// Record
 			lChange = false;
 		
