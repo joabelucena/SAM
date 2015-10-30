@@ -1,4 +1,10 @@
---Fields
+/**
+ * Description: Generates a data dictionrary
+ * Date:		30/10/2015
+ * Usage: 		-
+ * Author:		Joabe Lucena
+ */
+
 SELECT
 	f.rdb$relation_name
 	,f.rdb$field_name

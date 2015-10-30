@@ -45,7 +45,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 				type: 'string'
 			}
 		},{
-			text: 'Alarme',
+			text: 'Evento',
 			sortable: true,
 			dataIndex: 'event_id',
 			width: 100,

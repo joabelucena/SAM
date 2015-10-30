@@ -1,6 +1,10 @@
-/** RUN THE RESULT OF THIS QUERY FOR DROP ALL DATABASE ITENS **/
+/**
+ * Description: Generates a query for DROPING ALL database objects
+ * Date:		10/02/2015
+ * Usage: 		-
+ * Author:		Joabe Lucena
+ */
 
--- FOREIGN KEYS
 SELECT
 	'ALTER TABLE '||TRIM(RDB$RELATION_NAME)||' DROP CONSTRAINT '||TRIM(RDB$CONSTRAINT_NAME) || ';'
 FROM RDB$RELATION_CONSTRAINTS
