@@ -2,7 +2,6 @@ package br.com.ttrans.samapp.model;
 
 import java.util.Set;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -43,16 +40,15 @@ public class Task {
 	@JoinColumn(name="tmh_alarm_id")
 	private Alarm alarm;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@Cascade({CascadeType.SAVE_UPDATE})
-	@JoinTable(name="task_equipment",
-			joinColumns=@JoinColumn(name="task_id"),
-			inverseJoinColumns=@JoinColumn(name="equipment_id"))
-	private Set<Equipment> equipments;
-	
-//	@OneToMany(fetch = FetchType.EAGER)
+//	@ManyToMany(fetch=FetchType.EAGER)
 //	@Cascade({CascadeType.SAVE_UPDATE})
-//	private Set<TaskEquipment> equipments;
+//	@JoinTable(name="task_equipment",
+//			joinColumns=@JoinColumn(name="task_id"),
+//			inverseJoinColumns=@JoinColumn(name="equipment_id"))
+//	private Set<Equipment> equipments;
+	
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="id.task")
+	private Set<TaskEquipment> equipments;
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="tmi_task_id", referencedColumnName = "tmh_id")
@@ -65,34 +61,8 @@ public class Task {
 	@Column(insertable=false, name = "usr_update")
 	private String update;
 
-	public Task(){}
-
-//	public Task(Integer id, String desc, String active, Alarm alarm,
-//			Set<TaskEquipment> equipments, Set<TaskCondition> conditions,
-//			String insert, String update) {
-//		super();
-//		this.id = id;
-//		this.desc = desc;
-//		this.active = active;
-//		this.alarm = alarm;
-//		this.equipments = equipments;
-//		this.conditions = conditions;
-//		this.insert = insert;
-//		this.update = update;
-//	}
-	
-	public Task(Integer id, String desc, String active, Alarm alarm,
-			Set<Equipment> equipments, Set<TaskCondition> conditions,
-			String insert, String update) {
+	public Task(){
 		super();
-		this.id = id;
-		this.desc = desc;
-		this.active = active;
-		this.alarm = alarm;
-		this.equipments = equipments;
-		this.conditions = conditions;
-		this.insert = insert;
-		this.update = update;
 	}
 
 	public Integer getId() {
@@ -127,21 +97,21 @@ public class Task {
 		this.alarm = alarm;
 	}
 
-//	public Set<TaskEquipment> getEquipments() {
-//		return equipments;
-//	}
-//
-//	public void setEquipments(Set<TaskEquipment> equipments) {
-//		this.equipments = equipments;
-//	}
-	
-	public Set<Equipment> getEquipments() {
+	public Set<TaskEquipment> getEquipments() {
 		return equipments;
 	}
 
-	public void setEquipments(Set<Equipment> equipments) {
+	public void setEquipments(Set<TaskEquipment> equipments) {
 		this.equipments = equipments;
 	}
+	
+//	public Set<Equipment> getEquipments() {
+//		return equipments;
+//	}
+//
+//	public void setEquipments(Set<Equipment> equipments) {
+//		this.equipments = equipments;
+//	}
 	
 	public Set<TaskCondition> getConditions() {
 		return conditions;

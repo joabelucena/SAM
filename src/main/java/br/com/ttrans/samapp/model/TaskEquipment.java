@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class TaskEquipment {
 	
 	@EmbeddedId
-	private TaskEquipmentId id;	
+	private TaskEquipmentId id;
 	
 	@Column(name="cutoff_date")
 	private Date proccess;
@@ -71,7 +71,6 @@ public class TaskEquipment {
 	public void setEquipment(Equipment equipment) {
 		this.getId().setEquipment(equipment);
 	}
-
 	
 	@Override
 	public int hashCode() {
@@ -113,14 +112,22 @@ public class TaskEquipment {
 		private static final long serialVersionUID = 1L;
 		
 		@ManyToOne
-		@JoinColumn(name="task_id")
 		private Task task;
 		
 
 		@ManyToOne
-		@JoinColumn(name="equipment_id")
 		private Equipment equipment;
 		
+		public TaskEquipmentId() {
+			super();
+		}
+
+		public TaskEquipmentId(Task task, Equipment equipment) {
+			super();
+			this.task = task;
+			this.equipment = equipment;
+		}
+
 		public Task getTask() {
 			return task;
 		}
@@ -169,4 +176,5 @@ public class TaskEquipment {
 			return true;
 		}
 	}
+	/**** FIM ID ****/
 }
