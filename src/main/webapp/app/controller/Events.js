@@ -237,9 +237,7 @@ Ext.define('Sam.controller.Events', {
 	
 	checkboxChanged: function(me, rowIndex, checked, eOpts) {
 			
-		knowCheck = Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).get('knowledge_user');
-		
-		if (knowCheck) {
+		if (checked) {	
 		
 			Ext.MessageBox.show({
 		        title: 'Reconhecimento de Alarme',
@@ -248,7 +246,8 @@ Ext.define('Sam.controller.Events', {
 		        icon: Ext.MessageBox.WARNING,
 		        fn: function(btn,  knowId, knowCheck){
 		            if(btn == 'ok'){
-		            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "true");
+		            	
+		            	me.up('grid').getStore().getAt(rowIndex).set('reco',true)
 		            	
 		            	Ext.Ajax.request({
 		            		url : 'events/action/recognize',
@@ -256,7 +255,7 @@ Ext.define('Sam.controller.Events', {
 		            		async: false,
 		            		
 		            		params: {
-		            			recognizeId: Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).get('id'),
+		            			recognizeId: me.up('grid').getStore().getAt(rowIndex).get('id')
 		            		},
 		            		
 		            		failure: function (result, request) {
@@ -266,14 +265,14 @@ Ext.define('Sam.controller.Events', {
 		            	});
 		            	
 		            } else if(btn == 'cancel') {
-		            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'false');
+		            	me.up('grid').getStore().getAt(rowIndex).set('reco',false)
 		            }
 		        }
 			});
 		 
 		} else {
          	
-			Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', 'true');
+			me.up('grid').getStore().getAt(rowIndex).set('reco',true);
 		 
 		}
 
@@ -303,9 +302,6 @@ Ext.define('Sam.controller.Events', {
 	                    }		
 	            			
 	            	});
-	            	
-	            } else if(btn == 'cancel') {
-	            	Ext.getCmp('eventgridpanel').getStore().getAt(rowIndex).set('knowledge_user', "false");
 	            }
 	        }
 		});
