@@ -19,7 +19,7 @@ Ext.define('Sam.controller.Menu', {
 			},
 			"viewportmenuitem": {
 				select: this.onTreePanelSelect,
-				itemclick: this.onTreepanelItemClick
+				itemclick: this.onTreePanelItemClick
 			} 
 		});
 	},
@@ -58,10 +58,10 @@ Ext.define('Sam.controller.Menu', {
 				
 			});
 			
-		});
+		});		
 	},
 	
-	onTreepanelSelect: function(selModel, record, index, options) {
+	onTreePanelSelect: function(selModel, record, index, options) {
 		
 		var mainPanel = Ext.getCmp('viewportpanel');
 		
@@ -127,7 +127,7 @@ Ext.define('Sam.controller.Menu', {
 		}
 		
 		if (newTab){
-			mainPanel.setActiveTab(newTab);			
+			mainPanel.setActiveTab(newTab);
 		}
 		
 		
@@ -135,9 +135,9 @@ Ext.define('Sam.controller.Menu', {
 
 	},
 	
-	onTreepanelItemClick: function(view, record, item, index, event, options){
+	onTreePanelItemClick: function(view, record, item, index, event, options){
 		
-		this.onTreepanelSelect(view, record, index, options);
+		this.onTreePanelSelect(view, record, index, options);
 		
 		var menuPanel = Ext.getCmp('viewportmenu');
 		menuPanel.toggleCollapse(true);
