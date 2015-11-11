@@ -26,7 +26,8 @@ define(['jquery'], function($) {
 
 		// adiciona uma nova cor a sequencia
 		novaRodada: function() {
-			$('[rodada]').text(++this.rodada);
+			var rodada = ++this.rodada;
+			$('span[id="rodada"]').each(function(o) {$(this).text(rodada)})
 			this.sequencia.push(this.numeroAleatorio());
 			this.copia = this.sequencia.slice(0);
 			this.animacao(this.sequencia);
