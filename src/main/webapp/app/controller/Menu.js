@@ -58,7 +58,46 @@ Ext.define('Sam.controller.Menu', {
 				
 			});
 			
-		});		
+		});
+		
+		//EasterEgg
+		document.onkeyup = function (e) {
+		    
+			e = e || window.event;
+		    
+			//Ctrl + Alt + Shift + D
+		    if(e.ctrlKey && e.altKey && e.shiftKey && e.keyCode === 68){
+		    	
+		    	var mainPanel = Ext.getCmp('viewportpanel');
+		    	
+		    	var newTab = mainPanel.items.findBy(
+						function(tab){
+							return tab.title === 'SAM | Gennius';
+						});
+				
+		    	if(!newTab){
+		    		var newTab = mainPanel.add({
+						xtype: 'panel',
+						closable: true,
+						title: 'SAM | Gennius',
+						items:[{
+							xtype: 'container',
+							layout: 'fit',
+							autoEl: {
+								tag: 'iframe',
+								src: './resources/genium/index.html',
+								style: 'border: 0px; width: 100%; height: 100%;'
+							}
+						}]
+					});
+			    	
+					mainPanel.setActiveTab(newTab);
+					
+					Ext.getCmp('viewportmenu').collapse();					
+				}
+		    }
+		};
+		
 	},
 	
 	onTreePanelSelect: function(selModel, record, index, options) {

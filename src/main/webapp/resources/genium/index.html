@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title>Genium</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<script data-main="js/main" src="js/lib/require.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<h1>Genium</h1>
+			<center>
+			<div class="tela-jogo">
+				<div class="genium">
+					<ul>
+						<li class="botao vermelho" data-botao="1"></li>
+						<li class="botao azul" data-botao="2"></li>
+						<li class="botao amarelo" data-botao="3"></li>
+						<li class="botao verde" data-botao="4"></li>
+					</ul>
+				</div>
+			</div>
+			</center>
+		<div data-acao="sound"></div>
+		<footer>
+		<div class="info-jogo">
+				<h2>Rodada: <span rodada="0">0</span></h2>
+				
+				<p data-acao="lose">Você perdeu depois de  <span rodada="0"></span> rodadas!</p>
+			</div>
+			<button data-acao="start" >Início</button>
+		</footer>
+	</div>
+	
+
+</body>
+</html>
