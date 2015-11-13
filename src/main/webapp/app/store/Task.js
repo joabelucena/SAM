@@ -24,6 +24,8 @@ Ext.define('Sam.store.Task', {
         },
         writer: {
             type: 'associatedjson',
+            dateFormat: 'time',
+//        	type: 'json',
             writeAllFields: true
         },
         listeners: {

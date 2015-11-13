@@ -13,9 +13,7 @@ Ext.define('Sam.model.Equipment', {
 		{name: 'mtbfPrev'			,type: 'number'										},
 		{name: 'mtbfCalc'			,type: 'number'										},
 		{name: 'mtbfManf'			,type: 'number'										},
-		{name: 'installDate'		,type: 'date'			, dateFormat: 'time'		},
-		{name: 'manufacture_date'	,type: 'date'		,mapping: 'manufactureDate'		},
-		{name: 'acquired_date'		,type: 'date'		,mapping: 'acquiredDate'		},
+		{name: 'installDate'		,type: 'date'		, dateFormat: 'time'			},
 		{name: 'remark'				,type: 'string'										},
 
 		/** Equipment Type Aux Mappings **/

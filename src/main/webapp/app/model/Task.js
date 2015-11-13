@@ -6,7 +6,6 @@ Ext.define('Sam.model.Task', {
 	        {name: 'id'				, type: 'number'		, defaultValue: 0		},
 	        {name: 'desc'			, type: 'string'								},
 	        {name: 'active'			, type: 'string'								},
-	        {name: 'equipments'														},
 	        {name: 'items'															},
 	        
 	        /** Association Keys **/
@@ -22,6 +21,6 @@ Ext.define('Sam.model.Task', {
         belongsTo:  [{name: 'alarm', model: 'Sam.model.Alarm'	, foreignKey: 'alarm_id'	}],
     
         hasMany: [{name: 'conditions', model: 'Sam.model.TaskCondition'	, foreignKey: 'task_id'},
-                  {name: 'equipments', model: 'Sam.model.Equipment'		}]
+                  {name: 'equipments', model: 'Sam.model.TaskEquipment'	, foreignKey: 'task_id'}]
 
 });

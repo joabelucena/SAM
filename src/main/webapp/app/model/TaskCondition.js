@@ -13,8 +13,6 @@ Ext.define('Sam.model.TaskCondition', {
 	        {name: 'task_id'		, type: 'number'							}
 	        ],
 
-    
-
 	        idProperty: 'mockId',	// <-- This must exist for avoid ext to creating an 'id' property as string
 	        belongsTo:  [{name: 'task', model: 'Sam.model.Task'		, foreignKey: 'task_id'	}],
 	        

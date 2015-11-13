@@ -50,10 +50,18 @@ Ext.define('Sam.controller.Task', {
 			window = button.up('window'), 
 			windStore = window.down('grid').getStore();
 			
-		
 		windStore.each(function(rec){
 			if(rec.get('active')){
-				mainStore.add(rec);
+				
+				if(mainStore.findBy(function(e){return e.get('equipment_id') === rec.get('equipment_id')}) < 0){
+					var taskEquip = Ext.create('Sam.model.TaskEquipment');
+					
+					taskEquip.set(rec.getData());
+					
+					taskEquip.set({id: null});
+					
+					mainStore.add(taskEquip);
+				}
 			}
 		});
 		
@@ -105,7 +113,9 @@ Ext.define('Sam.controller.Task', {
 				//Seta Botão Confirma: 1 - Visualizar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('read')});
 				
+				//Desabilita plugins de edição nos grids
 				grdCond.removePlugin(grdCond.findPlugin('cellediting'));
+				grdEquip.removePlugin(grdEquip.findPlugin('cellediting'));
 				
 				grdCond.headerCt.items.getAt(grdCond.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
 				grdEquip.headerCt.items.getAt(grdEquip.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
@@ -149,7 +159,7 @@ Ext.define('Sam.controller.Task', {
 				//Carrega dados na tela
 				form.loadRecord(row);
 				grdCond.setStore(row.conditions());
-				grdEquip.setStore(row.equipments());
+				grdEquip.setStore(row.equipments());				
 				
 				//Ordena a store
 				grdCond.getStore().sort('seq','ASC');
@@ -213,8 +223,6 @@ Ext.define('Sam.controller.Task', {
 			
 			if(activeTab){
 				
-
-				
 				//Grid de Condicoes
 				grdCond = Ext.ComponentQuery.query('#grdConditions',activeTab)[0];
 				
@@ -239,7 +247,9 @@ Ext.define('Sam.controller.Task', {
 				//Desabilita Campos
 				Ext.each(fields,function(f){f.setReadOnly(true)})
 				
+				//Desabilita plugins de edição nos grids
 				grdCond.removePlugin(grdCond.findPlugin('cellediting'));
+				grdEquip.removePlugin(grdEquip.findPlugin('cellediting'));
 				
 				grdCond.headerCt.items.getAt(grdCond.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
 				grdEquip.headerCt.items.getAt(grdEquip.headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
@@ -260,25 +270,46 @@ Ext.define('Sam.controller.Task', {
 	
 	onTaskBtnSubmitAdd: function(){
 		
-		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
-			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
-			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
-			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getTaskStore(),										//Store
-			record		= Ext.create('Sam.model.Task');								//Registro
+		var mainPanel	= Ext.getCmp('viewportpanel'),											//Aba Objecto Pai
+			activeTab	= mainPanel.getActiveTab(),												//Aba ativa
+			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),				//Formulario
+			values		= form.getValues(),														//Dados do Formulario
+			store		= this.getTaskStore(),													//Store
+			equipSt		= Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore(),	//Store dos equipamentos
+			condSt		= Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore(),	//Store dos equipamentos
+			record		= Ext.create('Sam.model.Task'),											//Registro
+			lValid		= false;																//Validação dos Dados
 		
 		
+		//Validação form 
+		lValid = form.isValid();
 		
-		if(form.isValid()){
-			
+		//Validação grid equipamentos
+		Ext.each(equipSt.getData().items,function(item){
+			lValid = lValid && item.isValid();
+		});
+				
+		if(!lValid){
+			Ext.MessageBox.show({
+		        title: 'SAM | Info',
+		        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+		        buttons: Ext.MessageBox.OK,
+		        icon: Ext.MessageBox.WARNING
+			});
+		}else{
 			//Carrega dados do Formulario no registro
 			record.set(values);
 			
 			//Carrega Objetos
-			record.conditions().setData(Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore().getData().items);
-			record.equipments().setData(Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore().getData().items);
 			record.setAlarm(Ext.create('Sam.model.Alarm',{id: values.alarm_id}));
+			record.conditions().setData(condSt.getData().items);
+			record.equipments().setData(equipSt.getData().items);
 			
+			Ext.each(record.equipments().data.items,function(item){
+				item.set({
+					equipment	: Ext.create('Sam.model.Equipment'		,{id: item.get('equipment_id')}	)
+				});
+			});
 			
 			//Adiciona registro na store
 			store.add(record);
@@ -298,9 +329,25 @@ Ext.define('Sam.controller.Task', {
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			store		= this.getTaskStore(),										//Store
 			updated		= form.getRecord(),											//Dados atualizado
-			record		= store.findRecord('id',updated.get('id'));					//Registro
+			record		= store.findRecord('id',updated.get('id')),					//Registro
+			lValid		= false;													//Validação dos Dados
 		
-		if(form.isValid()){
+		//Validação form 
+		lValid = form.isValid();
+		
+		//Validação grid equipamentos
+		Ext.each(updated.equipments().data.items,function(item){
+			lValid = lValid && item.isValid();
+		});
+		
+		if(!lValid){
+			Ext.MessageBox.show({
+		        title: 'SAM | Info',
+		        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+		        buttons: Ext.MessageBox.OK,
+		        icon: Ext.MessageBox.WARNING
+			});
+		}else{
 			
 			form.updateRecord();
 			
@@ -308,7 +355,15 @@ Ext.define('Sam.controller.Task', {
 			record.set(updated.getData());
 			record.setAlarm(updated.getAlarm());
 			record.conditions().setData(updated.conditions().getData());
+			
+			Ext.each(updated.equipments().data.items,function(item){
+				item.set({
+					equipment	: Ext.create('Sam.model.Equipment'		,{id: item.get('equipment_id')}	),
+				});
+			});
+			
 			record.equipments().setData(updated.equipments().getData());
+			
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#taskgrid');

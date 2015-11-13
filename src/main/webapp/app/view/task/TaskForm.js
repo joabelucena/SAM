@@ -103,7 +103,7 @@ var grid1 = {
 				};
 	
 				/**
-				 * ** Muda editor do campo 'Campo' de acordo com o 'Tipo'
+				 * Muda editor do campo 'Campo' de acordo com o 'Tipo'
 				 * selecionado ***
 				 */
 				if (editor.colIdx == 3) {
@@ -263,9 +263,12 @@ var grid2 = {
 	scrollable: true,
 	height: 150,
 	dockedItems:[],
-//	store: Ext.create('Sam.store.Equipment',{
-//		autoLoad: false
-//	}),
+	
+	plugins : [{
+		ptype : 'cellediting',
+		clicksToEdit : 2	
+	}],
+	
 	columns: {
 	defaults: {
 			menuDisabled: true,
@@ -274,7 +277,7 @@ var grid2 = {
 		items:[
 		{
 		text : 'Código',
-		dataIndex : 'id',
+		dataIndex : 'equipment_id',
 		flex : 1,
 		filter : {
 			type : 'string'
@@ -307,7 +310,19 @@ var grid2 = {
 		filter : {
 			type : 'string'
 		}
-	},{
+	}, {
+		text : '<b>Processar De</b>',
+		xtype: 'datecolumn',
+		format: 'd/m/Y',
+		width: 100,
+		sortable : true,
+		dataIndex : 'proccess',
+        editor: {
+            xtype: 'datefield',
+            allowBlank : false,
+            format: 'd/m/Y',
+        }
+	}, {
 		text : 'Ação',
 		xtype: 'actioncolumn',
 		itemId: 'actionClm',
@@ -334,7 +349,7 @@ var grid2 = {
 			}
 		}]
 	}]
-		}
+	}
 };
 
 /****** End of grid creation ******/
@@ -414,7 +429,7 @@ var h2 = {
 			fieldLabel: 'Descrição',
 			itemId: 'desc',
 			name: 'desc',
-			width: '30%',
+			width: '40%',
 			margin: '0 0 0 0',
 			inputAttrTpl: " data-qtip='Breve descrição do que a regra faz.' "
 			
@@ -422,7 +437,7 @@ var h2 = {
 			
 		},{
 			xtype: 'tbseparator',
-			width: '35%'			
+			width: '25%'			
 		},{
 			xtype:'textfield',
 			fieldLabel: 'Alarme',
