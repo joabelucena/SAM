@@ -3,9 +3,9 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	alias: 'widget.serviceordergrid',
 	
 	requires: ['Ext.grid.filters.Filters'],
-		
+	
 	store: Ext.create('Sam.store.ServiceOrder'),
-
+	
 	plugins: 'gridfilters',
 	
 	refreshRate: 10,
@@ -63,7 +63,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			text: 'Inicio',
 			sortable: true,
 			dataIndex: 'start',
-			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			renderer: Ext.util.Format.dateRenderer('d/m/Y - H:i:s'),
 			width: 120,
 			filter: {
 				type: 'date'
@@ -72,7 +72,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 			text: 'Conclusao Real',
 			sortable: true,
 			dataIndex: 'end',
-			renderer: Ext.util.Format.dateRenderer('d/m/Y - G:i:s'),
+			renderer: Ext.util.Format.dateRenderer('d/m/Y - H:i:s'),
 			width: 120,
 			filter: {
 				type: 'date'
@@ -96,16 +96,17 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	            text:'Ações',
 	            width: 80,
 	            iconCls: 'toolbox',
-	            menu:[{
-	            	text: 'Legenda',
-	            	menu: [{
-	            		text: 'Legenda1',
-	            		hideOnClick: false
-	            	},{
-	            		text: 'Legenda2',
-	            		hideOnClick: false
-	            	}]
-	            }]
+//	            menu:[{
+//	            	text: 'Legenda',
+//	            	menu: [{
+//	            		text: 'Legenda1',
+//	            		hideOnClick: false
+//	            	},{
+//	            		text: 'Legenda2',
+//	            		hideOnClick: false
+//	            	}]
+//	            }]
+	            menu:[]
 	        }, '-', {
 		        xtype:'button',
 		    	itemId:'btnAdd',
@@ -151,7 +152,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
             			if(action.data.length > 0) {
             				
             				//Separador
-                			menu.add('-');
+//							menu.add('-');
                 			
                 			//Itera array de retorno e adiciona os valores no menu
                 			Ext.each(action.data,function(data){

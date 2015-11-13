@@ -384,39 +384,7 @@ var footer = {
 				sortable : true,
 				dataIndex : 'technician_id',
 				editor: edtTec
-			}, 
-			
-			
-			/* DateTimeField
-			{
-				text : 'Inicio',
-				xtype: 'datecolumn',
-				format: 'd/m/Y H:i',
-				width: 150,
-				sortable : true,
-				dataIndex : 'start',
-                editor: {
-                    xtype: 'datetimefield',
-                    allowBlank : false,
-                    format: 'd/m/Y H:i',
-                }
 			},{
-				text : 'Término',
-				xtype: 'datecolumn',
-				format: 'd/m/Y H:i',
-				width: 150,
-				sortable : true,
-				dataIndex : 'end',
-                editor: {
-                    xtype: 'datetimefield',
-                    allowBlank : false,
-                    format: 'd/m/Y H:i',
-                }
-			},
-			*******************/
-			
-			
-			{
 				text : 'Dt. Inicio',
 				xtype: 'datecolumn',
 				format: 'd/m/Y',
