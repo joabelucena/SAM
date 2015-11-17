@@ -178,7 +178,7 @@ Ext.define('Sam.controller.Task', {
 		//Cria Aba: 2 - Incluir
 		var activeTab = this.activateTab(2, null, 'taskform', null, true);
 		
-		var row = Ext.create('Sam.model.Task');
+		var row = Ext.create('Sam.model.Task', {id: 0});
 		
 		var activeTab, grdCond, grdEquip, store = null;
 		
@@ -277,7 +277,7 @@ Ext.define('Sam.controller.Task', {
 			store		= this.getTaskStore(),													//Store
 			equipSt		= Ext.ComponentQuery.query('#grdEquipments',activeTab)[0].getStore(),	//Store dos equipamentos
 			condSt		= Ext.ComponentQuery.query('#grdConditions',activeTab)[0].getStore(),	//Store dos equipamentos
-			record		= Ext.create('Sam.model.Task'),											//Registro
+			record		= Ext.create('Sam.model.Task', {id: 0}),											//Registro
 			lValid		= false;																//Validação dos Dados
 		
 		

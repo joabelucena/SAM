@@ -30,7 +30,7 @@ Ext.define('Sam.view.task.TaskGrid', {
 		dataIndex : 'id',
 		renderer: function(value){
 			return Ext.util.Format.leftPad(value,6,'0')
-			},
+		},
 		width: 100,
 		sortable: true,
 		filter : {
@@ -59,6 +59,57 @@ Ext.define('Sam.view.task.TaskGrid', {
 	    dock: 'bottom',
 	    
 	    items: [{
+	    	xtype:'splitbutton',
+	    	text:'Ações',
+	    	width: 80,
+	    	iconCls: 'toolbox',
+            menu:[{
+            	text: 'Executar',
+            	itemId: 'splExec',
+            	iconCls: 'control',
+            	handler: function(item, event){
+            		var record = item.up('grid').getSelection()[0];
+            			store = item.up('grid').getStore(),
+            			writer = Ext.create('Sam.lib.AssociatedWriter');
+            			
+            		
+            		if(record){
+            			
+            			if(record.get('active') !== "Y"){
+            				Ext.MessageBox.show({
+						        title: 'SAM | Info',
+						        msg:  'A regra não está ativa. Ative-a antes de executar.',
+						        buttons: Ext.MessageBox.OK,
+						        icon: Ext.MessageBox.WARNING
+							});
+            			}else{
+            				Ext.Ajax.request({
+                        		url : 'task/run.action',
+                        		method : 'POST',
+                        		scope: this,
+                        		jsonData: writer.getRecordData(record),
+                        		success: function (result, request) {
+                        			
+                        			Ext.MessageBox.show({
+        						        title: 'SAM | Info',
+        						        msg:  'Regra executada com sucesso. Verifique na tela de Eventos se as condições foram atendidas gerando o alarme.',
+        						        buttons: Ext.MessageBox.OK,
+        						        icon: Ext.MessageBox.INFO
+        							});
+                        			
+                        			/**
+                        			 * Atualiza store para obter as novas datas caso a regra tenha sido ativada
+                        			 */
+                        			if(store  && store.getData().length > 0){
+                        				store.reload();
+                        			}
+                        		}
+                			});	
+            			}
+            		}
+            	}
+            }]
+	    }, '-', {
 	        xtype:'button',
 	        itemId:'btnShow',
 	    	text:'Visualizar',

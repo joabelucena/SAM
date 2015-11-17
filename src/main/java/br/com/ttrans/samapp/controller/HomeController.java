@@ -1,5 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,9 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.MailClient;
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.AlarmType;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Menu;
-import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.User;
+import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.StatusRuleService;
 import br.com.ttrans.samapp.service.TaskService;
 
@@ -45,6 +50,9 @@ public class HomeController {
 
 	@Autowired
 	private MailClient client;
+	
+	@Autowired
+	private EventService eventService;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -59,7 +67,7 @@ public class HomeController {
 
 		return "index";
 	}
-
+	
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> menuLoad(HttpServletRequest request,
@@ -103,13 +111,19 @@ public class HomeController {
 	@ResponseBody
 	public String taskTest() {
 
-		String cMessage = "<html>Oi <b>Joabe</b><br><br></html>";
+		for(int i = 0; i <= 20; i++){
+//			
+//			String cMessage = "<html>Oi <b>Xuvisco!</b><br><br>Esse é o email: " + i+".</html>";
+//			
+//			client.sendMail(new String[] { "bruno.souza@inylbra.com.br" }	//PARA
+//			,new String[] {}										//CC
+//			,new String[] {}										//CCO
+//			,"TESTE Mail",											//ASSUNTO
+//			cMessage);												//MENSAGEM
+			
+		}
 
-		client.sendMail(new String[] { "joabelucena@gmail.com" }	//PARA
-				,new String[] { "joabelucena@hotmail.com" }			//CC
-				,new String[] { "jlucena@ttrans.com.br" }			//CCO
-				,"TESTE com CC e CCO",								//ASSUNTO
-				cMessage);											//MENSAGEM
+		
 
 		return "test";
 	}
@@ -117,16 +131,29 @@ public class HomeController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> testeSam(HttpServletRequest request) {
-
-		User user = (User) request.getSession().getAttribute("loggedUser");
-
-		List<ServiceOrderStatus> status = ruleService.getStatusByRole(user
-				.getRole());
-
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		result.put("data", status);
-
+		
+		int type, alarm;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+		  
+		Date date = new Date();
+		
+		try {
+			date = sdf.parse("08/11/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		alarm = eventService.countByAlarm(new Equipment("XPTO_01"), new Alarm("XPTONORMAL"), date);
+		type =  eventService.countByType(new Equipment("XPTO_01"), new AlarmType(1), date);
+		
+		
+		result.put("qtdAlarm", alarm);
+		result.put("qtdType", type);
+		
 		return result;
 	}
 }

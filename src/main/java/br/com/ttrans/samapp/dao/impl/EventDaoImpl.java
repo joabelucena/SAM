@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.AlarmFilter;
+import br.com.ttrans.samapp.model.AlarmType;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 
@@ -40,7 +42,7 @@ public class EventDaoImpl implements EventDao {
 	public void edit(Event event, Authentication authentication) {
 		event.setUpdate(authentication.getName());
 		session.getCurrentSession().update(event);
-
+		
 	}
 
 	@Override
@@ -107,6 +109,33 @@ public class EventDaoImpl implements EventDao {
 		qQuery.executeUpdate();
 	}
 	
+	@Override
+	public int countByAlarm(Equipment equipment, Alarm alarm, Date date){
+		
+		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
+		
+		crit.add(Restrictions.ge("datetime"	, date));
+		crit.add(Restrictions.eq("alarm"	, alarm));
+		crit.add(Restrictions.eq("equipment", equipment));
+		
+		return (int) crit.setProjection(Projections.rowCount()).uniqueResult();
+	}
+	
+	
+	@Override
+	public int countByType(Equipment equipment, AlarmType type, Date date){
+		
+		Criteria crit = session.getCurrentSession().createCriteria(Event.class,"event")
+				.createCriteria("alarm","alarm",CriteriaSpecification.LEFT_JOIN);
+		
+		crit.add(Restrictions.eq("alarm.type"		, type		));
+		crit.add(Restrictions.ge("event.datetime"	, date		));
+		crit.add(Restrictions.eq("event.equipment"	, equipment	));
+		
+		
+		return (int) crit.setProjection(Projections.rowCount()).uniqueResult();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Long> activeAlarms(Equipment equipment, Alarm alarm){
@@ -166,16 +195,16 @@ public class EventDaoImpl implements EventDao {
 				+ "		END									AS RECO,";
 		cQuery += "	COALESCE(THIS.EVE_RECO_USER,'-')		AS RECO_USER,";
 		cQuery += "	COALESCE(THIS.EVE_RECO_DATE,'-')		AS RECO_DATE,";
-		cQuery += "	B.SLE_DESCRIPTION						AS SEVERITY,";
-		cQuery += "	B.SLE_ID								AS SEVERITY_ID,";
+		cQuery += "	COALESCE(B.SLE_DESCRIPTION,'-')			AS SEVERITY,";
+		cQuery += "	COALESCE(B.SLE_ID,'-')					AS SEVERITY_ID,";
 		cQuery += "	THIS.EVE_EQUIPMENT_ID					AS EQUIP_ID,";
-		cQuery += "	D.EMO_DESCRIPTION						AS EQUIP_MODEL,";
-		cQuery += "	H.EMA_DESCRIPTION						AS EQUIP_MANUF,";
+		cQuery += "	COALESCE(D.EMO_DESCRIPTION,'-')			AS EQUIP_MODEL,";
+		cQuery += "	COALESCE(H.EMA_DESCRIPTION,'-')			AS EQUIP_MANUF,";
 		cQuery += "	THIS.EVE_ALARM_ID						AS ALARM_ID,";
-		cQuery += "	A.ALM_DESCRIPTION						AS ALARM_DESC,";
-		cQuery += "	E.SIT_DESCRIPTION						AS SITE_DESC,";
-		cQuery += "	F.SSY_ID								AS SYS,";
-		cQuery += "	F.SSY_DESCRIPTION						AS SYS_DESC,";
+		cQuery += "	COALESCE(A.ALM_DESCRIPTION,'-')			AS ALARM_DESC,";
+		cQuery += "	COALESCE(E.SIT_DESCRIPTION,'-')			AS SITE_DESC,";
+		cQuery += "	COALESCE(F.SSY_ID,'-')					AS SYS,";
+		cQuery += "	COALESCE(F.SSY_DESCRIPTION,'-')			AS SYS_DESC,";
 		cQuery += "	COALESCE(I.SOR_ID,'-')					AS SO_ID,";
 		cQuery += "	COALESCE(J.SOS_DESCRIPTION,'-')			AS SO_STATUS,";
 		cQuery += "	THIS.EVE_DATETIME						AS DATETIME";

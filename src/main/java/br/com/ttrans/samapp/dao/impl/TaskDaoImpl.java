@@ -19,11 +19,18 @@ public class TaskDaoImpl implements TaskDao {
 	
 	@Override
 	public void add(Task task, Authentication authentication) {
+		task.setInsert(authentication.getName());
 		session.getCurrentSession().save(task);
 	}
 
 	@Override
 	public void edit(Task task, Authentication authentication) {
+		task.setUpdate(authentication.getName());
+		session.getCurrentSession().update(task);
+	}
+	
+	@Override
+	public void edit(Task task) {
 		session.getCurrentSession().update(task);
 	}
 

@@ -71,19 +71,6 @@ Ext.define('Sam.view.alarm.AlarmForm', {
 				width: '25%',
 				inputAttrTpl: " data-qtip='Define se o alarme poderá ser normalizado manualmente pela tela de eventos.' "
 			},{
-				fieldLabel : 'Inc. Cont.?',
-				itemId: 'counterInc',
-				name: 'counterInc',
-				store:  Ext.create('Sam.view.components.store.ComboBox'),
-				queryMode: 'local',
-				valueField: 'id',
-		        displayField: 'desc',
-				xtype : 'combobox',
-				allowBlank : false,
-				editable: false,
-				width: '25%',
-				inputAttrTpl: " data-qtip='Define se o alarme incrementará o contador do equipamento.' "
-			},{
 				
 				fieldLabel : 'É Norm.?',
 				itemId: 'isNorm',

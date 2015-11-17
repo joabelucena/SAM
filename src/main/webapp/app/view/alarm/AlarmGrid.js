@@ -43,20 +43,6 @@ Ext.define('Sam.view.alarm.AlarmGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Inc. Contador?',		
-		sortable : true,
-		dataIndex : 'counterInc',
-		width: 110,
-		renderer: function(value){
-	        if (value === 'Y') {
-	            return 'Sim';
-	        }
-	        return 'Não';
-	        },
-		filter : {
-			type : 'string'
-		}
-	}, {
 		text : 'É Normalização?',
 		sortable : true,
 		dataIndex : 'isNorm',

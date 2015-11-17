@@ -20,7 +20,6 @@ import br.com.ttrans.samapp.model.EquipmentProtocol;
 import br.com.ttrans.samapp.model.EquipmentType;
 import br.com.ttrans.samapp.model.OperationalState;
 import br.com.ttrans.samapp.model.SubSystem;
-import br.com.ttrans.samapp.service.CounterService;
 import br.com.ttrans.samapp.service.EquipmentManufacturerService;
 import br.com.ttrans.samapp.service.EquipmentModelService;
 import br.com.ttrans.samapp.service.EquipmentProtocolService;
@@ -36,9 +35,6 @@ public class EquipmentController {
 	
 	@Autowired
 	private EquipmentService equipmentService;
-	
-	@Autowired
-	private CounterService counterService;
 	
 	@Autowired
 	private EquipmentProtocolService protocolService;
@@ -105,17 +101,6 @@ public class EquipmentController {
 		
 		return result;
 	}	
-	
-	@RequestMapping("/load/counter")
-	@ResponseBody
-	public Map loadCounter() {
-		
-		Map<String,Object> result = new HashMap<String, Object>();
-		
-		result.put("data", counterService.loadData());
-		
-		return result;
-	}
 	
 	@RequestMapping("/load/protocol")
 	@ResponseBody

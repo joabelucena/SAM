@@ -40,17 +40,12 @@ public class Task {
 	@JoinColumn(name="tmh_alarm_id")
 	private Alarm alarm;
 	
-//	@ManyToMany(fetch=FetchType.EAGER)
-//	@Cascade({CascadeType.SAVE_UPDATE})
-//	@JoinTable(name="task_equipment",
-//			joinColumns=@JoinColumn(name="task_id"),
-//			inverseJoinColumns=@JoinColumn(name="equipment_id"))
-//	private Set<Equipment> equipments;
-	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="id.task")
+	@OneToMany(fetch=FetchType.EAGER, orphanRemoval=true)
+	@JoinColumn(name="tme_task_id", referencedColumnName = "tmh_id")
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private Set<TaskEquipment> equipments;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, orphanRemoval=true)
 	@JoinColumn(name="tmi_task_id", referencedColumnName = "tmh_id")
 	@Cascade({CascadeType.SAVE_UPDATE})
 	private Set<TaskCondition> conditions;

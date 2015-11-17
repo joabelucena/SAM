@@ -151,6 +151,8 @@ var grid1 = {
 	            if (index != -1){
 	                rs = logicOperatorStore.getAt(index).data; 
 	                return rs.desc;
+	            } else {
+	            	return value;
 	            }
 			},
 			editor: {
@@ -226,29 +228,40 @@ var grid1 = {
 				iconCls: 'minus-circle',
 				tooltip: 'Excluir Linha',
 				handler: function(view, rowIndex, colIndex, item, e, record, row) {
-
 					
-					var store = Ext.ComponentQuery.query('#grdConditions')[0].getStore();
-					
-					Ext.MessageBox.show({
-				        title: 'Atenção',
-				        msg: 'Confirma exclusão da linha?',
-				        buttons: Ext.MessageBox.OKCANCEL,
-				        icon: Ext.MessageBox.WARNING,
-				        fn: function(btn,  knowId, knowCheck){
-				            if(btn == 'ok'){
-				            	
-				            	store.remove(record);
+					if(record.get('seq') === "01"){
+						
+						Ext.MessageBox.show({
+					        title: 'SAM | Info',
+					        msg:  'A primeira condição não pode ser excluida.',
+					        buttons: Ext.MessageBox.OK,
+					        icon: Ext.MessageBox.WARNING
+						});
+						
+					}else{
+						
+						var store = record.store;
+						
+						Ext.MessageBox.show({
+					        title: 'Atenção',
+					        msg: 'Confirma exclusão da linha?',
+					        buttons: Ext.MessageBox.OKCANCEL,
+					        icon: Ext.MessageBox.WARNING,
+					        fn: function(btn,  knowId, knowCheck){
+					            if(btn == 'ok'){
+					            	
+					            	store.remove(record);
 
-				            	//Renumera as Sequencias
-			                	Ext.each(store.data.items,function(item,index){
-			                		item.set('seq',Ext.util.Format.leftPad(index+1,2,'0'));
-			                	});
-				            	
-				            } 
-				            	
-				        }
-					});
+					            	//Renumera as Sequencias
+				                	Ext.each(store.data.items,function(item,index){
+				                		item.set('seq',Ext.util.Format.leftPad(index+1,2,'0'));
+				                	});
+					            	
+					            } 
+					            	
+					        }
+						});						
+					}
 				}
 			}]
 		}]

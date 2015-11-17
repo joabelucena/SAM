@@ -1,5 +1,8 @@
 package br.com.ttrans.samapp.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -11,18 +14,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ttrans.samapp.dao.CounterDao;
+//import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.dao.TaskDao;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.AlarmType;
-import br.com.ttrans.samapp.model.Counter;
-import br.com.ttrans.samapp.model.Counter.CounterId;
-import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.TaskCondition;
+import br.com.ttrans.samapp.model.TaskEquipment;
 import br.com.ttrans.samapp.service.TaskService;
+//import br.com.ttrans.samapp.model.Counter;
+//import br.com.ttrans.samapp.model.Counter.CounterId;
 
 @Repository
 public class TaskServiceImpl implements TaskService {
@@ -31,10 +34,7 @@ public class TaskServiceImpl implements TaskService {
 	private TaskDao taskDao;
 	
 	@Autowired
-	private CounterDao counterDao;
-	
-	@Autowired
-	private EventDao eventdao;
+	private EventDao eventDao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	
@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
 			
 			//Eh registro novo
 			if(cond.getInsert() == null){
-				cond.setInsert(authentication.getName());				
+				cond.setInsert(authentication.getName());
 			}else{
 				cond.setUpdate(authentication.getName());
 			}			
@@ -97,101 +97,162 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Transactional
 	public void proccess(Task task) {
-		Boolean run = false;
-
-		// Task is active, so process it
+		
+		// Process only active tasks
 		if (task.getActive().equals("Y")) {
+			
+			//Retrieves a sorted collection of equipments
+			List<TaskEquipment> equipments = new ArrayList<TaskEquipment>(task.getEquipments());
+			
+			Collections.sort(equipments, new Comparator<TaskEquipment>() {
+			    public int compare(TaskEquipment o1, TaskEquipment o2) {
+			        int v1 = o1.getId();
+			        int v2 = o2.getId();
+			        
+			        return (v1 < v2 ? -1 : (v1 == v2 ? 0 : 1));
+			    }
+			});
+			
+			//Retrieves a sorted collection of conditions
+			List<TaskCondition> conditions = new ArrayList<TaskCondition>(task.getConditions());
+			
+			Collections.sort(conditions, new Comparator<TaskCondition>() {
+			    public int compare(TaskCondition o1, TaskCondition o2) {
+			        String v1 = o1.getSeq();
+			        String v2 = o2.getSeq();
+			        
+			        return (v1.compareTo(v2));
+			    }
+			});
+			
+			// Defines if task will be triggered 
+			boolean run = true;
 
-			// Instantiate equipment iterator
-			Iterator<Equipment> equipIt = task.getEquipments().iterator();
-
-			// Creates criteria
-			// Criteria crit =
-			// session.getCurrentSession().createCriteria(Counter.class);
-
-			// Instantiate new objects
-			TaskCondition condition;
-			Equipment equipment;
-			Alarm alarm;
-
+			
 			// Iteration on equipments
-			while (equipIt.hasNext()) {
+			for(TaskEquipment taskEquip : equipments){
 				
+				// Defines counter
 				int counter = 0;
-
-				equipment = equipIt.next();
-
-				Iterator<TaskCondition> condIt = task.getConditions().iterator();
 				
 				// Iteration on conditions
-				while (condIt.hasNext()) {
-
-					condition = condIt.next();
-
+				for(TaskCondition condition : conditions){
+					
+					/********************************* Counter Selection *********************************/
 					switch (condition.getType()) {
 					
 					case "AL":
-
-						/********* Alarm *********/
-						alarm = new Alarm(condition.getField());
-
-						Counter ct = (Counter) counterDao.get(new CounterId(alarm, equipment));
 						
-						//Attributes counter value to counter variable
-						if (ct instanceof Counter) {
-							counter = ct.getCounter();
-						}
-
+						/********* Alarm *********/
+						
+						//Contador
+						counter = eventDao.countByAlarm(  taskEquip.getEquipment()
+														, new Alarm(condition.getField())
+														, taskEquip.getProccess());
+						
 						break;
 					case "MT":
 						/********* MTBF *********/
 						break;
 						
 					case "AT":
+						
 						/********* Alarm Type *********/
 						
-						counter = counterDao.getCountByType(equipment, new AlarmType(Integer.parseInt(condition.getField())));
-
+						//Contador
+						counter = eventDao.countByType(  taskEquip.getEquipment()
+														, new AlarmType( Integer.parseInt(condition.getField()))
+														, taskEquip.getProccess());
+						
+					}
+					/********************************* End of Counter Selection *********************************/
+					
+					
+					/********************************* Rule Validation *********************************/
+					
+					if(condition.getLogicOper().equals("-")){
+						//First sentence of conditions
+						
+						switch (condition.getRelOper()) {
+						
+						case ">":
+							run = (counter > condition.getValue());
+							break;
+						case "<":
+							run = (counter < condition.getValue());
+							break;
+						case "==":
+							run = (counter == condition.getValue());
+							break;
+						case ">=":
+							run = (counter >= condition.getValue());
+							break;
+						case "<=":
+							run = (counter <= condition.getValue());
+							break;
+						default:
+							/**
+							 * MTBF Default treatment
+							 */
+							
+						}
+						
+					}else{
+						
+						switch (condition.getRelOper()) {
+						
+						case ">":
+							run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
+							break;
+						case "<":
+							run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
+							break;
+						case "==":
+							run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
+							break;
+						case ">=":
+							run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
+							break;
+						case "<=":
+							run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
+							break;
+						default:
+							/**
+							 * MTBF Default treatment
+							 */
+							
+						}						
 					}
 					
-					//Do the rule
-					switch (condition.getRelOper()) {
-					
-					/**
-					 * if(<logic_operator> == AND){
-					 * 		run = run && counter <rel_operator> value
-					 * }else{
-					 * 		run = run || counter <rel_operator> value
-					 * }
-					 */
-					case ">":
-						run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
-						break;
-					case "<":
-						run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
-						break;
-					case "==":
-						run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
-						break;
-					case ">=":
-						run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
-						break;
-					case "<=":
-						run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
-						break;
-					}
+					/********************************* End of Rule Validation *********************************/
 					
 				} //<--- Conditions
-
+				
+				
 				if(run){
+					
 					Event ev = new Event();
 					ev.setAlarm(task.getAlarm());
-					ev.setEquipment(equipment);
+					ev.setEquipment(taskEquip.getEquipment());
 					ev.setInsert(USR_TASK_INSERT);
 					ev.setDatetime(new Date());
 					
 					try {
-						eventdao.add(ev);
+						
+						//Add new event if rules were 'true'
+						eventDao.add(ev);
+						
+						try {
+							
+							//Update last process date
+							taskEquip.setProccess(new Date());
+							
+							taskDao.edit(task);
+						} catch (Exception e){
+							logger.info("Regra disparada, porém houveram erros na atualização da data de processamento. Regra: " + task.getId());
+							e.printStackTrace();
+						}
+						
 					} catch (Exception e) {
 						logger.info("Erro na criação do evento para a regra: " + task.getId());
 						e.printStackTrace();

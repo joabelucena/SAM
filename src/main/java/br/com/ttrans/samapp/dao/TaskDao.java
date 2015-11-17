@@ -9,6 +9,7 @@ import br.com.ttrans.samapp.model.Task;
 public interface TaskDao {
 	public void add(Task task, Authentication authentication);
 	public void edit(Task task, Authentication authentication);
+	public void edit(Task task);
 	public void delete(Task task, Authentication authentication);
 	public Task get(int id);
 	public List<Task> loadData();

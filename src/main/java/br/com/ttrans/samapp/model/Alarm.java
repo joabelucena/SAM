@@ -41,9 +41,6 @@ public class Alarm {
 	@JoinColumn(name = "alm_severity_id")
 	private SeverityLevel severity;
 	
-	@Column(name="alm_counter_inc")
-	private String counterInc;
-	
 	//Pode ser Manualizado manualmente (Y-Sim/N-Nao)
 	@Column(name="alm_norm_man")
 	private String manNorm;
@@ -104,12 +101,6 @@ public class Alarm {
 	}
 	public void setSeverity(SeverityLevel severity) {
 		this.severity = severity;
-	}
-	public String getCounterInc() {
-		return counterInc;
-	}
-	public void setCounterInc(String counterInc) {
-		this.counterInc = counterInc;
 	}
 	public String getManNorm() {
 		return manNorm;

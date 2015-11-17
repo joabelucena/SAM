@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,11 +63,12 @@ public class TaskController {
 	public Map<String, Object> updateTask(@RequestBody Task task, 
 			HttpServletRequest request,
 			Authentication authentication,
-            HttpServletResponse response) {
+            HttpServletResponse response,
+            Locale locale) {
 		
 		//Result Map
 		Map<String,Object> result = new HashMap<String, Object>();
-
+		
 		try{
 			service.edit(task, authentication);
 		}catch(Exception e){
@@ -88,6 +90,25 @@ public class TaskController {
 		
 		try{
 			service.delete(task, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/run.action")
+	@ResponseBody
+	public Map<String, Object> runTask(@RequestBody Task task, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			service.proccess(task);
 		}catch(Exception e){
 			result.put("message",e.getMessage());
 		}

@@ -9,14 +9,14 @@ Ext.define('Sam.lib.AssociatedWriter', {
     },
  
     getRecordData: function (record, operation) {
-    	record.data = this.callParent(arguments),
-    	associated = record.getAssociatedData();
+    	var data = record.getData(),
+    		associatedData = record.getAssociatedData();
         
-    	this.xFormatData(associated);
+    	this.xFormatData(associatedData);
     	
-    	Ext.apply(record.data, associated);
+    	Ext.apply(data, associatedData);
     	
-    	return record.data;
+    	return data;
     },
     
     /**

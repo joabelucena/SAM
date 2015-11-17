@@ -3,7 +3,6 @@ Ext.define('Sam.view.components.store.LogicOperator', {
     fields: ['id', 'desc'],
     data : [
         {"id":"E"	, "desc":"E"	},
-        {"id":"OU"	, "desc":"OU"	},
-        {"id":"-"	, "desc":"-"	}
+        {"id":"OU"	, "desc":"OU"	}
     ]
 });

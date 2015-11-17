@@ -5,7 +5,6 @@ Ext.define('Sam.model.Alarm', {
 	        
 	        {name: 'id'				, type: 'string'									},
 	        {name: 'desc'			, type: 'string'									},
-	        {name: 'counterInc'		, type: 'string'									},
 	        {name: 'manNorm'		, type: 'string'									},
 	        {name: 'isNorm'			, type: 'string'									},
 	        

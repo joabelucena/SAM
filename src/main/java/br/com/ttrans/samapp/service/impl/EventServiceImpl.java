@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.AlarmDao;
-import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.AlarmType;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EventService;
@@ -34,15 +34,11 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private EquipmentDao equipmentDao;
-	
-	@Autowired
-	private CounterDao counterDao;
-	
+		
 	@Transactional
 	public void add(Event event) {
 		
 		Alarm alarm;
-		Equipment equipment;
 		List<String> alarmsToNorm;
 		
 		logger.info("### Alarm / Equipment: "+event.getAlarm().getId() + " / " + event.getEquipment().getId());
@@ -58,7 +54,6 @@ public class EventServiceImpl implements EventService {
 			 * somente com a propriedade 'id' preenchida
 			 */
 			alarm = alarmDao.get(event.getAlarm().getId());
-			equipment = equipmentDao.get(event.getEquipment().getId());			
 			
 			//Alarme Cadastrado
 			if(alarm instanceof Alarm){
@@ -82,7 +77,6 @@ public class EventServiceImpl implements EventService {
 			}
 			
 			try {
-				
 				//Adiciona Evento
 				eventDao.add(event);
 				
@@ -90,15 +84,6 @@ public class EventServiceImpl implements EventService {
 				// TODO: handle exception
 				logger.error("Erro na insercao");
 			}
-			
-			try {
-				//Conta alarme
-				counterDao.countIt(alarm, equipment);
-			} catch (Exception e) {
-				// TODO: handle exception
-				logger.error("Erro na contagem");
-			}
-			
 		}
 		
 	}
@@ -126,6 +111,16 @@ public class EventServiceImpl implements EventService {
 	@Transactional
 	public void normalize(List<String> alarmsId, String equipment, String user){
 		eventDao.normalize(alarmsId, equipment,user);
+	}
+	
+	@Transactional
+	public int countByAlarm(Equipment equipment, Alarm alarm, Date date){
+		return eventDao.countByAlarm(equipment, alarm, date);
+	}
+	
+	@Transactional
+	public int countByType(Equipment equipment, AlarmType type, Date date){
+		return eventDao.countByType(equipment, type, date);
 	}
 	
 	@Transactional
