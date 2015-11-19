@@ -194,7 +194,6 @@ var soInfo = {
 		itemId: 'remark',
 		name: 'remark',
 		xtype : 'textareafield',
-		allowBlank : false,
 		width: '60%',
 		inputAttrTpl: " data-qtip='Observação da Ordem de Serviço' "
 	} ]

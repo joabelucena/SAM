@@ -9,7 +9,6 @@ Ext.define('Sam.controller.Events', {
 	        'event.openSO.EventHistSO'
 	        ],
 	        
-	        
 	init: function() {
 		
 		this.control({
@@ -120,7 +119,6 @@ Ext.define('Sam.controller.Events', {
 	 * Abrir Ordem de Servico
 	 */
 	onActionColumnCreateItemClick : function (view, rowIndex, colIndex, item, e, record, row){
-
 		
 		// Verifica se o Alarme esta reconhecido
 		if(!record.get('reco')){
