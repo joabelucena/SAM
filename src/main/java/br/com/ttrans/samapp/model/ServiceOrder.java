@@ -36,6 +36,9 @@ public class ServiceOrder {
 	@Column(name="sor_id")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "INC_SERVICE_ORDER")
 	private int id;
+	
+	@Column(name="sor_datetime")
+	private Date datetime;
 
 	@ManyToOne
 	@JoinColumn(name = "sor_type_id")
@@ -88,7 +91,7 @@ public class ServiceOrder {
 
 	@Column(name="sor_end")
 	private Date end;
-
+	
 	@Column(name="sor_remarks")
 	private String remark;
 	
@@ -109,6 +112,14 @@ public class ServiceOrder {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public Date getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 
 	public ServiceOrderType getType() {

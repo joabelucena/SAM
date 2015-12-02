@@ -15,6 +15,7 @@ import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.dao.ServiceOrderDao;
 import br.com.ttrans.samapp.dao.ServiceOrderStatusDao;
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.ServiceOrderLog;
 import br.com.ttrans.samapp.model.ServiceOrderOccurrence;
@@ -36,7 +37,6 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	@Autowired
 	private EventDao eventDao; 
 	
-
 	@Transactional
 	public int add(ServiceOrder so, Authentication authentication) {
 		
@@ -58,6 +58,8 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 		
 		//'Seta' log na OS
 		so.setLog(log);
+		
+		so.setDatetime(new Date());
 		
 		return dao.add(so, authentication);
 		
@@ -114,7 +116,7 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 		
 		dao.edit(so, authentication);
 	}
-
+	
 	@Transactional
 	public void delete(ServiceOrder so, Authentication authentication) {
 		dao.delete(so, authentication);
@@ -124,9 +126,14 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	public ServiceOrder get(int id) {
 		return dao.get(id);
 	}
-
+	
 	@Transactional
 	public List<ServiceOrder> loadData() {
 		return dao.loadData();
+	}
+	
+	@Transactional
+	public List<ServiceOrder> loadKPIData(Equipment equipment, Date d1, Date d2){
+		return dao.loadKPIData(equipment, d1, d2);
 	}
 }

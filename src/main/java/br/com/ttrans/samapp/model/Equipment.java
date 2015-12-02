@@ -51,10 +51,7 @@ public class Equipment {
 	@ManyToOne
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
-
-	@Column(name="equ_oid")
-	private String oid;
-
+	
 	@Column(name="equ_mtbf_prev")
 	private Double mtbfPrev;
 
@@ -140,12 +137,6 @@ public class Equipment {
 	}
 	public void setSystem(SubSystem system) {
 		this.system = system;
-	}
-	public String getOid() {
-		return oid;
-	}
-	public void setOid(String oid) {
-		this.oid = oid;
 	}
 	public Double getMtbfPrev() {
 		return mtbfPrev;

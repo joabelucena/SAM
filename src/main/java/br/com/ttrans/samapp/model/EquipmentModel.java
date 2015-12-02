@@ -42,7 +42,11 @@ public class EquipmentModel {
 	@Cascade({CascadeType.SAVE_UPDATE})
 	private Set<Document> documents;
 	
-	
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="eoi_model_id", referencedColumnName = "emo_id")
+	@Cascade({CascadeType.SAVE_UPDATE})
+	private Set<EquipmentOID> oids;
+		
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
 	
@@ -81,6 +85,14 @@ public class EquipmentModel {
 
 	public void setDocuments(Set<Document> documents) {
 		this.documents = documents;
+	}
+	
+	public Set<EquipmentOID> getOIDs() {
+		return oids;
+	}
+
+	public void setOIDs(Set<EquipmentOID> oids) {
+		this.oids = oids;
 	}
 
 	public String getInsert() {

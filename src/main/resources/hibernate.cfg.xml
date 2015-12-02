@@ -17,6 +17,7 @@
         <mapping class="br.com.ttrans.samapp.model.EquipmentProtocol" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentManufacturer" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentType" />
+        <mapping class="br.com.ttrans.samapp.model.EquipmentOID" />
         <mapping class="br.com.ttrans.samapp.model.SubSystem" />
         <mapping class="br.com.ttrans.samapp.model.EquipmentModel" />
         <mapping class="br.com.ttrans.samapp.model.OperationalState" />

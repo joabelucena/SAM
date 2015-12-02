@@ -88,7 +88,17 @@ public class Event {
 	@Column(insertable=false, name = "usr_update")
 	private String update;
 	
-	public Event(){}
+	public Event(){
+		super();
+	}
+	
+	public Event(Equipment equipment, Alarm alarm, Date datetime, String insert) {
+		super();
+		this.equipment = equipment;
+		this.alarm = alarm;
+		this.datetime = datetime;
+		this.insert = insert;
+	}
 
 	public long getId() {
 		return id;

@@ -114,9 +114,9 @@ public class EventDaoImpl implements EventDao {
 		
 		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
 		
-		crit.add(Restrictions.ge("datetime"	, date));
-		crit.add(Restrictions.eq("alarm"	, alarm));
-		crit.add(Restrictions.eq("equipment", equipment));
+		crit.add(Restrictions.ge("datetime"	, date		));
+		crit.add(Restrictions.eq("alarm"	, alarm		));
+		crit.add(Restrictions.eq("equipment", equipment	));
 		
 		return (int) crit.setProjection(Projections.rowCount()).uniqueResult();
 	}
@@ -142,9 +142,9 @@ public class EventDaoImpl implements EventDao {
 		
 		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
 		
-		crit.add(Restrictions.eq("equipment", equipment));
-		crit.add(Restrictions.eq("alarm"	, alarm));
-		crit.add(Restrictions.eq("solvUser"	, ""));
+		crit.add(Restrictions.eq("equipment", equipment	));
+		crit.add(Restrictions.eq("alarm"	, alarm		));
+		crit.add(Restrictions.eq("solvUser"	, null		));
 		
 		crit.setProjection(Projections.property("id"));
 		
@@ -157,8 +157,8 @@ public class EventDaoImpl implements EventDao {
 		try{
 			Criteria crit = session.getCurrentSession().createCriteria(AlarmFilter.class);
 			
-			crit.add(Restrictions.eq("alarm"	, event.getAlarm()));
-			crit.add(Restrictions.eq("equipment", event.getEquipment()));
+			crit.add(Restrictions.eq("alarm"	, event.getAlarm()		));
+			crit.add(Restrictions.eq("equipment", event.getEquipment()	));
 	
 			return (crit.list().size() > 0);
 		}catch(Exception e){

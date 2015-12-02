@@ -2,14 +2,16 @@ package br.com.ttrans.samapp.snmp;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.CommandResponder;
 import org.snmp4j.CommandResponderEvent;
 import org.snmp4j.MessageDispatcherImpl;
+import org.snmp4j.PDUv1;
 import org.snmp4j.Snmp;
 import org.snmp4j.TransportMapping;
 import org.snmp4j.mp.MPv1;
@@ -26,7 +28,6 @@ import org.snmp4j.smi.GenericAddress;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.TcpAddress;
 import org.snmp4j.smi.UdpAddress;
-import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultTcpTransportMapping;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 import org.snmp4j.util.MultiThreadedMessageDispatcher;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Component;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Equipment;
+import br.com.ttrans.samapp.model.EquipmentOID;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
@@ -141,74 +143,123 @@ public class SnmpServer implements CommandResponder {
 					+ (n / (double) (System.currentTimeMillis() - start))
 					* 1000 + "/s, total=" + n);
 		}
-
-		StringBuffer msg = new StringBuffer();
-		msg.append(event.toString());
-
-		String oid = "";
-
-		if (event != null && event.getPDU() != null) {
+		
+		/**
+		 * Cast to v1 version to access 'enterprise' and 'specificTrap' attributes
+		 */
+		PDUv1 pdu = (PDUv1) event.getPDU();
+		
+		if (event != null && pdu != null) {
 			
-			@SuppressWarnings("unchecked")
-			Vector<? extends VariableBinding> recVBs = event.getPDU()
-					.getVariableBindings();
-			
-			System.out.println(event.getPDU().getVariableBindings());
+			String oid = pdu.getEnterprise().toString()
+					.concat(String.valueOf(pdu.getSpecificTrap()));
 			
 			// Parsing Trap IP
-			String PeerAddress = event.getPeerAddress().toString();
-			String[] IpParts = PeerAddress.split("/");
-			String Ip = IpParts[0];
-
-			Event eventdb = new Event();
-			Equipment equipment = equipmentService.get(Ip);
-
-			String eve_site = equipment.getSite().getDesc();
-			String eve_model = equipment.getModel().getDesc();
-
-			// Event Datetime
-			Date eve_datetime = new Date();
-
-			oid = equipmentService.getOidByIp(Ip);
+			String Ip = event.getPeerAddress().toString().split("/")[0];
 			
-			System.out.println(oid);
-
-			boolean lAchou = !oid.equals(null);
-
-			// Grava dados do trap
-			if (lAchou) {
-
-				for (int i = 0; i < recVBs.size(); i++) {
-					VariableBinding recVB = recVBs.elementAt(i);
-
-					if (oid.equals(recVB.getOid().toString())
-							&& !recVB.getVariable().equals(null)) {
-
-						eventdb.setEquipment(new Equipment(Ip));
-						eventdb.setAlarm(new Alarm(recVB.getVariable()
-								.toString()));
-						eventdb.setDatetime(eve_datetime);
-						eventdb.setSite(eve_site);
-						eventdb.setModel(eve_model);
-						eventdb.setInsert(USR_SNMP);
-
-						eventService.add(eventdb);
-
-					}
+			Equipment equipment = equipmentService.get(Ip);
+			
+			//Found equipment
+			if (equipment != null) {
+				
+				List<EquipmentOID> oids = new ArrayList<EquipmentOID>(equipment.getModel().getOIDs());
+				
+				/**
+				 * 
+				 */
+				switch(pdu.getGenericTrap()){
+					case 0:
+						/**
+						 * coldStart(0) - Indicates that the agent has rebooted. All management variables will be reset; specifically, Counters and Gauges will be reset to zero (0).
+						 * One nice thing about thecoldStart trap is that it can be used to determine when new hardware is added to the network. When a device is powered on, it sends 
+						 * this trap to its trap destination. If the trap destination is set correctly (i.e., to the IP address of your NMS) the NMS can receive the trap and determine
+						 * whether it needs to manage the device.
+						 */
+						//TODO Implement treatment for this type of trap.				
+						break;
+					case 1:
+						/**
+						 * warmStart(1) - Indicates that the agent has reinitialized itself. None of the management variables will be reset. 
+						 */
+						//TODO Implement treatment for this type of trap.
+						break;
+					case 2:
+						/**
+						 * linkDown(2) - Sent when an interface on a device goes down. The first variable binding identifies which interface went down. 
+						 */
+						//TODO Implement treatment for this type of trap.				
+						break;
+					case 3:
+						/**
+						 * linkUp(3) - Sent when an interface on a device comes back up. The first variable binding identifies which interface came back up.						
+						 */
+						break;
+					case 4:
+						/**
+						 * authenticationFailure(4) - Indicates that someone has tried to query your agent with an incorrect community string; useful in
+						 * determining if someone is trying to gain unauthorized access to one of your devices.
+						 */
+						//TODO Implement treatment for this type of trap.			
+						break;
+					case 5:
+						/**
+						 * egpNeighborLoss(5) - Indicates that an Exterior Gateway Protocol (EGP) neighbor has gone down.						
+						 */
+						//TODO Implement treatment for this type of trap.
+						break;
+					case 6:
+						/**
+						 * enterpriseSpecific(6) - Indicates that the trap is enterprise-specific. SNMP vendors and users define their own traps under the
+						 * private-enterprise branch of the SMI object tree. To process this trap properly, the NMS has to decode the specific trap number
+						 * that is part of the SNMP message. 
+						 */
+						
+						/**
+						 * Iterates over equipment's nested OIDs for finding any match to the trap
+						 */
+						for(EquipmentOID o : oids){
+														
+							if(o.getOID().equals(oid)){
+								
+								Alarm alarm = new Alarm(o.getAlarm());
+								
+								List<Long> activeEvents = eventService.activeAlarms(equipment, alarm);
+								
+								/**
+								 * If any match were found, verifies if there's any active event before adding a new one. 
+								 */	
+								if(activeEvents == null || activeEvents.size() == 0){
+									
+									Event e = new Event(equipment
+														, alarm
+														, new Date()
+														, USR_SNMP);
+									try {
+										eventService.add(e);
+									} catch (Exception e2) {
+										logger.error("Erro ao inserir alarme para o equipamento: " + equipment.getId());
+										logger.error("OID: " + oid);
+										logger.error("Erro: " + e2.getMessage());
+										
+									}
+								}
+							}
+						}
+						break;
+					
+					default:
+						/**
+						 * Default block
+						 */
+						break;
 
 				}
-
-				// Equipamento não encontrado, grava alarme do SAM
+				
 			} else {
-
-				eventdb.setEquipment(new Equipment(Ip));
-				eventdb.setAlarm(new Alarm("NI"));// Equipamento não cadastrado
-				eventdb.setDatetime(eve_datetime);
-				eventdb.setSite(eve_site);
-				eventdb.setModel(eve_model);
-				eventdb.setInsert(USR_SNMP);
-
-				eventService.add(eventdb);
+				//Equipment not found
+				logger.info("Não foi localizado o equipamento com o IP: " + Ip);
+				logger.error("OID: " + oid);
+				
 			}
 
 		}
