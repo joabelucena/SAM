@@ -2,6 +2,8 @@ package br.com.ttrans.samapp.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.KPI;
@@ -18,7 +20,7 @@ public interface KPIService {
 	 * Loads all Indicators data
 	 * @return A list containing all equipments and its indicators
 	 */
-	public List<KPI> loadAll();
+	public Map<String, Set<KPI> > loadAll();
 	
 	/**
 	 * Retrieves indicators by equipment.
@@ -32,11 +34,10 @@ public interface KPIService {
 	 * Retrieves the MTBF and MTTR indicators by equipment on a specific period.
 	 * 
 	 * @param equipment Equipment to retrieve the indicators
-	 * @param d1 Initial date to analyze
-	 * @param d2 End date to analyze
-	 * @return An object containing the indicators
+	 * @param reference Initial date to analyze
+	 * 
 	 */
-	public KPI getKPI(Equipment equipment, Date d1, Date d2);
+	public KPI getKPI(Equipment equipment, Date reference);
 	
 	
 }

@@ -367,7 +367,7 @@ Ext.define('Sam.controller.Alarm', {
 						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
 			});
 			
-			if(values.alarm_id !== ""){
+			if(typeof values.alarm_id != 'undefined' && values.alarm_id !== ""){
 				record.set(
 					{	normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	})
 				});
@@ -405,7 +405,7 @@ Ext.define('Sam.controller.Alarm', {
 						severity:	Ext.create('Sam.model.SeverityLevel'	,{id: values.severity_id, desc: values.severity_desc}),
 			});
 			
-			if(values.alarm_id !== ""){
+			if(typeof values.alarm_id != 'undefined' && values.alarm_id !== ""){
 				store.findRecord('id',record.get('id')).set(
 					{	normAlarm:	Ext.create('Sam.model.Alarm'			,{id: values.alarm_id	, desc: values.alarm_desc	})
 				});

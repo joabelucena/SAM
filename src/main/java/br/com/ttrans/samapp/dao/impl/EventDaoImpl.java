@@ -78,7 +78,8 @@ public class EventDaoImpl implements EventDao {
 				+ "SET EVE_SOLV_USER = :USER, "
 				+ "EVE_SOLV_DATE = :DATE "
 				+ "WHERE EVE_ID = :ID "
-				+ "AND EVE_RECO_USER IS NOT NULL";
+				+ " AND EVE_RECO_USER IS NOT NULL"
+				+ " AND EVE_SOLV_USER IS NULL";
 		
 		Query qQuery = session.getCurrentSession().createQuery(cQuery);
 		qQuery.setParameter("USER", authentication.getName());
@@ -98,7 +99,9 @@ public class EventDaoImpl implements EventDao {
 				+ "SET EVE_SOLV_USER = :USER, "
 				+ "EVE_SOLV_DATE = :DATE "
 				+ "WHERE EVE_ALARM_ID IN (:IDS) "
-				+ "AND EVE_EQUIPMENT_ID = :EQUIP";
+				+ " AND EVE_EQUIPMENT_ID = :EQUIP"
+				+ " AND EVE_RECO_USER IS NOT NULL"
+				+ " AND EVE_SOLV_USER IS NULL";
 		
 		Query qQuery = session.getCurrentSession().createQuery(cQuery);
 		qQuery.setParameter("USER"	, user);
@@ -144,7 +147,7 @@ public class EventDaoImpl implements EventDao {
 		
 		crit.add(Restrictions.eq("equipment", equipment	));
 		crit.add(Restrictions.eq("alarm"	, alarm		));
-		crit.add(Restrictions.eq("solvUser"	, null		));
+		crit.add(Restrictions.isNull("solvUser"));
 		
 		crit.setProjection(Projections.property("id"));
 		

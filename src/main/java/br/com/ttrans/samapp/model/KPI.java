@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class KPI {
 	
-	private Equipment equipment;
+//	private Equipment equipment;
 	
 	private int totalTime;
 	
@@ -18,19 +18,6 @@ public class KPI {
 		super();
 	}
 	
-	public KPI(Equipment equipment) {
-		super();
-		this.equipment = equipment;
-	}
-
-	public Equipment getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(Equipment equipment) {
-		this.equipment = equipment;
-	}
-
 	public int getTotalTime() {
 		return totalTime;
 	}

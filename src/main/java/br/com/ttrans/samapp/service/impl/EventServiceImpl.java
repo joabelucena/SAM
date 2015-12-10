@@ -41,8 +41,6 @@ public class EventServiceImpl implements EventService {
 		Alarm alarm;
 		List<String> alarmsToNorm;
 		
-		logger.info("### Alarm / Equipment: "+event.getAlarm().getId() + " / " + event.getEquipment().getId());
-		
 		/**
 		 * Implement Normalization and filter validation rules.
 		 * 
@@ -55,7 +53,9 @@ public class EventServiceImpl implements EventService {
 			 */
 			alarm = alarmDao.get(event.getAlarm().getId());
 			
-			//Alarme Cadastrado
+			/**
+			 * 
+			 */
 			if(alarm instanceof Alarm){
 				
 				//Checa se o tipo do evento eh normalizacao
@@ -76,14 +76,23 @@ public class EventServiceImpl implements EventService {
 				
 			}
 			
-			try {
-				//Adiciona Evento
-				eventDao.add(event);
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-				logger.error("Erro na insercao");
+			List<Long> activeEvents = this.activeAlarms(event.getEquipment(), alarm);
+			
+			/**
+			 * Verifies if there's any active event before adding a new one. 
+			 */	
+			if(activeEvents.size() == 0){
+				try {
+					//Adiciona Evento
+					eventDao.add(event);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					logger.error("Erro na insercao");
+				}
 			}
+			
+			
 		}
 		
 	}

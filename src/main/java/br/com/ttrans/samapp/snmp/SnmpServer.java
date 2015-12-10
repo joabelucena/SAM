@@ -152,12 +152,15 @@ public class SnmpServer implements CommandResponder {
 		if (event != null && pdu != null) {
 			
 			String oid = pdu.getEnterprise().toString()
+					.concat(".")
 					.concat(String.valueOf(pdu.getSpecificTrap()));
 			
 			// Parsing Trap IP
 			String Ip = event.getPeerAddress().toString().split("/")[0];
 			
 			Equipment equipment = equipmentService.get(Ip);
+			
+			System.out.println("NEW TRAP >> IP: "+ Ip + " | OID: " + oid);
 			
 			//Found equipment
 			if (equipment != null) {
@@ -222,27 +225,20 @@ public class SnmpServer implements CommandResponder {
 							if(o.getOID().equals(oid)){
 								
 								Alarm alarm = new Alarm(o.getAlarm());
-								
-								List<Long> activeEvents = eventService.activeAlarms(equipment, alarm);
-								
-								/**
-								 * If any match were found, verifies if there's any active event before adding a new one. 
-								 */	
-								if(activeEvents == null || activeEvents.size() == 0){
+																
+								Event e = new Event(equipment
+													, alarm
+													, new Date()
+													, USR_SNMP);
+								try {
+									eventService.add(e);
+								} catch (Exception e2) {
+									logger.error("Erro ao inserir alarme para o equipamento: " + equipment.getId());
+									logger.error("OID: " + oid);
+									logger.error("Erro: " + e2.getMessage());
 									
-									Event e = new Event(equipment
-														, alarm
-														, new Date()
-														, USR_SNMP);
-									try {
-										eventService.add(e);
-									} catch (Exception e2) {
-										logger.error("Erro ao inserir alarme para o equipamento: " + equipment.getId());
-										logger.error("OID: " + oid);
-										logger.error("Erro: " + e2.getMessage());
-										
-									}
 								}
+								
 							}
 						}
 						break;

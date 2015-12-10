@@ -3,12 +3,16 @@ package br.com.ttrans.samapp.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.axis.types.Month;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,24 +33,63 @@ public class KPIServiceImpl implements KPIService {
 	@Autowired
 	private EquipmentDao equipmentDao;
 	
+	/**
+	 * Defines how many months will be considered for retrieving the KPIs.
+	 */
+	private static final int PAST_MONTHS = 12;
+	
+	/**
+	 * @see KPIServiceImpl
+	 */
 	@Transactional
-	public List<KPI> loadAll() {
+	public Map<String, Set<KPI>> loadAll() {
 		
-		List<KPI> kpi = new ArrayList<KPI>();
+		Map<String, Set<KPI> > data = new HashMap<String, Set<KPI> >();
 		
 		List<Equipment> equipments = equipmentDao.loadData();
 		
+		/**
+		 * Iterates over all equipments.
+		 */
 		for(Equipment equipment : equipments){
-			kpi.add(this.getKPI(equipment));
+			
+			Set<KPI> kpi = new HashSet<KPI>();
+			
+			/**
+			 * Loads KPI from a predetermined date 			
+			 */
+			for(int i = PAST_MONTHS; i >= 1; i--){
+				
+				//Return the first day from the past 'i' month.
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date());
+				cal.add(Calendar.MONTH, -i);
+				
+				cal.set(Calendar.DAY_OF_MONTH	, 1);
+				cal.set(Calendar.HOUR			, 0);
+				cal.set(Calendar.MINUTE			, 0);
+				cal.set(Calendar.SECOND			, 0);
+				cal.set(Calendar.MILLISECOND	, 0);
+				
+				Date reference = cal.getTime();
+				
+				//Loads an equipment's KPIs from specific month 
+				kpi.add(this.getKPI(equipment, reference));
+				
+			}
+			
+			//Loads equipment KPI data
+			data.put(equipment.getId(), kpi);
+			
 		}
 		
-		return kpi;
+		return data;
 	}
 	
 	@Transactional
 	public KPI getKPI(Equipment equipment) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Date date = new Date();
 		
@@ -57,19 +100,16 @@ public class KPIServiceImpl implements KPIService {
 			e.printStackTrace();
 		}
 		
-		return this.getKPI(equipment, date, new Date());
+		return this.getKPI(equipment, date);
 		
 	}
 
 	@Transactional
-	public KPI getKPI(Equipment equipment, Date d1, Date d2) {
-		Month mont = new Month(8);
+	public KPI getKPI(Equipment equipment, Date reference) {
 		
-		mont.setMonth(1);
+		List<ServiceOrder> orders = new ArrayList<ServiceOrder>(orderDao.loadKPIData(equipment, new Date(), new Date()));
 		
-		List<ServiceOrder> orders = new ArrayList<ServiceOrder>(orderDao.loadKPIData(equipment, d1, d2));
-		
-		KPI kpi = new KPI(equipment);
+		KPI kpi = new KPI();
 		
 		Collections.sort(orders, new Comparator<ServiceOrder>() {
 		    public int compare(ServiceOrder o1, ServiceOrder o2) {
@@ -80,17 +120,20 @@ public class KPIServiceImpl implements KPIService {
 		    }
 		});
 		
-		int totalTime, brokenTime = 0;
+		int totalTime, brokenTime;
+		
+		totalTime = brokenTime = 0;
 		
 		for(ServiceOrder order : orders){
 			
 		}
 		
+		kpi.setBreakCount(orders.size());
+		kpi.setBrokenTime(brokenTime);
+		kpi.setTotalTime(totalTime);
+		kpi.setReference(reference);
 		
-		
-		
-		
-		return null;
+		return kpi;
 	}
 
 }
