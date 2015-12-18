@@ -11,6 +11,8 @@ Ext.define('Sam.lib.AssociatedWriter', {
     getRecordData: function (record, operation) {
     	var data = record.getData(),
     		associatedData = record.getAssociatedData();
+    	
+    	this.xFormatData(data);
         
     	this.xFormatData(associatedData);
     	

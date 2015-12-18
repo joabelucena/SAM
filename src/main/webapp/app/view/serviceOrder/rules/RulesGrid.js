@@ -41,14 +41,6 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 		filter : {
 			type : 'string'
 		}
-	}, {
-		text : 'Exige Observação?',
-		flex : 1,
-		sortable : true,
-		dataIndex : 'remark',
-		filter : {
-			type : 'string'
-		}
 	}],
 	
 	dockedItems: [{

@@ -78,11 +78,12 @@ public class ReportController {
 		SDKDocument document = null;	
 		
 		DocumentsServiceProxy proxy = new DocumentsServiceProxy(user, pass);
-		proxy.setEndpoint("http://10.114.0.130:8180/SpagoBI/sdk/DocumentsService");
 		
+		String endpoint = dao.getMv("SYS_SPGEND"	, "http://10.27.0.1:8180/SpagoBI/sdk/DocumentsService");
+		
+		proxy.setEndpoint(endpoint);
 		
 		try {
-//			document = proxy.getDocumentByLabel(label); // Not working =/
 			
 			SDKDocument[] documents = proxy.getDocumentsAsList(null, null, null);
 			

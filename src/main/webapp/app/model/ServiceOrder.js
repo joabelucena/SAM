@@ -3,6 +3,7 @@ Ext.define('Sam.model.ServiceOrder', {
 	
 	fields:[
 	        {name: 'id'					, type: 'number'															},
+	        {name: 'datetime'			, type: 'date'										, dateFormat: 'time'	},
 			{name: 'startForecast'		, type: 'date'										, dateFormat: 'time'	},
 			{name: 'start'				, type: 'date'										, dateFormat: 'time'	},
 	        {name: 'endForecast'		, type: 'date'										, dateFormat: 'time'	},

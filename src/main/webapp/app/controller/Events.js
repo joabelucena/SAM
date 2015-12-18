@@ -123,6 +123,8 @@ Ext.define('Sam.controller.Events', {
 		// Verifica se o Alarme esta reconhecido
 		if(!record.get('reco')){
 			Ext.Msg.alert('SAM | Info', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.');
+		}else if(record.get('alarm_desc') === "-"){
+			Ext.Msg.alert('SAM | Info', 'O alarme '+ record.get('alarm_id')+' não esta cadastrado. Realize o cadastro deste para prosseguir com a abertura da OS.');
 		}else if(record.get('so_id') !== '-'){
 			Ext.Msg.alert('SAM | Info', 'Já existe uma Ordem de Serviço aberta para esse evento. Dados da Ordem de Serviço: <br><br>'
 					+ 'Código: ' + record.get('so_id') + '<br>'

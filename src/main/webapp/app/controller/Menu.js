@@ -18,7 +18,6 @@ Ext.define('Sam.controller.Menu', {
 				render: this.onPanelRender
 			},
 			"viewportmenuitem": {
-				select: this.onTreePanelSelect,
 				itemclick: this.onTreePanelItemClick
 			} 
 		});
@@ -168,9 +167,6 @@ Ext.define('Sam.controller.Menu', {
 		if (newTab){
 			mainPanel.setActiveTab(newTab);
 		}
-		
-		
-		
 
 	},
 	
