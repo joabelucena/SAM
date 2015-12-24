@@ -13,8 +13,11 @@ Ext.define('Sam.lib.AutoGrid', {
         
         this.selectedRecords = [];
         
-        this.getStore().on('beforeload', this.rememberSelection, this);
-        this.getView().on('refresh', this.refreshSelection, this);
+        /**
+         * Comentado para teste de correção do bug na atualização do estado da ordem de serviço. 
+         */
+//        this.getStore().on('beforeload', this.rememberSelection, this);
+//        this.getView().on('refresh', this.refreshSelection, this);
     },
     
     viewConfig: {

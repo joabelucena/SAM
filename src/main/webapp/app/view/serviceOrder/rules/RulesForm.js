@@ -19,21 +19,22 @@ var fldId = {
 var rules = {
 	xtype : 'fieldset',
 	defaultType : 'textfield',
-	title : 'Permissão',
+	title : 'Perfil',
 	layout : {
 		type : 'vbox'
 	},
 
 	items : [ {
-		fieldLabel : 'Id da Permissão',
+		fieldLabel : 'Código',
 		itemId: 'role_id',
 		name: 'role_id',
+		editable: false,
 		allowBlank : false,
 		width: '40%',
 		inputAttrTpl: " data-qtip='Id da Permissão da Regra da Ordem de Serviço' ",
 		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 	},{
-		fieldLabel : 'Descrição da Permissão',
+		fieldLabel : 'Descrição',
 		itemId: 'role_desc',
 		name: 'role_desc',
 		readOnly : true,
@@ -45,21 +46,22 @@ var rules = {
 var currentStatus = {
 		xtype : 'fieldset',
 		defaultType : 'textfield',
-		title : 'Status Atual da OS',
+		title : 'Estado Atual',
 		layout : {
 			type : 'vbox'
 		},
 
 		items : [{
-			fieldLabel : 'Id do Status Atual',
+			fieldLabel : 'Código',
 			itemId: 'curstatus_id',
 			name: 'curstatus_id',
+			editable: false,
 			allowBlank : false,
 			width: '40%',
 			inputAttrTpl: " data-qtip='Id do Status Atual da Regra da Ordem de Serviço' ",
 			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
-			fieldLabel : 'Descrição do Status Atual',
+			fieldLabel : 'Descrição',
 			itemId: 'curstatus_desc',
 			name: 'curstatus_desc',
 			readOnly : true,
@@ -71,21 +73,22 @@ var currentStatus = {
 var nextStatus = {
 		xtype : 'fieldset',
 		defaultType : 'textfield',
-		title : 'Status Anterior da OS',
+		title : 'Próximo Estado',
 		layout : {
 			type : 'vbox'
 		},
 
 		items : [ {
-			fieldLabel : 'Ordem de Serviço',
+			fieldLabel : 'Código',
 			itemId: 'nxtstatus_id',
 			name: 'nxtstatus_id',
+			editable: false,
 			allowBlank : false,
 			width: '40%',
 			inputAttrTpl: " data-qtip='Id do Próximo Status da Regra da Ordem de Serviço' ",
 			triggers: {f3: {handler: function() {this.fireEvent('click')}}}
 		},{
-			fieldLabel : 'Descrição do Status Anterior',
+			fieldLabel : 'Descrição',
 			itemId: 'nxtstatus_desc',
 			name: 'nxtstatus_desc',
 			readOnly : true,

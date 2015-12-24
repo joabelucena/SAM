@@ -1,7 +1,7 @@
 Ext.define('Sam.model.AlarmType', {
 	extend: 'Ext.data.Model',
 	
-	fields:['id', 'desc'],
+	fields:['id', 'desc', 'show'],
 	
 	hasMany: {model: 'Sam.model.Alarm', foreignKey: 'alarm_id'}
 

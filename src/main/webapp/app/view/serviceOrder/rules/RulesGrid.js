@@ -18,7 +18,7 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 			type : 'number'
 		}
 	}, {
-		text : 'Desc. Status Atual',
+		text : 'Estado Atual',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'curstatus_desc',
@@ -26,7 +26,7 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Desc. Próximo Status',
+		text : 'Próximo Estado',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'nxtstatus_desc',
@@ -34,7 +34,7 @@ Ext.define('Sam.view.serviceOrder.rules.RulesGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Permissão',
+		text : 'Perfil',
 		flex : 1,
 		sortable : true,
 		dataIndex : 'role_desc',

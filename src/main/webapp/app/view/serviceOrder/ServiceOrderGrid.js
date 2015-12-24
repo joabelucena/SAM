@@ -8,7 +8,7 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
 	
 	plugins: 'gridfilters',
 	
-	refreshRate: 10,
+	refreshRate: 180,
 	
 	itemId: 'serviceordergrid',
 	

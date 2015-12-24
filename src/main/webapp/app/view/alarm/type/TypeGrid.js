@@ -24,6 +24,20 @@ Ext.define('Sam.view.alarm.type.TypeGrid', {
 		filter : {
 			type : 'string'
 		}
+	}, {
+		text : 'Exibe Alarme?',		
+		sortable : true,
+		dataIndex : 'show',
+		width: 110,
+		renderer: function(value){
+	        if (value === 'Y') {
+	            return 'Sim';
+	        }
+	        return 'Não';
+	        },
+        filter : {
+			type : 'string'
+		}
 	}],
 	
 	dockedItems: [{

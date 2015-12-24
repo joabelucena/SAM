@@ -46,6 +46,19 @@ Ext.define('Sam.view.alarm.type.TypeForm', {
 			allowBlank : false,
 			width: '60%',
 			inputAttrTpl: " data-qtip='Descrição do Tipo' "
+		},{
+			fieldLabel : 'Exibe Alarme?',
+			itemId: 'show',
+			name: 'show',
+			store:  Ext.create('Sam.view.components.store.ComboBox'),
+			queryMode: 'local',
+			valueField: 'id',
+	        displayField: 'desc',
+			xtype : 'combobox',
+			allowBlank : false,
+			editable: false,
+			width: '25%',
+			inputAttrTpl: " data-qtip='Define se o alarme será exibido na tela de Eventos.' "
 		}],
 		
 		scrollable: true,

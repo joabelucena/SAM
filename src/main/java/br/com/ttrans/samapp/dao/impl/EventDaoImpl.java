@@ -243,11 +243,13 @@ public class EventDaoImpl implements EventDao {
 		cQuery += " LEFT OUTER JOIN";
 		cQuery += " SERVICE_ORDER_STATUS J";
 		cQuery += "     ON I.SOR_STATUS_ID = J.SOS_ID";
-		
-		
+		cQuery += " LEFT OUTER JOIN";
+		cQuery += " ALARMS_TYPE K";
+		cQuery += "     ON A.ALM_TYPE_ID = K.ATY_ID";
 		
 		cQuery += " WHERE";
 		cQuery += " 	THIS.EVE_SOLV_USER IS NULL";
+		cQuery += " 	AND (K.ATY_SHOW_ALM <> 'N' OR K.ATY_SHOW_ALM IS NULL)";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		

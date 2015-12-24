@@ -10,7 +10,6 @@ Ext.define('Sam.model.Equipment', {
 		{name: 'ip'					,type: 'string'										},
 		{name: 'warranty'			,type: 'number'										},
 		{name: 'oid'				,type: 'string'										},
-		{name: 'mtbfPrev'			,type: 'number'										},
 		{name: 'mtbfCalc'			,type: 'number'										},
 		{name: 'mtbfManf'			,type: 'number'										},
 		{name: 'installDate'		,type: 'date'		, dateFormat: 'time'			},

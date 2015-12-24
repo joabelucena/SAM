@@ -52,9 +52,6 @@ public class Equipment {
 	@JoinColumn(name = "equ_system_id")
 	private SubSystem system;
 	
-	@Column(name="equ_mtbf_prev")
-	private Double mtbfPrev;
-
 	@Column(name="equ_mtbf_calc")
 	private Double mtbfCalc;
 
@@ -137,12 +134,6 @@ public class Equipment {
 	}
 	public void setSystem(SubSystem system) {
 		this.system = system;
-	}
-	public Double getMtbfPrev() {
-		return mtbfPrev;
-	}
-	public void setMtbfPrev(Double mtbfPrev) {
-		this.mtbfPrev = mtbfPrev;
 	}
 	public Double getMtbfCalc() {
 		return mtbfCalc;

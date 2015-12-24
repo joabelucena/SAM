@@ -50,14 +50,6 @@ var equipment = {
 		width: 200,
 		inputAttrTpl: " data-qtip='Endereço IP do Equipamento' ",
 	}, {
-		fieldLabel : 'OID',
-		itemId: 'oid',
-		name: 'oid',
-		readOnly : false,
-		allowBlank : true,
-		width: 350,
-		inputAttrTpl: " data-qtip='OID do Trap SNMP do Equipamento' ",
-	}, {
 		xtype: 'textareafield',
 		fieldLabel : 'Observações',
 		itemId: 'remark',
@@ -65,7 +57,7 @@ var equipment = {
 		readOnly : false,
 		allowBlank : true,
 		width: 500,
-		inputAttrTpl: " data-qtip='MTBF do Fabricante' ",
+		inputAttrTpl: " data-qtip='Informações que sejam relevantes ao equipamento.' ",
 	}],
 };
 
@@ -283,14 +275,6 @@ var maintenance = {
 		width: 200,
 		inputAttrTpl: " data-qtip='MTBF Calculado pelo SAM' ",
 	},{
-		fieldLabel : 'MTBF Informado (h)',
-		itemId: 'mtbfPrev',
-		name: 'mtbfPrev',
-		readOnly : false,
-		allowBlank : true,
-		width: 200,
-		inputAttrTpl: " data-qtip='MTBF Programado para Manutenção Preventiva' ",
-	}, {
 		fieldLabel : 'MTBF do Fabricante (h)',
 		itemId: 'mtbfManf',
 		name: 'mtbfManf',

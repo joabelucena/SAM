@@ -125,6 +125,8 @@ Ext.define('Sam.controller.Events', {
 			Ext.Msg.alert('SAM | Info', 'Favor reconhecer o alarme antes de prosseguir com a abertura da OS.');
 		}else if(record.get('alarm_desc') === "-"){
 			Ext.Msg.alert('SAM | Info', 'O alarme '+ record.get('alarm_id')+' não esta cadastrado. Realize o cadastro deste para prosseguir com a abertura da OS.');
+		}else if(record.get('equipment_model') === '-'){
+			Ext.Msg.alert('SAM | Info', 'O equipamento '+ record.get('equipment_id')+' não esta cadastrado. Realize o cadastro deste para prosseguir com a abertura da OS.');
 		}else if(record.get('so_id') !== '-'){
 			Ext.Msg.alert('SAM | Info', 'Já existe uma Ordem de Serviço aberta para esse evento. Dados da Ordem de Serviço: <br><br>'
 					+ 'Código: ' + record.get('so_id') + '<br>'
