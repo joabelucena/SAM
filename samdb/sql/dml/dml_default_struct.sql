@@ -4,6 +4,7 @@
 
 
 
+COMMIT;
 
 /** END OF TABLE POPULATION **/
 
