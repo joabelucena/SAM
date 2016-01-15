@@ -76,23 +76,35 @@ public class EventServiceImpl implements EventService {
 				
 			}
 			
-			List<Long> activeEvents = this.activeAlarms(event.getEquipment(), alarm);
-			
 			/**
 			 * Verifies if there's any active event before adding a new one. 
-			 */	
-			if(activeEvents.size() == 0){
-				try {
-					//Adiciona Evento
-					eventDao.add(event);
+			 */
+			if(alarm instanceof Alarm){
+				
+				if(alarm.getType().getCla().equals("A")){
 					
-				} catch (Exception e) {
-					// TODO: handle exception
-					logger.error("Erro na insercao");
+					List<Long> activeEvents = this.activeAlarms(event.getEquipment(), alarm);
+					
+					if(activeEvents.size() > 0){
+						logger.info("Alarme filtrado. Dados: \n"
+								+ "Cod. Alarme: " + event.getAlarm().getId() + "\n"
+								+ "Cod Equipamento: " + event.getEquipment().getId() +"\n"
+								+ "Qt. alm. ativos: " + activeEvents.size());
+						return;						
+					}					
 				}
 			}
 			
-			
+			/**
+			 * Inserts event on database
+			 */
+			try {
+				eventDao.add(event);
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.error("Erro ao inserir evento. Equipamento: " + event.getEquipment().getId() + " | Evento: "
+						+ event.getAlarm().getId() + ". Detalhes do Erro: " + e.getMessage());
+			}
 		}
 		
 	}
@@ -138,6 +150,11 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Transactional
+	public int activeAlarms(){
+		return eventDao.activeAlarms();
+	}
+	
+	@Transactional
 	public boolean isFiltered(Event event){
 		return eventDao.isFiltered(event);
 	}
@@ -149,7 +166,13 @@ public class EventServiceImpl implements EventService {
 
 	
 	@Transactional
-	public List<String[]> loadData(){
+	public List<Event> loadData(){
 		return eventDao.loadData();
 	}
+	
+	@Transactional
+	public List<String[]> loadData(int start, int limit){
+		return eventDao.loadData(start, limit);
+	}
+	
 }

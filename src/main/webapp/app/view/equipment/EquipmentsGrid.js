@@ -4,7 +4,7 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 
 	requires : [ 'Ext.grid.filters.Filters'],
 	           
-	store : Ext.create('Sam.store.Equipment'),
+	scope: this,
 	
 	plugins: 'gridfilters',
 	
@@ -88,92 +88,19 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 		filter : {
 			type : 'string'
 		}
-	},
+	}],
 	
-//	{
-//		text : 'Garantia',
-//		
-//		sortable : true,
-//		dataIndex : 'warranty',
-//		filter : {
-//			type : 'string'
-//		}
-//	}, 
-	
-	{
-		text : 'OID SNMP',
-		width: 150,
-		sortable : true,
-		dataIndex : 'oid',
-		filter : {
-			type : 'string'
-		}
-	}, 
-	
-//	{
-//		text : 'MTBF Previsto',
-//		
-//		sortable : true,
-//		dataIndex : 'mtbf_prev',
-//		filter : {
-//			type : 'string'
-//		}
-//	}, {
-//		text : 'MTBF Calculado',
-//		
-//		sortable : true,
-//		dataIndex : 'mtbf_calc',
-//		filter : {
-//			type : 'string'
-//		}
-//	}, {
-//		text : 'MTBF Fabricante',
-//		
-//		sortable : true,
-//		dataIndex : 'mtbf_manf',
-//		filter : {
-//			type : 'string'
-//		}
-//	}, {
-//		text : 'Data de Instalação',
-//		
-//		sortable : true,
-//		dataIndex : 'install_date',
-//		filter : {
-//			type : 'date'
-//		}
-//	}, {
-//		text : 'Data de Fabricação',
-//		
-//		sortable : true,
-//		dataIndex : 'manufacture_date',
-//		filter : {
-//			type : 'date'
-//		}
-//	}, {
-//		text : 'Data de Aquisição',
-//		
-//		sortable : true,
-//		dataIndex : 'acquired_date',
-//		filter : {
-//			type : 'date'
-//		}
-//	}, {
-//		text : 'Observação',
-//		
-//		sortable : true,
-//		dataIndex : 'remark',
-//		filter : {
-//			type : 'string'
-//		}
-//	}
-	],
-
 	dockedItems: [{
 	    xtype: 'toolbar',
 	    dock: 'bottom',
 	    
 	    items: [{
+	    	xtype: 'pagingtoolbar',
+	    	displayInfo: true,
+	    	border: false
+	    },{
+	    	xtype: 'tbfill'
+	    },{
 	        xtype:'button',
 	        itemId:'btnShow',
 	    	text:'Visualizar',
@@ -204,7 +131,22 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	        cls:'x-btn-default-small',
 	        iconCls: 'tick-button'
 	    }]
-	}]
+	}],
+
+	/** Inits Component **/
+	initComponent: function() {
+		this.callParent(arguments);
+		
+		var store = Ext.create('Sam.store.Equipment'),
+			page = Ext.ComponentQuery.query('pagingtoolbar', this)[0];
+		
+		this.setStore(store);
+		
+		if (typeof page != "undefined"){
+			page.setStore(store);
+		}
+		
+	},
 	
 
 });

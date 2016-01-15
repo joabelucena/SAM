@@ -100,7 +100,6 @@ public class EventDaoImpl implements EventDao {
 				+ "EVE_SOLV_DATE = :DATE "
 				+ "WHERE EVE_ALARM_ID IN (:IDS) "
 				+ " AND EVE_EQUIPMENT_ID = :EQUIP"
-				+ " AND EVE_RECO_USER IS NOT NULL"
 				+ " AND EVE_SOLV_USER IS NULL";
 		
 		Query qQuery = session.getCurrentSession().createQuery(cQuery);
@@ -155,6 +154,23 @@ public class EventDaoImpl implements EventDao {
 	}
 	
 	@Override
+	public int activeAlarms(){
+		Criteria crit = session.getCurrentSession().createCriteria(Event.class)
+				.createAlias("alarm"	, "a", Criteria.LEFT_JOIN)
+				.createAlias("a.type"	, "t", Criteria.LEFT_JOIN);
+		
+		crit.setProjection(Projections.rowCount());
+		
+		crit.add(Restrictions.disjunction()
+				.add(Restrictions.eq("t.cla","A"))
+				.add(Restrictions.isNull("t.cla"))
+				)
+				.add(Restrictions.isNull("solvUser"));
+		
+		return (int) crit.uniqueResult();
+	}
+	
+	@Override
 	public boolean isFiltered(Event event){
 		
 		try{
@@ -165,11 +181,11 @@ public class EventDaoImpl implements EventDao {
 	
 			return (crit.list().size() > 0);
 		}catch(Exception e){
-			logger.error("Filtering Event error occurred. \n"
+			logger.info("Filtering Event error occurred. \n"
 					+ "Alarm:"+event.getAlarm().getId()+"\n" 
 					+ "Equipment:"+event.getEquipment().getId()+"\n"
 					+ "Error details are showed bellow:");
-			logger.error(e.getMessage());
+			logger.info(e.getMessage());
 			
 		}
 		
@@ -183,7 +199,15 @@ public class EventDaoImpl implements EventDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<String[]> loadData() {
+	public List<Event> loadData() {
+		Criteria crit = session.getCurrentSession().createCriteria(Event.class);
+		
+		return crit.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String[]> loadData(int start, int limit) {
 
 		String cQuery = "";
 
@@ -249,29 +273,37 @@ public class EventDaoImpl implements EventDao {
 		
 		cQuery += " WHERE";
 		cQuery += " 	THIS.EVE_SOLV_USER IS NULL";
-		cQuery += " 	AND (K.ATY_SHOW_ALM <> 'N' OR K.ATY_SHOW_ALM IS NULL)";
+		cQuery += " 	AND (K.ATY_CLASS = 'A' OR K.ATY_CLASS IS NULL)";
+		
+		cQuery += " ORDER BY";
+		cQuery += " 	THIS.EVE_ID DESC";
 
 		qQuery = session.getCurrentSession().createSQLQuery(cQuery);
 		
-		qQuery.addScalar("ID"			, Hibernate.STRING);
-		qQuery.addScalar("RECO"			, Hibernate.BOOLEAN);
-		qQuery.addScalar("RECO_USER"	, Hibernate.STRING);
-		qQuery.addScalar("RECO_DATE"	, Hibernate.STRING);
-		qQuery.addScalar("SEVERITY"		, Hibernate.STRING);
-		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING);
-		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING);
-		qQuery.addScalar("EQUIP_MODEL"	, Hibernate.STRING);
-		qQuery.addScalar("EQUIP_MANUF"	, Hibernate.STRING);
-		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING);
-		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING);
-		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING);
-		qQuery.addScalar("SYS"			, Hibernate.STRING);
-		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING);
-		qQuery.addScalar("SO_ID"		, Hibernate.STRING);
-		qQuery.addScalar("SO_STATUS"	, Hibernate.STRING);
-		qQuery.addScalar("DATETIME"		, Hibernate.STRING);
+		qQuery.addScalar("ID"			, Hibernate.STRING	);
+		qQuery.addScalar("RECO"			, Hibernate.BOOLEAN	);
+		qQuery.addScalar("RECO_USER"	, Hibernate.STRING	);
+		qQuery.addScalar("RECO_DATE"	, Hibernate.STRING	);
+		qQuery.addScalar("SEVERITY"		, Hibernate.STRING	);
+		qQuery.addScalar("SEVERITY_ID"	, Hibernate.STRING	);
+		qQuery.addScalar("EQUIP_ID"		, Hibernate.STRING	);
+		qQuery.addScalar("EQUIP_MODEL"	, Hibernate.STRING	);
+		qQuery.addScalar("EQUIP_MANUF"	, Hibernate.STRING	);
+		qQuery.addScalar("ALARM_ID"		, Hibernate.STRING	);
+		qQuery.addScalar("ALARM_DESC"	, Hibernate.STRING	);
+		qQuery.addScalar("SITE_DESC"	, Hibernate.STRING	);
+		qQuery.addScalar("SYS"			, Hibernate.STRING	);
+		qQuery.addScalar("SYS_DESC"		, Hibernate.STRING	);
+		qQuery.addScalar("SO_ID"		, Hibernate.STRING	);
+		qQuery.addScalar("SO_STATUS"	, Hibernate.STRING	);
+		qQuery.addScalar("DATETIME"		, Hibernate.STRING	);
 		
-		return qQuery.list();
+		return qQuery
+				.setFirstResult(start)
+				.setMaxResults(limit)
+				.list();
 
 	}
+	
+	
 }

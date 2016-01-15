@@ -14,4 +14,5 @@ public interface AlarmService {
 	public List<String> getNorm(Alarm norm);
 	public Alarm get(String id);
 	public List<Alarm> loadData();
+	public List<Alarm> loadData(int start, int limit);
 }

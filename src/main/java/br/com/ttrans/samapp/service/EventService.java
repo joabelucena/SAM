@@ -20,7 +20,9 @@ public interface EventService {
 	public int countByAlarm(Equipment equipment, Alarm alarm, Date date);
 	public int countByType(Equipment equipment, AlarmType type, Date date);
 	public List<Long> activeAlarms(Equipment equipment, Alarm alarm);
+	public int activeAlarms();
 	public boolean isFiltered(Event event);
 	public Event get(long id); 
-	public List<String[]> loadData();
+	public List<Event> loadData();
+	public List<String[]> loadData(int start, int limit);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.EquipmentDao;
+import br.com.ttrans.samapp.library.IP;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.service.EquipmentService;
 
@@ -33,18 +34,23 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 	@Transactional
-	public List<Equipment> loadData() {
+	public List<Equipment> loadData(){
 		return dao.loadData();
 	}
-
+	
 	@Transactional
-	public String getOidByIp(String ip) {
-		return dao.getOidByIp(ip);
+	public List<Equipment> loadData(int start, int limit) {
+		return dao.loadData(start, limit);
 	}
 
 	@Transactional
 	public Equipment get(String id) {
 		return dao.get(id);
+	}
+	
+	@Transactional
+	public Equipment get(IP ip) {
+		return dao.get(ip);
 	}
 
 }

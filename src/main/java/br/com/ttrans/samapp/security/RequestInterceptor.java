@@ -1,5 +1,8 @@
 package br.com.ttrans.samapp.security;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +42,11 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 			logger.info("Requested Action: "+request.getServletPath());
 			
 			//Adds denied response status
-			response.getWriter().print(messageSource.getMessage("response.AccessDenied", null, request.getLocale()));
+			Map<String, Object> result = new HashMap<String, Object>();
+			
+			result.put("message", messageSource.getMessage("response.AccessDenied", null, request.getLocale()));
+			
+			response.getWriter().print(result);
 			
 			//Deny access
 			lReturn = false;

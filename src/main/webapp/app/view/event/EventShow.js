@@ -20,7 +20,7 @@ var eventInfo = {
 		itemId: 'alarm_id',
 		name: 'alarm_id',
 		readOnly : true,
-		width: 250,
+		width: 350,
 		inputAttrTpl: " data-qtip='Código do Alarme' "
 	}, {
 		fieldLabel : 'Desc. Alarme',

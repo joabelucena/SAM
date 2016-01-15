@@ -65,5 +65,16 @@ public class AlarmDaoImpl implements AlarmDao {
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Alarm> loadData(int start, int limit) {
+				
+		return session.getCurrentSession().createCriteria(Alarm.class)
+				.setFirstResult(start)
+				.setMaxResults(limit)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
+	}
 
 }

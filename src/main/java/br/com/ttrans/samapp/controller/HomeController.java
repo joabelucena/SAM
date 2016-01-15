@@ -1,7 +1,5 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.MailClient;
-import br.com.ttrans.samapp.model.Alarm;
-import br.com.ttrans.samapp.model.AlarmType;
-import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.EventService;
@@ -133,7 +128,7 @@ public class HomeController {
 	public Map<String, Object> testeSam(HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+		/*
 		int type, alarm;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
@@ -150,9 +145,10 @@ public class HomeController {
 		alarm = eventService.countByAlarm(new Equipment("XPTO_01"), new Alarm("XPTONORMAL"), date);
 		type =  eventService.countByType(new Equipment("XPTO_01"), new AlarmType(1), date);
 		
+		*/
 		
-		result.put("qtdAlarm", alarm);
-		result.put("qtdType", type);
+		result.put("qtdAlarm", eventService.activeAlarms());
+		
 		
 		return result;
 	}

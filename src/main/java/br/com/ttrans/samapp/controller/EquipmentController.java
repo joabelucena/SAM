@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
 import br.com.ttrans.samapp.model.EquipmentModel;
@@ -54,17 +57,24 @@ public class EquipmentController {
 	@Autowired
 	private EquipmentTypeService typeService;
 	
+	@Autowired
+	private DAO dao;
+	
 	
 	/*
 	 * Load Data Methods
 	 */
 	@RequestMapping("/load")
 	@ResponseBody
-	public Map loadData() {
+	public Map loadData(@RequestParam(value="start",required=true) int start,
+			@RequestParam(value="limit",required=true) int limit) {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		result.put("data", equipmentService.loadData());
+		List<Equipment> data = equipmentService.loadData(start,limit);
+		
+		result.put("data"	, data									);
+		result.put("total"	, dao.rowCount(Equipment.class, null)	);
 		
 		return result;
 	}

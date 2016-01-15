@@ -24,8 +24,8 @@ public class AlarmType {
 	@Column(name="aty_description")
 	private String desc;
 	
-	@Column(name="aty_show_alm")
-	private String show;
+	@Column(name="aty_class")
+	private String cla;
 	
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -55,11 +55,11 @@ public class AlarmType {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public String getShow() {
-		return show;
+	public String getCla() {
+		return cla;
 	}
-	public void setShow(String show) {
-		this.show = show;
+	public void setClass(String cla) {
+		this.cla = cla;
 	}
 
 	public String getInsert() {

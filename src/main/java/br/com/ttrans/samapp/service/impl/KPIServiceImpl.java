@@ -47,7 +47,6 @@ public class KPIServiceImpl implements KPIService {
 		Map<String, Set<KPI> > data = new HashMap<String, Set<KPI> >();
 		
 		List<Equipment> equipments = equipmentDao.loadData();
-		
 		/**
 		 * Iterates over all equipments.
 		 */

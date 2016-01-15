@@ -5,10 +5,14 @@ Ext.define('Sam.store.Equipment', {
 	
 	model: 'Sam.model.Equipment',
 	
+	pageSize: 30,
+	
 	autoLoad: true,
 
 	proxy: {
         type: 'ajax',
+        
+        enablePaging: true,
         
         api: {
         	read : 		'equipment/load',
@@ -20,7 +24,8 @@ Ext.define('Sam.store.Equipment', {
             type: 'json',
             successProperty: 'success',
             root: 'data',
-            messageProperty: 'message'
+            messageProperty: 'message',
+            totalProperty: 'total'
         },
         writer: {
             type: 'json',

@@ -25,15 +25,15 @@ Ext.define('Sam.view.alarm.type.TypeGrid', {
 			type : 'string'
 		}
 	}, {
-		text : 'Exibe Alarme?',		
+		text : 'Classificação',		
 		sortable : true,
-		dataIndex : 'show',
+		dataIndex : 'cla',
 		width: 110,
 		renderer: function(value){
-	        if (value === 'Y') {
-	            return 'Sim';
+	        if (value === 'C') {
+	            return 'Comando';
 	        }
-	        return 'Não';
+	        return 'Alarme';
 	        },
         filter : {
 			type : 'string'

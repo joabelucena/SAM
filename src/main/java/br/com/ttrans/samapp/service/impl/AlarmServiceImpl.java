@@ -46,4 +46,9 @@ public class AlarmServiceImpl implements AlarmService {
 	public List<Alarm> loadData() {
 		return dao.loadData();
 	}
+	
+	@Transactional
+	public List<Alarm> loadData(int start, int limit) {
+		return dao.loadData(start, limit);
+	}
 }

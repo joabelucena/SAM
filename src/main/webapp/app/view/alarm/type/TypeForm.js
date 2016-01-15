@@ -47,10 +47,16 @@ Ext.define('Sam.view.alarm.type.TypeForm', {
 			width: '60%',
 			inputAttrTpl: " data-qtip='Descrição do Tipo' "
 		},{
-			fieldLabel : 'Exibe Alarme?',
-			itemId: 'show',
-			name: 'show',
-			store:  Ext.create('Sam.view.components.store.ComboBox'),
+			fieldLabel : 'Classificação',
+			itemId: 'cla',
+			name: 'cla',
+//			store:  Ext.create('Sam.view.components.store.ComboBox'),
+			store: Ext.create('Ext.data.Store',{fields: ['id', 'desc'],
+			    data : [
+			        {"id":"C", "desc":"Comando"},
+			        {"id":"A", "desc":"Alarme"}
+			    ]
+			}),
 			queryMode: 'local',
 			valueField: 'id',
 	        displayField: 'desc',

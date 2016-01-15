@@ -9,11 +9,11 @@ Ext.define('Sam.view.event.EventGrid' , {
 	
 	itemId: 'eventgrid',
 	
+	store: Ext.create('Sam.store.Events'),
+	
 	refreshRate: 5,
 	
 	scrollable: true,
-
-	store: Ext.create('Sam.store.Events'),
 	
 	viewConfig: {		
 		preserveScrollOnRefresh: true,
@@ -158,6 +158,12 @@ Ext.define('Sam.view.event.EventGrid' , {
             dock: 'bottom',
             
             items: [{
+    	    	xtype: 'pagingtoolbar',
+    	    	displayInfo: true,
+    	    	border: false
+    	    },{
+    	    	xtype: 'tbfill'
+    	    },{
                 xtype:'button',
             	itemId:'btnRecAll',
             	text:'Reconhecer Todos',
@@ -165,5 +171,18 @@ Ext.define('Sam.view.event.EventGrid' , {
                 cls:'x-btn-default-small',
                 iconCls: 'tick-button'
             }]
-        }]
+        }],
+        
+        /** Inits Component **/
+    	initComponent: function() {
+    		this.callParent(arguments);
+    		
+    		var store = this.getStore(),
+    			page = Ext.ComponentQuery.query('pagingtoolbar', this)[0];
+    		
+    		if (typeof page != "undefined"){
+    			page.setStore(store);
+    		}
+    		
+    	},
 });

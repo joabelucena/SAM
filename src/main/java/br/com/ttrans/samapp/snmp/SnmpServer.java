@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.library.IP;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.EquipmentOID;
@@ -67,9 +68,9 @@ public class SnmpServer implements CommandResponder {
 	private static final String USR_SNMP = "SAM_SNMP";
 
 	public SnmpServer() {
+		super();
 	}
-
-
+	
 	/** Starts the server **/
 	public void run() {
 		try {
@@ -156,11 +157,11 @@ public class SnmpServer implements CommandResponder {
 					.concat(String.valueOf(pdu.getSpecificTrap()));
 			
 			// Parsing Trap IP
-			String Ip = event.getPeerAddress().toString().split("/")[0];
+			IP ip =  new IP(event.getPeerAddress().toString().split("/")[0]);			
 			
-			Equipment equipment = equipmentService.get(Ip);
+			Equipment equipment = equipmentService.get(ip);
 			
-			System.out.println("NEW TRAP >> IP: "+ Ip + " | OID: " + oid);
+			System.out.println("NEW TRAP >> IP: "+ ip + " | OID: " + oid);
 			
 			//Found equipment
 			if (equipment != null) {
@@ -253,12 +254,10 @@ public class SnmpServer implements CommandResponder {
 				
 			} else {
 				//Equipment not found
-				logger.info("Não foi localizado o equipamento com o IP: " + Ip);
+				logger.info("Não foi localizado o equipamento com o IP: " + ip);
 				logger.error("OID: " + oid);
 				
 			}
-
 		}
-
 	}
 }

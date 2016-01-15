@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.Authentication;
 
+import br.com.ttrans.samapp.library.IP;
 import br.com.ttrans.samapp.model.Equipment;
 
 
@@ -12,6 +13,7 @@ public interface EquipmentDao {
 	public void edit(Equipment equipment, Authentication authentication);
 	public void delete(Equipment equipment, Authentication authentication);
 	public List<Equipment> loadData();
-	public String getOidByIp(String ip);
+	public List<Equipment> loadData(int start, int limit);
 	public Equipment get(String id);
+	public Equipment get(IP ip);
 }

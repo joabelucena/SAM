@@ -144,5 +144,34 @@ public class DAO {
 
 		return cReturn;
 	}
+	
+	@Transactional
+	public int rowCount(Class alias, Map<String, Object> map){
+		
+		try {
+			Criteria crit = session.getCurrentSession().createCriteria(alias);
+			
+			crit.setProjection(Projections.rowCount());
+			
+			if(map != null){
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					
+					if (entry.getValue() != null){
+					crit.add(Restrictions.eq(entry.getKey(),
+							entry.getValue() instanceof String ? entry.getValue()
+									.toString() : entry.getValue()));
+					}
+				}
+			}
+			
+			return (int) crit.uniqueResult();
+			
+			
+		} catch (QueryException e) {
+			logger.error(e.getMessage());
+			return 0;
+		}
+		
+	}
 
 }

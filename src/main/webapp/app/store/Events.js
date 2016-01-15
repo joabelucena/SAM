@@ -5,15 +5,22 @@ Ext.define('Sam.store.Events', {
 	
 	model: 'Sam.model.Event',
 	
+	pageSize: 30,
+	
 	autoLoad: true,
+	
 	async: true,
-
+	
 	proxy: {
 		type: 'ajax',
 		url: 'events/load',
+		
+		enablePaging: true,
+		
 		reader: {
 			type: 'json',
-			root: 'data'
+			root: 'data',
+			totalProperty: 'total'				
 		}
 	},
 	

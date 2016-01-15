@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,14 +42,19 @@ public class EventController {
 	private MessageSource messageSource;
 	
 	private String eventDatetime;
+	
 
 	@RequestMapping("/load")
 	@ResponseBody
-	public Map loadData() {
+	public Map loadData(@RequestParam(value="start",required=true) int start,
+			@RequestParam(value="limit",required=true) int limit) {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		result.put("data", eventService.loadData());
+		List<String[]> data = eventService.loadData(start,limit);
+		
+		result.put("data"	, data							);
+		result.put("total"	, eventService.activeAlarms()	);
 		
 		return result;
 	}
