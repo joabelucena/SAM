@@ -50,7 +50,6 @@ Ext.define('Sam.view.alarm.type.TypeForm', {
 			fieldLabel : 'Classificação',
 			itemId: 'cla',
 			name: 'cla',
-//			store:  Ext.create('Sam.view.components.store.ComboBox'),
 			store: Ext.create('Ext.data.Store',{fields: ['id', 'desc'],
 			    data : [
 			        {"id":"C", "desc":"Comando"},

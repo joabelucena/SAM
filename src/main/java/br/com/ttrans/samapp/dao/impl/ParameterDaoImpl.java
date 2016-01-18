@@ -33,14 +33,10 @@ public class ParameterDaoImpl implements ParameterDao {
 		session.getCurrentSession().delete(parameter);
 	}
 
-	@Override
-	public Parameter get(int id) {
-		return (Parameter)session.getCurrentSession().get(Parameter.class, id);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Parameter> getAll() {
+	public List<Parameter> loadData() {
+		
 		return session.getCurrentSession().createCriteria(Parameter.class)
 				.list();
 	}

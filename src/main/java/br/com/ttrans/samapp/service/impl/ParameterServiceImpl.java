@@ -15,31 +15,26 @@ import br.com.ttrans.samapp.service.ParameterService;
 public class ParameterServiceImpl implements ParameterService {
 	
 	@Autowired
-	private ParameterDao parameterDao;
+	private ParameterDao dao;
 	
 	@Transactional
 	public void add(Parameter parameter, Authentication authentication) {
-		parameterDao.add(parameter, authentication);
+		dao.add(parameter, authentication);
 	}
 
 	@Transactional
 	public void edit(Parameter parameter, Authentication authentication) {
-		parameterDao.edit(parameter, authentication);
+		dao.edit(parameter, authentication);
 	}
 
 	@Transactional
 	public void delete(Parameter parameter, Authentication authentication) {
-		parameterDao.delete(parameter, authentication);
+		dao.delete(parameter, authentication);
 	}
 
 	@Transactional
-	public Parameter get(int id) {
-		return parameterDao.get(id);
-	}
-
-	@Transactional
-	public List<Parameter>  getAll() {
-		return parameterDao.getAll();
+	public List<Parameter> loadData() {
+		return dao.loadData();
 	}
 
 }

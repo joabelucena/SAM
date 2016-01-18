@@ -30,7 +30,7 @@
 	     	,'ServiceOrderRules'		,'TaskEquipment'
 	     	,'ServiceOrderStatus'		,'UserRole'
 	     	,'Sam.store.TaskCondition'	,'ServiceOrderOccurrence'
-	     	,'System'
+	     	,'System'					,'Parameter'
 	     	],
    
 	controllers: [
@@ -39,5 +39,5 @@
 	               ,'Technician'		,'Site'
 	               ,'SeverityLevel'		,'Alarm'
 	               ,'Task'				,'User'
-	               ,'Home']
+	               ,'Home'				,'Parameter']
 });

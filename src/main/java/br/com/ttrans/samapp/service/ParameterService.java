@@ -10,6 +10,5 @@ public interface ParameterService {
 	public void add(Parameter parameter, Authentication authentication);
 	public void edit(Parameter parameter, Authentication authentication);
 	public void delete(Parameter parameter, Authentication authentication);
-	public Parameter get(int id);
-	public List<Parameter> getAll();
+	public List<Parameter> loadData();
 }
