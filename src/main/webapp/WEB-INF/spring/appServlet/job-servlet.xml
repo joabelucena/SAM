@@ -9,15 +9,10 @@
 	<!-- Defines Annotations Usage -->
 	<task:annotation-driven />
 	
-	<!-- bean: Rules Verification -->
-	
-	<!-- Comented by Jobs -->
+	<!-- Maintenance jobs (Rules Execution, KPI (MTTBF, MTTR) updates, etc..  -->
 	<bean id="samScheduledTasks" class="br.com.ttrans.samapp.job.Maintenance"/>
 	
-	 
-	<!-- bean: SamKeepAlive -->
-	
-	<!-- Comented by Jobs 
-	<bean id="samKeepAlive" class="br.com.ttrans.samapp.job.KeepAlive"/> 	
- 	-->
+	<!-- Keep Alive (Not Implemented) -->
+	<!-- bean id="samKeepAlive" class="br.com.ttrans.samapp.job.KeepAlive"/--> 	
+ 	
 </beans>

@@ -1,5 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,9 +26,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.library.MailClient;
+import br.com.ttrans.samapp.model.Equipment;
+import br.com.ttrans.samapp.model.KPI;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.User;
+import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EventService;
+import br.com.ttrans.samapp.service.KPIService;
 import br.com.ttrans.samapp.service.StatusRuleService;
 import br.com.ttrans.samapp.service.TaskService;
 
@@ -48,6 +54,12 @@ public class HomeController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private KPIService kpiService;
+	
+	@Autowired
+	private EquipmentService eqService;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -128,26 +140,15 @@ public class HomeController {
 	public Map<String, Object> testeSam(HttpServletRequest request) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		/*
-		int type, alarm;
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
-		  
-		Date date = new Date();
+		Equipment e = eqService.get("XPTO_02");
 		
-		try {
-			date = sdf.parse("08/11/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		KPI kpi = kpiService.getKPI(e);
 		
-		alarm = eventService.countByAlarm(new Equipment("XPTO_01"), new Alarm("XPTONORMAL"), date);
-		type =  eventService.countByType(new Equipment("XPTO_01"), new AlarmType(1), date);
 		
-		*/
+		System.out.println("para");
 		
-		result.put("qtdAlarm", eventService.activeAlarms());
+		result.put("teste", kpi);
 		
 		
 		return result;

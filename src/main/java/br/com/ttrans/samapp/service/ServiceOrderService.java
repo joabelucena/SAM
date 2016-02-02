@@ -14,5 +14,5 @@ public interface ServiceOrderService {
 	public void delete(ServiceOrder serviceorder, Authentication authentication);
 	public ServiceOrder get(int id);
 	public List<ServiceOrder> loadData();
-	public List<ServiceOrder> loadKPIData(Equipment equipment, Date d1, Date d2);
+	public List<ServiceOrder> loadKPIData(Equipment equipment, Date from, Date to);
 }

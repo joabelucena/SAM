@@ -133,7 +133,7 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 	}
 	
 	@Transactional
-	public List<ServiceOrder> loadKPIData(Equipment equipment, Date d1, Date d2){
-		return dao.loadKPIData(equipment, d1, d2);
+	public List<ServiceOrder> loadKPIData(Equipment equipment, Date from, Date to){
+		return dao.loadKPIData(equipment, from, to);
 	}
 }

@@ -23,6 +23,9 @@ public class EquipmentType {
 	
 	@Column(name="ety_description")
 	private String desc;
+	
+	@Column(name="ety_daily_hours")
+	private Float dailyHours;
 
 	@Column(updatable=false, name = "usr_insert")
 	private String insert;
@@ -46,6 +49,14 @@ public class EquipmentType {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	
+	public Float getDailyHours() {
+		return dailyHours;
+	}
+
+	public void setDailyHours(Float dailyHours) {
+		this.dailyHours = dailyHours;
 	}
 
 	public String getInsert() {

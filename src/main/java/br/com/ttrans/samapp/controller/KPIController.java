@@ -21,7 +21,7 @@ public class KPIController {
 	@Autowired
 	private KPIService service;
 
-	@RequestMapping("/all")
+	@RequestMapping("/load")
 	@ResponseBody
 	public Map<String, Object> getMtbf(HttpServletRequest request,
 			Authentication authentication, HttpServletResponse response) {

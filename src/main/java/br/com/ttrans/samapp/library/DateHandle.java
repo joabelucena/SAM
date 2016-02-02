@@ -11,7 +11,7 @@ public class DateHandle {
 	 * 
 	 * @param d1 Initial date
 	 * @param d2 Final date
-	 * @param dailyHours Quantity of hours in a day
+	 * @param dailyHours Equipment daily work hours
 	 * @return Amount of hours in the period.
 	 */
 	public static float diff(Date d1, Date d2, float dailyHours){
@@ -81,9 +81,6 @@ public class DateHandle {
 			
 			return 0f;
 		}
-		
-		
-		
 		
 	}
 
