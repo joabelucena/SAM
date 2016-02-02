@@ -710,7 +710,16 @@ var footer = {
 						            },{
 								    	xtype: 'tbfill'
 								    }]
-								}],
+								},{
+								    xtype: 'toolbar',
+								    dock: 'bottom',
+								    
+								    items: [{
+								    	xtype: 'pagingtoolbar',
+								    	displayInfo: true,
+								    	border: false
+								    }]
+					}],
 								columns:[{
 									xtype: 'checkcolumn',
 									dataIndex: 'active',
