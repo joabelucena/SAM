@@ -3,21 +3,22 @@ package br.com.ttrans.samapp.model;
 import java.util.Date;
 
 public class KPI {
-	
+
 	private Equipment equipment;
-	
+
 	private Float totalTime;
-	
+
 	private Float brokenTime;
-	
+
 	private int breakCount;
-	
+
 	private Date from;
-	
+
 	private Date to;
-	
-	public KPI() {}
-	
+
+	public KPI() {
+	}
+
 	public Equipment getEquipment() {
 		return equipment;
 	}
@@ -26,11 +27,11 @@ public class KPI {
 		this.equipment = equipment;
 	}
 
-	public Float getTotalTime(){
+	public Float getTotalTime() {
 		return this.totalTime;
 	}
-	
-	public void setTotalTime(Float totalTime){
+
+	public void setTotalTime(Float totalTime) {
 		this.totalTime = totalTime;
 	}
 
@@ -65,23 +66,24 @@ public class KPI {
 	public void setTo(Date to) {
 		this.to = to;
 	}
-	
+
 	/**
-	 * MTBF (Mean Time Between Failures) calculation function 
+	 * MTBF (Mean Time Between Failures) - Calculation function
 	 * 
 	 * @return MTBF value
 	 */
-	public Float getMTBF(){
-		return this.breakCount == 0f ? 0f : (this.totalTime - this.brokenTime) / this.breakCount;
+	public Float getMTBF() {
+		return this.breakCount == 0f ? 0f : (this.totalTime - this.brokenTime)
+				/ this.breakCount;
 	}
-	
+
 	/**
-	 * MTTR (Mean Time To Repair) calculation function
+	 * MTTR (Mean Time To Repair) - Calculation function
 	 * 
 	 * @return MTTR value
 	 */
-	public Float getMTTR(){
+	public Float getMTTR() {
 		return this.breakCount == 0f ? 0f : (this.brokenTime) / this.breakCount;
 	}
-		
+
 }

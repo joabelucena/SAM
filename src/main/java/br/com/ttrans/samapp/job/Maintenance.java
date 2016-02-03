@@ -37,7 +37,7 @@ public class Maintenance {
 	/**
 	 * Process all maintenance tasks
 	 * 
-	 * Runs every day @ 23:30
+	 * Schedule: Runs every day @ 23:30
 	 */
 	@Scheduled(cron="0 30 23 1/1 * ?")
 	public void checkRules(){
@@ -62,9 +62,10 @@ public class Maintenance {
 	
 	/**
 	 * Runs KPI's calcs and update equipment's MTBF calc field.
+	 * 
+	 * Schedule: Runs every Friday @ 23:00
 	 */
-//	@Scheduled(cron="0 0 0 ? 1/1 MON#1")
-	@Scheduled(cron="0 0 23 1/1 * ?")
+	@Scheduled(cron="0 0 23 ? * FRI")
 	public void KPI(){
 		
 		logger.info(new SimpleDateFormat("dd/mm/YYYY hh:mm:ss a").format(new Date()) + " - Processing KPIs.. Please Wait......");
