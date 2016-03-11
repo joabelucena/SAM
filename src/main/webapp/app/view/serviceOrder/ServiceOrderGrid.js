@@ -145,9 +145,9 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
             		success: function (result, request) {
             			
             			var action = Ext.util.JSON.decode(result.responseText),
-            				split = me.down('toolbar')
-            						  .down('splitbutton'),
-            				menu = split.getMenu();
+            					menu = me.down('toolbar')
+            							.down('splitbutton')
+            							.getMenu();
             			
             			if(action.data.length > 0) {
             				
@@ -163,8 +163,6 @@ Ext.define('Sam.view.serviceOrder.ServiceOrderGrid' , {
                 					},
                 				});
                 			});
-            			}else{
-            				split.setDisabled(true);
             			}
             		}
             	});

@@ -27,6 +27,7 @@
 	       	/WEB-INF/spring/appServlet/security-servlet.xml
 	       	/WEB-INF/spring/appServlet/app-servlet.xml
 	       	/WEB-INF/spring/appServlet/ws-servlet.xml
+	       	/WEB-INF/spring/appServlet/wss-servlet.xml
 	       	/WEB-INF/spring/appServlet/job-servlet.xml
 	       	/WEB-INF/spring/appServlet/snmp-servlet.xml
 	    </param-value>
@@ -67,6 +68,7 @@
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+		<url-pattern>/services</url-pattern>
 	</servlet-mapping>
 
 	
@@ -91,6 +93,18 @@
 		<url-pattern>/alarmService/*</url-pattern>
 		<url-pattern>/systemService/*</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	<servlet>
+        <servlet-name>wss</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wss</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
 	
 	
 	<!-- Servlet: task-servlet -->

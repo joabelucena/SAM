@@ -1,7 +1,5 @@
 package br.com.ttrans.samapp.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.ttrans.samapp.library.MailClient;
-import br.com.ttrans.samapp.model.Equipment;
-import br.com.ttrans.samapp.model.KPI;
+import br.com.ttrans.samapp.library.ClassFinder;
+import br.com.ttrans.samapp.library.WebInfo;
 import br.com.ttrans.samapp.model.Menu;
 import br.com.ttrans.samapp.model.User;
-import br.com.ttrans.samapp.service.EquipmentService;
-import br.com.ttrans.samapp.service.EventService;
-import br.com.ttrans.samapp.service.KPIService;
-import br.com.ttrans.samapp.service.StatusRuleService;
-import br.com.ttrans.samapp.service.TaskService;
 
 /**
  * Handles requests for the application home page.
@@ -43,26 +34,10 @@ import br.com.ttrans.samapp.service.TaskService;
 @Controller
 public class HomeController {
 
-	@Autowired
-	private TaskService taskService;
+	// Add that at top of class
+	private static final String WSPACKAGE = "br.com.ttrans.samapp.ws.endpoint";
 
-	@Autowired
-	private StatusRuleService ruleService;
-
-	@Autowired
-	private MailClient client;
-	
-	@Autowired
-	private EventService eventService;
-	
-	@Autowired
-	private KPIService kpiService;
-	
-	@Autowired
-	private EquipmentService eqService;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -74,11 +49,119 @@ public class HomeController {
 
 		return "index";
 	}
-	
+
+	/**
+	 * Lists all web services and its informations
+	 */
+	@RequestMapping(value = { "/services", "/services/" }, method = RequestMethod.GET)
+	public String listServices(Locale locale, Model model, HttpServletRequest request) {
+
+//		@SuppressWarnings("all")
+//		final class WssDefinition {
+//
+//			private String name;
+//			private String description;
+//			private String url;
+//
+//			public WssDefinition(String name, String description, String url) {
+//				this.name = name;
+//				this.description = description;
+//				this.url = url;
+//			}
+//
+//			public String getName() {
+//				return name;
+//			}
+//
+//			public String getDescription() {
+//				return description;
+//			}
+//
+//			public String getUrl() {
+//				return url;
+//			}
+//
+//		}
+
+		List<Class<?>> classes = ClassFinder.find(WSPACKAGE);
+		
+		List<String[]> list = new ArrayList<String[]>();
+
+//		List<WssDefinition> list = new ArrayList<WssDefinition>();
+
+		String path = request.getRequestURL().substring(0,
+				request.getRequestURL().indexOf(request.getContextPath()) + request.getContextPath().length());
+
+		for (Class<?> obj : classes) {
+
+			if (obj.isAnnotationPresent(WebInfo.class)) {
+
+				WebInfo ws = (WebInfo) obj.getAnnotation(WebInfo.class);
+
+				System.out.println("Class Name: " + obj.getName());
+
+				System.out.println("---------");
+
+				System.out.println("Description :" + ws.description());
+				System.out.println("Name :" + ws.name());
+				System.out.println("URL :" + ws.url());
+
+				System.out.println("---------");
+				
+				String[] info = { ws.name(), ws.description(),  path.concat(ws.url()) };		
+				
+				list.add(info);
+				
+//				list.add(new String[]{"firstarg", "secondarg", "thirdarg"});
+
+//				list.add(ws.name(), ws.description(), path.concat(ws.url()));
+
+			}
+
+		}
+
+		// System.out.println("teste");
+
+		// try {
+		//
+		// Document doc = DocumentBuilderFactory.newInstance()
+		// .newDocumentBuilder()
+		// .parse(this.getClass().getResourceAsStream(WSCONTEXT));
+		//
+		// doc.getDocumentElement().normalize();
+		//
+		// NodeList nList = doc.getElementsByTagName("wss:binding");
+		//
+		// for (int temp = 0; temp < nList.getLength(); temp++) {
+		//
+		// Node nNode = nList.item(temp);
+		//
+		// if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		//
+		// Element eElement = (Element) nNode;
+		//
+		// list.add(new WssDefinition( eElement.getAttribute("name")
+		// ,eElement.getAttribute("description")
+		// ,path.concat(eElement.getAttribute("url"))));
+		//
+		// }
+		// }
+		//
+		//
+		// } catch (Exception e) {
+		// logger.error("Error trying to open file: " + WSCONTEXT);
+		// logger.error(e.getMessage());
+		// }
+
+		model.addAttribute("lists", list);
+
+		return "services";
+	}
+
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> menuLoad(HttpServletRequest request,
-			Locale locale, Model model, Authentication authentication) {
+	public Map<String, Object> menuLoad(HttpServletRequest request, Locale locale, Model model,
+			Authentication authentication) {
 
 		User user = (User) request.getSession().getAttribute("loggedUser");
 
@@ -118,19 +201,19 @@ public class HomeController {
 	@ResponseBody
 	public String taskTest() {
 
-		for(int i = 0; i <= 20; i++){
-//			
-//			String cMessage = "<html>Oi <b>Xuvisco!</b><br><br>Esse é o email: " + i+".</html>";
-//			
-//			client.sendMail(new String[] { "bruno.souza@inylbra.com.br" }	//PARA
-//			,new String[] {}										//CC
-//			,new String[] {}										//CCO
-//			,"TESTE Mail",											//ASSUNTO
-//			cMessage);												//MENSAGEM
-			
-		}
+		for (int i = 0; i <= 20; i++) {
+			//
+			// String cMessage = "<html>Oi <b>Xuvisco!</b><br><br>Esse é o
+			// email: " + i+".</html>";
+			//
+			// client.sendMail(new String[] { "bruno.souza@inylbra.com.br" }
+			// //PARA
+			// ,new String[] {} //CC
+			// ,new String[] {} //CCO
+			// ,"TESTE Mail", //ASSUNTO
+			// cMessage); //MENSAGEM
 
-		
+		}
 
 		return "test";
 	}
@@ -138,19 +221,9 @@ public class HomeController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> testeSam(HttpServletRequest request) {
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
-		
-		Equipment e = eqService.get("XPTO_02");
-		
-		KPI kpi = kpiService.getKPI(e);
-		
-		
-		System.out.println("para");
-		
-		result.put("teste", kpi);
-		
-		
+
 		return result;
 	}
 }

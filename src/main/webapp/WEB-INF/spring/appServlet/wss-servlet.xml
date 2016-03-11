@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+  xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://jax-ws.dev.java.net/spring/core			http://jax-ws.java.net/spring/core.xsd
+    http://jax-ws.dev.java.net/spring/servlet		http://jax-ws.java.net/spring/servlet.xsd">
+
+	
+	<wss:binding url="/services/hello">
+    
+        <wss:service>
+            <ws:service bean="#helloWs"/>
+        </wss:service>
+
+    </wss:binding>
+
+	<wss:binding url="/services/customer">
+        <wss:service>
+			<ws:service bean="#customerService"/>
+        </wss:service>
+    </wss:binding>
+    
+    <bean id="helloWs"			class="br.com.ttrans.samapp.ws.endpoint.HelloWorldWS"/>
+    
+    <bean id="customerService"	class="br.com.ttrans.samapp.ws.endpoint.CustomerEndpoint"/>
+
+
+
+    <!-- Web service methods -->
+<!--     <bean id="helloWs" class="br.com.ttrans.samapp.ws.endpoint.HelloWorldWS"> -->
+<!--     	<property name="helloWorldBo"	ref="HelloWorldBo" /> -->
+<!--     </bean> -->
+    
+<!--     <bean id="HelloWorldBo" class="br.com.ttrans.samapp.ws.bo.impl.HelloWorldBoImpl" /> -->
+
+</beans>
