@@ -16,7 +16,6 @@ import br.com.ttrans.samapp.ws.bo.HelloWorldBo;
 		,description="Este serviço provê um amigável Hello para quem o executa kkk oh la, não ta dando assim"		
 		,url="/services/hello")
 @WebService
-@Component
 public class HelloWorldWS{
 	
 	@Autowired

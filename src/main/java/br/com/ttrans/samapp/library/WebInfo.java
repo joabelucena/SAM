@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Provides Web Services Information that will be displayed on /services information page.
+ * Provides Web Services Information that will be displayed on /services information page. 
+ * 
+ * This annotation will be scanned for classes @ 'br.com.ttrans.samapp.ws.endpoint' package.  
  * 
  * @author Joabe Lucena
  *
