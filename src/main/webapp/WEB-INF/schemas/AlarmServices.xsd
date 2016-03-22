@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://maestro.thalesgroup.com/wsdl/alarm/xsd" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            elementFormDefault="qualified" 
+            attributeFormDefault="qualified" 
+            targetNamespace="http://maestro.thalesgroup.com/wsdl/alarm/xsd">
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">MAESTRO Alarm Management Schema.</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:complexType name="AlarmBase">
+    <xsd:annotation>
+      <xsd:documentation>
+        - creatorId: Business application identifier which creates alarm message - shared configuration
+        - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+        - timeStamp: UTC date when alarm message is sending (with milliseconds) - runtime
+        - alarmInstanceId: unique alarm identifier created by Business application following a specific pattern - runtime
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+      <xsd:element name="sessionInstanceId" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+      <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      <xsd:element name="alarmInstanceId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="MessageParams">
+    <xsd:annotation>
+      <xsd:documentation>
+        - name: pameter name - runtime
+        - value: parameter value - runtime
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+      <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AlarmDetail">
+    <xsd:complexContent>
+      <xsd:extension base="AlarmBase">
+        <xsd:annotation>
+          <xsd:documentation>
+            - alarmTypeId: alarm's type - shared configuration
+            - stateId: alarm's state - shared configuration
+            - severity: alarm's severity - shared configuration
+            - objectId: the one which raised the alarm (most of the time an equipment) - shared configuration
+            - areaId: the Maestro region in which alarm is raised - shared configuration
+            - apparitionDate: UTC alarm creation date (with millisecond) - runtime
+            - sopId: SOP associated with this alarm (only filled by SOA Framework) - shared configuration
+            - textMessageId: message text identifier for this alarm - shared configuration
+            - textMessageParams: text parameters to display in alarm message text if needed - runtime
+            - priorityId: alarm message treatment priority for the SOA framework (not used yet) - shared configuration
+            - "any": could be any specific elements defined in include schemas - runtime
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="alarmTypeId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+          <xsd:element name="stateId" minOccurs="1" maxOccurs="1" type="xsd:int"/>
+          <xsd:element name="severity" minOccurs="1" maxOccurs="1" type="xsd:int"/>
+          <xsd:element name="objectId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+          <xsd:element name="areaId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+          <xsd:element name="apparitionDate" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+          <xsd:element name="sopId" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+          <xsd:element name="textMessageId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+          <xsd:element name="textMessageParams" minOccurs="0" maxOccurs="unbounded" type="MessageParams"/>
+          <xsd:element name="priorityId" minOccurs="1" maxOccurs="1" type="xsd:int"/>
+          <xsd:any processContents="lax" minOccurs="0" maxOccurs="1" namespace="##targetNamespace"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:element name="AlarmRequestAck">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="AlarmBase">
+          <xsd:annotation>
+            <xsd:documentation>
+              - operatorId: operator identifier who has requested an acknowledgment - shared configuration
+              - comment: operator comment for alarm acknowledgement, if required - runtime
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="operatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+            <xsd:element name="comment" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="AlarmUpdateState">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="AlarmBase">
+          <xsd:annotation>
+            <xsd:documentation>
+              - stateId: alarm's state - shared configuration
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="stateId" minOccurs="1" maxOccurs="1" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="AlarmRefresh">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="AlarmBase">
+          <xsd:annotation>
+            <xsd:documentation>
+              - severity: alarm's severity - shared configuration
+              - textMessageId: message text identifier for this alarm - shared configuration
+              - textMessageParams: text parameters to display in alarm message text if needed - runtime
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+            <xsd:element name="severity" minOccurs="0" maxOccurs="1" type="xsd:int"/>
+            <xsd:element name="textMessageId" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+            <xsd:element name="textMessageParams" minOccurs="0" maxOccurs="unbounded" type="MessageParams"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="AlarmAdd">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="AlarmDetail"/>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="AlarmAllCurrent">
+    <xsd:complexType>
+      <xsd:annotation>
+        <xsd:documentation>
+          - creatorId: Business application identifier which creates alarm message - shared configuration
+          - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+          - timeStamp: UTC date when alarm message is sending (with milliseconds) - runtime
+          - alarmList: list of all current alarms - runtime
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+        <xsd:element name="alarmList" minOccurs="0" maxOccurs="unbounded" type="AlarmDetail"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="AlarmRequestAll">
+    <xsd:complexType>
+      <xsd:annotation>
+        <xsd:documentation>
+          - creatorId: Business application identifier which creates alarm message - shared configuration
+          - sessionInstanceId: unique session identifier given by SOA Framework - runtime
+          - timeStamp: UTC date when alarm message is sending (with milliseconds) - runtime
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+        <xsd:element name="creatorId" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="sessionInstanceId" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+        <xsd:element name="timeStamp" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+        
+  <xsd:element name="AlarmDelete">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="AlarmBase"/>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

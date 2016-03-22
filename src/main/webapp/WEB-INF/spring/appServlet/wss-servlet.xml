@@ -32,9 +32,9 @@
 
 	<bean id="customerService" class="br.com.ttrans.samapp.ws.endpoint.CustomerEndpoint" />
 
-	<bean id="serviceWs" class="br.com.ttrans.samapp.ws.endpoint.SystemEndpoint">
-		<property name="lala">
-			<map key-type="java.util.Date" value-type="java.lang.String" />
+	<bean id="serviceWs" class="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl">
+		<property name="connections">
+			<map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Connection" />
 		</property>
 	</bean>
 
