@@ -59,7 +59,7 @@ public class SystemServicesEndpoint {
 			
 			public void run(){
 				try {
-					systemServiceClient.sessionDetails(session, ipAddress);	
+//					systemServiceClient.sessionDetails(session, ipAddress);	
 				} catch (Exception e) {
 					System.out.println("NÃO FOI POSSÍVEL INVOCAR SessionDetails()");
 				}	
