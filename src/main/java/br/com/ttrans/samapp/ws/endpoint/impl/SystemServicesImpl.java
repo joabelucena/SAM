@@ -1,6 +1,11 @@
 package br.com.ttrans.samapp.ws.endpoint.impl;
 
+
+import java.math.BigInteger;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
@@ -9,6 +14,9 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
@@ -16,8 +24,7 @@ import br.com.ttrans.samapp.ws.bo.system.*;
 import br.com.ttrans.samapp.ws.cli.SystemServiceClient;
 import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
 
-@WebService(name = "SystemServices")
-@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@WebService(endpointInterface="br.com.ttrans.samapp.ws.endpoint.SystemEndpoint")
 public class SystemServicesImpl implements SystemEndpoint {
 
 	@Resource
@@ -32,8 +39,8 @@ public class SystemServicesImpl implements SystemEndpoint {
 		this.connections = connections;
 	}
 
-	@WebMethod(operationName = "Connection")
-	public void Connection(@WebParam(targetNamespace = NAMESPACE_URI) Connection payload) {
+	
+	public void Connection(Connection payload) {
 		
 		//Retrieves Http Request
 		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
@@ -42,12 +49,36 @@ public class SystemServicesImpl implements SystemEndpoint {
 		String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 		
 		//TODO Implementar chamada do client
-		final SystemServiceClient systemServiceClient = new SystemServiceClient();
+//		final SystemServiceClient systemServiceClient = new SystemServiceClient();
 
 		final String ipAddress = req.getRemoteAddr();
+		
+		final SessionDetail session = new SessionDetail();
+		
+		session.setCreatorId(payload.getCreatorId());
+		session.setSessionInstanceId(hash);
+		session.setTimeStamp(null);
 
 		// Add Connection + HashCode
 		connections.put(hash, payload);
+		
+		Thread call = new Thread(){
+			
+			public void run(){
+				try {
+					SystemServiceClient.SessionDetail("http://10.42.0.1:8080/SAM/services/Maestro/SystemServices?wsdl", session);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+					System.out.println("NÃO FOI POSSÍVEL INVOCAR SessionDetails()");
+				}	
+			}				
+		};
+		
+		call.start();
+		
+		
+		
 
 		System.out.println("Quantidade de Conexoes Ativas: " + connections.size());
 		System.out.println("IP cliente: " + ipAddress);
@@ -61,8 +92,8 @@ public class SystemServicesImpl implements SystemEndpoint {
 	}
 	
 	
-	@WebMethod(operationName = "SessionDetail")
-	public void SessionDetail(@WebParam(targetNamespace = NAMESPACE_URI) SessionDetail payload) {
+//	@WebMethod(operationName = "SessionDetail")
+	public void SessionDetail(SessionDetail payload) {
 		
 		//Retrieves Http Request
 		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
