@@ -10,8 +10,10 @@ import br.com.ttrans.samapp.ws.bo.system.SessionDetail;
 import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
 
 public class SystemServiceClient {
-	
-	private static final String URI = "http://impl.endpoint.ws.samapp.ttrans.com.br/";
+	/**
+	 * Maestro targetNamespace: http://maestro.thalesgroup.com/wsdl/system
+	 */
+	private static final String TARGET_NAMESPACE = "http://impl.endpoint.ws.samapp.ttrans.com.br/";
 
 	public static void SessionDetail(String URL, SessionDetail session) {
 
@@ -22,7 +24,7 @@ public class SystemServiceClient {
 
 			// 1st argument service URI, refer to wsdl document above
 			// 2nd argument is service name, refer to wsdl document above
-			QName qname = new QName(URI, "SystemServicesImplService");
+			QName qname = new QName(TARGET_NAMESPACE, "SystemServices");
 
 			Service service = Service.create(url, qname);
 

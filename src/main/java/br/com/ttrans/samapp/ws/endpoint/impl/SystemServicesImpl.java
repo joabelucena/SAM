@@ -24,7 +24,9 @@ import br.com.ttrans.samapp.ws.bo.system.*;
 import br.com.ttrans.samapp.ws.cli.SystemServiceClient;
 import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
 
-@WebService(endpointInterface="br.com.ttrans.samapp.ws.endpoint.SystemEndpoint")
+@WebService(serviceName="SystemServices",
+			portName="SystemPort",
+			endpointInterface="br.com.ttrans.samapp.ws.endpoint.SystemEndpoint")
 public class SystemServicesImpl implements SystemEndpoint {
 
 	@Resource

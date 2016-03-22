@@ -3,7 +3,7 @@
             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
             elementFormDefault="qualified" 
             attributeFormDefault="qualified" 
-            targetNamespace="http://samapp.ttrans.com.br/services/SystemServices">
+            targetNamespace="http://samapp.ttrans.com.br/services/SystemServices/xsd">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">MAESTRO System Management Schema.</xsd:documentation>

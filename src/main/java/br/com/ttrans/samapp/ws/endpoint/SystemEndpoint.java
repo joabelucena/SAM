@@ -15,7 +15,7 @@ import br.com.ttrans.samapp.ws.bo.system.*;
 @WebService
 @SOAPBinding(parameterStyle = ParameterStyle.BARE)
 public interface SystemEndpoint {
-	static final String NAMESPACE_URI = "http://samapp.ttrans.com.br/services/SystemServices";
+	static final String NAMESPACE_URI = "http://samapp.ttrans.com.br/services/SystemServices/xsd";
 	
 	@WebMethod(operationName = "Connection") public void Connection(@WebParam(targetNamespace = NAMESPACE_URI) Connection payload);
 	
