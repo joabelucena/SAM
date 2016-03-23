@@ -79,7 +79,6 @@ public class SystemServicesImpl implements SystemEndpoint {
 		
 		logger.info("Quantidade de Conexoes Ativas: " + connections.size());
 		logger.info("IP cliente: " + req.getRemoteAddr());
-		logger.info("Porta cliente: " + req.getRemotePort());
 
 		logger.info("*************************");
 		logger.info("** Nova conexão criada **");
@@ -109,21 +108,51 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 	@Override
 	public void Alive(Alive payload) {
-		// TODO Auto-generated method stub
+		
+		if (connections.containsKey(payload.getSessionInstanceId())) {
+			
+			if (payload.getConnectionStatus() == 1) {
+				
+				logger.error("ERRO DE COMUNICAÇÂO COM O SAM: " + payload.getCreatorId());
+				
+			}
+		}
 		
 	}
 
 
 	@Override
 	public void Active(Active payload) {
-		// TODO Auto-generated method stub
+		
+		
+		logger.info("*************************");
+		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
+		logger.info("** creatorId: " + payload.getCreatorId());
+		logger.info("** timeStamp: " + payload.getTimeStamp());
+		logger.info("*************************");
 		
 	}
 
 
 	@Override
 	public void Disconnection(Disconnection payload) {
-		// TODO Auto-generated method stub
+		
+		//Retrieves Http Request
+		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+		
+		logger.info("DESCONEXÃO PEDIDA PELO SISTEMA");
+		logger.info("*************************");
+		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
+		logger.info("** creatorId: " + payload.getCreatorId());
+		logger.info("** timeStamp: " + payload.getTimeStamp());
+		logger.info("*************************");
+		
+		//Removes connection
+		connections.remove(payload.getSessionInstanceId());
+		
+		logger.info("Quantidade de Conexoes Ativas: " + connections.size());
+		logger.info("IP cliente: " + req.getRemoteAddr());
 		
 	}
 	
