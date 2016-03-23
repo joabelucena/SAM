@@ -92,16 +92,12 @@ public class SystemServicesImpl implements SystemEndpoint {
 	@Override
 	public void SessionDetail(SessionDetail payload) {
 		
-		//Retrieves Http Request
-		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		
 		logger.info("*************************");
 		logger.info("** Detalhes da Seção **");
 		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
 		logger.info("** creatorId: " + payload.getCreatorId());
 		logger.info("** timeStamp: " + payload.getTimeStamp());
 		logger.info("*************************");
-
 		
 	}
 
