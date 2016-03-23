@@ -34,7 +34,7 @@ import br.com.ttrans.samapp.model.User;
 @Controller
 public class HomeController {
 
-	// Add that at top of class
+	//Endpoint package for scanning
 	private static final String WSPACKAGE = "br.com.ttrans.samapp.ws.endpoint";
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);

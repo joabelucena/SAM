@@ -55,6 +55,21 @@ public class SessionDetail {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar timeStamp;
 
+    
+    /**
+     * Constructors
+     */
+    public SessionDetail() {
+	}
+
+	public SessionDetail(String creatorId, String sessionInstanceId, XMLGregorianCalendar timeStamp) {
+		super();
+		this.creatorId = creatorId;
+		this.sessionInstanceId = sessionInstanceId;
+		this.timeStamp = timeStamp;
+	}
+    
+    
     /**
      * Gets the value of the creatorId property.
      * 
@@ -67,7 +82,9 @@ public class SessionDetail {
         return creatorId;
     }
 
-    /**
+    
+
+	/**
      * Sets the value of the creatorId property.
      * 
      * @param value
