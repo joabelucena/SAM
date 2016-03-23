@@ -1,25 +1,19 @@
 package br.com.ttrans.samapp.ws.endpoint.impl;
 
-
-import java.math.BigInteger;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.ws.bo.system.*;
 import br.com.ttrans.samapp.ws.cli.SystemServiceClient;
 import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
@@ -31,17 +25,20 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 	@Resource
 	WebServiceContext wsContext;
+	
+	private static final Logger logger = LoggerFactory.getLogger(SystemServicesImpl.class);
 
 	private Map<String, Connection> connections;
-
-	private static final String NAMESPACE_URI = "http://samapp.ttrans.com.br/services/SystemServices";
+	
+	@Autowired
+	private DAO dao;
 
 	@WebMethod(exclude = true)
 	public void setConnections(Map<String, Connection> connections) {
 		this.connections = connections;
 	}
 
-	
+	@Override
 	public void Connection(Connection payload) {
 		
 		//Retrieves Http Request
@@ -50,68 +47,113 @@ public class SystemServicesImpl implements SystemEndpoint {
 		//Generates connection id
 		String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 		
-		//TODO Implementar chamada do client
-//		final SystemServiceClient systemServiceClient = new SystemServiceClient();
-
-		final String ipAddress = req.getRemoteAddr();
+		final SessionDetail session = new SessionDetail(payload.getCreatorId(),
+														hash,
+														payload.getTimeStamp());
 		
-		final SessionDetail session = new SessionDetail();
+		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "")
+				.replace("<host>", req.getRemoteAddr());
 		
-		session.setCreatorId(payload.getCreatorId());
-		session.setSessionInstanceId(hash);
-		session.setTimeStamp(null);
+		if(urlWsdl.isEmpty()){
+			logger.info("Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
+		}else{
+			
+			
+			Thread call = new Thread(){
+				
+				public void run(){
+					try {
+						SystemServiceClient.SessionDetail(urlWsdl, session);
+					} catch (Exception e) {
+						logger.error("Não foi possivel incovar SessionDetails() para a URL: " + urlWsdl + ". Detalhes do Erro:");
+						logger.error(e.getMessage());
+					}	
+				}				
+			};
+			
+			call.start();
+		}
 
 		// Add Connection + HashCode
 		connections.put(hash, payload);
 		
-		Thread call = new Thread(){
-			
-			public void run(){
-				try {
-					SystemServiceClient.SessionDetail("http://10.42.0.1:8080/SAM/services/Maestro/SystemServices?wsdl", session);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-					System.out.println("NÃO FOI POSSÍVEL INVOCAR SessionDetails()");
-				}	
-			}				
-		};
-		
-		call.start();
-		
-		
-		
+		logger.info("Quantidade de Conexoes Ativas: " + connections.size());
+		logger.info("IP cliente: " + req.getRemoteAddr());
 
-		System.out.println("Quantidade de Conexoes Ativas: " + connections.size());
-		System.out.println("IP cliente: " + ipAddress);
-
-		System.out.println("*************************");
-		System.out.println("** Nova conexão criada **");
-		System.out.println("** Id: " + hash);
-		System.out.println("** creatorId: " + connections.get(hash).getCreatorId());
-		System.out.println("** timeStamp: " + connections.get(hash).getTimeStamp());
-		System.out.println("*************************");
+		logger.info("*************************");
+		logger.info("** Nova conexão criada **");
+		logger.info("** Id: " + hash);
+		logger.info("** creatorId: " + connections.get(hash).getCreatorId());
+		logger.info("** timeStamp: " + connections.get(hash).getTimeStamp());
+		logger.info("*************************");
 	}
 	
 	
-//	@WebMethod(operationName = "SessionDetail")
+	@Override
 	public void SessionDetail(SessionDetail payload) {
 		
 		//Retrieves Http Request
 		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		
-		System.out.println("*************************");
-		System.out.println("** Detalhes da Seção **");
-		System.out.println("** SessionInstanceId: " + payload.getSessionInstanceId());
-		System.out.println("** creatorId: " + payload.getCreatorId());
-		System.out.println("** timeStamp: " + payload.getTimeStamp());
-		System.out.println("*************************");
+		logger.info("*************************");
+		logger.info("** Detalhes da Seção **");
+		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
+		logger.info("** creatorId: " + payload.getCreatorId());
+		logger.info("** timeStamp: " + payload.getTimeStamp());
+		logger.info("*************************");
 
 		
 	}
-	
-	
-	
-	
+
+
+	@Override
+	public void Alive(Alive payload) {
+		
+		if (connections.containsKey(payload.getSessionInstanceId())) {
+			
+			if (payload.getConnectionStatus() == 1) {
+				
+				logger.error("ERRO DE COMUNICAÇÂO COM O SAM: " + payload.getCreatorId());
+				
+			}
+		}
+		
+	}
+
+
+	@Override
+	public void Active(Active payload) {
+		
+		
+		logger.info("*************************");
+		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
+		logger.info("** creatorId: " + payload.getCreatorId());
+		logger.info("** timeStamp: " + payload.getTimeStamp());
+		logger.info("*************************");
+		
+	}
+
+
+	@Override
+	public void Disconnection(Disconnection payload) {
+		
+		//Retrieves Http Request
+		HttpServletRequest req = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+		
+		logger.info("DESCONEXÃO PEDIDA PELO SISTEMA");
+		logger.info("*************************");
+		logger.info("** SessionInstanceId: " + payload.getSessionInstanceId());
+		logger.info("** creatorId: " + payload.getCreatorId());
+		logger.info("** timeStamp: " + payload.getTimeStamp());
+		logger.info("*************************");
+		
+		//Removes connection
+		connections.remove(payload.getSessionInstanceId());
+		
+		logger.info("Quantidade de Conexoes Ativas: " + connections.size());
+		logger.info("IP cliente: " + req.getRemoteAddr());
+		
+	}
 	
 }

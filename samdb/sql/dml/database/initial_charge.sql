@@ -11261,14 +11261,3 @@ COMMIT;
  
 /** END OF TABLE POPULATION **/
 
-/* 
- * Table:	SITES
- */
-
-
-
-COMMIT;
-
-/** END OF TABLE POPULATION **/
-
-
