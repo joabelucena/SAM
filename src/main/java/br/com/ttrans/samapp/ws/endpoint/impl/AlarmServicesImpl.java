@@ -29,7 +29,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAllCurrent(AlarmAllCurrent payload) {
 		// TODO Auto-generated method stub
-		List<AlarmDetail> alarms = payload.getAlarmList();
+		System.out.println("AlarmAllCurrent");
 		
 
 	}
@@ -37,19 +37,19 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAdd(AlarmAdd payload) {
 		// TODO Auto-generated method stub
-
+		System.out.println("AlarmAdd");
 	}
 
 	@Override
 	public void AlarmUpdateState(AlarmUpdateState payload) {
 		// TODO Auto-generated method stub
-
+		System.out.println("AlarmUpdateState");
 	}
 
 	@Override
 	public void AlarmDelete(AlarmDelete payload) {
 		// TODO Auto-generated method stub
-
+		System.out.println("AlarmDelete");
 	}
 
 }
