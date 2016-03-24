@@ -10,7 +10,7 @@ import br.com.ttrans.samapp.library.WebInfo;
 import br.com.ttrans.samapp.ws.bo.system.*;
 
 @WebInfo(name = "SystemServices",
-			description = "Este serviço provê um amigável Hello para quem o executa kkk oh la, não ta dando assim",
+			description = "Serviço interface Maestro Thales para gerenciamento de sessão.",
 			url = "/services/Maestro/SystemServices")
 @WebService
 @SOAPBinding(parameterStyle = ParameterStyle.BARE)

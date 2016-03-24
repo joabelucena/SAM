@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://maestro.thalesgroup.com/wsdl/alarm/xsd" 
+<xsd:schema xmlns="http://samapp.ttrans.com.br/services/AlarmServices/xsd" 
             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
             elementFormDefault="qualified" 
             attributeFormDefault="qualified" 
-            targetNamespace="http://maestro.thalesgroup.com/wsdl/alarm/xsd">
+            targetNamespace="http://samapp.ttrans.com.br/services/AlarmServices/xsd">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">MAESTRO Alarm Management Schema.</xsd:documentation>
