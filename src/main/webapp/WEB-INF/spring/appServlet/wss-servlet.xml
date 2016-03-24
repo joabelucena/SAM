@@ -14,39 +14,20 @@
 
 	</wss:binding>
 
-	<wss:binding url="/services/hello">
+	<wss:binding url="/services/Maestro/AlarmServices">
 
 		<wss:service>
-			<ws:service bean="#helloWs" />
+			<ws:service bean="#alarmWs" />
 		</wss:service>
 
 	</wss:binding>
 
-	<wss:binding url="/services/customer">
-		<wss:service>
-			<ws:service bean="#customerService" />
-		</wss:service>
-	</wss:binding>
-
-	<bean id="helloWs" class="br.com.ttrans.samapp.ws.endpoint.HelloWorldWS" />
-
-	<bean id="customerService" class="br.com.ttrans.samapp.ws.endpoint.CustomerEndpoint" />
+	<bean id="alarmWs" class="br.com.ttrans.samapp.ws.endpoint.impl.AlarmServicesImpl" />
 
 	<bean id="serviceWs" class="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl">
 		<property name="connections">
 			<map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Connection" />
 		</property>
 	</bean>
-
-
-
-
-	<!-- Web service methods -->
-	<!-- <bean id="helloWs" class="br.com.ttrans.samapp.ws.endpoint.HelloWorldWS"> -->
-	<!-- <property name="helloWorldBo" ref="HelloWorldBo" /> -->
-	<!-- </bean> -->
-
-	<!-- <bean id="HelloWorldBo" class="br.com.ttrans.samapp.ws.bo.impl.HelloWorldBoImpl" 
-		/> -->
 
 </beans>
