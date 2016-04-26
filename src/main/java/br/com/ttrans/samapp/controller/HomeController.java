@@ -56,38 +56,10 @@ public class HomeController {
 	@RequestMapping(value = { "/services", "/services/" }, method = RequestMethod.GET)
 	public String listServices(Locale locale, Model model, HttpServletRequest request) {
 
-//		@SuppressWarnings("all")
-//		final class WssDefinition {
-//
-//			private String name;
-//			private String description;
-//			private String url;
-//
-//			public WssDefinition(String name, String description, String url) {
-//				this.name = name;
-//				this.description = description;
-//				this.url = url;
-//			}
-//
-//			public String getName() {
-//				return name;
-//			}
-//
-//			public String getDescription() {
-//				return description;
-//			}
-//
-//			public String getUrl() {
-//				return url;
-//			}
-//
-//		}
 
 		List<Class<?>> classes = ClassFinder.find(WSPACKAGE);
 		
 		List<String[]> list = new ArrayList<String[]>();
-
-//		List<WssDefinition> list = new ArrayList<WssDefinition>();
 
 		String path = request.getRequestURL().substring(0,
 				request.getRequestURL().indexOf(request.getContextPath()) + request.getContextPath().length());
@@ -97,67 +69,27 @@ public class HomeController {
 			if (obj.isAnnotationPresent(WebInfo.class)) {
 
 				WebInfo ws = (WebInfo) obj.getAnnotation(WebInfo.class);
-
-				System.out.println("Class Name: " + obj.getName());
-
-				System.out.println("---------");
-
-				System.out.println("Description :" + ws.description());
-				System.out.println("Name :" + ws.name());
-				System.out.println("URL :" + ws.url());
-
-				System.out.println("---------");
 				
 				String[] info = { ws.name(), ws.description(),  path.concat(ws.url()) };		
 				
 				list.add(info);
-				
-//				list.add(new String[]{"firstarg", "secondarg", "thirdarg"});
-
-//				list.add(ws.name(), ws.description(), path.concat(ws.url()));
-
 			}
 
 		}
-
-		// System.out.println("teste");
-
-		// try {
-		//
-		// Document doc = DocumentBuilderFactory.newInstance()
-		// .newDocumentBuilder()
-		// .parse(this.getClass().getResourceAsStream(WSCONTEXT));
-		//
-		// doc.getDocumentElement().normalize();
-		//
-		// NodeList nList = doc.getElementsByTagName("wss:binding");
-		//
-		// for (int temp = 0; temp < nList.getLength(); temp++) {
-		//
-		// Node nNode = nList.item(temp);
-		//
-		// if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		//
-		// Element eElement = (Element) nNode;
-		//
-		// list.add(new WssDefinition( eElement.getAttribute("name")
-		// ,eElement.getAttribute("description")
-		// ,path.concat(eElement.getAttribute("url"))));
-		//
-		// }
-		// }
-		//
-		//
-		// } catch (Exception e) {
-		// logger.error("Error trying to open file: " + WSCONTEXT);
-		// logger.error(e.getMessage());
-		// }
-
+		
 		model.addAttribute("lists", list);
 
 		return "services";
 	}
 
+	/**
+	 * Loads User menu info
+	 * @param request
+	 * @param locale
+	 * @param model
+	 * @param authentication
+	 * @return
+	 */
 	@RequestMapping(value = "/menu/load", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> menuLoad(HttpServletRequest request, Locale locale, Model model,
@@ -182,12 +114,24 @@ public class HomeController {
 		return result;
 	}
 
+	/**
+	 * Retrieves Current time
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/gettime", method = RequestMethod.POST)
 	public ResponseEntity<Date> getTime(HttpServletRequest request) {
 
 		return new ResponseEntity<Date>(new Date(), HttpStatus.OK);
 	}
 
+	/**
+	 * Retrieves logged user name and Role
+	 * 
+	 * @param request
+	 * @param aut
+	 * @return
+	 */
 	@RequestMapping(value = "/getuser", method = RequestMethod.POST)
 	@ResponseBody
 	public String getUser(HttpServletRequest request, Authentication aut) {
@@ -196,28 +140,12 @@ public class HomeController {
 
 		return user.getUsername() + " | " + user.getRole().getRoleName();
 	}
-
-	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
-	@ResponseBody
-	public String taskTest() {
-
-		for (int i = 0; i <= 20; i++) {
-			//
-			// String cMessage = "<html>Oi <b>Xuvisco!</b><br><br>Esse é o
-			// email: " + i+".</html>";
-			//
-			// client.sendMail(new String[] { "bruno.souza@inylbra.com.br" }
-			// //PARA
-			// ,new String[] {} //CC
-			// ,new String[] {} //CCO
-			// ,"TESTE Mail", //ASSUNTO
-			// cMessage); //MENSAGEM
-
-		}
-
-		return "test";
-	}
-
+	
+	
+	/**
+	 * Test URL
+	 * @return
+	 */
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> testeSam(HttpServletRequest request) {
