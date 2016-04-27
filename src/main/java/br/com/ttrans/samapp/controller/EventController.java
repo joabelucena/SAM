@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EventService;
 
@@ -34,9 +33,6 @@ public class EventController {
 
 	@Autowired
 	private EventService eventService;
-
-	@Autowired
-	private DAO dao;
 	
 	@Autowired
 	private MessageSource messageSource;
