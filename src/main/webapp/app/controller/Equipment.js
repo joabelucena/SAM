@@ -18,7 +18,8 @@ Ext.define('Sam.controller.Equipment', {
 		     	'EquipmentProtocol',
 		     	'OperationalState',
 		     	'System',
-		     	'Document'],
+		     	'Document',
+		     	'OID'],
 	
 	views: ['Sam.view.equipment.EquipmentsGrid',
 	        'Sam.view.equipment.EquipmentsForm',
@@ -832,7 +833,8 @@ Ext.define('Sam.controller.Equipment', {
 				form.loadRecord(row);
 				
 				//Carrega Store
-				activeTab.down('grid').setStore(row.documents());
+				activeTab.down('#documentsgrid').setStore(row.documents());
+				activeTab.down('#oidgrid').setStore(row.oids());
 				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab)

@@ -16,7 +16,7 @@ var protocol = {
 		itemId: 'prot_id',
 		name: 'prot_id',
 		editable: false,
-		width: '40%',
+		width: 275,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Protocolo' ",
 		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
@@ -25,7 +25,7 @@ var protocol = {
 		itemId: 'prot_desc',
 		name: 'prot_desc',
 		readOnly : true,
-		width: '50%',
+		width: 600,
 		inputAttrTpl: " data-qtip='Descrição do Protocolo' ",
 	}],
 };
@@ -48,14 +48,14 @@ var model = {
 		name: 'id',
 		allowBlank : true,
 		editable: false,
-		width: '30%',
+		width: 275,
 		inputAttrTpl: " data-qtip='Código do Modelo' ",
 	},{
 		fieldLabel : 'Descrição',
 		itemId: 'desc',
 		name: 'desc',
 		allowBlank : false,
-		width: '60%',
+		width: 600,
 		inputAttrTpl: " data-qtip='Descrição do Modelo' "
 	}],
 };
@@ -88,12 +88,87 @@ var header = {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ protocol, model ],
+		items : [ model, protocol ],
 		
 		scrollable: true,
 
 	}]	
 };
+
+/**
+ * PAGE EAST
+ */
+var east = {
+	xtype: 'gridpanel',
+	itemId : 'oidgrid',
+	width: '100%',
+	height: '100%',
+	border: false,
+	
+	columns : {
+		
+		defaults:{
+			menuDisabled: true,
+			sortable: false,
+			editor: 'textfield'
+		},
+		
+		items: [{
+				text : 'OID',
+				width: 230,
+				sortable : true,
+				dataIndex : 'oid',
+			}, {
+				text : 'Alarme',
+				flex: 1,
+				sortable : true,
+				dataIndex : 'alarm',
+			},{
+				text : 'Ação',
+				xtype: 'actioncolumn',
+				itemId: 'actionClm',
+				width: 70,
+				align: 'center',
+				items: [{
+					iconCls: 'minus-circle',
+					tooltip: 'Excluir Linha',
+					handler: function(view, rowIndex, colIndex, item, e, record, row) {
+		
+						Ext.MessageBox.show({
+					        title: 'Atenção',
+					        msg: 'Confirma exclusão da linha?',
+					        buttons: Ext.MessageBox.OKCANCEL,
+					        icon: Ext.MessageBox.WARNING,
+					        fn: function(btn,  knowId, knowCheck){
+					        	if(btn == 'ok'){
+					            	view.getStore().remove(record);
+					            }			            	
+					        }
+						});
+					}
+				}]
+			}]
+	},
+	
+	dockedItems: [{
+	    xtype: 'toolbar',
+	    dock: 'bottom',
+	    
+	    items: [{
+	    	xtype: 'tbfill'
+		    },{
+				xtype: 'button',
+				itemId: 'btnAddDoc',
+				tooltip:'Incluir OID',
+				width: 50,
+				iconCls: 'plus',
+				handler: function(button){
+					console.log('para');
+				}
+			}]
+	}]
+};
+
 
 /**
  * PAGE FOOTER
@@ -192,6 +267,8 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 		    items:[header],
 		    itemId: 'center',
 		    region: 'center',
+
+			layout: 'fit',
 		    scrollable: true,
 		    margin: '5 0 0 0',
 		},{
@@ -205,8 +282,24 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 			scrollable: true,
 			minHeight: 250,
 			height: 250,
+		},{
+			title: 'OID',
+		    itemId: 'east',
+		    items:[east],
+		    region: 'east',
+		    scrollable: true,
+		    layout: 'fit',
+		    width: 400,
+		    minWidth: 400,
+		    collapsible: true,
+		    margin: '5 0 0 0',
 		}],
-	
+
+		listeners:{
+			afterrender: function(me, e){
+				me.down('#east').collapse(Ext.Component.DIRECTION_RIGHT,false);
+			}
+		},
 		dockedItems: [{
 		    xtype: 'toolbar',
 		    dock: 'bottom',
