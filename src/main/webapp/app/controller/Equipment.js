@@ -9,6 +9,7 @@ Ext.define('Sam.controller.Equipment', {
 		     	'EquipmentProtocol',
 		     	'OperationalState',
 		     	'System',
+		     	'OID'
 		     ],
 	
 	models: ['EquipmentManufacturer',
@@ -836,6 +837,10 @@ Ext.define('Sam.controller.Equipment', {
 				activeTab.down('#documentsgrid').setStore(row.documents());
 				activeTab.down('#oidgrid').setStore(row.oids());
 				
+				activeTab.down('#oidgrid').removePlugin(activeTab.down('#oidgrid').findPlugin('cellediting'));
+				activeTab.down('#oidgrid').headerCt.items.getAt(activeTab.down('#oidgrid').headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
+				
+				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab)
 				
@@ -870,9 +875,11 @@ Ext.define('Sam.controller.Equipment', {
 				
 				//Carrega Store
 				activeTab.down('grid').setStore(row.documents());
+				activeTab.down('#oidgrid').setStore(row.oids());
 				
 				//Habilita envio de Documentos
 				Ext.ComponentQuery.query('#btnAddDoc',activeTab)[0].setDisabled(false);
+				Ext.ComponentQuery.query('#btnAddOID',activeTab)[0].setDisabled(false);
 				
 				//Seta Botão Confirma: Alterar
 				Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('update')});
@@ -886,7 +893,10 @@ Ext.define('Sam.controller.Equipment', {
 		var activeTab = this.activateTab(2, null, 'equipmentmodelform', null, true);
 		
 		if(activeTab){
-	
+			
+			activeTab.down('#oidgrid').removePlugin(activeTab.down('#oidgrid').findPlugin('cellediting'));
+			activeTab.down('#oidgrid').headerCt.items.getAt(activeTab.down('#oidgrid').headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);	
+			
 			//Seta Botão Confirma: Incluir
 			Ext.ComponentQuery.query('#btnSubmit',activeTab)[0].setHandler(function() {this.fireEvent('create')});
 		}
@@ -913,6 +923,9 @@ Ext.define('Sam.controller.Equipment', {
 				
 				//Carrega Store
 				activeTab.down('grid').setStore(row.documents());
+				activeTab.down('#oidgrid').removePlugin(activeTab.down('#oidgrid').findPlugin('cellediting'));
+				activeTab.down('#oidgrid').headerCt.items.getAt(activeTab.down('#oidgrid').headerCt.items.findIndex('xtype','actioncolumn')).setVisible(false);
+				
 				
 				//Campos a desabilitar
 				var fields = Ext.ComponentQuery.query('form field',activeTab)
@@ -961,15 +974,22 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentModelStore(),						//Store
-			record		= form.getRecord();											//Registro
+			store		= this.getEquipmentModelStore(),							//Store
+			updated		= form.getRecord(),											//Dados atualizados
+			record		= store.findRecord('id',updated.get('id'));					//Registro
 		
 		if(form.isValid()){
-			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set(values);
+			
+			form.updateRecord();
 			
 			//Carrega dados do formulario na Store
-			store.findRecord('id',record.get('id')).set({protocol: Ext.create('Sam.model.EquipmentProtocol',{id: values.prot_id, desc: values.prot_desc})});
+			record.set(updated.getData());
+			
+			//Carrega dados do formulario na Store
+			record.setProtocol(updated.getProtocol());
+			
+			//Carrega OIDs
+			record.oids().setData(updated.oids().getData());
 			
 			//Sincroniza e Atualiza Store
 			this.syncStore(store, '#equipmentmodelgrid');

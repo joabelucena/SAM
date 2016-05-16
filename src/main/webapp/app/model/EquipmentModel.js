@@ -8,18 +8,18 @@ Ext.define('Sam.model.EquipmentModel', {
 	        
 	        {name: 'id'				, type: 'number'								},
 	        {name: 'desc'			, type: 'string'								},
-	        {name: 'prot_id'		, type: 'number'	, mapping: 'protocol.id'	},
-	        {name: 'prot_desc'		, type: 'string'	, mapping: 'protocol.desc'	},
 	        
 	        /** Form Aux Mappings **/
 			{name: 'model_id'		, type: 'number'	, mapping: 'id'				},
-			{name: 'model_desc'		, type: 'string'	, mapping: 'desc'			}
+			{name: 'model_desc'		, type: 'string'	, mapping: 'desc'			},
+			{name: 'prot_id'		, type: 'number'	, mapping: 'protocol.id'	},
+	        {name: 'prot_desc'		, type: 'string'	, mapping: 'protocol.desc'	},
         ],
 	
     belongsTo:  [{name: 'protocol', model: 'Sam.model.EquipmentProtocol', foreignKey: 'prot_id'}],
     
     hasMany: [
-              {name: 'documents', model: 'Sam.model.Document'	},
-              {name: 'oids'		, model: 'Sam.model.OID'		}
+              {name: 'documents', model: 'Sam.model.Document'	, foreignKey: 'model_id'},
+              {name: 'oids'		, model: 'Sam.model.OID'		, foreignKey: 'model_id'}
     ]
 });

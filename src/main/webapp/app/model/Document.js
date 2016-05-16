@@ -5,5 +5,7 @@ Ext.define('Sam.model.Document', {
 	        {name: 'desc'														},
 	        {name: 'url'			, type: 'string'							},
 	        {name: 'model_id'		, type: 'number'							},
-	        ]
+	        ],
+	        
+	 belongsTo:  [{name: 'model', model: 'Sam.model.EquipmentModel', foreignKey: 'model_id'	}]
 });

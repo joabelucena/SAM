@@ -105,6 +105,12 @@ var east = {
 	height: '100%',
 	border: false,
 	
+	
+	plugins : [ {
+		ptype : 'cellediting',
+		clicksToEdit : 2	
+	} ],
+	
 	columns : {
 		
 		defaults:{
@@ -118,11 +124,13 @@ var east = {
 				width: 230,
 				sortable : true,
 				dataIndex : 'oid',
+				itemId: 'oid',
 			}, {
 				text : 'Alarme',
 				flex: 1,
 				sortable : true,
 				dataIndex : 'alarm',
+				itemId: 'alarm',
 			},{
 				text : 'Ação',
 				xtype: 'actioncolumn',
@@ -158,12 +166,40 @@ var east = {
 	    	xtype: 'tbfill'
 		    },{
 				xtype: 'button',
-				itemId: 'btnAddDoc',
+				itemId: 'btnAddOID',
 				tooltip:'Incluir OID',
+				disabled: true,
 				width: 50,
 				iconCls: 'plus',
 				handler: function(button){
-					console.log('para');
+
+					var store = button.up('panel').getStore(),		// grid Store
+						record = store.getAt(store.data.length-1),	// last record
+						lAdd = false;								// boolean variable for validating last record
+					
+					//Se nao for primeiro registro
+					if(!record){
+						lAdd = true;
+					}else{
+						lAdd = record.isValid();
+					}
+					
+					//Se passou pela validação adiciona registro
+					if(lAdd){
+						
+						//Adiciona novo registro
+						store.add(Ext.create('Sam.model.OID'));
+						
+					}else{
+						
+						Ext.MessageBox.show({
+					        title: 'SAM | Info',
+					        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+					        buttons: Ext.MessageBox.OK,
+					        icon: Ext.MessageBox.WARNING
+						});
+						
+					}
 				}
 			}]
 	}]
@@ -260,6 +296,50 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
     defaults: {
         collapsible: false,
         split: true
+    },
+    
+    initComponent: function() {
+    	this.callParent(arguments);
+    	
+    	console.log('init');
+    	
+    	Ext.apply(this.down('#alarm'),{editor: {
+			xtype:'textfield',
+			allowBlank : false,
+			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Alarme',
+				buttons : [ {
+					text : 'Confirma',
+					itemId: 'submit',
+			        cls:'x-btn-default-small',
+			        iconCls: 'tick-button',
+			        handler: function(button) {
+			        	
+			        	//Aba Objecto Pai
+		        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+		        			window = button.up('window'),
+		        			record = button.up('window').down('grid').getSelection()[0];
+		        		
+			        	if(record){
+
+			        		//Conditions grid selection
+			        		var row = Ext.ComponentQuery.query('#oidgrid',activeTab)[0].getSelection()[0];
+			        		
+			        		row.set({'alarm': record.get('id')});
+			        		
+			        		window.close();
+			        		
+			        	}
+			        }
+			        
+				} ],
+				items:	[Ext.create('Sam.view.alarm.AlarmGrid',{
+					dockedItems:[],
+				})],
+
+			}).show()}}}
+    	}});
+    	
     },
     
     items: [{
