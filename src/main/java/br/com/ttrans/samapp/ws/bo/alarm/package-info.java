@@ -5,5 +5,5 @@
 // Generated on: 2016.03.24 at 10:26:12 AM BRT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://samapp.ttrans.com.br/services/AlarmServices/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://maestro.thalesgroup.com/wsdl/alarm/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package br.com.ttrans.samapp.ws.bo.alarm;

@@ -24,11 +24,11 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}AlarmBase">
+ *     &lt;extension base="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}AlarmBase">
  *       &lt;sequence>
  *         &lt;element name="severity" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="textMessageId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="textMessageParams" type="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}MessageParams" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="textMessageParams" type="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}MessageParams" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>

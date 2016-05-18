@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}AlarmDetail">
+ *     &lt;extension base="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}AlarmDetail">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>

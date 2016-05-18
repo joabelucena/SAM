@@ -39,7 +39,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="sessionInstanceId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="alarmList" type="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}AlarmDetail" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="alarmList" type="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}AlarmDetail" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>

@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  * <pre>
  * &lt;complexType name="AlarmDetail">
  *   &lt;complexContent>
- *     &lt;extension base="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}AlarmBase">
+ *     &lt;extension base="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}AlarmBase">
  *       &lt;sequence>
  *         &lt;element name="alarmTypeId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="stateId" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -39,9 +39,9 @@ import org.w3c.dom.Element;
  *         &lt;element name="apparitionDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="sopId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="textMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="textMessageParams" type="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}MessageParams" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="textMessageParams" type="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}MessageParams" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="priorityId" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;any processContents='lax' namespace='http://samapp.ttrans.com.br/services/AlarmServices/xsd' minOccurs="0"/>
+ *         &lt;any processContents='lax' namespace='http://maestro.thalesgroup.com/wsdl/alarm/xsd' minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>

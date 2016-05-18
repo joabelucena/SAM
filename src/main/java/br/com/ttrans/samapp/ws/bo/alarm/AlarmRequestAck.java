@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://samapp.ttrans.com.br/services/AlarmServices/xsd}AlarmBase">
+ *     &lt;extension base="{http://maestro.thalesgroup.com/wsdl/alarm/xsd}AlarmBase">
  *       &lt;sequence>
  *         &lt;element name="operatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
