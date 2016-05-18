@@ -16,7 +16,7 @@ var protocol = {
 		itemId: 'prot_id',
 		name: 'prot_id',
 		editable: false,
-		width: '40%',
+		width: 275,
 		allowBlank : false,
 		inputAttrTpl: " data-qtip='Código do Protocolo' ",
 		triggers: {f3: {handler: function() {this.fireEvent('click')}}}
@@ -25,7 +25,7 @@ var protocol = {
 		itemId: 'prot_desc',
 		name: 'prot_desc',
 		readOnly : true,
-		width: '50%',
+		width: 600,
 		inputAttrTpl: " data-qtip='Descrição do Protocolo' ",
 	}],
 };
@@ -48,14 +48,14 @@ var model = {
 		name: 'id',
 		allowBlank : true,
 		editable: false,
-		width: '30%',
+		width: 275,
 		inputAttrTpl: " data-qtip='Código do Modelo' ",
 	},{
 		fieldLabel : 'Descrição',
 		itemId: 'desc',
 		name: 'desc',
 		allowBlank : false,
-		width: '60%',
+		width: 600,
 		inputAttrTpl: " data-qtip='Descrição do Modelo' "
 	}],
 };
@@ -88,12 +88,123 @@ var header = {
 
 		bodyPadding : 10,
 		border : false,
-		items : [ protocol, model ],
+		items : [ model, protocol ],
 		
 		scrollable: true,
 
 	}]	
 };
+
+/**
+ * PAGE EAST
+ */
+var east = {
+	xtype: 'gridpanel',
+	itemId : 'oidgrid',
+	width: '100%',
+	height: '100%',
+	border: false,
+	
+	
+	plugins : [ {
+		ptype : 'cellediting',
+		clicksToEdit : 2	
+	} ],
+	
+	columns : {
+		
+		defaults:{
+			menuDisabled: true,
+			sortable: false,
+			editor: 'textfield'
+		},
+		
+		items: [{
+				text : 'OID',
+				width: 230,
+				sortable : true,
+				dataIndex : 'oid',
+				itemId: 'oid',
+			}, {
+				text : 'Alarme',
+				flex: 1,
+				sortable : true,
+				dataIndex : 'alarm',
+				itemId: 'alarm',
+			},{
+				text : 'Ação',
+				xtype: 'actioncolumn',
+				itemId: 'actionClm',
+				width: 70,
+				align: 'center',
+				items: [{
+					iconCls: 'minus-circle',
+					tooltip: 'Excluir Linha',
+					handler: function(view, rowIndex, colIndex, item, e, record, row) {
+		
+						Ext.MessageBox.show({
+					        title: 'Atenção',
+					        msg: 'Confirma exclusão da linha?',
+					        buttons: Ext.MessageBox.OKCANCEL,
+					        icon: Ext.MessageBox.WARNING,
+					        fn: function(btn,  knowId, knowCheck){
+					        	if(btn == 'ok'){
+					            	view.getStore().remove(record);
+					            }			            	
+					        }
+						});
+					}
+				}]
+			}]
+	},
+	
+	dockedItems: [{
+	    xtype: 'toolbar',
+	    dock: 'bottom',
+	    
+	    items: [{
+	    	xtype: 'tbfill'
+		    },{
+				xtype: 'button',
+				itemId: 'btnAddOID',
+				tooltip:'Incluir OID',
+				disabled: true,
+				width: 50,
+				iconCls: 'plus',
+				handler: function(button){
+
+					var store = button.up('panel').getStore(),		// grid Store
+						record = store.getAt(store.data.length-1),	// last record
+						lAdd = false;								// boolean variable for validating last record
+					
+					//Se nao for primeiro registro
+					if(!record){
+						lAdd = true;
+					}else{
+						lAdd = record.isValid();
+					}
+					
+					//Se passou pela validação adiciona registro
+					if(lAdd){
+						
+						//Adiciona novo registro
+						store.add(Ext.create('Sam.model.OID'));
+						
+					}else{
+						
+						Ext.MessageBox.show({
+					        title: 'SAM | Info',
+					        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+					        buttons: Ext.MessageBox.OK,
+					        icon: Ext.MessageBox.WARNING
+						});
+						
+					}
+				}
+			}]
+	}]
+};
+
 
 /**
  * PAGE FOOTER
@@ -187,11 +298,56 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
         split: true
     },
     
+    initComponent: function() {
+    	this.callParent(arguments);
+    	
+    	Ext.apply(this.down('#alarm'),{editor: {
+			xtype:'textfield',
+			allowBlank : false,
+			editable: false,
+			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
+				title: 'Selecionar Alarme',
+				buttons : [ {
+					text : 'Confirma',
+					itemId: 'submit',
+			        cls:'x-btn-default-small',
+			        iconCls: 'tick-button',
+			        handler: function(button) {
+			        	
+			        	//Aba Objecto Pai
+		        		var activeTab = Ext.getCmp('viewportpanel').getActiveTab(),
+		        			window = button.up('window'),
+		        			record = button.up('window').down('grid').getSelection()[0];
+		        		
+			        	if(record){
+
+			        		//Conditions grid selection
+			        		var row = Ext.ComponentQuery.query('#oidgrid',activeTab)[0].getSelection()[0];
+			        		
+			        		row.set({'alarm': record.get('id')});
+			        		
+			        		window.close();
+			        		
+			        	}
+			        }
+			        
+				} ],
+				items:	[Ext.create('Sam.view.alarm.AlarmGrid',{
+					dockedItems:[],
+				})],
+
+			}).show()}}}
+    	}});
+    	
+    },
+    
     items: [{
 		    title: 'Dados do Modelo',
 		    items:[header],
 		    itemId: 'center',
 		    region: 'center',
+
+			layout: 'fit',
 		    scrollable: true,
 		    margin: '5 0 0 0',
 		},{
@@ -205,8 +361,24 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
 			scrollable: true,
 			minHeight: 250,
 			height: 250,
+		},{
+			title: 'OID',
+		    itemId: 'east',
+		    items:[east],
+		    region: 'east',
+		    scrollable: true,
+		    layout: 'fit',
+		    width: 400,
+		    minWidth: 400,
+		    collapsible: true,
+		    margin: '5 0 0 0',
 		}],
-	
+
+		listeners:{
+			afterrender: function(me, e){
+				me.down('#east').collapse(Ext.Component.DIRECTION_RIGHT,false);
+			}
+		},
 		dockedItems: [{
 		    xtype: 'toolbar',
 		    dock: 'bottom',

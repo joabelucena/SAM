@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ttrans.samapp.dao.AlarmDao;
-import br.com.ttrans.samapp.dao.EquipmentDao;
 import br.com.ttrans.samapp.dao.EventDao;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.AlarmType;
@@ -32,9 +31,6 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private AlarmDao alarmDao;
 	
-	@Autowired
-	private EquipmentDao equipmentDao;
-		
 	@Transactional
 	public void add(Event event) {
 		
@@ -125,6 +121,11 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Transactional
+	public void recognize(String extId, String user) {
+		eventDao.recognize(extId, user);
+	}
+	
+	@Transactional
 	public int normalize(Long id, Authentication authentication){
 		return eventDao.normalize(id, authentication);
 	}
@@ -132,6 +133,11 @@ public class EventServiceImpl implements EventService {
 	@Transactional
 	public void normalize(List<String> alarmsId, String equipment, String user){
 		eventDao.normalize(alarmsId, equipment,user);
+	}
+	
+	@Transactional
+	public void normalize(String extId, String user) {
+		eventDao.normalize(extId, user);
 	}
 	
 	@Transactional
@@ -163,7 +169,11 @@ public class EventServiceImpl implements EventService {
 	public Event get(long id) {
 		return eventDao.get(id);
 	}
-
+	
+	@Transactional
+	public Event get(String extId) {
+		return eventDao.get(extId);
+	}
 	
 	@Transactional
 	public List<Event> loadData(){
@@ -174,5 +184,4 @@ public class EventServiceImpl implements EventService {
 	public List<String[]> loadData(int start, int limit){
 		return eventDao.loadData(start, limit);
 	}
-	
 }

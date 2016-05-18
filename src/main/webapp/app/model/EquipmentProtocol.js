@@ -5,8 +5,14 @@ Ext.define('Sam.model.EquipmentProtocol', {
 	
 	fields:[
 	        {name: 'id'			, type: 'number'},
-	        {name: 'desc'		, type: 'string'}
-	       ],
+	        {name: 'desc'		, type: 'string'},
+	        
+	        /** Association Keys **/
+	        {name: 'prot_id'	, type: 'number'	, mapping: 'id'	},
+	        
+	        /** Grid Fields **/
+	        {name: 'prot_desc'	, type: 'string'	, mapping: 'desc'	},
+	        ],
 	       
-	hasMany: {model: 'Sam.model.EquipmentModel', foreignKey: 'prot_id'}
+	        belongsTo:  [{model: 'Sam.model.EquipmentModel'		, foreignKey: 'prot_id'	}],
 });

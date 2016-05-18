@@ -70,6 +70,24 @@ public class EventDaoImpl implements EventDao {
 	}
 	
 	@Override
+	public void recognize(String extId, String user) {
+		
+		String cQuery = null;
+		
+		cQuery = "UPDATE Event "
+				+ "SET EVE_RECO_USER = :USER, "
+				+ "EVE_RECO_DATE = :DATE "
+				+ "WHERE EVE_EXT_ID = :ID "
+				+ " AND EVE_RECO_USER IS NULL";
+		
+		Query qQuery = session.getCurrentSession().createQuery(cQuery);
+		qQuery.setParameter("USER"	, user		);
+		qQuery.setParameter("DATE"	, new Date());
+		qQuery.setParameter("ID"	, extId		);
+		
+	}
+	
+	@Override
 	public int normalize(Long id, Authentication authentication){
 		
 		String cQuery = null;
@@ -109,6 +127,25 @@ public class EventDaoImpl implements EventDao {
 		qQuery.setParameter("EQUIP"	, equipment);
 		
 		qQuery.executeUpdate();
+	}
+	
+	@Override
+	public void normalize(String extId, String user) {
+		
+		String cQuery = null;
+		
+		cQuery = "UPDATE Event "
+				+ "SET EVE_SOLV_USER = :USER, "
+				+ "EVE_SOLV_DATE = :DATE "
+				+ "WHERE EVE_EXT_ID = :ID "
+				+ " AND EVE_RECO_USER IS NOT NULL"
+				+ " AND EVE_SOLV_USER IS NULL";
+		
+		Query qQuery = session.getCurrentSession().createQuery(cQuery);
+		qQuery.setParameter("USER"	, user		);
+		qQuery.setParameter("DATE"	, new Date());
+		qQuery.setParameter("ID"	, extId		);
+		
 	}
 	
 	@Override
@@ -182,8 +219,8 @@ public class EventDaoImpl implements EventDao {
 			return (crit.list().size() > 0);
 		}catch(Exception e){
 			logger.info("Filtering Event error occurred. \n"
-					+ "Alarm:"+event.getAlarm().getId()+"\n" 
-					+ "Equipment:"+event.getEquipment().getId()+"\n"
+					+ "Alarm: " + event.getAlarm().getId()+"\n" 
+					+ "Equipment: " + event.getEquipment().getId()+"\n"
 					+ "Error details are showed bellow:");
 			logger.info(e.getMessage());
 			
@@ -195,6 +232,13 @@ public class EventDaoImpl implements EventDao {
 	@Override
 	public Event get(long id) {
 		return (Event) session.getCurrentSession().get(Event.class, id);
+	}
+	
+	@Override
+	public Event get(String extId) {
+		return (Event) session.getCurrentSession().createCriteria(Event.class)
+				.add(Restrictions.eq("extId"	, extId ))
+				.uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -303,7 +347,6 @@ public class EventDaoImpl implements EventDao {
 				.setMaxResults(limit)
 				.list();
 
-	}
-	
+	}	
 	
 }

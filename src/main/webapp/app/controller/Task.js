@@ -307,7 +307,7 @@ Ext.define('Sam.controller.Task', {
 			
 			Ext.each(record.equipments().data.items,function(item){
 				item.set({
-					equipment	: Ext.create('Sam.model.Equipment'		,{id: item.get('equipment_id')}	)
+					equipment : Ext.create('Sam.model.Equipment'		,{id: item.get('equipment_id')}	)
 				});
 			});
 			

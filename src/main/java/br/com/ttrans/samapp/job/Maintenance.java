@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import br.com.ttrans.samapp.library.MailClient;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.KPI;
-import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.KPIService;
 import br.com.ttrans.samapp.service.TaskService;
 
@@ -28,9 +27,6 @@ public class Maintenance {
 	
 	@Autowired
 	private KPIService kpiService;
-	
-	@Autowired
-	private EquipmentService equipmentService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(Maintenance.class);
 	

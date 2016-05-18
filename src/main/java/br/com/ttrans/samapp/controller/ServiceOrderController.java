@@ -22,7 +22,6 @@ import br.com.ttrans.samapp.model.ServiceOrderStatus;
 import br.com.ttrans.samapp.model.ServiceOrderType;
 import br.com.ttrans.samapp.model.StatusRule;
 import br.com.ttrans.samapp.model.User;
-import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.service.ServiceOrderJobService;
 import br.com.ttrans.samapp.service.ServiceOrderLogService;
 import br.com.ttrans.samapp.service.ServiceOrderService;
@@ -35,9 +34,6 @@ import br.com.ttrans.samapp.validator.impl.ServiceOrderValidator;
 @RequestMapping("/so")
 @SuppressWarnings("rawtypes")
 public class ServiceOrderController {
-
-	@Autowired
-	private EventService eventService;
 
 	@Autowired
 	private ServiceOrderService soService;

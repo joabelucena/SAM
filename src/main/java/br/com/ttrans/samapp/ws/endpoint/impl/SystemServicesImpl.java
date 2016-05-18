@@ -37,6 +37,11 @@ public class SystemServicesImpl implements SystemEndpoint {
 	public void setConnections(Map<String, Connection> connections) {
 		this.connections = connections;
 	}
+	
+	@WebMethod(exclude = true)
+	public  Map<String, Connection> getConnections() {
+		return this.connections;
+	}
 
 	@Override
 	public void Connection(Connection payload) {

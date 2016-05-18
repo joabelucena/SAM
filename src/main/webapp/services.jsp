@@ -7,13 +7,15 @@
 table {
 	border: 1px solid black;
 	text-align: left;
-
+	width: 100%;
 }
+
 td, th, tr {
 	border: 1px solid black;
-
+	padding: 1px;
 }
-#nome{
+
+#nome {
 	width: 50%;
 }
 </style>
@@ -32,9 +34,11 @@ td, th, tr {
 					<td>
 						<ul>
 							<li>${listValue[0]}</li>
-							<ul>
-								<li>${listValue[1]}</li>
-							</ul>
+							<li style="list-style-type: none">
+								<ul>
+									<li>${listValue[1]}</li>
+								</ul>
+							</li>
 						</ul>
 					</td>
 

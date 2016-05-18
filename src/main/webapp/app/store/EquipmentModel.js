@@ -23,9 +23,9 @@ Ext.define('Sam.store.EquipmentModel', {
             messageProperty: 'message'
         },
         writer: {
-            type: 'json',
-            writeAllFields: true,
-            root: 'data'
+            type: 'associatedjson',
+            dateFormat: 'time',
+            writeAllFields: true
         },
         listeners: {
         	success: function(proxy, response, operation){
