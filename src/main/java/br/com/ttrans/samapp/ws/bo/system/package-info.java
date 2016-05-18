@@ -5,5 +5,5 @@
 // Generated on: 2016.03.22 at 02:00:45 PM BRT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://samapp.ttrans.com.br/services/SystemServices/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://maestro.thalesgroup.com/wsdl/system/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package br.com.ttrans.samapp.ws.bo.system;
