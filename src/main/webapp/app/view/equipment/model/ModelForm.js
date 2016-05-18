@@ -301,11 +301,10 @@ Ext.define('Sam.view.equipment.model.ModelForm', {
     initComponent: function() {
     	this.callParent(arguments);
     	
-    	console.log('init');
-    	
     	Ext.apply(this.down('#alarm'),{editor: {
 			xtype:'textfield',
 			allowBlank : false,
+			editable: false,
 			triggers: {f3: {handler: function() { Ext.create('Sam.view.components.PopUp',{
 				title: 'Selecionar Alarme',
 				buttons : [ {

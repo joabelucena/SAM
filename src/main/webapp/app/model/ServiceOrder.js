@@ -58,7 +58,7 @@ Ext.define('Sam.model.ServiceOrder', {
 	        
 	        
 	        hasMany : [
-	                   {name: 'occurrences'	, model : 'Sam.model.ServiceOrderOccurrence'},
+	                   {name: 'occurrences'	, model : 'Sam.model.ServiceOrderOccurrence'								},
 	                   {name: 'log'			, model : 'Sam.model.ServiceOrderLog'		, foreignKey: 'so_id'			}
 	                   ],
 	        idProperty: 'mockId',           

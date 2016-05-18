@@ -978,9 +978,29 @@ Ext.define('Sam.controller.Equipment', {
 			updated		= form.getRecord(),											//Dados atualizados
 			record		= store.findRecord('id',updated.get('id'));					//Registro
 		
-		if(form.isValid()){
+
+		//Validação form 
+		lValid = form.isValid();
+		
+		//Validação grid equipamentos
+		Ext.each(updated.oids().data.items,function(item){
+			lValid = lValid && item.isValid();
+		});
+		
+		if(!lValid){
+			Ext.MessageBox.show({
+		        title: 'SAM | Info',
+		        msg:  'Existem campos que não foram preenchidos. Preencha todos os campos corretamente',
+		        buttons: Ext.MessageBox.OK,
+		        icon: Ext.MessageBox.WARNING
+			});
+		}else{
 			
 			form.updateRecord();
+
+			//Comando especial para garantir a
+			//integridade e consistencia dos dados
+			record.set({pogAttr: '1'});
 			
 			//Carrega dados do formulario na Store
 			record.set(updated.getData());
@@ -1008,17 +1028,15 @@ Ext.define('Sam.controller.Equipment', {
 			store		= this.getEquipmentModelStore(),						//Store
 			record		= form.getRecord();											//Registro
 		
-		if(form.isValid()){
 		
-			//Apaga registro da Store
-			store.remove(record);
-			
-			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmodelgrid');
-			
-			//Fecha Aba
-			activeTab.close();
-		}
+		//Apaga registro da Store
+		store.remove(record);
+		
+		//Sincroniza e Atualiza Store
+		this.syncStore(store, '#equipmentmodelgrid');
+		
+		//Fecha Aba
+		activeTab.close();
 	},
 	
 	/*********** End Model Controlling ***********/

@@ -21,5 +21,19 @@ Ext.define('Sam.model.EquipmentModel', {
     hasMany: [
               {name: 'documents', model: 'Sam.model.Document'	, foreignKey: 'model_id'},
               {name: 'oids'		, model: 'Sam.model.OID'		, foreignKey: 'model_id'}
-    ]
+    ],
+    
+    
+    proxy: {
+	    type: 'ajax',
+	    
+	    api: {
+	    	update: 'equipment/model/update.action',
+	    },
+	    writer: {
+            type: 'associatedjson',
+            dateFormat: 'time',
+            writeAllFields: true
+        }
+	}
 });
