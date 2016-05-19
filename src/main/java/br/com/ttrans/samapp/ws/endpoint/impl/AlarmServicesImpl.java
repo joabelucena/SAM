@@ -1,5 +1,6 @@
 package br.com.ttrans.samapp.ws.endpoint.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.ttrans.samapp.model.Alarm;
+import br.com.ttrans.samapp.model.Equipment;
+import br.com.ttrans.samapp.model.Event;
 import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmAdd;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmAllCurrent;
@@ -34,7 +38,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AlarmServicesImpl.class);
 	
-	private static final String USR_NORM_INSERT = "";
+	private static final String USR_MAESTRO = "SAM_MAESTRO";
 	
 	@WebMethod(exclude = true)
 	public void setConnections(Map<String, Connection> connections) {
@@ -44,33 +48,65 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAllCurrent(AlarmAllCurrent payload) {
 		// TODO Auto-generated method stub
-		System.out.println("AlarmAllCurrent");
+		logger.info("AlarmAllCurrent");
 		
 	}
 
 	@Override
 	public void AlarmAdd(AlarmAdd payload) {
-		// TODO Auto-generated method stub
-		System.out.println("AlarmAdd");
-
-		logger.info("Quantidade de Conexoes Ativas: " + connections.size());
+		
+		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+		
+		if(connections.containsKey(payload.getSessionInstanceId())){
+			
+			/*
+			 * Confirmar atributos de identificação de equipamento e alarme
+			 */
+			Event e = new Event(
+					payload.getAlarmInstanceId(),
+					new Equipment(payload.getObjectId()), 
+					new Alarm(payload.getTextMessageId()), 
+					new Date(), 
+					USR_MAESTRO);
+			
+			service.add(e);
+			
+		}else{
+			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+		}
+		
 	}
 
 	@Override
 	public void AlarmUpdateState(AlarmUpdateState payload) {
 		
+		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+		
 		if(connections.containsKey(payload.getSessionInstanceId())){
-			logger.info("Sessão ativa");
+			
+			System.out.println("TESTE");
+			service.recognize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		}else{
-			logger.info("SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
 		}
 		
 	}
 
 	@Override
 	public void AlarmDelete(AlarmDelete payload) {
-		// TODO Auto-generated method stub
-		System.out.println("AlarmDelete");
+		System.out.println("CHEGOU");
+//		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+//		
+//		System.out.println("CHEGOU");
+//
+//		if(connections.containsKey(payload.getSessionInstanceId())){
+//			
+//			System.out.println("TESTE");
+//			service.normalize(payload.getAlarmInstanceId(), USR_MAESTRO);
+//		}else{
+//			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+//		}
+		
 	}
 
 }

@@ -85,6 +85,8 @@ public class EventDaoImpl implements EventDao {
 		qQuery.setParameter("DATE"	, new Date());
 		qQuery.setParameter("ID"	, extId		);
 		
+		qQuery.executeUpdate();
+		
 	}
 	
 	@Override
@@ -145,6 +147,8 @@ public class EventDaoImpl implements EventDao {
 		qQuery.setParameter("USER"	, user		);
 		qQuery.setParameter("DATE"	, new Date());
 		qQuery.setParameter("ID"	, extId		);
+		
+		qQuery.executeUpdate();
 		
 	}
 	

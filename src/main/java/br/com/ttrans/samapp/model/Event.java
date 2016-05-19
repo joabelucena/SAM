@@ -103,6 +103,15 @@ public class Event {
 		this.datetime = datetime;
 		this.insert = insert;
 	}
+	
+	public Event(String extId, Equipment equipment, Alarm alarm, Date datetime, String insert) {
+		super();
+		this.extId = extId;
+		this.equipment = equipment;
+		this.alarm = alarm;
+		this.datetime = datetime;
+		this.insert = insert;
+	}
 
 	public long getId() {
 		return id;
