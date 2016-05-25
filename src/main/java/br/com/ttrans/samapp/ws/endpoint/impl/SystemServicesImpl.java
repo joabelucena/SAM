@@ -70,7 +70,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 					try {
 						SystemServiceClient.SessionDetail(urlWsdl, session);
 					} catch (Exception e) {
-						logger.error("Não foi possivel incovar SessionDetails() para a URL: " + urlWsdl + ". Detalhes do Erro:");
+						logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl + ". Detalhes do Erro:");
 						logger.error(e.getMessage());
 					}	
 				}				

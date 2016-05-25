@@ -1,5 +1,6 @@
 package br.com.ttrans.samapp.ws.endpoint;
 
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -18,12 +19,12 @@ public interface AlarmEndpoint {
 
 	static final String NAMESPACE_URI = "http://maestro.thalesgroup.com/wsdl/alarm/xsd";
 	
-	@WebMethod(operationName = "alarmAllCurrent") 	public void AlarmAllCurrent(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAllCurrent payload);
+	@Oneway @WebMethod(operationName = "AlarmAllCurrent") 	public void AlarmAllCurrent(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAllCurrent payload);
 	
-	@WebMethod(operationName = "alarmAdd")			public void AlarmAdd(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAdd payload);
+	@Oneway @WebMethod(operationName = "AlarmAdd")			public void AlarmAdd(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAdd payload);
 	
-	@WebMethod(operationName = "alarmUpdateState") 	public void AlarmUpdateState(@WebParam(targetNamespace = NAMESPACE_URI) AlarmUpdateState payload);
+	@Oneway @WebMethod(operationName = "AlarmUpdateState") 	public void AlarmUpdateState(@WebParam(targetNamespace = NAMESPACE_URI) AlarmUpdateState payload);
 	
-	@WebMethod(operationName = "alarmDelete") 		public void AlarmDelete(@WebParam(targetNamespace = NAMESPACE_URI) AlarmDelete payload);
+	@Oneway @WebMethod(operationName = "AlarmDelete") 		public void AlarmDelete(@WebParam(targetNamespace = NAMESPACE_URI) AlarmDelete payload);
 
 }
