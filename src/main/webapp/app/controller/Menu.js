@@ -101,9 +101,14 @@ Ext.define('Sam.controller.Menu', {
 	
 	onTreePanelSelect: function(selModel, record, index, options) {
 		
-		var mainPanel = Ext.getCmp('viewportpanel');
+		var mainPanel = Ext.getCmp('viewportpanel'),
+			menuPanel = Ext.getCmp('viewportmenu');
+		
+		/** Precisa recolher o menu antes de abrir a aba **/
+		menuPanel.toggleCollapse(true);
 		
 		if(record.get('type') == "PANEL_RENDER"){
+			
 			//Rotina
 			var newTab = mainPanel.items.findBy(
 					function(tab){
@@ -120,8 +125,8 @@ Ext.define('Sam.controller.Menu', {
 			}
 			
 		}else if(record.get('type') == "SPAGO_REPORT"){
+
 			//Relatório do Spago
-			
 			var newTab = mainPanel.add({
 				xtype: 'spagobi',
 				spagoLabel: record.get('classname'),
@@ -145,8 +150,8 @@ Ext.define('Sam.controller.Menu', {
 			}
 			
 		}else if(record.get('type') == "INTERNAL_URL"){
-			//Abrir em Nova Aba do SAM
 			
+			//Abrir em Nova Aba do SAM
 			var newTab = mainPanel.add({
 				xtype: 'panel',
 				closable: true,
@@ -173,9 +178,6 @@ Ext.define('Sam.controller.Menu', {
 	onTreePanelItemClick: function(view, record, item, index, event, options){
 		
 		this.onTreePanelSelect(view, record, index, options);
-		
-		var menuPanel = Ext.getCmp('viewportmenu');
-		menuPanel.toggleCollapse(true);
 
 	}
 });

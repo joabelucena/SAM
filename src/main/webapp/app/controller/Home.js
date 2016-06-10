@@ -13,12 +13,7 @@ Ext.define('Sam.controller.Home', {
 		var store = me.getStore();
 		
 		if(store){
-			if(store.getData().length > 0 && store.getAutoLoad()){
-				store.reload();
-			}
+			store.load();
 		}
-		
 	}
-
-	
 });
