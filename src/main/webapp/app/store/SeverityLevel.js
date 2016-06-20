@@ -5,7 +5,7 @@ Ext.define('Sam.store.SeverityLevel', {
 	
 	model: 'Sam.model.SeverityLevel',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

@@ -3,7 +3,7 @@ Ext.define('Sam.store.UserRole', {
 	
 	model: 'Sam.model.UserRole',
 		
-	autoLoad: true,
+	autoLoad: false,
 	
 	sorters: { property: 'id'},
 

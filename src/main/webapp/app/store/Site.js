@@ -3,7 +3,7 @@ Ext.define('Sam.store.Site', {
 	
 	model: 'Sam.model.Site',
 	
-	autoLoad: true,
+	autoLoad: false,
 	
 	sorters: { property: 'id'},
 

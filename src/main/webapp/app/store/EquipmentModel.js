@@ -3,7 +3,7 @@ Ext.define('Sam.store.EquipmentModel', {
 	
 	model: 'Sam.model.EquipmentModel',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

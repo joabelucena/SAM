@@ -3,7 +3,7 @@ Ext.define('Sam.store.ServiceOrderType', {
 	
 	model: 'Sam.model.ServiceOrderType',
 		
-	autoLoad: true,
+	autoLoad: false,
 
 	proxy: {
         type: 'ajax',

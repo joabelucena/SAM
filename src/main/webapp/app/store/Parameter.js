@@ -3,7 +3,7 @@ Ext.define('Sam.store.Parameter', {
 	
 	model: 'Sam.model.Parameter',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

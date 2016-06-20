@@ -7,7 +7,7 @@ Ext.define('Sam.store.Events', {
 	
 	pageSize: 30,
 	
-	autoLoad: true,
+	autoLoad: false,
 	
 	async: true,
 	

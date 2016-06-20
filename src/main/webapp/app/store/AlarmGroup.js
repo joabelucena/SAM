@@ -3,7 +3,7 @@ Ext.define('Sam.store.AlarmGroup', {
 	
 	model: 'Sam.model.AlarmGroup',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

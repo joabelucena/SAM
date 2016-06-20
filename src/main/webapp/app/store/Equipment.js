@@ -7,7 +7,7 @@ Ext.define('Sam.store.Equipment', {
 	
 	pageSize: 30,
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	proxy: {
         type: 'ajax',

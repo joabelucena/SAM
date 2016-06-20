@@ -5,7 +5,7 @@ Ext.define('Sam.store.ServiceStation', {
 	
 	model: 'Sam.model.ServiceStation',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

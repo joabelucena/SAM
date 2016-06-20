@@ -5,7 +5,7 @@ Ext.define('Sam.store.EquipmentProtocol', {
 	
 	model: 'Sam.model.EquipmentProtocol',
 	
-	autoLoad: true,
+	autoLoad: false,
 	async: true,
 
 	proxy: {

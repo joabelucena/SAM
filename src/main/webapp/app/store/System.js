@@ -5,7 +5,7 @@ Ext.define('Sam.store.System', {
 	
 	model: 'Sam.model.System',
 	
-	autoLoad: true,
+	autoLoad: false,
 	async: true,
 
 	proxy: {

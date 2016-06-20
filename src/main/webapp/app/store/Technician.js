@@ -5,7 +5,7 @@ Ext.define('Sam.store.Technician', {
 	
 	model: 'Sam.model.Technician',
 	
-	autoLoad: true,
+	autoLoad: false,
 
 	sorters: { property: 'id'},
 

@@ -3,7 +3,7 @@ Ext.define('Sam.store.ServiceOrderRules', {
 	
 	model: 'Sam.model.ServiceOrderRules',
 		
-	autoLoad: true,
+	autoLoad: false,
 	
 	sorters: { property: 'id'},
 

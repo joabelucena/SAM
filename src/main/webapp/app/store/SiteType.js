@@ -5,7 +5,7 @@ Ext.define('Sam.store.SiteType', {
 	
 	model: 'Sam.model.SiteType',
 	
-	autoLoad: true,
+	autoLoad: false,
 	async: true,
 
 	proxy: {
