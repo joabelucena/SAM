@@ -19,12 +19,12 @@ public interface AlarmEndpoint {
 
 	static final String NAMESPACE_URI = "http://maestro.thalesgroup.com/wsdl/alarm/xsd";
 	
-	@Oneway @WebMethod(operationName = "AlarmAllCurrent") 	public void AlarmAllCurrent(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAllCurrent payload);
+	@Oneway @WebMethod(operationName = "AlarmAllCurrent", action="AlarmAllCurrent") public void AlarmAllCurrent(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAllCurrent payload);
 	
-	@Oneway @WebMethod(operationName = "AlarmAdd")			public void AlarmAdd(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAdd payload);
+	@Oneway @WebMethod(operationName = "AlarmAdd", action="AlarmAdd") public void AlarmAdd(@WebParam(targetNamespace = NAMESPACE_URI) AlarmAdd payload);
 	
-	@Oneway @WebMethod(operationName = "AlarmUpdateState") 	public void AlarmUpdateState(@WebParam(targetNamespace = NAMESPACE_URI) AlarmUpdateState payload);
+	@Oneway @WebMethod(operationName = "AlarmUpdateState", action="AlarmUpdateState") public void AlarmUpdateState(@WebParam(targetNamespace = NAMESPACE_URI) AlarmUpdateState payload);
 	
-	@Oneway @WebMethod(operationName = "AlarmDelete") 		public void AlarmDelete(@WebParam(targetNamespace = NAMESPACE_URI) AlarmDelete payload);
+	@Oneway @WebMethod(operationName = "AlarmDelete", action="AlarmDelete") public void AlarmDelete(@WebParam(targetNamespace = NAMESPACE_URI) AlarmDelete payload);
 
 }

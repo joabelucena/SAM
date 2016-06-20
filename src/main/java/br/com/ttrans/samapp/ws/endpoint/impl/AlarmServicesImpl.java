@@ -55,6 +55,14 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAdd(AlarmAdd payload) {
 		
+		
+		logger.info("*************************");
+		logger.info("** Novo Alarme **");
+		logger.info("** ID Thales: " + payload.getAlarmInstanceId());
+		logger.info("** Equipamento: " + payload.getObjectId());
+		logger.info("** Alarme: " + payload.getTextMessageId());
+		logger.info("*************************");
+		
 		String name = new Object(){}.getClass().getEnclosingMethod().getName();
 		
 		if(connections.containsKey(payload.getSessionInstanceId())){
@@ -84,7 +92,6 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		
 		if(connections.containsKey(payload.getSessionInstanceId())){
 			
-			System.out.println("TESTE");
 			service.recognize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		}else{
 			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");

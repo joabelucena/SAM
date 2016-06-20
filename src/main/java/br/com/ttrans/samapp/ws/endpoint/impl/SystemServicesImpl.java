@@ -69,6 +69,14 @@ public class SystemServicesImpl implements SystemEndpoint {
 				public void run(){
 					try {
 						SystemServiceClient.SessionDetail(urlWsdl, session);
+						
+						logger.info("*************************");
+						logger.info("** Retornado com sucesso para: " + urlWsdl + " **");
+						logger.info("** Id: " + session.getSessionInstanceId());
+						logger.info("** creatorId: " + session.getCreatorId());
+						logger.info("** timeStamp: " + session.getTimeStamp());
+						logger.info("*************************");
+						
 					} catch (Exception e) {
 						logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl + ". Detalhes do Erro:");
 						logger.error(e.getMessage());

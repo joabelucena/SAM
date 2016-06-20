@@ -18,14 +18,14 @@ import br.com.ttrans.samapp.ws.bo.system.*;
 public interface SystemEndpoint {
 	static final String NAMESPACE_URI = "http://maestro.thalesgroup.com/wsdl/system/xsd";
 	
-	@Oneway @WebMethod(operationName = "Connection") public void Connection(@WebParam(targetNamespace = NAMESPACE_URI) Connection payload);
+	@Oneway @WebMethod(operationName = "Connection"		, action="Connection") public void Connection(@WebParam(targetNamespace = NAMESPACE_URI) Connection payload);
 	
-	@Oneway @WebMethod(operationName = "SessionDetail") public void SessionDetail(@WebParam(targetNamespace = NAMESPACE_URI) SessionDetail payload);
+	@Oneway @WebMethod(operationName = "SessionDetail"	, action="SessionDetail") public void SessionDetail(@WebParam(targetNamespace = NAMESPACE_URI) SessionDetail payload);
 	
-	@Oneway @WebMethod(operationName = "Alive") public void Alive(@WebParam(targetNamespace = NAMESPACE_URI) Alive payload);
+	@Oneway @WebMethod(operationName = "Alive"			, action="Alive") public void Alive(@WebParam(targetNamespace = NAMESPACE_URI) Alive payload);
 	
-	@Oneway @WebMethod(operationName = "Active") public void Active(@WebParam(targetNamespace = NAMESPACE_URI) Active payload);
+	@Oneway @WebMethod(operationName = "Active"			, action="Active") public void Active(@WebParam(targetNamespace = NAMESPACE_URI) Active payload);
 	
-	@Oneway @WebMethod(operationName = "Disconnection") public void Disconnection(@WebParam(targetNamespace = NAMESPACE_URI) Disconnection payload);	
+	@Oneway @WebMethod(operationName = "Disconnection"	, action="Disconnection") public void Disconnection(@WebParam(targetNamespace = NAMESPACE_URI) Disconnection payload);	
 
 }
