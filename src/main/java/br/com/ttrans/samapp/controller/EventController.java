@@ -82,17 +82,29 @@ public class EventController {
 		
 		Event ev = eventService.get(id);
 		
-		if(ev instanceof Event){
+		if(ev.getAlarm() != null){
 			
+			//Alarme Cadastrado
 			if(ev.getAlarm().getManNorm().equals("Y")){
 			
 				try{
 					eventService.normalize(id, authentication);
 				}catch(Exception e){
-					result.put("error", e.getMessage());
+					result.put("error", "Erro ao normalizar alarme.");
+					e.printStackTrace();
 				}
+				
 			}else{
 				result.put("message", messageSource.getMessage("response.event.NotNormalizable", null, locale));
+			}
+		}else{
+			
+			//Alarme não cadastrado
+			try{
+				eventService.normalize(id, authentication);
+			}catch(Exception e){
+				result.put("error", "Erro ao normalizar alarme.");
+				e.printStackTrace();
 			}
 		}
 		
