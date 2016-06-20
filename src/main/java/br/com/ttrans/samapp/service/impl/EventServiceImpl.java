@@ -31,6 +31,11 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private AlarmDao alarmDao;
 	
+	/**
+	 * TODO Test this annotation properties for avoid duplicating entries
+	 * 
+	 * @Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRES_NEW)
+	 */
 	@Transactional
 	public void add(Event event) {
 		
