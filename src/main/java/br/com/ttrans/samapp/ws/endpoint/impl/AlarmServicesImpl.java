@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.ws.endpoint.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import br.com.ttrans.samapp.service.EventService;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmAdd;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmAllCurrent;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmDelete;
+import br.com.ttrans.samapp.ws.bo.alarm.AlarmDetail;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmUpdateState;
 import br.com.ttrans.samapp.ws.bo.system.Connection;
 import br.com.ttrans.samapp.ws.endpoint.AlarmEndpoint;
@@ -47,14 +49,17 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	
 	@Override
 	public void AlarmAllCurrent(AlarmAllCurrent payload) {
-		// TODO Auto-generated method stub
-		logger.info("AlarmAllCurrent");
+		
+		List<AlarmDetail> alarms = payload.getAlarmList();
+		
+		for (AlarmDetail alarmDetail : alarms) {
+			this.AlarmAdd((AlarmAdd) alarmDetail);
+		}
 		
 	}
 
 	@Override
 	public void AlarmAdd(AlarmAdd payload) {
-		
 		
 		logger.info("*************************");
 		logger.info("** Novo Alarme **");
@@ -67,13 +72,13 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		
 		if(connections.containsKey(payload.getSessionInstanceId())){
 			
-			/*
+			/**
 			 * Confirmar atributos de identificação de equipamento e alarme
 			 */
 			Event e = new Event(
 					payload.getAlarmInstanceId(),
-					new Equipment(payload.getObjectId()), 
-					new Alarm(payload.getTextMessageId()), 
+					new Equipment(payload.getObjectId()),
+					new Alarm(payload.getTextMessageId()),
 					new Date(), 
 					USR_MAESTRO);
 			
@@ -91,7 +96,6 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		String name = new Object(){}.getClass().getEnclosingMethod().getName();
 		
 		if(connections.containsKey(payload.getSessionInstanceId())){
-			
 			service.recognize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		}else{
 			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
@@ -101,19 +105,16 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 
 	@Override
 	public void AlarmDelete(AlarmDelete payload) {
-		System.out.println("CHEGOU");
-//		String name = new Object(){}.getClass().getEnclosingMethod().getName();
-//		
-//		System.out.println("CHEGOU");
-//
-//		if(connections.containsKey(payload.getSessionInstanceId())){
-//			
-//			System.out.println("TESTE");
-//			service.normalize(payload.getAlarmInstanceId(), USR_MAESTRO);
-//		}else{
-//			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
-//		}
-		
+
+		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+
+		if (connections.containsKey(payload.getSessionInstanceId())) {
+
+			service.normalize(payload.getAlarmInstanceId(), USR_MAESTRO);
+		} else {
+			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+		}
+
 	}
 
 }
