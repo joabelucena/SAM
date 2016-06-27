@@ -9,9 +9,11 @@ import javax.xml.ws.Service;
 import br.com.ttrans.samapp.ws.bo.system.SessionDetail;
 
 public class SystemServiceClient {
+	
 	/**
-	 * Maestro targetNamespace: http://maestro.thalesgroup.com/wsdl/system
-	 * VLTS Maestro Namespace: http://tempuri.org/
+	 * Atributo: targetNamespace.
+	 * Encontrado em Santos: http://tempuri.org/
+	 * Correto: http://maestro.thalesgroup.com/wsdl/system/xsd
 	 */
 	private static final String TARGET_NAMESPACE = "http://tempuri.org/";
 
@@ -22,14 +24,22 @@ public class SystemServiceClient {
 		try {
 			url = new URL(URL);
 
-			// 1st argument service URI, refer to wsdl document above
-			// 2nd argument is service name, refer to wsdl document above
 			QName qName = new QName(TARGET_NAMESPACE, "SystemServices");
 			
+			/**
+			 * Tag: <port>.
+			 * Encontrado em Santos: BasicHttpBinding_SystemPortType
+			 * Correto: SystemPort
+			 */
 			QName qPort = new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType");
 			
 			Service service = Service.create(url, qName);
 			
+			/**
+			 * A classe SystemServiceClientEndpoint foi criada pois o método SessionDetail se encontra minúsculo
+			 * no EPS e o NameSpace divergente (tempuri.org). Caso sejam padronizados/corrigidos esses pontos, poderá ser 
+			 * usada a classe br.com.ttrans.samapp.ws.endpoint.SystemEndpoint.
+			 */
 			SystemServiceClientEndpoint system = service.getPort(qPort, SystemServiceClientEndpoint.class);			
 			
 			system.sessionDetail(session);
