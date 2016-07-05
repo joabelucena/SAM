@@ -27,6 +27,7 @@ import br.com.ttrans.samapp.ws.endpoint.AlarmEndpoint;
 
 @WebService(serviceName="AlarmServices",
 portName="AlarmPort",
+targetNamespace="http://maestro.thalesgroup.com/wsdl/system/xsd",
 endpointInterface="br.com.ttrans.samapp.ws.endpoint.AlarmEndpoint")
 public class AlarmServicesImpl implements AlarmEndpoint {
 

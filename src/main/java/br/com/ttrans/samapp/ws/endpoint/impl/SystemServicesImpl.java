@@ -20,6 +20,7 @@ import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
 
 @WebService(serviceName="SystemServices",
 			portName="SystemPort",
+			targetNamespace="http://maestro.thalesgroup.com/wsdl/system/xsd",
 			endpointInterface="br.com.ttrans.samapp.ws.endpoint.SystemEndpoint")
 public class SystemServicesImpl implements SystemEndpoint {
 
