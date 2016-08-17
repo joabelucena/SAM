@@ -22,14 +22,17 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
 	@Transactional
 	public void add(EquipmentModel model, Authentication authentication) {
 
-		Iterator<EquipmentOID> oids = model.getOIDs().iterator();
+		if(model.getOIDs() != null){
+			
+			Iterator<EquipmentOID> oids = model.getOIDs().iterator();
 
-		// Sets insert user and relational conditions
-		while (oids.hasNext()) {
-			EquipmentOID oid = oids.next();
-			oid.setInsert(authentication.getName());
+			// Sets insert user and relational conditions
+			while (oids.hasNext()) {
+				EquipmentOID oid = oids.next();
+				oid.setInsert(authentication.getName());
+			}
 		}
-
+		
 		model.setInsert(authentication.getName());
 
 		dao.add(model, authentication);

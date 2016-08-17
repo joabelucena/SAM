@@ -1,41 +1,15 @@
 Ext.define('Sam.store.EquipmentManufacturer', {
-	extend: 'Ext.data.Store',
+	
+	extend: 'Sam.lib.AutoStore',
 	
 	model: 'Sam.model.EquipmentManufacturer',
-	
-	autoLoad: false,
 
 	proxy: {
-        type: 'ajax',
-        
-        api: {
+		api: {
         	read : 		'equipment/load/manufacturer',
 			create : 	'equipment/manufacturer/add.action',
 			update : 	'equipment/manufacturer/update.action',
 			destroy : 	'equipment/manufacturer/delete.action',
-        },
-        reader: {
-            type: 'json',
-            successProperty: 'success',
-            root: 'data',
-            messageProperty: 'message'
-        },
-        writer: {
-            type: 'json',
-            writeAllFields: false,
-            root: 'data'
-        },
-        listeners: {
-            exception: function(proxy, response, operation){
-            	console.log('exception');
-            },
-            success: function(proxy, response, operation){
-            	console.log('success');
-            },
-            
-            failure: function(proxy, response, operation){
-                console.log('failure');
-            },
         }
     }
 });

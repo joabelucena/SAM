@@ -37,9 +37,9 @@ Ext.define('Sam.controller.Equipment', {
 	        'Sam.view.equipment.system.SystemGrid',
 	        'Sam.view.equipment.system.SystemForm'],
 	        
-    refs: [
-           {    ref: 'lookup',     selector: 'popup'   }
-       ],
+    refs: [{ ref: 'lookup', selector: 'popup'   }],
+       
+    xUtils: Ext.create('Sam.lib.Util'),
 
 	init: function() {
 		
@@ -69,7 +69,6 @@ Ext.define('Sam.controller.Equipment', {
 			'#equipmentmanufacturergrid toolbar #btnDelete' :{
 				click: this.onManufacturerBtnDeleteClick
 			},
-			
 			
 			/* Buttons Listeners: Type
 			 * 
@@ -264,13 +263,14 @@ Ext.define('Sam.controller.Equipment', {
 	onManufacturerBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true, store);
 			
 			if(activeTab){
 			
@@ -296,13 +296,14 @@ Ext.define('Sam.controller.Equipment', {
 	onManufacturerBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentmanufacturerform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmentmanufacturerform', null, true, store);
 			
 			if(activeTab){
 				
@@ -319,10 +320,11 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onManufacturerBtnAddClick: function(){
-
+		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 			
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentmanufacturerform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmentmanufacturerform', null, true, store);
 		
 		if(activeTab){
 	
@@ -335,13 +337,14 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onManufacturerBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentmanufacturerform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmentmanufacturerform', null, true, store);
 			
 			if(activeTab){
 			
@@ -369,10 +372,8 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentManufacturerStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= Ext.create('Sam.model.EquipmentManufacturer');			//Registro
-		
-		
 		
 		if(form.isValid()){
 			
@@ -383,7 +384,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmanufacturergrid');
+			this.xUtils.sync(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -396,7 +397,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentManufacturerStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -404,7 +405,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmanufacturergrid');
+			this.xUtils.sync(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -417,7 +418,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentManufacturerStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -426,7 +427,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmanufacturergrid');
+			this.xUtils.sync(store, '#equipmentmanufacturergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -440,13 +441,14 @@ Ext.define('Sam.controller.Equipment', {
 	onTypeBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmenttypeform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmenttypeform', null, true, store);
 			
 			if(activeTab){
 			
@@ -472,13 +474,14 @@ Ext.define('Sam.controller.Equipment', {
 	onTypeBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmenttypeform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmenttypeform', null, true, store);
 			
 			if(activeTab){
 				
@@ -496,8 +499,10 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onTypeBtnAddClick: function(){
 		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmenttypeform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmenttypeform', null, true, store);
 		
 		if(activeTab){
 	
@@ -509,13 +514,14 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onTypeBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmenttypeform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmenttypeform', null, true, store);
 			
 			if(activeTab){
 			
@@ -543,7 +549,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentTypeStore(),								//Store
+			store		= activeTab.xStore,											//Store
 			record		= Ext.create('Sam.model.EquipmentType');					//Registro
 		
 		
@@ -557,7 +563,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmenttypegrid');
+			this.xUtils.sync(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -570,7 +576,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentTypeStore(),								//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -578,7 +584,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmenttypegrid');
+			this.xUtils.sync(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -591,7 +597,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentTypeStore(),								//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -600,7 +606,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmenttypegrid');
+			this.xUtils.sync(store, '#equipmenttypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -612,13 +618,14 @@ Ext.define('Sam.controller.Equipment', {
 	onProtocolBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true, store);
 			
 			if(activeTab){
 			
@@ -644,13 +651,14 @@ Ext.define('Sam.controller.Equipment', {
 	onProtocolBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true, store);
 			
 			if(activeTab){
 				
@@ -668,8 +676,10 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onProtocolBtnAddClick: function(){
 		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmentprotocolform', null, true, store);
 		
 		if(activeTab){
 	
@@ -680,14 +690,16 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onProtocolBtnDeleteClick: function(){
+
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true, store);
 			
 			if(activeTab){
 			
@@ -715,8 +727,8 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentProtocolStore(),						//Store
-			record		= Ext.create('Sam.model.EquipmentProtocol');			//Registro
+			store		= activeTab.xStore											//Store
+			record		= Ext.create('Sam.model.EquipmentProtocol');				//Registro
 		
 		
 		
@@ -729,7 +741,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -742,7 +754,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentProtocolStore(),						//Store
+			store		= activeTab.xStore											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -750,7 +762,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -763,7 +775,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentProtocolStore(),						//Store
+			store		= activeTab.xStore											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -772,7 +784,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -817,13 +829,14 @@ Ext.define('Sam.controller.Equipment', {
 	onModelBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentmodelform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentmodelform', null, true, store);
 			
 			if(activeTab){
 			
@@ -857,13 +870,14 @@ Ext.define('Sam.controller.Equipment', {
 	onModelBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentmodelform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmentmodelform', null, true, store);
 			
 			if(activeTab){
 				
@@ -889,8 +903,10 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onModelBtnAddClick: function(){
 		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentmodelform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmentmodelform', null, true, store);
 		
 		if(activeTab){
 			
@@ -904,14 +920,16 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onModelBtnDeleteClick: function(){
+		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentmodelform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmentmodelform', null, true, store);
 			
 			if(activeTab){
 			
@@ -945,7 +963,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentModelStore(),							//Store
+			store		= activeTab.xStore											//Store
 			record		= Ext.create('Sam.model.EquipmentModel');					//Registro
 		
 		if(form.isValid()){
@@ -961,7 +979,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmodelgrid');
+			this.xUtils.sync(store, '#equipmentmodelgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -974,7 +992,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentModelStore(),							//Store
+			store		= activeTab.xStore											//Store
 			updated		= form.getRecord(),											//Dados atualizados
 			record		= store.findRecord('id',updated.get('id'));					//Registro
 		
@@ -1012,7 +1030,7 @@ Ext.define('Sam.controller.Equipment', {
 			record.oids().setData(updated.oids().getData());
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentmodelgrid');
+			this.xUtils.sync(store, '#equipmentmodelgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1025,7 +1043,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentModelStore(),						//Store
+			store		= activeTab.xStore											//Store
 			record		= form.getRecord();											//Registro
 		
 		
@@ -1033,7 +1051,7 @@ Ext.define('Sam.controller.Equipment', {
 		store.remove(record);
 		
 		//Sincroniza e Atualiza Store
-		this.syncStore(store, '#equipmentmodelgrid');
+		this.xUtils.sync(store, '#equipmentmodelgrid');
 		
 		//Fecha Aba
 		activeTab.close();
@@ -1045,13 +1063,14 @@ Ext.define('Sam.controller.Equipment', {
 	onSystemBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'systemform', null, false);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'systemform', null, false, store);
 			
 			if(activeTab){
 			
@@ -1077,13 +1096,14 @@ Ext.define('Sam.controller.Equipment', {
 	onSystemBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'systemform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'systemform', null, true, store);
 			
 			if(activeTab){
 				
@@ -1101,8 +1121,10 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onSystemBtnAddClick: function(){
 		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'systemform', null, false);
+		var activeTab = this.xUtils.activateTab(2, null, 'systemform', null, false, store);
 		
 		if(activeTab){
 	
@@ -1114,13 +1136,14 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onSystemBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'systemform', null, false);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'systemform', null, false, store);
 			
 			if(activeTab){
 			
@@ -1148,7 +1171,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getSystemStore(),									//Store
+			store		= activeTab.xStore											//Store
 			record		= Ext.create('Sam.model.System');							//Registro
 		
 		
@@ -1162,7 +1185,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#systemgrid');
+			this.xUtils.sync(store, '#systemgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1175,7 +1198,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getSystemStore(),									//Store
+			store		= activeTab.xStore											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1183,7 +1206,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#systemgrid');
+			this.xUtils.sync(store, '#systemgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1196,7 +1219,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getSystemStore(),									//Store
+			store		= activeTab.xStore											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1205,7 +1228,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#systemgrid');
+			this.xUtils.sync(store, '#systemgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1224,7 +1247,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 			
@@ -1256,7 +1279,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 				
@@ -1275,7 +1298,7 @@ Ext.define('Sam.controller.Equipment', {
 	onProtocolBtnAddClick: function(){
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentprotocolform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmentprotocolform', null, true);
 		
 		if(activeTab){
 	
@@ -1293,7 +1316,7 @@ Ext.define('Sam.controller.Equipment', {
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmentprotocolform', null, true);
 			
 			if(activeTab){
 			
@@ -1335,7 +1358,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1356,7 +1379,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1378,7 +1401,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentprotocolgrid');
+			this.xUtils.sync(store, '#equipmentprotocolgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1422,13 +1445,14 @@ Ext.define('Sam.controller.Equipment', {
 	onOperationalStateBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'operationalstateform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'operationalstateform', null, true, store);
 			
 			if(activeTab){
 			
@@ -1454,13 +1478,14 @@ Ext.define('Sam.controller.Equipment', {
 	onOperationalStateBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'operationalstateform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'operationalstateform', null, true, store);
 			
 			if(activeTab){
 				
@@ -1478,8 +1503,10 @@ Ext.define('Sam.controller.Equipment', {
 	
 	onOperationalStateBtnAddClick: function(){
 		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'operationalstateform', null, false);
+		var activeTab = this.xUtils.activateTab(2, null, 'operationalstateform', null, false, store);
 		
 		if(activeTab){
 	
@@ -1490,14 +1517,16 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onOperationalStateBtnDeleteClick: function(){
+		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'operationalstateform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'operationalstateform', null, true, store);
 			
 			if(activeTab){
 			
@@ -1525,10 +1554,8 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getOperationalStateStore(),							//Store
+			store		= activeTab.xStore,											//Store
 			record		= Ext.create('Sam.model.OperationalState');					//Registro
-		
-		
 		
 		if(form.isValid()){
 			
@@ -1542,7 +1569,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#operationalstategrid');
+			this.xUtils.sync(store, '#operationalstategrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1555,7 +1582,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getOperationalStateStore(),							//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1566,7 +1593,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.findRecord('id',record.get('id')).set({model: Ext.create('Sam.model.EquipmentModel',{id: values.model_id, desc: values.model_desc})})
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#operationalstategrid');
+			this.xUtils.sync(store, '#operationalstategrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1579,7 +1606,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getOperationalStateStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1588,7 +1615,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#operationalstategrid');
+			this.xUtils.sync(store, '#operationalstategrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1601,13 +1628,14 @@ Ext.define('Sam.controller.Equipment', {
 	onEquipmentBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'equipmentsform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentsform', null, true, store);
 			
 			if(activeTab){
 			
@@ -1633,13 +1661,14 @@ Ext.define('Sam.controller.Equipment', {
 	onEquipmentBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'equipmentsform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'equipmentsform', null, true, store);
 			
 			if(activeTab){
 				
@@ -1656,9 +1685,10 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onEquipmentBtnAddClick: function(){
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'equipmentsform', null, false);
+		var activeTab = this.xUtils.activateTab(2, null, 'equipmentsform', null, false, store);
 		
 		if(activeTab){
 	
@@ -1669,14 +1699,16 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	onEquipmentBtnDeleteClick: function(){
+
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'equipmentsform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'equipmentsform', null, true, store);
 			
 			if(activeTab){
 			
@@ -1704,7 +1736,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentStore(),									//Store
+			store		= activeTab.xStore,											//Store
 			record		= Ext.create('Sam.model.Equipment');						//Registro
 
 		
@@ -1726,7 +1758,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentsgrid');
+			this.xUtils.sync(store, '#equipmentsgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1739,7 +1771,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentStore(),									//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1756,7 +1788,7 @@ Ext.define('Sam.controller.Equipment', {
 			});
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentsgrid');
+			this.xUtils.sync(store, '#equipmentsgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1769,7 +1801,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getEquipmentStore(),									//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1778,7 +1810,7 @@ Ext.define('Sam.controller.Equipment', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#equipmentsgrid');
+			this.xUtils.sync(store, '#equipmentsgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1786,98 +1818,4 @@ Ext.define('Sam.controller.Equipment', {
 	},
 	
 	/*********** End Equipment Controlling ***********/
-	
-	
-	/*********** Common Methods***********/
-	syncStore: function(store, comp){
-		
-		//Sincroniza Store
-		store.sync({
-			success: function(){
-				
-				//Recarrega Store
-				store.reload();
-				
-				//Atualiza stores e views
-				Ext.each(Ext.ComponentQuery.query(comp),function(f){
-					f.getStore().reload();
-				});
-			},
-			scope: this
-		});
-		
-	},
-
-	activateTab: function(action, id, xtype, uTitle, lockId){
-		
-		//Variaveis
-		var title, tabId, activeTab;
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		switch(action){
-			
-			//Visualizar
-			case 1:
-				title = 'Visualizar Cod: ' + id;
-				tabId = 'show-' + xtype + '-' + id;
-				break;
-			
-			//Incluir
-			case 2:
-				title = 'Incluir Novo Registro';
-				tabId = 'add-' + xtype
-				break;
-			
-			//Alterar
-			case 3:
-				title = 'Alterar Cod: ' + id;
-				tabId = 'edit-' + xtype + '-' + id;
-				break;
-			
-			//Excluir
-			case 4:
-				title = 'Excluir Cod: ' + id;
-				tabId = 'delete-' + xtype + '-' + id;
-				break;
-			default:
-				title = uTitle;
-		
-		}
-		
-		var newTab = mainPanel.items.findBy(
-				function(tab){
-					return tab.id === tabId;
-				});
-		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				id: tabId,
-				xtype: xtype,
-				closable: true,
-				iconCls: 'magnifier-zoom',
-				title: title
-			});
-		}
-		
-		//Seta Aba como ativa
-		mainPanel.setActiveTab(newTab);
-		
-		//Se for inclusao desabilita o campo Id
-		if(action == 2 && lockId){
-			Ext.ComponentQuery.query('#id', newTab)[0].setVisible(false);
-			
-		} else if (action == 2 && lockId == false) {
-			Ext.ComponentQuery.query('#id', newTab)[0].setEditable(true);
-			
-		}
-		
-		//Variavel para retornar aba ativa
-		activeTab = mainPanel.getActiveTab();
-		
-		return activeTab;
-		
-	}
-
 });

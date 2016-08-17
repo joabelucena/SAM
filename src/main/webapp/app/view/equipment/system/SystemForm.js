@@ -34,6 +34,7 @@ Ext.define('Sam.view.equipment.system.SystemForm', {
 			fieldLabel : 'Código',
 			itemId: 'id',
 			name: 'id',
+			editable: false,
 			width: '20%',
 			inputAttrTpl: " data-qtip='Código do Sub-Sistema' "
 		},{

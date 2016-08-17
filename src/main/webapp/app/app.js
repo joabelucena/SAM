@@ -7,7 +7,8 @@
 	           ,'Sam.lib.DateTimeField'
 	           ,'Sam.lib.GroupField'
 	           ,'Sam.lib.AutoGrid'
-	           ,'Sam.lib.AutoStore'],
+	           ,'Sam.lib.AutoStore'
+	           ,'Sam.lib.Util'],
 	
 	launch : function()
 	{
