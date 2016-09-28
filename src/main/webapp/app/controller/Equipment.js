@@ -273,7 +273,7 @@ Ext.define('Sam.controller.Equipment', {
 			activeTab = this.xUtils.activateTab(1, row.get('id'), 'equipmentmanufacturerform', null, true, store);
 			
 			if(activeTab){
-			
+				
 				//Retorna Form
 				var form = Ext.ComponentQuery.query('form',activeTab)[0].getForm();
 				

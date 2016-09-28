@@ -17,6 +17,8 @@ Ext.define('Sam.controller.Alarm', {
     
 	refs: [{ref: 'lookup', selector: 'popup'}],
 	
+	xUtils: Ext.create('Sam.lib.Util'),
+	
 	init: function() {
 		
 		this.control({
@@ -241,13 +243,14 @@ Ext.define('Sam.controller.Alarm', {
 	onAlarmBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'alarmform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'alarmform', null, true, store);
 			
 			if(activeTab){
 			
@@ -273,13 +276,15 @@ Ext.define('Sam.controller.Alarm', {
 	onAlarmBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'alarmform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'alarmform', null, true, store);
 			
 			if(activeTab){
 				
@@ -297,9 +302,10 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onAlarmBtnAddClick: function(){
 
-			
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'alarmform', null, false);
+		var activeTab = this.xUtils.activateTab(2, null, 'alarmform', null, false, store);
 		
 		if(activeTab){
 	
@@ -315,13 +321,14 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onAlarmBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'alarmform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'alarmform', null, true, store);
 			
 			if(activeTab){
 			
@@ -349,12 +356,10 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmStore(),										//Store
+			store		= activeTab.xStore,											//Store
 			record		= Ext.create('Sam.model.Alarm');							//Registro
 		
-		
-		
-		if(form.isValid()){
+		if(form.isValid()) {
 			
 			//Carrega dados do Formulario no registro
 			record.set(values);
@@ -377,7 +382,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgrid');
+			this.xUtils.sync(store, '#alarmgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -390,7 +395,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmStore(),										//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -412,7 +417,7 @@ Ext.define('Sam.controller.Alarm', {
 			}
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgrid');
+			this.xUtils.sync(store, '#alarmgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -425,7 +430,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -434,7 +439,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgrid');
+			this.xUtils.sync(store, '#alarmgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -449,13 +454,14 @@ Ext.define('Sam.controller.Alarm', {
 	onGroupBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'alarmgroupform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'alarmgroupform', null, true, store);
 			
 			if(activeTab){
 			
@@ -481,13 +487,14 @@ Ext.define('Sam.controller.Alarm', {
 	onGroupBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'alarmgroupform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'alarmgroupform', null, true, store);
 			
 			if(activeTab){
 				
@@ -505,9 +512,10 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onGroupBtnAddClick: function(){
 
-			
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'alarmgroupform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'alarmgroupform', null, true, store);
 		
 		if(activeTab){
 	
@@ -519,14 +527,16 @@ Ext.define('Sam.controller.Alarm', {
 	},
 	
 	onGroupBtnDeleteClick: function(){
-		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		
+		// Linha selecionada
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'alarmgroupform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'alarmgroupform', null, true, store);
 			
 			if(activeTab){
 			
@@ -554,8 +564,8 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmGroupStore(),						//Store
-			record		= Ext.create('Sam.model.AlarmGroup');			//Registro
+			store		= activeTab.xStore,											//Store
+			record		= Ext.create('Sam.model.AlarmGroup');						//Registro
 		
 		
 		
@@ -568,7 +578,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgroupgrid');
+			this.xUtils.sync(store, '#alarmgroupgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -581,7 +591,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmGroupStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -589,7 +599,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgroupgrid');
+			this.xUtils.sync(store, '#alarmgroupgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -602,7 +612,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmGroupStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -611,7 +621,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmgroupgrid');
+			this.xUtils.sync(store, '#alarmgroupgrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -625,13 +635,14 @@ Ext.define('Sam.controller.Alarm', {
 	onTypeBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'alarmtypeform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'alarmtypeform', null, true, store);
 			
 			if(activeTab){
 			
@@ -657,13 +668,14 @@ Ext.define('Sam.controller.Alarm', {
 	onTypeBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'alarmtypeform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'alarmtypeform', null, true, store);
 			
 			if(activeTab){
 				
@@ -681,9 +693,10 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onTypeBtnAddClick: function(){
 
-			
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'alarmtypeform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'alarmtypeform', null, true, store);
 		
 		if(activeTab){
 	
@@ -696,13 +709,14 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onTypeBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'alarmtypeform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'alarmtypeform', null, true, store);
 			
 			if(activeTab){
 			
@@ -730,8 +744,8 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmTypeStore(),						//Store
-			record		= Ext.create('Sam.model.AlarmType');			//Registro
+			store		= activeTab.xStore,											//Store
+			record		= Ext.create('Sam.model.AlarmType');						//Registro
 		
 		
 		
@@ -744,7 +758,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmtypegrid');
+			this.xUtils.sync(store, '#alarmtypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -757,7 +771,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmTypeStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -765,7 +779,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.findRecord('id',record.get('id')).set(values);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmtypegrid');
+			this.xUtils.sync(store, '#alarmtypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -778,7 +792,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmTypeStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -787,7 +801,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmtypegrid');
+			this.xUtils.sync(store, '#alarmtypegrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -830,13 +844,14 @@ Ext.define('Sam.controller.Alarm', {
 	onFilterBtnShowClick: function() {
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 1 - Visualizar
-			activeTab = this.activateTab(1, row.get('id'), 'alarmfilterform', null, true);
+			activeTab = this.xUtils.activateTab(1, row.get('id'), 'alarmfilterform', null, true, store);
 			
 			if(activeTab){
 			
@@ -862,13 +877,14 @@ Ext.define('Sam.controller.Alarm', {
 	onFilterBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'alarmfilterform', null, true);
+			activeTab = this.xUtils.activateTab(3, row.get('id'), 'alarmfilterform', null, true, store);
 			
 			if(activeTab){
 				
@@ -885,10 +901,11 @@ Ext.define('Sam.controller.Alarm', {
 	},
 	
 	onFilterBtnAddClick: function(){
-
-			
+		
+		var store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
+		
 		//Cria Aba: 2 - Incluir
-		var activeTab = this.activateTab(2, null, 'alarmfilterform', null, true);
+		var activeTab = this.xUtils.activateTab(2, null, 'alarmfilterform', null, true, store);
 		
 		if(activeTab){
 	
@@ -901,13 +918,14 @@ Ext.define('Sam.controller.Alarm', {
 	
 	onFilterBtnDeleteClick: function(){
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 4 - Excluir
-			activeTab = this.activateTab(4, row.get('id'), 'alarmfilterform', null, true);
+			activeTab = this.xUtils.activateTab(4, row.get('id'), 'alarmfilterform', null, true, store);
 			
 			if(activeTab){
 			
@@ -935,8 +953,8 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmFilterStore(),						//Store
-			record		= Ext.create('Sam.model.AlarmFilter');			//Registro
+			store		= activeTab.xStore,											//Store
+			record		= Ext.create('Sam.model.AlarmFilter');						//Registro
 		
 		
 		
@@ -955,7 +973,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.add(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmfiltergrid');
+			this.xUtils.sync(store, '#alarmfiltergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -968,7 +986,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmFilterStore(),								//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -982,7 +1000,7 @@ Ext.define('Sam.controller.Alarm', {
 			});
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmfiltergrid');
+			this.xUtils.sync(store, '#alarmfiltergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -995,7 +1013,7 @@ Ext.define('Sam.controller.Alarm', {
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
 			values		= form.getValues(),											//Dados do Formulario
-			store		= this.getAlarmFilterStore(),						//Store
+			store		= activeTab.xStore,											//Store
 			record		= form.getRecord();											//Registro
 		
 		if(form.isValid()){
@@ -1004,7 +1022,7 @@ Ext.define('Sam.controller.Alarm', {
 			store.remove(record);
 			
 			//Sincroniza e Atualiza Store
-			this.syncStore(store, '#alarmfiltergrid');
+			this.xUtils.sync(store, '#alarmfiltergrid');
 			
 			//Fecha Aba
 			activeTab.close();
@@ -1016,94 +1034,94 @@ Ext.define('Sam.controller.Alarm', {
 	
 	
 	/*********** Common Methods***********/
-	syncStore: function(store, comp){
-		
-		//Sincroniza Store
-		store.sync({
-			success: function(){
-				
-				//Recarrega Store
-				store.reload();
-				
-				//Atualiza stores e views
-				Ext.each(Ext.ComponentQuery.query(comp),function(f){
-					f.getStore().reload();
-				});
-			},
-			failure: function(){
-				console.log('failure');
-			},
-			scope: this
-		});
-		
-	},
+//	syncStore: function(store, comp){
+//		
+//		//Sincroniza Store
+//		store.sync({
+//			success: function(){
+//				
+//				//Recarrega Store
+//				store.reload();
+//				
+//				//Atualiza stores e views
+//				Ext.each(Ext.ComponentQuery.query(comp),function(f){
+//					f.getStore().reload();
+//				});
+//			},
+//			failure: function(){
+//				console.log('failure');
+//			},
+//			scope: this
+//		});
+//		
+//	},
 	
-	activateTab: function(action, id, xtype, uTitle, lockId){
-		
-		//Variaveis
-		var title, tabId, activeTab;
-		
-		//Aba Objecto Pai
-		var mainPanel = Ext.getCmp('viewportpanel');
-		
-		switch(action){
-			
-			//Visualizar
-			case 1:
-				title = 'Visualizar Cod: ' + id;
-				tabId = 'show-' + xtype + '-' + id;
-				break;
-			
-			//Incluir
-			case 2:
-				title = 'Incluir Novo Registro';
-				tabId = 'add-' + xtype
-				break;
-			
-			//Alterar
-			case 3:
-				title = 'Alterar Cod: ' + id;
-				tabId = 'edit-' + xtype + '-' + id;
-				break;
-			
-			//Excluir
-			case 4:
-				title = 'Excluir Cod: ' + id;
-				tabId = 'delete-' + xtype + '-' + id;
-				break;
-			default:
-				title = uTitle;
-		
-		}
-		
-		var newTab = mainPanel.items.findBy(
-				function(tab){
-					return tab.id === tabId;
-				});
-		
-		if (!newTab) {
-			newTab = mainPanel.add({
-				id: tabId,
-				xtype: xtype,
-				closable: true,
-				iconCls: 'magnifier-zoom',
-				title: title
-			});
-		}
-		
-		//Seta Aba como ativa
-		mainPanel.setActiveTab(newTab);
-		
-		//Se for inclusao desabilita o campo Id
-		if(action == 2 && lockId){
-			Ext.ComponentQuery.query('#id' , newTab)[0].setVisible(false);
-		}
-		
-		//Variavel para retornar aba ativa
-		activeTab = mainPanel.getActiveTab();
-		
-		return activeTab;
-		
-	}
+//	activateTab: function(action, id, xtype, uTitle, lockId){
+//		
+//		//Variaveis
+//		var title, tabId, activeTab;
+//		
+//		//Aba Objecto Pai
+//		var mainPanel = Ext.getCmp('viewportpanel');
+//		
+//		switch(action){
+//			
+//			//Visualizar
+//			case 1:
+//				title = 'Visualizar Cod: ' + id;
+//				tabId = 'show-' + xtype + '-' + id;
+//				break;
+//			
+//			//Incluir
+//			case 2:
+//				title = 'Incluir Novo Registro';
+//				tabId = 'add-' + xtype
+//				break;
+//			
+//			//Alterar
+//			case 3:
+//				title = 'Alterar Cod: ' + id;
+//				tabId = 'edit-' + xtype + '-' + id;
+//				break;
+//			
+//			//Excluir
+//			case 4:
+//				title = 'Excluir Cod: ' + id;
+//				tabId = 'delete-' + xtype + '-' + id;
+//				break;
+//			default:
+//				title = uTitle;
+//		
+//		}
+//		
+//		var newTab = mainPanel.items.findBy(
+//				function(tab){
+//					return tab.id === tabId;
+//				});
+//		
+//		if (!newTab) {
+//			newTab = mainPanel.add({
+//				id: tabId,
+//				xtype: xtype,
+//				closable: true,
+//				iconCls: 'magnifier-zoom',
+//				title: title
+//			});
+//		}
+//		
+//		//Seta Aba como ativa
+//		mainPanel.setActiveTab(newTab);
+//		
+//		//Se for inclusao desabilita o campo Id
+//		if(action == 2 && lockId){
+//			Ext.ComponentQuery.query('#id' , newTab)[0].setVisible(false);
+//		}
+//		
+//		//Variavel para retornar aba ativa
+//		activeTab = mainPanel.getActiveTab();
+//		
+//		return activeTab;
+//		
+//	}
 	
 });

@@ -7,6 +7,8 @@ Ext.define('Sam.lib.AutoStore', {
 		this.callParent([config]);
         
 		this.proxy.on('exception', this.onProxyException, this);
+		
+//		this.proxy.on('rollback', this.onStoreRollback, this);
     },
 	
 	proxy: {
@@ -31,8 +33,8 @@ Ext.define('Sam.lib.AutoStore', {
 	},
 	
 	onProxyException: function(proxy, response, operation, eOpts) {
-		 this.rejectChanges();
-		 
+		this.rejectChanges();
+		console.log("reject");
 		/*
      	 * Runs when server returns 'success: false'
      	 */
@@ -57,8 +59,9 @@ Ext.define('Sam.lib.AutoStore', {
      		buttons: Ext.MessageBox.OK,
      		icon: Ext.MessageBox.WARNING
      	});
-     
-     
-		 
 	 },
+	 
+//	 onStoreRollback: function() {
+//		 this.rejectChanges();
+//	 }
 });

@@ -1,6 +1,7 @@
 package br.com.ttrans.samapp.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EquipmentTypeService;
 import br.com.ttrans.samapp.service.OperationalStateService;
 import br.com.ttrans.samapp.service.SubSystemService;
+
 import static br.com.ttrans.samapp.validator.ErrorMessageHandler.*;
 
 @Controller
@@ -199,7 +201,7 @@ public class EquipmentController {
 		} catch (DataAccessException e) {
 			getUserMessage(e, result);
 		}
-
+		
 		return result;
 	}
 
