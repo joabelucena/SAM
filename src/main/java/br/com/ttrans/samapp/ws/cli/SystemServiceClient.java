@@ -15,7 +15,9 @@ public class SystemServiceClient {
 	 * Encontrado em Santos: http://tempuri.org/
 	 * Correto: http://maestro.thalesgroup.com/wsdl/system/xsd
 	 */
-	private static final String TARGET_NAMESPACE = "http://tempuri.org/";
+//	private static final String TARGET_NAMESPACE = "http://tempuri.org/";	// ?wsdl
+	
+	private static final String TARGET_NAMESPACE = "http://maestro.thalesgroup.com/wsdl/system";
 
 	public static void SessionDetail(String URL, SessionDetail session) {
 

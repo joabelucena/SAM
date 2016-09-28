@@ -28,6 +28,8 @@ public class SystemServicesImpl implements SystemEndpoint {
 	WebServiceContext wsContext;
 	
 	private static final Logger logger = LoggerFactory.getLogger(SystemServicesImpl.class);
+	
+	public static final String SAM_CREATOR_ID = "2";
 
 	private Map<String, Connection> connections;
 	
@@ -53,7 +55,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 		//Generates connection id
 		String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 		
-		final SessionDetail session = new SessionDetail(payload.getCreatorId(),
+		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID,
 														hash,
 														payload.getTimeStamp());
 		
