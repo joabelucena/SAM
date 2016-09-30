@@ -16,7 +16,10 @@ import br.com.ttrans.samapp.ws.bo.system.*;
 @WebService
 @SOAPBinding(parameterStyle = ParameterStyle.BARE)
 public interface SystemEndpoint {
-	static final String NAMESPACE_URI = "http://maestro.thalesgroup.com/wsdl/system/xsd";
+	
+	public static final String NAMESPACE_URI = "http://maestro.thalesgroup.com/wsdl/system/xsd";
+	
+	public static final String SAM_CREATOR_ID = "2";
 	
 	@Oneway @WebMethod(operationName = "Connection"		, action="Connection") public void Connection(@WebParam(targetNamespace = NAMESPACE_URI) Connection payload);
 	
@@ -26,6 +29,6 @@ public interface SystemEndpoint {
 	
 	@Oneway @WebMethod(operationName = "Active"			, action="Active") public void Active(@WebParam(targetNamespace = NAMESPACE_URI) Active payload);
 	
-	@Oneway @WebMethod(operationName = "Disconnection"	, action="Disconnection") public void Disconnection(@WebParam(targetNamespace = NAMESPACE_URI) Disconnection payload);	
-
+	@Oneway @WebMethod(operationName = "Disconnection"	, action="Disconnection") public void Disconnection(@WebParam(targetNamespace = NAMESPACE_URI) Disconnection payload);
+	
 }

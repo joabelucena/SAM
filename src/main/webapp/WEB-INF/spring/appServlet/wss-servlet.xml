@@ -23,13 +23,13 @@
 	</wss:binding>
 
 	<bean id="alarmWs" class="br.com.ttrans.samapp.ws.endpoint.impl.AlarmServicesImpl" >
-		<property name="connections" value="#{serviceWs.connections}" />
+		<property name="sessions" value="#{serviceWs.sessions}" />
 	</bean>
 
 	<bean id="serviceWs" class="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl">
 		<!--This property is shared to alarmWs bean for session control -->
-		<property name="connections">
-			<map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Connection" />
+		<property name="sessions">
+			<map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session" />
 		</property>
 	</bean>
 

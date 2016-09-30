@@ -10,7 +10,7 @@
 		</layout>
 	</appender>
 	
-	<!-- Appenders: File (TomCat instalation directory like "/opt/apache-tomcat-7.0.47/" -->
+	<!-- Appenders: File (TomCat installation directory like "/opt/apache-tomcat-7.0.47/" -->
 	<appender name="file" class="org.apache.log4j.FileAppender">
 		<param name="File" value="${catalina.home}/logs/sam-log.log" />
 		<param name="Append" value="false" />
@@ -19,7 +19,7 @@
 		</layout>
 	</appender>
 
-	<!-- Appenders: DailyFile (TomCat instalation directory like "/opt/apache-tomcat-7.0.47/" -->
+	<!-- Appenders: DailyFile (TomCat installation directory like "/opt/apache-tomcat-7.0.47/" -->
 	<appender name="dailyFile" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="${catalina.home}/logs/daily/sam-log.log"  />
 		<param name="Append" value="false" />
@@ -32,6 +32,11 @@
 	<!-- Application Loggers -->
 	<logger name="br.com.ttrans.samapp">
 		<level value="info" />
+	</logger>
+	
+	<!-- Enable this for checking critical points in program -->
+	<logger name="br.com.ttrans.samapp">
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

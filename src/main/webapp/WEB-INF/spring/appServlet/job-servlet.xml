@@ -12,7 +12,9 @@
 	<!-- Maintenance jobs (Rules Execution, KPI (MTTBF, MTTR) updates, etc..  -->
 	<bean id="samScheduledTasks" class="br.com.ttrans.samapp.job.Maintenance"/>
 	
-	<!-- Keep Alive (Not Implemented) -->
-	<!-- bean id="samKeepAlive" class="br.com.ttrans.samapp.job.KeepAlive"/--> 	
+	
+	<bean id="samKeepAlive" class="br.com.ttrans.samapp.job.PollingService">
+		<property name="sessions" value="#{serviceWs.sessions}"/>
+	</bean>
  	
 </beans>

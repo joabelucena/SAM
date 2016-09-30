@@ -55,7 +55,18 @@ public class Disconnection {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar timeStamp;
 
-    /**
+    public Disconnection(){
+    	super();    	
+    }
+    
+    public Disconnection(String creatorId, String sessionInstanceId, XMLGregorianCalendar timeStamp) {
+		super();
+		this.creatorId = creatorId;
+		this.sessionInstanceId = sessionInstanceId;
+		this.timeStamp = timeStamp;
+	}
+
+	/**
      * Gets the value of the creatorId property.
      * 
      * @return

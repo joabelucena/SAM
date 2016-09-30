@@ -12,6 +12,7 @@ import javax.xml.ws.WebServiceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.Equipment;
@@ -22,13 +23,14 @@ import br.com.ttrans.samapp.ws.bo.alarm.AlarmAllCurrent;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmDelete;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmDetail;
 import br.com.ttrans.samapp.ws.bo.alarm.AlarmUpdateState;
-import br.com.ttrans.samapp.ws.bo.system.Connection;
+import br.com.ttrans.samapp.ws.bo.system.Session;
 import br.com.ttrans.samapp.ws.endpoint.AlarmEndpoint;
 
 @WebService(serviceName="AlarmServices",
 portName="AlarmPort",
 targetNamespace="http://maestro.thalesgroup.com/wsdl/system/xsd",
 endpointInterface="br.com.ttrans.samapp.ws.endpoint.AlarmEndpoint")
+@Component
 public class AlarmServicesImpl implements AlarmEndpoint {
 
 	@Resource
@@ -37,15 +39,15 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Autowired
 	private EventService service;
 	
-	private Map<String, Connection> connections;
+	private Map<String, Session> sessions;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AlarmServicesImpl.class);
 	
 	private static final String USR_MAESTRO = "SAM_MAESTRO";
 	
 	@WebMethod(exclude = true)
-	public void setConnections(Map<String, Connection> connections) {
-		this.connections = connections;
+	public void setSessions(Map<String, Session> sessions) {
+		this.sessions = sessions;
 	}
 	
 	@Override
@@ -71,7 +73,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		
 		String name = new Object(){}.getClass().getEnclosingMethod().getName();
 		
-		if(connections.containsKey(payload.getSessionInstanceId())){
+		if(sessions.containsKey(payload.getSessionInstanceId())){
 			
 			/**
 			 * Confirmar atributos de identificação de equipamento e alarme
@@ -96,7 +98,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		
 		String name = new Object(){}.getClass().getEnclosingMethod().getName();
 		
-		if(connections.containsKey(payload.getSessionInstanceId())){
+		if(sessions.containsKey(payload.getSessionInstanceId())){
 			service.recognize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		}else{
 			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
@@ -109,7 +111,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 
 		String name = new Object(){}.getClass().getEnclosingMethod().getName();
 
-		if (connections.containsKey(payload.getSessionInstanceId())) {
+		if (sessions.containsKey(payload.getSessionInstanceId())) {
 
 			service.normalize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		} else {
