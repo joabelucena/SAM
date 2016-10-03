@@ -144,4 +144,15 @@ public class SessionDetail {
         this.timeStamp = value;
     }
 
+    /**
+     * Returns readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "SessionDetail [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + "]";
+	}
+    
+    
+
 }

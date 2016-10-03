@@ -138,4 +138,13 @@ public class Disconnection {
         this.timeStamp = value;
     }
 
+    /**
+     * Returns readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "Disconnection [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + "]";
+	}
+
 }

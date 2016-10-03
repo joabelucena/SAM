@@ -42,6 +42,9 @@ public class Session {
 	public void setIP(IP ip) {
 		this.ip = ip;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Session [connection=" + connection + ", alive=" + alive + ", ip=" + ip + "]";
+	}
 }

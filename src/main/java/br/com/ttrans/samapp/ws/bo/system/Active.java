@@ -162,4 +162,13 @@ public class Active {
         return this.applications;
     }
 
+    /**
+     * Returns readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "Active [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + ", applications=" + applications + "]";
+	}
+
 }

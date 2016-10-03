@@ -17,23 +17,14 @@ public class SystemServiceClient {
 
 		URL url = new URL(URL);
 
+		//Service name
 		QName qName = new QName(TARGET_NAMESPACE, "SystemServices");
 
-		/**
-		 * Tag: <port>. Encontrado em Santos: BasicHttpBinding_SystemPortType
-		 * Correto: SystemPort
-		 */
+		//Service port
 		QName qPort = new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType");
 
 		Service service = Service.create(url, qName);
-
-		/**
-		 * A classe SystemServiceClientEndpoint foi criada pois o método
-		 * SessionDetail se encontra minúsculo no EPS e o NameSpace divergente
-		 * (tempuri.org). Caso sejam padronizados/corrigidos esses pontos,
-		 * poderá ser usada a classe
-		 * br.com.ttrans.samapp.ws.endpoint.SystemEndpoint.
-		 */
+		
 		SystemServiceClientEndpoint system = service.getPort(qPort, SystemServiceClientEndpoint.class);
 
 		system.sessionDetail(session);
@@ -44,23 +35,14 @@ public class SystemServiceClient {
 
 		URL url = new URL(URL);
 
+		//Service name
 		QName qName = new QName(TARGET_NAMESPACE, "SystemServices");
-
-		/**
-		 * Tag: <port>. Encontrado em Santos: BasicHttpBinding_SystemPortType
-		 * Correto: SystemPort
-		 */
+		
+		//Service port
 		QName qPort = new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType");
 
 		Service service = Service.create(url, qName);
 
-		/**
-		 * A classe SystemServiceClientEndpoint foi criada pois o método
-		 * SessionDetail se encontra minúsculo no EPS e o NameSpace divergente
-		 * (tempuri.org). Caso sejam padronizados/corrigidos esses pontos,
-		 * poderá ser usada a classe
-		 * br.com.ttrans.samapp.ws.endpoint.SystemEndpoint.
-		 */
 		SystemServiceClientEndpoint system = service.getPort(qPort, SystemServiceClientEndpoint.class);
 
 		system.disconnection(disconnection);

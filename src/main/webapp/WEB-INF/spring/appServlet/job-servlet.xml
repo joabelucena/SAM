@@ -10,11 +10,11 @@
 	<task:annotation-driven />
 	
 	<!-- Maintenance jobs (Rules Execution, KPI (MTTBF, MTTR) updates, etc..  -->
-	<bean id="samScheduledTasks" class="br.com.ttrans.samapp.job.Maintenance"/>
+	<bean id="samMaintenanceTasks" class="br.com.ttrans.samapp.job.Maintenance"/>
 	
-	
-	<bean id="samKeepAlive" class="br.com.ttrans.samapp.job.PollingService">
-		<property name="sessions" value="#{serviceWs.sessions}"/>
+	<!-- The 'wsMaestroSystem' bean, is the defined at 'wss-servlet.xml' -->
+	<bean id="samPollingService" class="br.com.ttrans.samapp.job.PollingService">
+		<property name="sessions" value="#{wsMaestroSystem.sessions}"/>
 	</bean>
  	
 </beans>

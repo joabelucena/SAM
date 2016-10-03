@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.ttrans.samapp.library.DAO;
+import br.com.ttrans.samapp.library.DateBuilder;
 import br.com.ttrans.samapp.library.IP;
 import br.com.ttrans.samapp.ws.bo.system.Active;
 import br.com.ttrans.samapp.ws.bo.system.Alive;
@@ -51,17 +52,22 @@ public class SystemServicesImpl implements SystemEndpoint {
 	}
 
 	@Override
-	public void Connection(Connection payload) {
+	public void Connection(final Connection payload) {
 
 		// Retrieves Http Request
-		HttpServletRequest req = (HttpServletRequest) context.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
+				.get(MessageContext.SERVLET_REQUEST);
 
 		// Generates connection id
-		String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
+		final String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 
 		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID, hash, payload.getTimeStamp());
 
 		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", req.getRemoteAddr());
+
+		logger.debug("" + payload);
+
+		logger.debug("Client IP: " + req.getRemoteAddr());
 
 		if (urlWsdl.isEmpty()) {
 			logger.error(
@@ -74,12 +80,10 @@ public class SystemServicesImpl implements SystemEndpoint {
 					try {
 						SystemServiceClient.SessionDetail(urlWsdl, session);
 
-						logger.debug("*************************");
-						logger.debug("** Retornado com sucesso para: " + urlWsdl + " **");
-						logger.debug("** Id: " + session.getSessionInstanceId());
-						logger.debug("** creatorId: " + session.getCreatorId());
-						logger.debug("** timeStamp: " + session.getTimeStamp());
-						logger.debug("*************************");
+						// Add Connection + HashCode
+						sessions.put(hash, new Session(payload, new Date(), new IP(req.getRemoteAddr())));
+
+						logger.debug("New connection established: " + hash);
 
 					} catch (Exception e) {
 						logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl
@@ -92,56 +96,77 @@ public class SystemServicesImpl implements SystemEndpoint {
 			call.start();
 		}
 
-		// Add Connection + HashCode
-		sessions.put(hash, new Session(payload, new Date(), new IP(req.getRemoteAddr())));
-
-		logger.debug("** Quantidade de Conexoes Ativas: " + sessions.size());
-		logger.debug("** IP cliente: " + req.getRemoteAddr());
-
-		logger.debug("*************************");
-		logger.debug("** Nova conexão criada **");
-		logger.debug("** Id: " + hash);
-		logger.debug("** creatorId: " + sessions.get(hash).getConnection().getCreatorId());
-		logger.debug("** timeStamp: " + sessions.get(hash).getConnection().getTimeStamp());
-		logger.debug("*************************");
+		logger.debug("Active connections: " + sessions.size());
 	}
 
 	@Override
 	public void SessionDetail(SessionDetail payload) {
 
-		logger.debug("*************************");
-		logger.debug("** Detalhes da Seção **");
-		logger.debug("** SessionInstanceId: " + payload.getSessionInstanceId());
-		logger.debug("** creatorId: " + payload.getCreatorId());
-		logger.debug("** timeStamp: " + payload.getTimeStamp());
-		logger.debug("*************************");
-
+		logger.debug("" + payload);
 	}
 
 	@Override
-	public void Alive(Alive payload) {
+	public void Alive(final Alive payload) {
+
+		// Retrieves Http Request
+		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
+				.get(MessageContext.SERVLET_REQUEST);
+
+		logger.debug("" + payload);
 
 		if (sessions.containsKey(payload.getSessionInstanceId())) {
 
 			switch (payload.getConnectionStatus()) {
 
 			case 0:
-				
+
 				// Updates session last alive
-				sessions.get(payload.getSessionInstanceId())
-					.setAlive(new Date());
-				
+				sessions.get(payload.getSessionInstanceId()).setAlive(new Date());
+
 				break;
 
 			case 1:
-				// TODO Check what must be implemented in this case				
-				logger.error("Erro de comunicação com o SAM: " + payload.getCreatorId());
+				// TODO Check what must be implemented when connection status is 1
+				logger.error("Erro de comunicação com o SAM: ");
+				logger.error("" + payload);
 				break;
 
 			default:
 				assert false : "Wrong data type";
 			}
 
+		} else {
+			
+			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
+
+			final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", req.getRemoteAddr());
+			
+			if (urlWsdl.isEmpty()) {
+				logger.error(
+						"Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
+			} else {
+
+				Thread call = new Thread() {
+
+					public void run() {
+						try {
+							
+							Disconnection disconnection = new Disconnection(SAM_CREATOR_ID, payload.getSessionInstanceId(),
+									DateBuilder.newXMLGregorianCalendarDate(new Date()));
+							
+							SystemServiceClient.Disconnection(urlWsdl, disconnection);
+
+						} catch (Exception e) {
+							logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl
+									+ ". Detalhes do Erro:");
+							logger.error(e.getMessage());
+						}
+					}
+				};
+
+				call.start();
+			}
+			
 		}
 
 	}
@@ -149,28 +174,18 @@ public class SystemServicesImpl implements SystemEndpoint {
 	@Override
 	public void Active(Active payload) {
 
-		logger.debug("*************************");
-		logger.debug("** SessionInstanceId: " + payload.getSessionInstanceId());
-		logger.debug("** creatorId: " + payload.getCreatorId());
-		logger.debug("** timeStamp: " + payload.getTimeStamp());
-		logger.debug("*************************");
+		logger.debug("" + payload);
 
 	}
 
 	@Override
 	public void Disconnection(Disconnection payload) {
 
-		logger.debug("*************************");
-		logger.debug("** Desconexão solicitada pelo sistema");
-		logger.debug("*************************");
-		logger.debug("** SessionInstanceId: " + payload.getSessionInstanceId());
-		logger.debug("** creatorId: " + payload.getCreatorId());
-		logger.debug("** timeStamp: " + payload.getTimeStamp());
-		logger.debug("*************************");
+		logger.debug("" + payload);
 
 		// Removes connection
 		sessions.remove(payload.getSessionInstanceId());
-		
+
 	}
 
 }

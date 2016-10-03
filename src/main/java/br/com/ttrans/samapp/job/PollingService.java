@@ -1,6 +1,5 @@
 package br.com.ttrans.samapp.job;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,18 +20,19 @@ import br.com.ttrans.samapp.ws.cli.SystemServiceClient;
 import br.com.ttrans.samapp.ws.endpoint.SystemEndpoint;
 
 /**
- * Sam Keep Alive function.
- * 
- * For implementing this function, uncomment its bean on 'job-servlet.xml' file
+ * This class stands for scheduling common tasks. It is implemented on a separated servlet
+ * under 'job-servlet.xml' setup.
  * 
  * @author Joabe Lucena
+ * 
+ * @see job-servlet.xml
  *
  */
 public class PollingService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PollingService.class);
 
-	private static final long MAESTRO_ALIVE_RATE = 5000L;
+	private static final long MAESTRO_SYSTEM_ALIVE_PERIOD = 5000L;
 
 	private Map<String, Session> sessions;
 	
@@ -47,35 +47,27 @@ public class PollingService {
 		this.sessions = sessions;
 	}
 
-	@Scheduled(fixedRate = MAESTRO_ALIVE_RATE)
+	@Scheduled(fixedRate = MAESTRO_SYSTEM_ALIVE_PERIOD)
 	private void maestroAlive() {
-
-		SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss");
-
+		
 		Set<Entry<String, Session>> ids = sessions.entrySet();
+		
+		long gap;
 
 		for (Entry<String, Session> entry : ids) {
+			
+			logger.debug("" + entry);
+			logger.debug("Time GAP: " + (gap = (new Date().getTime() - entry.getValue().getAlive().getTime())));
 
-			logger.debug("SessionID: " + entry.getKey());
-			logger.debug("Alive: " + formatter.format(entry.getValue().getAlive()));
-			logger.debug("Current Date: " + formatter.format(new Date()));
-			logger.debug("Difrence: " + (new Date().getTime() - entry.getValue().getAlive().getTime()));
-
-			if ((new Date().getTime() - entry.getValue().getAlive().getTime()) > MAESTRO_ALIVE_RATE) {
+			if (gap > MAESTRO_SYSTEM_ALIVE_PERIOD) {
 
 				try {
 					disconnect(entry.getKey(), entry.getValue());
 				} catch (DatatypeConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("Problema ao desconectar sistema. Detalhes do erro: ");
+					logger.error(e.getMessage());
 				}
-
-				logger.debug("true");
-			} else {
-				logger.debug("false");
 			}
-
-			logger.debug("*************************************");
 		}
 	}
 
