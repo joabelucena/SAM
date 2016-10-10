@@ -1,4 +1,5 @@
 Ext.define('Sam.store.Alarm', {
+	
 	extend : 'Sam.lib.AutoStore',
 
 	model : 'Sam.model.Alarm',

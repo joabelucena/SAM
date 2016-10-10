@@ -1,7 +1,8 @@
 package br.com.ttrans.samapp.controller;
 
+import static br.com.ttrans.samapp.validator.ErrorMessageHandler.getUserMessage;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.Action;
 import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.model.Equipment;
 import br.com.ttrans.samapp.model.EquipmentManufacturer;
@@ -36,8 +38,6 @@ import br.com.ttrans.samapp.service.EquipmentService;
 import br.com.ttrans.samapp.service.EquipmentTypeService;
 import br.com.ttrans.samapp.service.OperationalStateService;
 import br.com.ttrans.samapp.service.SubSystemService;
-
-import static br.com.ttrans.samapp.validator.ErrorMessageHandler.*;
 
 @Controller
 @RequestMapping("/equipment")
@@ -165,7 +165,7 @@ public class EquipmentController {
 		try {
 			equipmentService.add(equipment, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -182,7 +182,7 @@ public class EquipmentController {
 		try {
 			equipmentService.edit(equipment, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -199,7 +199,7 @@ public class EquipmentController {
 		try {
 			equipmentService.delete(equipment, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 		
 		return result;
@@ -220,7 +220,7 @@ public class EquipmentController {
 		try {
 			manufacturerService.add(manufacturer, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -237,7 +237,7 @@ public class EquipmentController {
 		try {
 			manufacturerService.edit(manufacturer, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -254,7 +254,7 @@ public class EquipmentController {
 		try {
 			manufacturerService.delete(manufacturer, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -275,7 +275,7 @@ public class EquipmentController {
 			modelService.add(model, authentication);
 			result.put("success", true);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -292,7 +292,7 @@ public class EquipmentController {
 		try {
 			modelService.edit(model, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -309,7 +309,7 @@ public class EquipmentController {
 		try {
 			modelService.delete(model, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -329,7 +329,7 @@ public class EquipmentController {
 		try {
 			typeService.add(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -346,7 +346,7 @@ public class EquipmentController {
 		try {
 			typeService.edit(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -363,7 +363,7 @@ public class EquipmentController {
 		try {
 			typeService.delete(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -383,7 +383,7 @@ public class EquipmentController {
 		try {
 			protocolService.add(protocol, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -400,7 +400,7 @@ public class EquipmentController {
 		try {
 			protocolService.edit(protocol, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -417,7 +417,7 @@ public class EquipmentController {
 		try {
 			protocolService.delete(protocol, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -437,7 +437,7 @@ public class EquipmentController {
 		try {
 			operationalStateService.add(operationalState, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -454,7 +454,7 @@ public class EquipmentController {
 		try {
 			operationalStateService.edit(operationalState, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -471,7 +471,7 @@ public class EquipmentController {
 		try {
 			operationalStateService.delete(operationalState, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -491,7 +491,7 @@ public class EquipmentController {
 		try {
 			systemService.add(system, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -508,7 +508,7 @@ public class EquipmentController {
 		try {
 			systemService.edit(system, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -525,7 +525,7 @@ public class EquipmentController {
 		try {
 			systemService.delete(system, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;

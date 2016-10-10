@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 
+import br.com.ttrans.samapp.library.Action;
+
 @Component
 public class ErrorMessageHandler {
 	
@@ -31,7 +33,7 @@ public class ErrorMessageHandler {
 		return result;
 	}
 	
-	public static void getUserMessage(Exception e, Map<String, Object> result) {
+	public static void getUserMessage(Exception e, Map<String, Object> result, Action action) {
 		
 		String message ;
 		
@@ -55,14 +57,18 @@ public class ErrorMessageHandler {
 				/*
 				 * User constraint violation
 				 */
-				message = "Falha ao inserir registro. As informação solicitada não pode ser inserida devido a algumas regras do sistema.";
+				message = "Falha ao inserir registro. As informação solicitada viola regras do sistema. Por favor entre em contato com o administrador do sistema.";
 				break;
 				
 			case 335544466:
 				/*
 				 * Foreign key violation
 				 */
-				message = "Cadastre primeiro todas as informações necessárias vinculadas a esse cadastro e tente novamente.";
+				if(action.equals(Action.DELETE))
+					message = "Esse registro está sendo utilizado portanto não pode ser excluído.";
+				else
+					message = "Cadastre primeiro todas as informações necessárias vinculadas a esse cadastro e tente novamente.";
+				
 				break;
 
 			default:

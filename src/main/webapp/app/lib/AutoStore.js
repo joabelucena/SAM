@@ -34,7 +34,7 @@ Ext.define('Sam.lib.AutoStore', {
 	
 	onProxyException: function(proxy, response, operation, eOpts) {
 		this.rejectChanges();
-		console.log("reject");
+		
 		/*
      	 * Runs when server returns 'success: false'
      	 */

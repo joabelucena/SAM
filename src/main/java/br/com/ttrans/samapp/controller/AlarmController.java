@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.ttrans.samapp.library.Action;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.AlarmFilter;
 import br.com.ttrans.samapp.model.AlarmGroup;
@@ -102,7 +103,7 @@ public class AlarmController {
 		try {
 			alarmService.add(alarm, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -119,7 +120,7 @@ public class AlarmController {
 		try {
 			alarmService.edit(alarm, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -136,7 +137,7 @@ public class AlarmController {
 		try {
 			alarmService.delete(alarm, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -156,7 +157,7 @@ public class AlarmController {
 		try {
 			typeService.add(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -173,7 +174,7 @@ public class AlarmController {
 		try {
 			typeService.edit(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -190,7 +191,7 @@ public class AlarmController {
 		try {
 			typeService.delete(type, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -210,7 +211,7 @@ public class AlarmController {
 		try {
 			groupService.add(group, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -227,7 +228,7 @@ public class AlarmController {
 		try {
 			groupService.edit(group, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -244,7 +245,7 @@ public class AlarmController {
 		try {
 			groupService.delete(group, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
@@ -264,7 +265,7 @@ public class AlarmController {
 		try {
 			filterService.add(filter, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.INSERT);
 		}
 
 		return result;
@@ -281,7 +282,7 @@ public class AlarmController {
 		try {
 			filterService.edit(filter, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.UPDATE);
 		}
 
 		return result;
@@ -298,7 +299,7 @@ public class AlarmController {
 		try {
 			filterService.delete(filter, authentication);
 		} catch (DataAccessException e) {
-			getUserMessage(e, result);
+			getUserMessage(e, result, Action.DELETE);
 		}
 
 		return result;
