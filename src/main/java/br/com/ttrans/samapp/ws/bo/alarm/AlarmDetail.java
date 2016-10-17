@@ -89,8 +89,31 @@ public class AlarmDetail
     protected int priorityId;
     @XmlAnyElement(lax = true)
     protected Object any;
-
+    
     /**
+     * Custom constructors
+     */
+    public AlarmDetail() {
+		super();
+	}
+
+	public AlarmDetail(AlarmDetail obj) {
+		super(obj);
+		
+		this.alarmTypeId = obj.alarmTypeId;
+		this.stateId = obj.stateId;
+		this.severity = obj.severity;
+		this.objectId = obj.objectId;
+		this.areaId = obj.areaId;
+		this.apparitionDate = obj.apparitionDate;
+		this.sopId = obj.sopId;
+		this.textMessageId = obj.textMessageId;
+		this.textMessageParams = obj.textMessageParams;
+		this.priorityId = obj.priorityId;
+		this.any = obj.any;			
+	}
+
+	/**
      * Gets the value of the alarmTypeId property.
      * 
      * @return
@@ -337,4 +360,15 @@ public class AlarmDetail
         this.any = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmDetail [alarmTypeId=" + alarmTypeId + ", stateId=" + stateId + ", severity=" + severity
+				+ ", objectId=" + objectId + ", areaId=" + areaId + ", apparitionDate=" + apparitionDate + ", sopId="
+				+ sopId + ", textMessageId=" + textMessageId + ", textMessageParams=" + textMessageParams
+				+ ", priorityId=" + priorityId + ", any=" + any + ", creatorId=" + creatorId + ", sessionInstanceId="
+				+ sessionInstanceId + ", timeStamp=" + timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

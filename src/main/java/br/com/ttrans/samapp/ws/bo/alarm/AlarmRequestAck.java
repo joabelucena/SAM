@@ -97,4 +97,13 @@ public class AlarmRequestAck
         this.comment = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmRequestAck [operatorId=" + operatorId + ", comment=" + comment + ", creatorId=" + creatorId
+				+ ", sessionInstanceId=" + sessionInstanceId + ", timeStamp=" + timeStamp + ", alarmInstanceId="
+				+ alarmInstanceId + "]";
+	}
 }

@@ -60,4 +60,12 @@ public class AlarmUpdateState
         this.stateId = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmUpdateState [stateId=" + stateId + ", creatorId=" + creatorId + ", sessionInstanceId="
+				+ sessionInstanceId + ", timeStamp=" + timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

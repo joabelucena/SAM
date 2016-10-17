@@ -60,6 +60,7 @@ public class SessionDetail {
      * Constructors
      */
     public SessionDetail() {
+    	super();
 	}
 
 	public SessionDetail(String creatorId, String sessionInstanceId, XMLGregorianCalendar timeStamp) {
@@ -145,14 +146,11 @@ public class SessionDetail {
     }
 
     /**
-     * Returns readable version of the object
+     * Returns a human readable version of the object
      */
 	@Override
 	public String toString() {
 		return "SessionDetail [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
 				+ timeStamp + "]";
 	}
-    
-    
-
 }

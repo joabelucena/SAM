@@ -36,6 +36,27 @@ import javax.xml.bind.annotation.XmlType;
 public class AlarmAdd
     extends AlarmDetail
 {
+	
+	/**
+     * Custom constructors
+     */
+	public AlarmAdd() {
+		super();
+	}
 
+	public AlarmAdd(AlarmDetail obj) {
+		super(obj);
+	}
 
+	/**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmAdd [alarmTypeId=" + alarmTypeId + ", stateId=" + stateId + ", severity=" + severity
+				+ ", objectId=" + objectId + ", areaId=" + areaId + ", apparitionDate=" + apparitionDate + ", sopId="
+				+ sopId + ", textMessageId=" + textMessageId + ", textMessageParams=" + textMessageParams
+				+ ", priorityId=" + priorityId + ", any=" + any + ", creatorId=" + creatorId + ", sessionInstanceId="
+				+ sessionInstanceId + ", timeStamp=" + timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

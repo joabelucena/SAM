@@ -163,12 +163,11 @@ public class Active {
     }
 
     /**
-     * Returns readable version of the object
+     * Returns a human readable version of the object
      */
 	@Override
 	public String toString() {
 		return "Active [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
 				+ timeStamp + ", applications=" + applications + "]";
 	}
-
 }

@@ -72,6 +72,21 @@ public class AlarmBase {
     protected String alarmInstanceId;
 
     /**
+     * Custom constructors
+     */
+    public AlarmBase() {
+    	super();
+    }
+
+    public AlarmBase(AlarmBase obj) {
+		super();
+		this.creatorId = obj.creatorId;
+		this.sessionInstanceId = obj.sessionInstanceId;
+		this.timeStamp = obj.timeStamp;
+		this.alarmInstanceId = obj.alarmInstanceId;
+	}
+
+	/**
      * Gets the value of the creatorId property.
      * 
      * @return
@@ -167,4 +182,12 @@ public class AlarmBase {
         this.alarmInstanceId = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmBase [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

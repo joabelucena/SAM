@@ -129,4 +129,13 @@ public class AlarmRefresh
         return this.textMessageParams;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmRefresh [severity=" + severity + ", textMessageId=" + textMessageId + ", textMessageParams="
+				+ textMessageParams + ", creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId
+				+ ", timeStamp=" + timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

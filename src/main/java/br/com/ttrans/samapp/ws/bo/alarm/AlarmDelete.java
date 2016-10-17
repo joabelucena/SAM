@@ -37,5 +37,12 @@ public class AlarmDelete
     extends AlarmBase
 {
 
-
+	/**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmDelete [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + ", alarmInstanceId=" + alarmInstanceId + "]";
+	}
 }

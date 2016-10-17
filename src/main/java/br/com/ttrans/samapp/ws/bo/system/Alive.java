@@ -147,14 +147,11 @@ public class Alive {
     }
 
     /**
-     * Returns readable version of the object
+     * Returns a human readable version of the object
      */
 	@Override
 	public String toString() {
 		return "Alive [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp=" + timeStamp
 				+ ", connectionStatus=" + connectionStatus + "]";
 	}
-    
-    
-
 }

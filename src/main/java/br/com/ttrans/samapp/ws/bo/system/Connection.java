@@ -100,11 +100,10 @@ public class Connection {
     }
 
     /**
-     * Returns readable version of the object
+     * Returns a human readable version of the object
      */
 	@Override
 	public String toString() {
 		return "Connection [creatorId=" + creatorId + ", timeStamp=" + timeStamp + "]";
 	}
-
 }

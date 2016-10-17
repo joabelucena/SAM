@@ -2,6 +2,8 @@ package br.com.ttrans.samapp.ws.endpoint.impl;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
@@ -57,22 +59,32 @@ public class SystemServicesImpl implements SystemEndpoint {
 		// Retrieves Http Request
 		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
 				.get(MessageContext.SERVLET_REQUEST);
+		
+		final IP ip = new IP(req.getRemoteAddr());
 
-		// Generates connection id
-		final String hash = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
+		// Generates sessionInstanceId
+		final String sessionInstanceId = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 
-		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID, hash, payload.getTimeStamp());
+		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID, sessionInstanceId, payload.getTimeStamp());
 
-		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", req.getRemoteAddr());
+		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", ip);
 
 		logger.debug("" + payload);
 
-		logger.debug("Client IP: " + req.getRemoteAddr());
+		logger.debug("Client IP: " + ip);
 
 		if (urlWsdl.isEmpty()) {
 			logger.error(
 					"Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
 		} else {
+			
+			Set<Entry<String, Session>> ids = sessions.entrySet();
+			
+			for (Entry<String, Session> entry : ids) {
+				
+				if(entry.getValue().getConnection().getCreatorId().equals(payload.getCreatorId()))
+					sessions.remove(entry.getKey());
+			}
 
 			Thread call = new Thread() {
 
@@ -81,9 +93,9 @@ public class SystemServicesImpl implements SystemEndpoint {
 						SystemServiceClient.SessionDetail(urlWsdl, session);
 
 						// Add Connection + HashCode
-						sessions.put(hash, new Session(payload, new Date(), new IP(req.getRemoteAddr())));
+						sessions.put(sessionInstanceId, new Session(payload, new Date(), ip));
 
-						logger.debug("New connection established: " + hash);
+						logger.debug("New connection established: " + sessionInstanceId);
 
 					} catch (Exception e) {
 						logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl

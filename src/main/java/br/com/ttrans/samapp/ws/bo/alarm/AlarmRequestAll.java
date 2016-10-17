@@ -132,4 +132,12 @@ public class AlarmRequestAll {
         this.timeStamp = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmRequestAll [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + "]";
+	}
 }

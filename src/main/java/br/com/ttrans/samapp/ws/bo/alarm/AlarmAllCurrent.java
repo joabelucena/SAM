@@ -167,4 +167,12 @@ public class AlarmAllCurrent {
         return this.alarmList;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "AlarmAllCurrent [creatorId=" + creatorId + ", sessionInstanceId=" + sessionInstanceId + ", timeStamp="
+				+ timeStamp + ", alarmList=" + alarmList + "]";
+	}
 }

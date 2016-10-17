@@ -99,4 +99,11 @@ public class MessageParams {
         this.value = value;
     }
 
+    /**
+     * Returns a human readable version of the object
+     */
+	@Override
+	public String toString() {
+		return "MessageParams [name=" + name + ", value=" + value + "]";
+	}
 }

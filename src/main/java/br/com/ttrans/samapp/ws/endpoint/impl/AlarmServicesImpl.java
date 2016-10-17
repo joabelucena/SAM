@@ -53,10 +53,12 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAllCurrent(AlarmAllCurrent payload) {
 		
+		logger.debug(payload.toString());
+		
 		List<AlarmDetail> alarms = payload.getAlarmList();
 		
 		for (AlarmDetail alarmDetail : alarms) {
-			this.AlarmAdd((AlarmAdd) alarmDetail);
+			this.AlarmAdd(new AlarmAdd(alarmDetail));
 		}
 		
 	}
@@ -64,14 +66,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmAdd(AlarmAdd payload) {
 		
-		logger.info("*************************");
-		logger.info("** Novo Alarme **");
-		logger.info("** ID Thales: " + payload.getAlarmInstanceId());
-		logger.info("** Equipamento: " + payload.getObjectId());
-		logger.info("** Alarme: " + payload.getTextMessageId());
-		logger.info("*************************");
-		
-		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.debug(payload.toString());
 		
 		if(sessions.containsKey(payload.getSessionInstanceId())){
 			
@@ -88,7 +83,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 			service.add(e);
 			
 		}else{
-			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
 		}
 		
 	}
@@ -96,26 +91,26 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@Override
 	public void AlarmUpdateState(AlarmUpdateState payload) {
 		
-		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.debug(payload.toString());
 		
 		if(sessions.containsKey(payload.getSessionInstanceId())){
 			service.recognize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		}else{
-			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
 		}
 		
 	}
 
 	@Override
 	public void AlarmDelete(AlarmDelete payload) {
-
-		String name = new Object(){}.getClass().getEnclosingMethod().getName();
+		
+		logger.debug(payload.toString());
 
 		if (sessions.containsKey(payload.getSessionInstanceId())) {
 
 			service.normalize(payload.getAlarmInstanceId(), USR_MAESTRO);
 		} else {
-			logger.info(name + " - " + "SessionID: " + payload.getSessionInstanceId() + " is not currently active.");
+			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
 		}
 
 	}

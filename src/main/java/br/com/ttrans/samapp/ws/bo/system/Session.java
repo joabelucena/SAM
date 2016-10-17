@@ -43,6 +43,9 @@ public class Session {
 		this.ip = ip;
 	}
 
+	/**
+     * Returns a human readable version of the object
+     */
 	@Override
 	public String toString() {
 		return "Session [connection=" + connection + ", alive=" + alive + ", ip=" + ip + "]";
