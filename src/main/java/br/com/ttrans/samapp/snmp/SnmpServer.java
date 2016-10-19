@@ -75,7 +75,7 @@ public class SnmpServer implements CommandResponder {
 	public void run() {
 		try {
 			
-			logger.info("Initializing Snmp Server...");			
+			logger.info("Initializing SNMP Server...");
 			init();
 			snmp.addCommandResponder(this);
 		} catch (Exception ex) {
@@ -86,7 +86,7 @@ public class SnmpServer implements CommandResponder {
 	/** Stops the server **/
 	public void close() {
 		try {
-			System.out.println("## Closing Snmp Server...");
+			logger.info("Closing SNMP Server...");
 			snmp.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -161,7 +161,7 @@ public class SnmpServer implements CommandResponder {
 			
 			Equipment equipment = equipmentService.get(ip);
 			
-			System.out.println("NEW TRAP >> IP: "+ ip + " | OID: " + oid);
+			logger.debug("NEW TRAP >> IP: "+ ip + " | OID: " + oid);
 			
 			//Found equipment
 			if (equipment != null) {
@@ -234,12 +234,8 @@ public class SnmpServer implements CommandResponder {
 								try {
 									eventService.add(e);
 								} catch (Exception e2) {
-									logger.error("Erro ao inserir alarme para o equipamento: " + equipment.getId());
-									logger.error("OID: " + oid);
 									logger.error("Erro: " + e2.getMessage());
-									
 								}
-								
 							}
 						}
 						break;
@@ -254,8 +250,8 @@ public class SnmpServer implements CommandResponder {
 				
 			} else {
 				//Equipment not found
-				logger.info("Não foi localizado o equipamento com o IP: " + ip);
-				logger.error("OID: " + oid);
+				logger.debug("Não foi localizado o equipamento com o IP: " + ip);
+				logger.debug("OID: " + oid);
 				
 			}
 		}

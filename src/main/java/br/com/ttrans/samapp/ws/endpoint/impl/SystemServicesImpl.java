@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
@@ -63,13 +64,14 @@ public class SystemServicesImpl implements SystemEndpoint {
 		final IP ip = new IP(req.getRemoteAddr());
 
 		// Generates sessionInstanceId
-		final String sessionInstanceId = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
+//		final String sessionInstanceId = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
+		final String sessionInstanceId = UUID.randomUUID().toString();
 
 		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID, sessionInstanceId, payload.getTimeStamp());
 
 		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", ip);
 
-		logger.debug("" + payload);
+		logger.debug(payload.toString());
 
 		logger.debug("Client IP: " + ip);
 
@@ -94,7 +96,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 						// Add Connection + HashCode
 						sessions.put(sessionInstanceId, new Session(payload, new Date(), ip));
-
+						
 						logger.debug("New connection established: " + sessionInstanceId);
 
 					} catch (Exception e) {
@@ -107,14 +109,13 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 			call.start();
 		}
-
-		logger.debug("Active connections: " + sessions.size());
+		
 	}
 
 	@Override
 	public void SessionDetail(SessionDetail payload) {
 
-		logger.debug("" + payload);
+		logger.debug(payload.toString());
 	}
 
 	@Override
@@ -124,7 +125,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
 				.get(MessageContext.SERVLET_REQUEST);
 
-		logger.debug("" + payload);
+		logger.debug(payload.toString());
 
 		if (sessions.containsKey(payload.getSessionInstanceId())) {
 
@@ -140,7 +141,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 			case 1:
 				// TODO Check what must be implemented when connection status is 1
 				logger.error("Erro de comunicação com o SAM: ");
-				logger.error("" + payload);
+				logger.debug(payload.toString());
 				break;
 
 			default:
@@ -186,14 +187,14 @@ public class SystemServicesImpl implements SystemEndpoint {
 	@Override
 	public void Active(Active payload) {
 
-		logger.debug("" + payload);
+		logger.debug(payload.toString());
 
 	}
 
 	@Override
 	public void Disconnection(Disconnection payload) {
 
-		logger.debug("" + payload);
+		logger.debug(payload.toString());
 
 		// Removes connection
 		sessions.remove(payload.getSessionInstanceId());

@@ -80,10 +80,15 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 					new Date(), 
 					USR_MAESTRO);
 			
-			service.add(e);
+			try {
+				service.add(e);
+			} catch (Exception e2) {
+				logger.error("Erro: " + e2.getMessage());
+			}
 			
 		}else{
 			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
+			logger.debug("Refused alarm:" + payload);
 		}
 		
 	}

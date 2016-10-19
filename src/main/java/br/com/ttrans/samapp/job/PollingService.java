@@ -52,6 +52,8 @@ public class PollingService {
 		
 		Set<Entry<String, Session>> ids = sessions.entrySet();
 		
+		logger.debug("Active connections: " + sessions.size());
+		
 		long gap;
 
 		for (Entry<String, Session> entry : ids) {

@@ -8,6 +8,13 @@
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
+		
+		<!-- Controls the logging levels -->
+<!-- 		<filter class="org.apache.log4j.varia.LevelRangeFilter"> -->
+<!-- 			<param name="levelMin" value="DEBUG" /> -->
+<!-- 			<param name="levelMax" value="DEBUG" /> -->
+<!-- 		</filter> -->
+
 	</appender>
 	
 	<!-- Appenders: File (TomCat installation directory like "/opt/apache-tomcat-7.0.47/" -->
@@ -35,12 +42,20 @@
 	</logger>
 	
 	<!-- Enable this for checking critical points in program -->
-	<logger name="br.com.ttrans.samapp">
+	<logger name="br.com.ttrans.samapp.job">
+		<level value="debug" />
+	</logger>
+
+	<logger name="br.com.ttrans.samapp.ws">
 		<level value="debug" />
 	</logger>
 	
-	<!-- 3rdparty Loggers -->
+	<logger name="br.com.ttrans.samapp.snmp">
+		<level value="debug" />
+	</logger>
 	 
+	
+	<!-- 3rd party Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
@@ -57,18 +72,20 @@
 		<level value="info" />
 	</logger>
 	
-	<logger name="org.hibernate.SQL">
-		<level value="info" />
+	<!-- Hibernate logging. Set this level to info for monitoring -->
+	<!-- hibernate's possible errors -->
+	<logger name="org.hibernate">
+		<level value="fatal" />
 	</logger>
 	
 	<!-- Trace Loggers -->
-<!-- 	<logger name="org.springframework"> -->
-<!-- 		<level value="trace"/> -->
-<!-- 	</logger> -->
+	<!-- <logger name="org.springframework"> -->
+	<!-- 	<level value="trace"/> -->
+	<!-- </logger> -->
 	
-<!--     <logger name="org.springframework.web.servlet.mvc"> -->
-<!-- 		<level value="trace"/> -->
-<!-- 	</logger> -->
+	<!-- <logger name="org.springframework.web.servlet.mvc"> -->
+	<!-- 	<level value="trace"/> -->
+	<!-- </logger> -->
 
 	
 	<!-- Hibernate Loggers See @ http://docs.jboss.org/hibernate/core/3.3/reference/en/html/session-configuration.html#configuration-logging
@@ -84,11 +101,6 @@
 	org.hibernate.secure        Log all JAAS authorization requests
 	org.hibernate               Log everything (a lot of information, but very useful for troubleshooting)
 	-->
-	
-	<logger name="org.hibernate.type">
-		<level value="info" />
-	</logger>
-	
 
 	<!-- Root Logger -->
 	<root>
