@@ -6,33 +6,31 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import br.com.ttrans.samapp.dao.UserDao;
 import br.com.ttrans.samapp.model.User;
+
 @Repository
 public class UserDaoImpl implements UserDao {
+	
 	@Autowired
 	private SessionFactory session;
 	
 	@Override
-	public void addUser(User user) {
+	public void add(User user, Authentication authentication) {
 		session.getCurrentSession().save(user);
 	}
 
 	@Override
-	public void editUser(User user) {
+	public void edit(User user, Authentication authentication) {
 		session.getCurrentSession().update(user);
 	}
 
 	@Override
-	public void deleteUser(int userId) {
-		session.getCurrentSession().delete(findUser(userId));
-	}
-
-	@Override
-	public User findUser(int userId) {
-		return (User) session.getCurrentSession().get(User.class, userId);
+	public void delete(User user, Authentication authentication) {
+		session.getCurrentSession().delete(user);
 	}
 
 	@Override
@@ -44,9 +42,9 @@ public class UserDaoImpl implements UserDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> loadData() {
 		return session.getCurrentSession().createCriteria(User.class)
-				.setResultTransformer(Criteria.ROOT_ENTITY)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.list();
 	}
 

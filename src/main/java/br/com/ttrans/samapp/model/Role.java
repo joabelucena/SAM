@@ -18,6 +18,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -32,6 +33,7 @@ public class Role{
 
 	@OneToMany(mappedBy = "role", targetEntity = User.class, fetch = FetchType.EAGER)
 //	@JsonManagedReference(value="role")
+	@JsonBackReference
 	private List<User> users = new LinkedList<User>();
 	
 	@ManyToMany(fetch=FetchType.EAGER)

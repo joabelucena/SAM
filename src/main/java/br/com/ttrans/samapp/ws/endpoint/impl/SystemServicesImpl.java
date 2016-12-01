@@ -40,19 +40,32 @@ public class SystemServicesImpl implements SystemEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(SystemServicesImpl.class);
 
 	private Map<String, Session> sessions;
-
+	
+	private Map<String, String> systems;
+	
 	@Autowired
 	private DAO dao;
 
 	@WebMethod(exclude = true)
-	public void setSessions(Map<String, Session> connections) {
-		this.sessions = connections;
+	public void setSessions(Map<String, Session> sessions) {
+		this.sessions = sessions;
 	}
 
 	@WebMethod(exclude = true)
 	public Map<String, Session> getSessions() {
 		return this.sessions;
 	}
+	
+	@WebMethod(exclude = true)
+	public void setSystems(Map<String, String> systems) {
+		this.systems = systems;
+	}
+
+	@WebMethod(exclude = true)
+	public Map<String, String> getSystems() {
+		return this.systems;
+	}
+	
 
 	@Override
 	public void Connection(final Connection payload) {

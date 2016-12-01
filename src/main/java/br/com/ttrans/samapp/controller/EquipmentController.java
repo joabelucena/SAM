@@ -156,7 +156,7 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/add.action")
 	@ResponseBody
-	public Map<String, Object> addAlarm(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
+	public Map<String, Object> addEquipment(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
 			HttpServletResponse response) {
 
 		// Result Map
@@ -173,7 +173,7 @@ public class EquipmentController {
 
 	@RequestMapping("/update.action")
 	@ResponseBody
-	public Map<String, Object> updateAlarm(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
+	public Map<String, Object> updateEquipment(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
 			HttpServletResponse response) {
 
 		// Result Map
@@ -190,7 +190,7 @@ public class EquipmentController {
 
 	@RequestMapping("/delete.action")
 	@ResponseBody
-	public Map<String, Object> deleteAlarm(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
+	public Map<String, Object> deleteEquipment(@RequestBody Equipment equipment, HttpServletRequest request, Authentication authentication,
 			HttpServletResponse response) {
 
 		// Result Map

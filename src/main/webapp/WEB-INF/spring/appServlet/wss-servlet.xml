@@ -25,6 +25,7 @@
 
 	<bean id="wsMaestroAlarms" class="br.com.ttrans.samapp.ws.endpoint.impl.AlarmServicesImpl">
 		<property name="sessions" value="#{wsMaestroSystem.sessions}" />
+		<property name="systems" value="#{wsMaestroSystem.systems}" />
 	</bean>
 
 	<bean id="wsMaestroSystem"
@@ -34,9 +35,16 @@
 
 			<util:map map-class="java.util.concurrent.ConcurrentHashMap"
 				key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session" />
-			
+
 			<!-- Old map implementation -->
-<!-- 			<map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session"/> -->
+			<!-- <map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session"/> -->
+		</property>
+
+		<property name="systems">
+			<map key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="4" value="EPS-" />
+				<entry key="5" value="APIS-"/>
+			</map>
 		</property>
 	</bean>
 

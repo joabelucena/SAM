@@ -102,8 +102,8 @@ Ext.define('Sam.lib.AutoGrid', {
         		   
         		};
         		
-        		component.startTask(task);
         		
+        		component.startTask(task);
     		}
     	},
     	

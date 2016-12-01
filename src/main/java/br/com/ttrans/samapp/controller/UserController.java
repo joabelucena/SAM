@@ -14,19 +14,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.ttrans.samapp.model.Role;
+import br.com.ttrans.samapp.model.User;
 import br.com.ttrans.samapp.service.RoleService;
+import br.com.ttrans.samapp.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-@SuppressWarnings("rawtypes")
 public class UserController {
 	
 	@Autowired
 	private RoleService roleService;
 	
-	@RequestMapping("/role")
+	@Autowired
+	private UserService userService;
+	
+	@RequestMapping("/load")
 	@ResponseBody
-	public Map loadData() {
+	public Map<String,Object> loadUser() {
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		result.put("data", userService.loadData());
+		
+		return result;
+	}
+	
+	
+	@RequestMapping("/load/role")
+	@ResponseBody
+	public Map<String,Object> loadRole() {
 		
 		Map<String,Object> result = new HashMap<String, Object>();
 		
@@ -35,6 +51,67 @@ public class UserController {
 		return result;
 	}
 	
+	/*
+	 * CRUD Operations for: User
+	 */
+	@RequestMapping("/add.action")
+	@ResponseBody
+	public Map<String,Object> addUser(@RequestBody User user, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			userService.add(user, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/update.action")
+	@ResponseBody
+	public Map<String,Object> updateUser(@RequestBody User user, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+
+		try{
+			userService.edit(user, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		
+		return result;
+	}
+	
+	@RequestMapping("/delete.action")
+	@ResponseBody
+	public Map<String,Object> deleteUser(@RequestBody User user, 
+			HttpServletRequest request,
+			Authentication authentication,
+            HttpServletResponse response) {
+		
+		//Result Map
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+		try{
+			userService.delete(user, authentication);
+		}catch(Exception e){
+			result.put("message",e.getMessage());
+		}
+
+		return result;
+	}
+
 	/*
 	 * CRUD Operations for: Role
 	 */

@@ -41,6 +41,8 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	
 	private Map<String, Session> sessions;
 	
+	private Map<String, String> systems;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AlarmServicesImpl.class);
 	
 	private static final String USR_MAESTRO = "SAM_MAESTRO";
@@ -48,6 +50,11 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 	@WebMethod(exclude = true)
 	public void setSessions(Map<String, Session> sessions) {
 		this.sessions = sessions;
+	}
+	
+	@WebMethod(exclude = true)
+	public void setSystems(Map<String, String> systems) {
+		this.systems = systems;
 	}
 	
 	@Override
@@ -68,6 +75,9 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 		
 		logger.debug(payload.toString());
 		
+		String alarmId = systems.containsKey(payload.getCreatorId()) ? systems.get(payload.getCreatorId()).concat(payload.getTextMessageId())
+																	: payload.getTextMessageId();
+		
 		if(sessions.containsKey(payload.getSessionInstanceId())){
 			
 			/**
@@ -76,7 +86,7 @@ public class AlarmServicesImpl implements AlarmEndpoint {
 			Event e = new Event(
 					payload.getAlarmInstanceId(),
 					new Equipment(payload.getObjectId()),
-					new Alarm(payload.getTextMessageId()),
+					new Alarm(alarmId),
 					new Date(), 
 					USR_MAESTRO);
 			
