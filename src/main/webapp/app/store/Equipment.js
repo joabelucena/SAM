@@ -4,7 +4,7 @@ Ext.define('Sam.store.Equipment', {
 	
 	model: 'Sam.model.Equipment',
 	
-	pageSize: 30,
+	pageSize: 5000,
 
 	proxy: {
       
