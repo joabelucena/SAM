@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="SystemServices"
+	targetNamespace="http://maestro.thalesgroup.com/wsdl/system"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+	xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://maestro.thalesgroup.com/wsdl/system"
+	xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+	xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://www.w3.org/ns/ws-policy"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified"
+			targetNamespace="http://maestro.thalesgroup.com/wsdl/system/xsd"
+			xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://maestro.thalesgroup.com/wsdl/system/xsd">
+			<xs:element name="Connection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="creatorId"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="timeStamp"
+							type="xs:dateTime" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SessionDetail">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="creatorId"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="sessionInstanceId"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="timeStamp"
+							type="xs:dateTime" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Alive">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="creatorId"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="sessionInstanceId"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="timeStamp"
+							type="xs:dateTime" />
+						<xs:element minOccurs="1" maxOccurs="1" name="connectionStatus"
+							type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Active">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="creatorId"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="sessionInstanceId"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="timeStamp"
+							type="xs:dateTime" />
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="applications"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Disconnection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="creatorId"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="sessionInstanceId"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="timeStamp"
+							type="xs:dateTime" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="connection1">
+		<wsdl:part name="Connection" element="q1:Connection"
+			xmlns:q1="http://maestro.thalesgroup.com/wsdl/system/xsd" />
+	</wsdl:message>
+	<wsdl:message name="sessionDetail1">
+		<wsdl:part name="SessionDetail" element="q2:SessionDetail"
+			xmlns:q2="http://maestro.thalesgroup.com/wsdl/system/xsd" />
+	</wsdl:message>
+	<wsdl:message name="alive1">
+		<wsdl:part name="Alive" element="q3:Alive"
+			xmlns:q3="http://maestro.thalesgroup.com/wsdl/system/xsd" />
+	</wsdl:message>
+	<wsdl:message name="active1">
+		<wsdl:part name="Active" element="q4:Active"
+			xmlns:q4="http://maestro.thalesgroup.com/wsdl/system/xsd" />
+	</wsdl:message>
+	<wsdl:message name="disconnection1">
+		<wsdl:part name="Disconnection" element="q5:Disconnection"
+			xmlns:q5="http://maestro.thalesgroup.com/wsdl/system/xsd" />
+	</wsdl:message>
+	<wsdl:portType name="SystemPortType">
+		<wsdl:operation name="connection">
+			<wsdl:input wsam:Action="connection" name="connection1"
+				message="tns:connection1" />
+		</wsdl:operation>
+		<wsdl:operation name="sessionDetail">
+			<wsdl:input wsam:Action="sessionDetail" name="sessionDetail1"
+				message="tns:sessionDetail1" />
+		</wsdl:operation>
+		<wsdl:operation name="alive">
+			<wsdl:input wsam:Action="alive" name="alive1" message="tns:alive1" />
+		</wsdl:operation>
+		<wsdl:operation name="active">
+			<wsdl:input wsam:Action="active" name="active1" message="tns:active1" />
+		</wsdl:operation>
+		<wsdl:operation name="disconnection">
+			<wsdl:input wsam:Action="disconnection" name="disconnection1"
+				message="tns:disconnection1" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BasicHttpBinding_SystemPortType" type="tns:SystemPortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="connection">
+			<soap:operation soapAction="connection" style="document" />
+			<wsdl:input name="connection1">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="sessionDetail">
+			<soap:operation soapAction="sessionDetail" style="document" />
+			<wsdl:input name="sessionDetail1">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="alive">
+			<soap:operation soapAction="alive" style="document" />
+			<wsdl:input name="alive1">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="active">
+			<soap:operation soapAction="active" style="document" />
+			<wsdl:input name="active1">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="disconnection">
+			<soap:operation soapAction="disconnection" style="document" />
+			<wsdl:input name="disconnection1">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SystemServices">
+		<wsdl:port name="BasicHttpBinding_SystemPortType" binding="tns:BasicHttpBinding_SystemPortType">
+			<soap:address
+				location="http://10.114.0.102:8080/SAM/services/Maestro/SystemServices" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -40,9 +40,9 @@ public class SystemServicesImpl implements SystemEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(SystemServicesImpl.class);
 
 	private Map<String, Session> sessions;
-	
+
 	private Map<String, String> systems;
-	
+
 	@Autowired
 	private DAO dao;
 
@@ -55,7 +55,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 	public Map<String, Session> getSessions() {
 		return this.sessions;
 	}
-	
+
 	@WebMethod(exclude = true)
 	public void setSystems(Map<String, String> systems) {
 		this.systems = systems;
@@ -65,7 +65,6 @@ public class SystemServicesImpl implements SystemEndpoint {
 	public Map<String, String> getSystems() {
 		return this.systems;
 	}
-	
 
 	@Override
 	public void Connection(final Connection payload) {
@@ -73,56 +72,54 @@ public class SystemServicesImpl implements SystemEndpoint {
 		// Retrieves Http Request
 		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
 				.get(MessageContext.SERVLET_REQUEST);
-		
+
 		final IP ip = new IP(req.getRemoteAddr());
 
 		// Generates sessionInstanceId
-//		final String sessionInstanceId = String.valueOf(payload.getCreatorId().hashCode() + payload.getTimeStamp().hashCode());
 		final String sessionInstanceId = UUID.randomUUID().toString();
 
 		final SessionDetail session = new SessionDetail(SAM_CREATOR_ID, sessionInstanceId, payload.getTimeStamp());
 
-		final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", ip);
+		final String creatorId = payload.getCreatorId();
 
 		logger.debug(payload.toString());
 
 		logger.debug("Client IP: " + ip);
 
-		if (urlWsdl.isEmpty()) {
-			logger.error(
-					"Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
-		} else {
-			
-			Set<Entry<String, Session>> ids = sessions.entrySet();
-			
-			for (Entry<String, Session> entry : ids) {
-				
-				if(entry.getValue().getConnection().getCreatorId().equals(payload.getCreatorId()))
-					sessions.remove(entry.getKey());
-			}
+		Set<Entry<String, Session>> ids = sessions.entrySet();
 
-			Thread call = new Thread() {
+		for (Entry<String, Session> entry : ids) {
 
-				public void run() {
-					try {
-						SystemServiceClient.SessionDetail(urlWsdl, session);
-
-						// Add Connection + HashCode
-						sessions.put(sessionInstanceId, new Session(payload, new Date(), ip));
-						
-						logger.debug("New connection established: " + sessionInstanceId);
-
-					} catch (Exception e) {
-						logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl
-								+ ". Detalhes do Erro:");
-						logger.error(e.getMessage());
-					}
-				}
-			};
-
-			call.start();
+			if (entry.getValue().getConnection().getCreatorId().equals(payload.getCreatorId()))
+				sessions.remove(entry.getKey());
 		}
-		
+
+		Thread call = new Thread() {
+
+			public void run() {
+				try {
+					SystemServiceClient.SessionDetail(creatorId, session);
+
+					// Add Connection + HashCode
+					sessions.put(sessionInstanceId, new Session(payload, new Date(), ip));
+
+					logger.debug("New connection established: " + sessionInstanceId);
+
+				} catch (Exception e) {
+
+					/*
+					 * Exceptions are handled on SystemServiceClient class. This
+					 * try-catch stands for controlling the Sessions Map
+					 * 
+					 */
+					return;
+
+				}
+			}
+		};
+
+		call.start();
+
 	}
 
 	@Override
@@ -152,7 +149,8 @@ public class SystemServicesImpl implements SystemEndpoint {
 				break;
 
 			case 1:
-				// TODO Check what must be implemented when connection status is 1
+				// TODO Check what must be implemented when connection status is
+				// 1
 				logger.error("Erro de comunicação com o SAM: ");
 				logger.debug(payload.toString());
 				break;
@@ -162,11 +160,11 @@ public class SystemServicesImpl implements SystemEndpoint {
 			}
 
 		} else {
-			
+
 			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
 
 			final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", req.getRemoteAddr());
-			
+
 			if (urlWsdl.isEmpty()) {
 				logger.error(
 						"Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
@@ -176,10 +174,11 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 					public void run() {
 						try {
-							
-							Disconnection disconnection = new Disconnection(SAM_CREATOR_ID, payload.getSessionInstanceId(),
+
+							Disconnection disconnection = new Disconnection(SAM_CREATOR_ID,
+									payload.getSessionInstanceId(),
 									DateBuilder.newXMLGregorianCalendarDate(new Date()));
-							
+
 							SystemServiceClient.Disconnection(urlWsdl, disconnection);
 
 						} catch (Exception e) {
@@ -192,7 +191,7 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 				call.start();
 			}
-			
+
 		}
 
 	}

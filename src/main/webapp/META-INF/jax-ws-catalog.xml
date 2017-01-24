@@ -1,0 +1,6 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+	prefer="system">
+	<system systemId="http://localhost/wsdl/SystemServicesEPS.wsdl"		uri="wsdl/SystemServicesEPS.wsdl" />
+	<system systemId="http://localhost/wsdl/SystemServicesAPIS.wsdl"	uri="wsdl/SystemServicesAPIS.wsdl" />
+	<system systemId="http://localhost/wsdl/SystemServicesITMS.wsdl" 	uri="wsdl/SystemServicesITMS.wsdl" />
+</catalog>

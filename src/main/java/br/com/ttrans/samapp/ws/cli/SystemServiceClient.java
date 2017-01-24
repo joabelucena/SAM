@@ -1,10 +1,17 @@
 package br.com.ttrans.samapp.ws.cli;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceClient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.ttrans.samapp.ws.bo.system.Disconnection;
 import br.com.ttrans.samapp.ws.bo.system.SessionDetail;
@@ -13,21 +20,57 @@ public class SystemServiceClient {
 
 	private static final String TARGET_NAMESPACE = "http://maestro.thalesgroup.com/wsdl/system";
 
-	public static void SessionDetail(String URL, SessionDetail session) throws MalformedURLException {
+	private static final Logger logger = LoggerFactory.getLogger(SystemServiceClient.class);
 
-		URL url = new URL(URL);
+	public static void SessionDetail(String creatorId, SessionDetail session)
+			throws IOException, MalformedURLException {
 
-		//Service name
-		QName qName = new QName(TARGET_NAMESPACE, "SystemServices");
+		final String wsdlLocation;
 
-		//Service port
-		QName qPort = new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType");
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-		Service service = Service.create(url, qName);
-		
-		SystemServiceClientEndpoint system = service.getPort(qPort, SystemServiceClientEndpoint.class);
+		try (InputStream input = classLoader.getResourceAsStream("maestro.properties")) {
 
-		system.sessionDetail(session);
+			Properties prop = new Properties();
+			
+			prop.load(input);
+
+			wsdlLocation = prop.getProperty("creatorId.".concat(creatorId));
+
+		} catch (IOException e) {
+
+			logger.error(
+					"Não foi possivel abrir o arquivo de configuração 'maestro.properties'." + ". Detalhes do Erro:");
+
+			e.printStackTrace();
+
+			// This catch provides try-with-resources
+			throw e;
+		}
+
+		try {
+
+			WebServiceClient annotation = SystemServiceClientLocal.class.getAnnotation(WebServiceClient.class);
+
+			// URL baseUrl = SystemServiceClientLocal.class.getResource("");
+
+			URL url = new URL(wsdlLocation);
+			
+			SystemServiceClientLocal serviceObj = new SystemServiceClientLocal(url,
+					new QName(annotation.targetNamespace(), annotation.name()));
+
+			SystemServiceClientEndpoint system = serviceObj.getSOAServiceSOAP();
+
+			system.sessionDetail(session);
+
+		} catch (MalformedURLException e) {
+			logger.error("Não foi possivel realizar a chamada de SessionDetails() para a URL: " + wsdlLocation
+					+ ". Detalhes do Erro:");
+
+			e.printStackTrace();
+
+			throw e;
+		}
 
 	}
 
@@ -35,10 +78,10 @@ public class SystemServiceClient {
 
 		URL url = new URL(URL);
 
-		//Service name
+		// Service name
 		QName qName = new QName(TARGET_NAMESPACE, "SystemServices");
-		
-		//Service port
+
+		// Service port
 		QName qPort = new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType");
 
 		Service service = Service.create(url, qName);
