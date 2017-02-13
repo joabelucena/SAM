@@ -53,6 +53,16 @@
 	<logger name="br.com.ttrans.samapp.snmp">
 		<level value="debug" />
 	</logger>
+
+	
+<!-- 	Enable this logger for checking SystemServices threads -->
+<!-- 	<logger name="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl"> -->
+<!-- 		<level value="debug" /> -->
+<!-- 	</logger> -->
+	
+	
+	
+
 	 
 	
 	<!-- 3rd party Loggers -->

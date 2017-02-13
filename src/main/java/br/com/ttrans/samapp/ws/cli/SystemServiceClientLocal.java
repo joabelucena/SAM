@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import br.com.ttrans.samapp.controller.HomeController;
 
-@WebServiceClient(name = "SystemServices", targetNamespace = "http://maestro.thalesgroup.com/wsdl/system", wsdlLocation = "http://localhost/wsdl/SystemServicesEPS.wsdl")
+@WebServiceClient(targetNamespace = "http://maestro.thalesgroup.com/wsdl/system")
 public class SystemServiceClientLocal extends Service {
 	
 	private static final URL SOASERVICE_WSDL_LOCATION;
@@ -59,9 +59,12 @@ public class SystemServiceClientLocal extends Service {
 	
 	@WebEndpoint(name = "SystemServiceClientEndpoint")
     public SystemServiceClientEndpoint getSOAServiceSOAP() {
-//        return super.getPort(new QName(TARGET_NAMESPACE, "SystemServiceClientEndpoint"), SystemServiceClientEndpoint.class);
-        
-        return super.getPort(new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType"), SystemServiceClientEndpoint.class);
+		return super.getPort(new QName(TARGET_NAMESPACE, "BasicHttpBinding_SystemPortType"), SystemServiceClientEndpoint.class);
+    }
+	
+	@WebEndpoint(name = "SystemServiceClientEndpoint")
+    public SystemServiceClientEndpoint getSOAServiceSOAP(String portName) {
+		return super.getPort(new QName(TARGET_NAMESPACE, portName), SystemServiceClientEndpoint.class);
     }
     
 	/**

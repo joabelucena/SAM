@@ -87,7 +87,7 @@ public class EventServiceImpl implements EventService {
 					List<Long> activeEvents = this.activeAlarms(event.getEquipment(), alarm);
 					
 					if(activeEvents.size() > 0){
-						logger.info("Alarme filtrado. Dados: \n"
+						logger.debug("Alarme filtrado. Dados: \n"
 								+ "Cod. Alarme: " + event.getAlarm().getId() + "\n"
 								+ "Cod Equipamento: " + event.getEquipment().getId() +"\n"
 								+ "Qt. alm. ativos: " + activeEvents.size());

@@ -15,10 +15,8 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.ttrans.samapp.library.DAO;
 import br.com.ttrans.samapp.library.DateBuilder;
 import br.com.ttrans.samapp.library.IP;
 import br.com.ttrans.samapp.ws.bo.system.Active;
@@ -43,9 +41,6 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 	private Map<String, String> systems;
 
-	@Autowired
-	private DAO dao;
-
 	@WebMethod(exclude = true)
 	public void setSessions(Map<String, Session> sessions) {
 		this.sessions = sessions;
@@ -69,11 +64,10 @@ public class SystemServicesImpl implements SystemEndpoint {
 	@Override
 	public void Connection(final Connection payload) {
 
-		// Retrieves Http Request
-		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
-				.get(MessageContext.SERVLET_REQUEST);
+		final IP ip = new IP(
+				((HttpServletRequest) context.getMessageContext().get(MessageContext.SERVLET_REQUEST)).getRemoteAddr());
 
-		final IP ip = new IP(req.getRemoteAddr());
+//		if (!payload.getCreatorId().equals("5")) return;
 
 		// Generates sessionInstanceId
 		final String sessionInstanceId = UUID.randomUUID().toString();
@@ -103,9 +97,13 @@ public class SystemServicesImpl implements SystemEndpoint {
 					// Add Connection + HashCode
 					sessions.put(sessionInstanceId, new Session(payload, new Date(), ip));
 
-					logger.debug("New connection established: " + sessionInstanceId);
+					logger.debug("New connection established (" + ip + "): " + sessionInstanceId);
 
 				} catch (Exception e) {
+
+					logger.debug("Erro na chamada do SessionDetails() - " + ip);
+
+					e.printStackTrace();
 
 					/*
 					 * Exceptions are handled on SystemServiceClient class. This
@@ -125,15 +123,18 @@ public class SystemServicesImpl implements SystemEndpoint {
 	@Override
 	public void SessionDetail(SessionDetail payload) {
 
+		@SuppressWarnings("unused")
+		final IP ip = new IP(
+				((HttpServletRequest) context.getMessageContext().get(MessageContext.SERVLET_REQUEST)).getRemoteAddr());
+
 		logger.debug(payload.toString());
 	}
 
 	@Override
 	public void Alive(final Alive payload) {
 
-		// Retrieves Http Request
-		final HttpServletRequest req = (HttpServletRequest) context.getMessageContext()
-				.get(MessageContext.SERVLET_REQUEST);
+		final IP ip = new IP(
+				((HttpServletRequest) context.getMessageContext().get(MessageContext.SERVLET_REQUEST)).getRemoteAddr());
 
 		logger.debug(payload.toString());
 
@@ -161,36 +162,31 @@ public class SystemServicesImpl implements SystemEndpoint {
 
 		} else {
 
-			logger.debug("Session " + payload.getSessionInstanceId() + " is not active.");
+			logger.debug(
+					"Session " + payload.getSessionInstanceId() + " is not active, Disconnection() will be called");
 
-			final String urlWsdl = dao.getMv("SYS_WSDLMSYS", "").replace("<host>", req.getRemoteAddr());
+			final String creatorId = payload.getCreatorId();
 
-			if (urlWsdl.isEmpty()) {
-				logger.error(
-						"Não foi encontrado o parâmetro 'SYS_WSDLMSYS' contendo a localização do WSDL do serviço SystemServices.");
-			} else {
+			Thread call = new Thread() {
 
-				Thread call = new Thread() {
+				public void run() {
+					try {
 
-					public void run() {
-						try {
+						Disconnection disconnection = new Disconnection(SAM_CREATOR_ID, payload.getSessionInstanceId(),
+								DateBuilder.newXMLGregorianCalendarDate(new Date()));
 
-							Disconnection disconnection = new Disconnection(SAM_CREATOR_ID,
-									payload.getSessionInstanceId(),
-									DateBuilder.newXMLGregorianCalendarDate(new Date()));
+						SystemServiceClient.Disconnection(creatorId, disconnection);
 
-							SystemServiceClient.Disconnection(urlWsdl, disconnection);
+						logger.debug("Disconnection for " + ip + " called succefully.");
 
-						} catch (Exception e) {
-							logger.error("Não foi possivel chamar SessionDetails() para a URL: " + urlWsdl
-									+ ". Detalhes do Erro:");
-							logger.error(e.getMessage());
-						}
+					} catch (Exception e) {
+						logger.error("It wasn't possible to call Disconnecton() for: " + ip + ". Error details below:");
+						logger.error(e.getMessage());
 					}
-				};
+				}
+			};
 
-				call.start();
-			}
+			call.start();
 
 		}
 
