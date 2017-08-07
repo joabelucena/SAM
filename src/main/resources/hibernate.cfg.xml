@@ -33,6 +33,7 @@
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderStatus" />
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderType" />
         <mapping class="br.com.ttrans.samapp.model.ServiceOrderForecast" />
+        <mapping class="br.com.ttrans.samapp.model.ServiceStation" />
         <mapping class="br.com.ttrans.samapp.model.SeverityLevel" />
 		<mapping class="br.com.ttrans.samapp.model.StatusRule" />
 		<mapping class="br.com.ttrans.samapp.model.Technician" />
@@ -41,6 +42,6 @@
 		<mapping class="br.com.ttrans.samapp.model.Task" />
 		<mapping class="br.com.ttrans.samapp.model.TaskCondition" />
 		<mapping class="br.com.ttrans.samapp.model.TaskEquipment" />
-		        
+		<mapping class="br.com.ttrans.samapp.model.RemoteFilter" />
     </session-factory>         
 </hibernate-configuration>
