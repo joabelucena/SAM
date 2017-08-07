@@ -59,6 +59,11 @@
 <!-- 	<logger name="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl"> -->
 <!-- 		<level value="debug" /> -->
 <!-- 	</logger> -->
+
+<!-- 	<logger name="br.com.ttrans.samapp.service.impl"> -->
+<!-- 		<level value="debug" /> -->
+<!-- 	</logger> -->
+
 	
 	
 	
@@ -89,9 +94,9 @@
 	</logger>
 	
 	<!-- Trace Loggers -->
-	<!-- <logger name="org.springframework"> -->
-	<!-- 	<level value="trace"/> -->
-	<!-- </logger> -->
+<!-- 	<logger name="org.springframework"> -->
+<!-- 		<level value="trace"/> -->
+<!-- 	</logger> -->
 	
 	<!-- <logger name="org.springframework.web.servlet.mvc"> -->
 	<!-- 	<level value="trace"/> -->

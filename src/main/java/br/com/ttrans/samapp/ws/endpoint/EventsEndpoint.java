@@ -7,6 +7,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.xpath.XPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -35,6 +37,8 @@ public class EventsEndpoint {
 	private String eventDatetime;
 	
 	private EventService eventService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(EventsEndpoint.class);
 	
 	@Autowired
 	public EventsEndpoint(EventService eventService)
@@ -92,8 +96,14 @@ public class EventsEndpoint {
 		event.setAlarm(new Alarm(eve_alarm_id));
 		event.setDatetime(eve_datetime);
 		event.setInsert(usr_insert);
-				
+		
+		
+		logger.debug("Novo evento: ");
+		logger.debug(event.toString());
+		
 		eventService.add(event);
+		
+		
 	}
 	
 }

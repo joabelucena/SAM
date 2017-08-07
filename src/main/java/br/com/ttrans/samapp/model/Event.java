@@ -241,4 +241,10 @@ public class Event {
 		this.update = update;
 	}
 
+	@Override
+	public String toString() {
+		return "Event [extId=" + extId + ", equipment=" + equipment.getId() + ", alarm=" + alarm.getId() + ", datetime=" + datetime
+				+ "]";
+	}
+
 }
