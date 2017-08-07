@@ -101,10 +101,7 @@ public class DAO {
 	 */
 	@Transactional
 	public String getMv(String xParameter) {
-		String cReturn = this.getMv(xParameter, "");		
-		
-		return cReturn;
-
+		return this.getMv(xParameter, "");
 	}
 	
 	
