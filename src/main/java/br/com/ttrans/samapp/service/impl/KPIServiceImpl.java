@@ -97,7 +97,7 @@ public class KPIServiceImpl implements KPIService {
 		    }
 		});
 		
-		Float brokenTime = 0f;
+		Double brokenTime = 0d;
 		
 		for(ServiceOrder order : orders){
 			

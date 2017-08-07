@@ -123,7 +123,7 @@
 	</binding>
 	<service name='SystemServices'>
 		<port binding='tns:SystemPortTypeBinding' name='SystemPort'>
-			<soap:address location='http://10.114.0.102:8080/MAESTRO/SystemServices' />
+			<soap:address location='http://10.4.0.1:8080/MAESTRO/SystemServices' />
 		</port>
 	</service>
 </definitions>

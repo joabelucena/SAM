@@ -32,12 +32,8 @@
 		class="br.com.ttrans.samapp.ws.endpoint.impl.SystemServicesImpl">
 		<!--This property is shared to wsMaestroAlarms bean for session control -->
 		<property name="sessions">
-
 			<util:map map-class="java.util.concurrent.ConcurrentHashMap"
 				key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session" />
-
-			<!-- Old map implementation -->
-			<!-- <map key-type="java.lang.String" value-type="br.com.ttrans.samapp.ws.bo.system.Session"/> -->
 		</property>
 
 		<property name="systems">

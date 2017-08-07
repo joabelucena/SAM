@@ -8,6 +8,8 @@ Ext.define('Sam.controller.Task', {
     
 	refs: [{ref: 'lookup', selector: 'popup'}],
 	
+	xUtils: Ext.create('Sam.lib.Util'),
+	
 	init: function() {
 		
 		this.control({
@@ -132,17 +134,23 @@ Ext.define('Sam.controller.Task', {
 	onTaskBtnEditClick: function(){
 		
 		//Linha selecionada
-		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0];
+		var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 		
-		var activeTab, grdCond, grdEquip, store = null;
+		var activeTab, grdCond, grdEquip = null;
 		
-		store = this.getTaskStore();
+		//Linha selecionada
+		
 		
 		//Tem Registro Selecionado
 		if(row){
 			
 			//Cria Aba: 3 - Alterar
-			activeTab = this.activateTab(3, row.get('id'), 'taskform', null, true);
+//			activeTab = this.activateTab(3, row.get('id'), 'taskform', null, true);
+			
+			var activeTab = this.xUtils.activateTab(3, null, 'taskform', null, false, store);
+//			var row = Ext.getCmp('viewportpanel').getActiveTab().getSelection()[0],
+//			store = Ext.getCmp('viewportpanel').getActiveTab().getStore();
 			
 			if(activeTab){
 				
@@ -327,7 +335,7 @@ Ext.define('Sam.controller.Task', {
 		var mainPanel	= Ext.getCmp('viewportpanel'),								//Aba Objecto Pai
 			activeTab	= mainPanel.getActiveTab(),									//Aba ativa
 			form		= Ext.ComponentQuery.query('form',activeTab)[0].getForm(),	//Formulario	
-			store		= this.getTaskStore(),										//Store
+			store		= activeTab.xStore,											//Store
 			updated		= form.getRecord(),											//Dados atualizado
 			record		= store.findRecord('id',updated.get('id')),					//Registro
 			lValid		= false;													//Validação dos Dados

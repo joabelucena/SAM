@@ -16,10 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 //import br.com.ttrans.samapp.dao.CounterDao;
 import br.com.ttrans.samapp.dao.EventDao;
+import br.com.ttrans.samapp.dao.ServiceOrderDao;
 import br.com.ttrans.samapp.dao.TaskDao;
+import br.com.ttrans.samapp.library.DateHandle;
 import br.com.ttrans.samapp.model.Alarm;
 import br.com.ttrans.samapp.model.AlarmType;
 import br.com.ttrans.samapp.model.Event;
+import br.com.ttrans.samapp.model.ServiceOrder;
 import br.com.ttrans.samapp.model.Task;
 import br.com.ttrans.samapp.model.TaskCondition;
 import br.com.ttrans.samapp.model.TaskEquipment;
@@ -29,152 +32,179 @@ import br.com.ttrans.samapp.service.TaskService;
 
 @Repository
 public class TaskServiceImpl implements TaskService {
-	
+
 	@Autowired
 	private TaskDao taskDao;
-	
+
 	@Autowired
 	private EventDao eventDao;
-	
+
+	@Autowired
+	private ServiceOrderDao serviceOrderDao;
+
 	private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-	
+
 	private static final String USR_TASK_INSERT = "SAM_TASK_MONITOR";
 
 	@Transactional
 	public void add(Task task, Authentication authentication) {
-		
+
 		Iterator<TaskCondition> conditions = task.getConditions().iterator();
-		
-		//Sets insert user and relational conditions
-		while(conditions.hasNext()){
+
+		// Sets insert user and relational conditions
+		while (conditions.hasNext()) {
 			TaskCondition cond = conditions.next();
 			cond.setInsert(authentication.getName());
 		}
-		
+
 		task.setInsert(authentication.getName());
-		
+
 		taskDao.add(task, authentication);
 
 	}
 
 	@Transactional
 	public void edit(Task task, Authentication authentication) {
-		
+
 		Iterator<TaskCondition> conditions = task.getConditions().iterator();
-		
-		//Sets update user and relational conditions
-		while(conditions.hasNext()){
+
+		// Sets update user and relational conditions
+		while (conditions.hasNext()) {
 			TaskCondition cond = conditions.next();
-			
-			//Eh registro novo
-			if(cond.getInsert() == null){
+
+			// Eh registro novo
+			if (cond.getInsert() == null) {
 				cond.setInsert(authentication.getName());
-			}else{
+			} else {
 				cond.setUpdate(authentication.getName());
-			}			
+			}
 		}
-		
+
 		task.setUpdate(authentication.getName());
-		
+
 		taskDao.edit(task, authentication);
-		
+
 	}
 
 	@Transactional
 	public void delete(Task task, Authentication authentication) {
 		taskDao.delete(task, authentication);
 	}
-	
+
 	@Transactional
-	public Task get(int id){
+	public Task get(int id) {
 		return taskDao.get(id);
 	}
-	
+
 	@Transactional
 	public List<Task> loadData() {
 		return taskDao.loadData();
 	}
-	
+
 	@Transactional
 	public void proccess(Task task) {
-		
+
 		// Process only active tasks
 		if (task.getActive().equals("Y")) {
-			
-			//Retrieves a sorted collection of equipments
+
+			// Retrieves a sorted collection of equipments
 			List<TaskEquipment> equipments = new ArrayList<TaskEquipment>(task.getEquipments());
-			
+
 			Collections.sort(equipments, new Comparator<TaskEquipment>() {
-			    public int compare(TaskEquipment o1, TaskEquipment o2) {
-			        int v1 = o1.getId();
-			        int v2 = o2.getId();
-			        
-			        return (v1 < v2 ? -1 : (v1 == v2 ? 0 : 1));
-			    }
+				public int compare(TaskEquipment o1, TaskEquipment o2) {
+					int v1 = o1.getId();
+					int v2 = o2.getId();
+
+					return (v1 < v2 ? -1 : (v1 == v2 ? 0 : 1));
+				}
 			});
-			
-			//Retrieves a sorted collection of conditions
+
+			// Retrieves a sorted collection of conditions
 			List<TaskCondition> conditions = new ArrayList<TaskCondition>(task.getConditions());
-			
+
 			Collections.sort(conditions, new Comparator<TaskCondition>() {
-			    public int compare(TaskCondition o1, TaskCondition o2) {
-			        String v1 = o1.getSeq();
-			        String v2 = o2.getSeq();
-			        
-			        return (v1.compareTo(v2));
-			    }
+				public int compare(TaskCondition o1, TaskCondition o2) {
+					String v1 = o1.getSeq();
+					String v2 = o2.getSeq();
+
+					return (v1.compareTo(v2));
+				}
 			});
-			
-			// Defines if task will be triggered 
+
+			// Defines if task will be triggered
 			boolean run = true;
 
-			
 			// Iteration on equipments
-			for(TaskEquipment taskEquip : equipments){
-				
+			for (TaskEquipment taskEquip : equipments) {
+
 				// Defines counter
 				int counter = 0;
-				
+				double mtbf = 0;
+				ServiceOrder lastOrder = null;
+
 				// Iteration on conditions
-				for(TaskCondition condition : conditions){
+				for (TaskCondition condition : conditions) {
+
 					
-					/********************************* Counter Selection *********************************/
+					/*
+					 * Loads last Order. This avoids loading every time in case user fills more than one MTBF condition
+					 */
+					if (condition.getType().equals("MT") && lastOrder == null) {
+						List<ServiceOrder> serviceOrderList = serviceOrderDao.loadKPIData(taskEquip.getEquipment(),
+								taskEquip.getProccess(), new Date());
+
+						Collections.sort(serviceOrderList, new Comparator<ServiceOrder>() {
+							public int compare(ServiceOrder o1, ServiceOrder o2) {
+
+								return o1.getDatetime().compareTo(o2.getDatetime());
+							}
+						});
+
+						lastOrder = serviceOrderList.get(serviceOrderList.size()-1);
+					}
+
+					/*********************************
+					 * Counter Selection
+					 *********************************/
 					switch (condition.getType()) {
-					
+
 					case "AL":
-						
+
 						/********* Alarm *********/
-						
-						//Contador
-						counter = eventDao.countByAlarm(  taskEquip.getEquipment()
-														, new Alarm(condition.getField())
-														, taskEquip.getProccess());
-						
+
+						// Contador
+						counter = eventDao.countByAlarm(taskEquip.getEquipment(), new Alarm(condition.getField()),
+								taskEquip.getProccess());
+
 						break;
 					case "MT":
 						/********* MTBF *********/
+						mtbf = (taskEquip.getEquipment().getMtbfCalc() > 0 ? taskEquip.getEquipment().getMtbfCalc()
+								: taskEquip.getEquipment().getMtbfManf());
 						break;
-						
+
 					case "AT":
-						
+
 						/********* Alarm Type *********/
-						
-						//Contador
-						counter = eventDao.countByType(  taskEquip.getEquipment()
-														, new AlarmType( Integer.parseInt(condition.getField()))
-														, taskEquip.getProccess());
-						
+
+						// Contador
+						counter = eventDao.countByType(taskEquip.getEquipment(),
+								new AlarmType(Integer.parseInt(condition.getField())), taskEquip.getProccess());
+
 					}
-					/********************************* End of Counter Selection *********************************/
-					
-					
-					/********************************* Rule Validation *********************************/
-					
-					if(condition.getLogicOper().equals("-")){
-						//First sentence of conditions
-						
+					/*********************************
+					 * End of Counter Selection
+					 *********************************/
+
+					/*********************************
+					 * Rule Validation
+					 *********************************/
+
+					if (condition.getLogicOper().equals("-")) {
+						// First sentence of conditions
+
 						switch (condition.getRelOper()) {
-						
+
 						case ">":
 							run = (counter > condition.getValue());
 							break;
@@ -194,90 +224,119 @@ public class TaskServiceImpl implements TaskService {
 							/**
 							 * MTBF Default treatment
 							 */
-							
+
+							if (mtbf == 0 || lastOrder == null)
+								run = false;
+							else
+								/*
+								 * Checks if equipment's MTBF is greater than
+								 * the time between the last fault and today
+								 */
+								run = (mtbf < DateHandle.diff(lastOrder.getDatetime(), new Date(),
+										taskEquip.getEquipment().getType().getDailyHours()));
 						}
-						
-					}else{
-						
+
+					} else {
+
 						switch (condition.getRelOper()) {
-						
+
 						case ">":
-							run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue()) : run || (counter > condition.getValue());
+							run = condition.getLogicOper().equals("E") ? run && (counter > condition.getValue())
+									: run || (counter > condition.getValue());
 							break;
 						case "<":
-							run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue()) : run || (counter < condition.getValue());
+							run = condition.getLogicOper().equals("E") ? run && (counter < condition.getValue())
+									: run || (counter < condition.getValue());
 							break;
 						case "==":
-							run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue()) : run || (counter == condition.getValue());
+							run = condition.getLogicOper().equals("E") ? run && (counter == condition.getValue())
+									: run || (counter == condition.getValue());
 							break;
 						case ">=":
-							run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue()) : run || (counter >= condition.getValue());
+							run = condition.getLogicOper().equals("E") ? run && (counter >= condition.getValue())
+									: run || (counter >= condition.getValue());
 							break;
 						case "<=":
-							run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue()) : run || (counter <= condition.getValue());
+							run = condition.getLogicOper().equals("E") ? run && (counter <= condition.getValue())
+									: run || (counter <= condition.getValue());
 							break;
 						default:
 							/**
 							 * MTBF Default treatment
 							 */
-							
-						}						
+							if (mtbf == 0 || lastOrder == null)
+								run = false;
+							else
+								/*
+								 * Checks if equipment's MTBF is greater than
+								 * the time between the last fault and today
+								 */
+								run = condition.getLogicOper().equals("E")
+										? run && (mtbf < DateHandle.diff(lastOrder.getDatetime(), new Date(),
+												taskEquip.getEquipment().getType().getDailyHours()))
+										: run || (mtbf < DateHandle.diff(lastOrder.getDatetime(), new Date(),
+												taskEquip.getEquipment().getType().getDailyHours()));
+
+						}
 					}
-					
-					/********************************* End of Rule Validation *********************************/
-					
-				} //<--- Conditions
-				
-				
-				if(run){
-					
+
+					/*********************************
+					 * End of Rule Validation
+					 *********************************/
+
+				} // <--- Conditions
+
+				if (run) {
+
 					Event ev = new Event();
 					ev.setAlarm(task.getAlarm());
 					ev.setEquipment(taskEquip.getEquipment());
 					ev.setInsert(USR_TASK_INSERT);
 					ev.setDatetime(new Date());
-					
+
 					try {
-						
-						//Add new event if rules were 'true'
+
+						// Add new event if rules were 'true'
 						eventDao.add(ev);
-						
+
 						try {
-							
-							//Update last process date
+
+							// Update last process date
 							taskEquip.setProccess(new Date());
-							
+
 							taskDao.edit(task);
-						} catch (Exception e){
-							logger.info("Regra disparada, porém houveram erros na atualização da data de processamento. Regra: " + task.getId());
+						} catch (Exception e) {
+							logger.info(
+									"Regra disparada, porém houveram erros na atualização da data de processamento. Regra: "
+											+ task.getId());
 							e.printStackTrace();
 						}
-						
+
 					} catch (Exception e) {
 						logger.info("Erro na criação do evento para a regra: " + task.getId());
 						e.printStackTrace();
 					}
 				}
-			
-			}//<--- Equipments
+
+			} // <--- Equipments
 		}
 
 	}
 
 	@Transactional
 	public void processAll() {
-		
-		//All Tasks
+
+		// All Tasks
 		List<Task> tasks = this.loadData();
-		
-		//Process each task
-		for(int i = 0; i < tasks.size(); i++){
-			
+
+		// Process each task
+		for (int i = 0; i < tasks.size(); i++) {
+
 			// Process only active tasks
 			if (tasks.get(i).getActive().equals("Y")) {
 				this.proccess(tasks.get(i));
 			}
-			
+
 		}
 	}
 }

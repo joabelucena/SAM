@@ -6,9 +6,9 @@ public class KPI {
 
 	private Equipment equipment;
 
-	private Float totalTime;
+	private Double totalTime;
 
-	private Float brokenTime;
+	private Double brokenTime;
 
 	private int breakCount;
 
@@ -27,19 +27,19 @@ public class KPI {
 		this.equipment = equipment;
 	}
 
-	public Float getTotalTime() {
+	public Double getTotalTime() {
 		return this.totalTime;
 	}
 
-	public void setTotalTime(Float totalTime) {
+	public void setTotalTime(Double totalTime) {
 		this.totalTime = totalTime;
 	}
 
-	public Float getBrokenTime() {
+	public Double getBrokenTime() {
 		return brokenTime;
 	}
 
-	public void setBrokenTime(Float brokenTime) {
+	public void setBrokenTime(Double brokenTime) {
 		this.brokenTime = brokenTime;
 	}
 
@@ -72,7 +72,7 @@ public class KPI {
 	 * 
 	 * @return MTBF value
 	 */
-	public Float getMTBF() {
+	public Double getMTBF() {
 		return this.breakCount == 0f ? 0f : (this.totalTime - this.brokenTime)
 				/ this.breakCount;
 	}
@@ -82,7 +82,7 @@ public class KPI {
 	 * 
 	 * @return MTTR value
 	 */
-	public Float getMTTR() {
+	public Double getMTTR() {
 		return this.breakCount == 0f ? 0f : (this.brokenTime) / this.breakCount;
 	}
 
