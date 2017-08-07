@@ -1,0 +1,13 @@
+{
+    "fieldLabel": "Send To",
+    "name": "to"
+}, {
+    "fieldLabel": "Subject",
+    "name": "subject"
+}, {
+    "xtype": "textarea",
+    "hideLabel": true,
+    "name": "msg",
+
+    "flex": 1
+}

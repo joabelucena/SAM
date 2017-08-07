@@ -16,7 +16,7 @@
 	},
 	
 	views: [
-	        'MainViewport'	,'reports.spagobi.SpagoBi'
+	        'MainViewport'	,'reports.spagobi.SpagoBi', 'reports.jasper.JasperReports'
 	        ],
 
 	stores: [

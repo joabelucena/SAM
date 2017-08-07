@@ -6,7 +6,7 @@ import java.util.Map;
 
 public enum MenuType {
 	
-	PANEL_RENDER("PN"), SPAGO_REPORT("SR"), EXTERNAL_URL("EU"), INTERNAL_URL("IU");
+	PANEL_RENDER("PN"), SPAGO_REPORT("SR"), EXTERNAL_URL("EU"), INTERNAL_URL("IU"), JASPER_REPORT("JR");
 
 	private static final Map<String, MenuType> lookup = new HashMap<String, MenuType>();
 

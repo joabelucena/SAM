@@ -167,6 +167,19 @@ Ext.define('Sam.controller.Menu', {
 					}
 				}]
 			});
+		}else if(record.get('type') == "JASPER_REPORT"){
+			
+			
+			//Relatório do Spago
+			
+			var newTab = mainPanel.add({
+				xtype: 'jasper',
+				xRPT: record.get('classname'),
+				closable: true,
+				iconCls: record.get('iconCls'),
+				title: record.get('text')
+			});
+			
 		}
 		
 		if (newTab){
