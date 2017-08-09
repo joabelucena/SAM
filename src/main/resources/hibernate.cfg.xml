@@ -42,6 +42,5 @@
 		<mapping class="br.com.ttrans.samapp.model.Task" />
 		<mapping class="br.com.ttrans.samapp.model.TaskCondition" />
 		<mapping class="br.com.ttrans.samapp.model.TaskEquipment" />
-		<mapping class="br.com.ttrans.samapp.model.RemoteFilter" />
     </session-factory>         
 </hibernate-configuration>

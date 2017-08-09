@@ -95,12 +95,6 @@ Ext.define('Sam.view.equipment.EquipmentsGrid', {
 	    dock: 'bottom',
 	    
 	    items: [{
-	    	xtype: 'pagingtoolbar',
-	    	displayInfo: true,
-	    	border: false
-	    },{
-	    	xtype: 'tbfill'
-	    },{
 	        xtype:'button',
 	        itemId:'btnShow',
 	    	text:'Visualizar',
