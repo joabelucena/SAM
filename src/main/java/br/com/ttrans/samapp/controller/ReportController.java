@@ -3,9 +3,7 @@ package br.com.ttrans.samapp.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Date;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,35 +23,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
-import com.sun.xml.ws.developer.JAXWSProperties;
 
 import br.com.ttrans.samapp.library.DAO;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.Exporter;
-import net.sf.jasperreports.export.ExporterConfiguration;
-import net.sf.jasperreports.export.ExporterOutput;
-import net.sf.jasperreports.export.PdfExporterConfiguration;
-import net.sf.jasperreports.export.SimpleExporterConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
-import net.sf.jasperreports.export.SimplePdfReportConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 
 
@@ -160,6 +140,9 @@ public class ReportController {
 			InputStream jasperStream = this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jasper");
 			
 			Map<String, Object> params = new HashMap<>();
+			
+			
+			params.put("logo_ttrans", "/home/joabe/Documents/workspace_jasper/SAM_REPORTS/img/TTRANS.png");
 
 //			params.put("Cartao de"			, "0");
 //			params.put("Cartao ate"			, "999");
@@ -226,9 +209,18 @@ public class ReportController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/jasperget", produces={"application/pdf"})
 	public void getRpt2(
-			@RequestParam(required=true, value="label") String label,
-//			@RequestBody Map<String, Object> params,
-			HttpServletResponse response) throws JRException, IOException {
+//			@RequestParam(required=true, value="label") String label,
+			@RequestParam Map<String, Object> params,
+			HttpServletResponse response) throws JRException, IOException, URISyntaxException {
+		
+		
+		String label = (String) params.remove("label");
+		
+		String logoTtrans = this.getClass().getClassLoader().getResource(REPORTS_PATH+"img/TTRANS.png").toURI().toString();
+		
+		params.put("logo_ttrans", logoTtrans);
+		
+		
 		
 		logger.info("Path: " + (REPORTS_PATH + label + ".jasper"));
 		
@@ -237,18 +229,10 @@ public class ReportController {
 		try {
 			InputStream jasperStream = this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jasper");
 			
-			Map<String, Object> params = new HashMap<>();
-			
-			params.put("EquDe", "TAG-001-002");
-			params.put("EquAte", "TAG-001-010");
-			
-			
-			
 			
 			JasperReport jasperReport = JasperCompileManager.compileReport(this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jrxml"));
 			
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, ds.getConnection());
-			
 			
 			
 			response.setContentType("application/pdf");
@@ -265,7 +249,7 @@ public class ReportController {
 			JRPdfExporter exporter = new JRPdfExporter();
 			
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(System.out));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outStream));
 			exporter.setConfiguration(conf);
 			
 //			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -286,14 +270,18 @@ public class ReportController {
 			@RequestParam(required=true, value="label") String label,
 			HttpServletResponse response) throws JRException, IOException {
 		
-		Map<String, Object> data;
-		
+		Map<String, Object> data = new HashMap<>();
+
 		try(InputStream inputStream = this.getClass().getResourceAsStream(REPORTS_PATH + label + ".param")){
 			String file = IOUtils.toString(inputStream);
 			
 			ObjectMapper mapper = new ObjectMapper();
+			
 			MapType type = mapper.getTypeFactory().constructMapType(Map.class, String.class, Object.class);
+			
 			data = mapper.readValue(file, type);
+			
+			
 		}
 
 		return data;

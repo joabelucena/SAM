@@ -1,13 +1,15 @@
 {
-    "fieldLabel": "Send To",
-    "name": "to"
-}, {
-    "fieldLabel": "Subject",
-    "name": "subject"
-}, {
-    "xtype": "textarea",
-    "hideLabel": true,
-    "name": "msg",
-
-    "flex": 1
+	"items": [
+			{
+				"xtype": "textfield",
+			    "fieldLabel": "Equip. De:",
+			    "name": "EquDe"
+			}, {
+				"xtype": "textfield",
+			    "fieldLabel": "Equip. Ate:",
+			    "name": "EquAte"
+			}	
+	]
+	
 }
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-06-20T16:11:36 -->
+<!-- 2017-08-09T17:33:30 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CAD_EQUIPMENTS" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c379c76-1364-4b7e-9889-cf86d831175a">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost:/data/sam/vlts/samdb.fdb"/>
@@ -10,6 +10,7 @@
 	<parameter name="EquAte" class="java.lang.String">
 		<defaultValueExpression><![CDATA["TAG-001-002"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="logo_ttrans" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT * FROM EQUIPMENTS WHERE EQU_ID BETWEEN $P{EquDe} AND $P{EquAte}]]>
 	</queryString>
@@ -27,6 +28,10 @@
 				</textElement>
 				<text><![CDATA[Relatório de Equipamentos]]></text>
 			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="480" y="5" width="74" height="40" uuid="e58e5d1c-67e9-4c3c-a0e7-5bf85c8acc9e"/>
+				<imageExpression><![CDATA[$P{logo_ttrans}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

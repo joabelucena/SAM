@@ -169,16 +169,27 @@ Ext.define('Sam.controller.Menu', {
 			});
 		}else if(record.get('type') == "JASPER_REPORT"){
 			
-			
-			//Relatório do Spago
-			
-			var newTab = mainPanel.add({
-				xtype: 'jasper',
-				xRPT: record.get('classname'),
-				closable: true,
-				iconCls: record.get('iconCls'),
-				title: record.get('text')
+			Ext.Ajax.request({
+    		url : 'rpt/param',
+    		method : 'GET',
+    		
+    		params: {
+    			label: record.get('classname')
+    		},
+
+    		success: function (result, request) {
+    			var parametros = Ext.create('Sam.view.reports.jasper.ReportParameter',{xReportData: {id: record.get('classname'), desc: record.get('text')}})
+    			var fields = Ext.util.JSON.decode(result.responseText)
+    			var fieldset = Ext.ComponentQuery.query('fieldset',parametros)[0]
+    			
+    			if(fields && fieldset){
+    				fieldset.add(fields.items)
+    			}
+    			
+    			parametros.show()
+    		}
 			});
+			
 			
 		}
 		
