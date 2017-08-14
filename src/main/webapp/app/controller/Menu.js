@@ -178,7 +178,10 @@ Ext.define('Sam.controller.Menu', {
     		},
 
     		success: function (result, request) {
-    			var parametros = Ext.create('Sam.view.reports.jasper.ReportParameter',{xReportData: {id: record.get('classname'), desc: record.get('text')}})
+    			var parametros = Ext.create('Sam.view.reports.jasper.ReportParameter',{
+    					xReportData: {id: record.get('classname'), desc: record.get('text')},
+    					title: 'Relatório: ' + record.get('text')
+    			})
     			var fields = Ext.util.JSON.decode(result.responseText)
     			var fieldset = Ext.ComponentQuery.query('fieldset',parametros)[0]
     			

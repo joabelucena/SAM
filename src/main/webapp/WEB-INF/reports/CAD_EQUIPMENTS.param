@@ -2,11 +2,11 @@
 	"items": [
 			{
 				"xtype": "textfield",
-			    "fieldLabel": "Equip. De:",
+			    "fieldLabel": "Equipam. de:",
 			    "name": "EquDe"
 			}, {
 				"xtype": "textfield",
-			    "fieldLabel": "Equip. Ate:",
+			    "fieldLabel": "Equipam. ate:",
 			    "name": "EquAte"
 			}	
 	]

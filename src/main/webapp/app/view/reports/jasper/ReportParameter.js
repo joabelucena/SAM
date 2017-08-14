@@ -10,30 +10,47 @@ Ext.define('Sam.view.reports.jasper.ReportParameter', {
     minHeight: 220,
     layout: 'fit',
     plain: true,
+    closeAction : 'hide',
+	closable : false,
     
     items: [{
         xtype: 'form',
-        fieldDefaults: {
-            labelWidth: 60
-        },
-        
         layout: {
             type: 'vbox',
             align: 'stretch'
+        },
+        defaults: {
+        	labelWidth : 60
         },
         
         bodyPadding: 5,
         border: false,
         
         items: [{
-            // Fieldset in Column 1 - collapsible via toggle button
             xtype:'fieldset',
             title: 'Parametros',
             defaultType: 'textfield',
             defaults: {
-            	anchor: '100%',
             	xtype: 'textfield',
-            		
+            	anchor: '100%',
+            	
+            	allowBlank : false,
+            	msgTarget : 'under',
+            	enableKeyEvents : true,
+        		
+            	listeners : {
+    				keyup : function(field, e) {
+    					// Enter
+    					if (e.getKey() == 13) {
+    						
+    						sumbitReport(field);
+    						// Esc
+    					} else if (e.getKey() == 27) {
+    						
+    						resetForm(field);
+    					}
+    				}
+    			}
             }
         }]
     }],
@@ -42,28 +59,33 @@ Ext.define('Sam.view.reports.jasper.ReportParameter', {
         text: 'Ok',
         handler: function(button){
         	
-        	
-        	var mainPanel = Ext.getCmp('viewportpanel'),
-				menuPanel = Ext.getCmp('viewportmenu'),
-				window = button.up("window");
-        	
-        	var data = window.down('form').getValues();
-        	
-        	data["label"] = window.xReportData.id;
-        	
-			var newTab = mainPanel.add({
-				xtype: 'jasper',
-				xReportData: data,
-				closable: true,
-				title: "Relatório: " + window.xReportData.desc
-			});
-			
-			
-			window.close()
-			
-			if (newTab){
-				mainPanel.setActiveTab(newTab);
-			}
+        	sumbitReport(button)
+//        	var mainPanel = Ext.getCmp('viewportpanel'),
+//				menuPanel = Ext.getCmp('viewportmenu'),
+//				window = button.up("window"),
+//				form = window.down('form');
+//        	
+//        	if(form.isValid()){
+//        		
+//	        	var data = form.getValues();
+//	        	
+//	        	data["label"] = window.xReportData.id;
+//	        	
+//				var newTab = mainPanel.add({
+//					xtype: 'jasper',
+//					xReportData: data,
+//					closable: true,
+//					title: "Relatório: " + window.xReportData.desc
+//				});
+//				
+//				
+//				window.close()
+//				
+//				if (newTab){
+//					mainPanel.setActiveTab(newTab);
+//				}
+//				
+//	        }
         }
         	
     },{
@@ -73,3 +95,64 @@ Ext.define('Sam.view.reports.jasper.ReportParameter', {
         }
     }]
 });
+
+function sumbitReport(component) {
+	var mainPanel = Ext.getCmp('viewportpanel'),
+		menuPanel = Ext.getCmp('viewportmenu'),
+		window = component.up("window"),
+		form = window.down('form');
+	
+	data = form.getValues();
+	
+	if(form.isValid()){
+		
+		Ext.MessageBox.show({
+	        title: 'Confirma Relatório',
+	        msg: 'Confirma geração do relatório com os parametros escolhidos?',
+	        buttons: Ext.MessageBox.OKCANCEL,
+	        icon: Ext.MessageBox.INFO,
+	        fn: function(btn,  knowId, knowCheck){
+	            if(btn == 'ok'){
+	            	data["label"] = window.xReportData.id;
+	        		
+	        		var newTab = mainPanel.add({
+	        			xtype: 'jasper',
+	        			xReportData: data,
+	        			closable: true,
+	        			title: "Relatório: " + window.xReportData.desc
+	        		});
+	        		
+	        		
+	        		window.close()
+	        		
+	        		if (newTab){
+	        			mainPanel.setActiveTab(newTab);
+	        		}
+	            }
+	        }
+		});
+	
+	}
+		
+
+		
+		
+	
+}
+
+function resetForm(field){
+	form = field.up('form')
+	
+	Ext.MessageBox.show({
+        title: 'Limpa parâmetros',
+        msg: 'Deseja limpar os parâmetros?',
+        buttons: Ext.MessageBox.OKCANCEL,
+        icon: Ext.MessageBox.WARNING,
+        fn: function(btn,  knowId, knowCheck){
+            if(btn == 'ok'){
+            	form.reset();
+            	form.down('field').focus();
+            }
+        }
+	});
+}

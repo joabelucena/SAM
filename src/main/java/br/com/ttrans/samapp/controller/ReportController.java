@@ -129,63 +129,77 @@ public class ReportController {
 		return document;
 	}
 
-	
+	/**
+	 * This method generates report according to 'params' parameter. The 'params' parameter must specify at least the 'label' parameter which is used to retrieve
+	 * report bin file at reports path: /WEB-INF/reports/
+	 * 
+	 * @param params
+	 * @param response
+	 * @throws JRException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/getReport", produces={"application/pdf"})
 	public void getReport(
 			@RequestParam Map<String, Object> params,
 			HttpServletResponse response) throws JRException, IOException, URISyntaxException {
 		
-		
+		//Retrieves param 'label' from params. Also, this param is removed in order to pass this collection as param source for Jasper.
 		String label = (String) params.remove("label");
+		
 		
 		String logoTtrans = this.getClass().getClassLoader().getResource(REPORTS_PATH+"img/TTRANS.png").toURI().toString();
 		
 		params.put("logo_ttrans", logoTtrans);
 		
+		logger.debug("Path: " + (REPORTS_PATH + label + ".jasper"));
 		
-		
-		logger.info("Path: " + (REPORTS_PATH + label + ".jasper"));
-		
+		//Retrieves DataSource bean set on spring-context file (/WEB-NF/spring/appServlet/app-servlet.xml)
 		BasicDataSource ds = (BasicDataSource) appContext.getBean("dataSource");
 		
 		try {
-			InputStream jasperStream = this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jasper");
 			
-			
+			//Compiles JRXML file
 			JasperReport jasperReport = JasperCompileManager.compileReport(this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jrxml"));
-			
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, ds.getConnection());
 			
-			
+			//Set response parameters
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline; filename=" + label + ".pdf");
 
 			OutputStream outStream = response.getOutputStream();
 			
-//			JasperRunManager.runReportToPdfStream(jasperStream, outStream, params, ds.getConnection());
-//			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
-			
+			//Set report configuration
 			SimplePdfExporterConfiguration conf = new SimplePdfExporterConfiguration();
 			conf.setPdfVersion(PdfVersionEnum.VERSION_1_7);
+			conf.setMetadataTitle("Relatorio SAM");
 			
+			//Set exporter configuration parameters
 			JRPdfExporter exporter = new JRPdfExporter();
 			
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outStream));
 			exporter.setConfiguration(conf);
 			
-//			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outStream);
-//			exporter.setParameter(JRPdfExporterParameter.PDF_VERSION, JRPdfExporterParameter.PDF_VERSION_1_7);
-			
+			//Exports report
 			exporter.exportReport();
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Erro ao localizar arquivo de relatório Jasper: " + label + ". \n" + e.getMessage());
 		}
 	}
 	
+	/**
+	 * This method returns a JSON based file for setting items on Report Parameter window
+	 * 
+	 * 
+	 * @param label
+	 * @param response
+	 * @return
+	 * @throws JRException
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "/param")
 	public Map<String, Object> getParam(
@@ -202,7 +216,6 @@ public class ReportController {
 			MapType type = mapper.getTypeFactory().constructMapType(Map.class, String.class, Object.class);
 			
 			data = mapper.readValue(file, type);
-			
 			
 		}
 

@@ -12,7 +12,6 @@ Ext.define('Sam.view.reports.jasper.JasperReports', {
 	/** *** Ajax Request Before Render **** */
 	listeners : {
 		beforerender : function(me, eOpts) {
-			console.log('inicio');
 
 			var data = this.xReportData;
 			
@@ -49,7 +48,6 @@ Ext.define('Sam.view.reports.jasper.JasperReports', {
 				},
 				listeners: {
 			        afterrender: function () {
-			            console.log('LALALAL');
 
 			            this.getEl().on('load', function () {
 			                console.log('loaded');
