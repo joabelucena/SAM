@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2017-08-22T15:44:06 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_CAD_EQUIP" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c379c76-1364-4b7e-9889-cf86d831175a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost:/data/sam/vlts/samdb.fdb"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="CodDe" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CodAte" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Z"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_ttrans" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/joabe/Documents/jasper/TTRANS.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TipoDe" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TipoAte" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["999999"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SistemaDe" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[" "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SistemaAte" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["Z"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ModeloDe" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ModeloAte" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["999999"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT EQU_ID, EQU_DESCRIPTION, EQU_SYSTEM_ID, ETY_DESCRIPTION, EMO_DESCRIPTION
+FROM EQUIPMENTS
+LEFT JOIN EQUIPMENTS_TYPE ON EQU_TYPE_ID = ETY_ID
+LEFT JOIN EQUIPMENTS_MODEL ON EQU_MODEL_ID = EMO_ID
+ WHERE 
+ EQU_ID BETWEEN $P{CodDe} AND $P{CodAte}
+ AND EQU_TYPE_ID BETWEEN $P{TipoDe} AND $P{TipoAte}
+ AND EQU_SYSTEM_ID BETWEEN $P{SistemaDe} AND $P{SistemaAte}
+ AND EQU_MODEL_ID BETWEEN $P{ModeloDe} AND $P{ModeloAte}]]>
+	</queryString>
+	<field name="EQU_ID" class="java.lang.String"/>
+	<field name="EQU_SYSTEM_ID" class="java.lang.String"/>
+	<field name="EQU_DESCRIPTION" class="java.lang.String"/>
+	<field name="ETY_DESCRIPTION" class="java.lang.String"/>
+	<field name="EMO_DESCRIPTION" class="java.lang.String"/>
+	<variable name="V_CURRENT_PAGE_NUMBER" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{PAGE_NUMBER}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="11" width="323" height="40" uuid="9c3208e5-c35f-4fdb-95f9-d67356ad9df3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[SAM - Sistema de Apoio a Manutenção]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="720" y="16" width="80" height="31" uuid="e58e5d1c-67e9-4c3c-a0e7-5bf85c8acc9e"/>
+				<imageExpression><![CDATA[$P{logo_ttrans}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="247" y="19" width="309" height="20" uuid="3eac3d03-25c1-452f-a1b3-1329b1d92b5e"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Relatório de Equipamentos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="20" uuid="9cb599c5-18d2-4856-8c5c-6363db4046bb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="180" height="20" uuid="4f8f4b9a-672d-48bb-8bb0-707953804d1f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="0" width="100" height="20" uuid="a099f1f9-fa63-44be-99ee-f4bfe6e74ebc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="200" height="20" uuid="637cd892-41b6-4bcd-8a89-7a97a20b8e8e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="0" width="180" height="20" uuid="3392740c-9492-4601-83c3-da7c00c5f68c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="799" height="1" uuid="b6d7a440-a7a0-455f-9a34-3fb09897f3c9">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="140" height="15" uuid="049c51ee-4fef-4107-8646-f9a6735f4632"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EQU_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="0" width="180" height="15" uuid="cd8c7144-9dcb-4bcc-8305-d5ec863fe60d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EQU_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="99" height="15" uuid="dc8ed558-a276-4abf-b4b5-3733133d5678">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EQU_SYSTEM_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="200" height="15" uuid="e04fe9a7-696c-4198-9a6b-efd93dd2abc0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMO_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="0" width="180" height="15" uuid="47ea8bf9-04f7-4c6c-8e7c-6472919a8580">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ETY_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="600" y="8" width="100" height="30" uuid="896bd1e6-20f6-412b-85d0-6e06cfa8e46c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="700" y="8" width="100" height="30" uuid="b1a102be-8956-4c1d-8c46-aa3f0f83e65e"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="799" height="1" uuid="9dc4b121-ce66-4d05-be30-2a9d6525db2b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="53" splitType="Stretch"/>
+	</summary>
+</jasperReport>

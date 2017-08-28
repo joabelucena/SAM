@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2017-08-28T15:21:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_CAD_ALM" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c379c76-1364-4b7e-9889-cf86d831175a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost:/data/sam/vlts/samdb.fdb"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="CodDe" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CodAte" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Z"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_ttrans" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/joabe/Documents/jasper/TTRANS.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TipoDe" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TipoAte" class="java.lang.String">
+		<defaultValueExpression><![CDATA["9999999"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	ALM_ID							AS "CODIGO"
+	,ALM_DESCRIPTION					AS "DESCRICAO"
+	,CASE ALM_NORM_MAN WHEN 'Y' THEN 'SIM' ELSE 'NAO' END	AS  "NORM_MAN"
+	,CASE ALM_NORM_ALM WHEN 'Y' THEN 'SIM' ELSE 'NAO' END	AS "NORM_ALM"
+	,COALESCE(ALM_NORM_ID,'-')				AS "NORM_COD"
+	,COALESCE(ATY_DESCRIPTION,'-')				AS "TIPO"
+	,COALESCE(SLE_DESCRIPTION,'-')				AS "SEVERIDADE"
+	,COALESCE(AGR_DESCRIPTION,'-')				AS "GRUPO"
+FROM
+	ALARMS
+LEFT JOIN ALARMS_TYPE		ON ALM_TYPE_ID = ATY_ID
+LEFT JOIN SEVERITY_LEVEL	ON ALM_SEVERITY_ID = SLE_ID
+LEFT JOIN ALARMS_GROUP		ON ALM_GROUP_ID = AGR_ID
+WHERE
+ALM_ID BETWEEN $P{CodDe} AND $P{CodAte}
+AND ALM_TYPE_ID BETWEEN $P{TipoDe} AND $P{TipoAte}]]>
+	</queryString>
+	<field name="CODIGO" class="java.lang.String"/>
+	<field name="DESCRICAO" class="java.lang.String"/>
+	<field name="NORM_MAN" class="java.lang.String"/>
+	<field name="NORM_ALM" class="java.lang.String"/>
+	<field name="NORM_COD" class="java.lang.String"/>
+	<field name="TIPO" class="java.lang.String"/>
+	<field name="SEVERIDADE" class="java.lang.String"/>
+	<field name="GRUPO" class="java.lang.String"/>
+	<variable name="V_CURRENT_PAGE_NUMBER" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{PAGE_NUMBER}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="11" width="323" height="40" uuid="9c3208e5-c35f-4fdb-95f9-d67356ad9df3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[SAM - Sistema de Apoio a Manutenção]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="720" y="16" width="80" height="31" uuid="e58e5d1c-67e9-4c3c-a0e7-5bf85c8acc9e"/>
+				<imageExpression><![CDATA[$P{logo_ttrans}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="247" y="19" width="309" height="20" uuid="3eac3d03-25c1-452f-a1b3-1329b1d92b5e"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Relatório de Alarmes]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="0" width="260" height="25" uuid="b05c9fb4-ea0b-480f-a20f-4cf9d313b493"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="0" width="100" height="25" uuid="051dc09f-aa5e-464e-87ee-09361c63743d"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod. Norm.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="25" uuid="2d3938a2-879a-4881-8275-ab539733f234"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="580" y="0" width="130" height="25" uuid="611675d3-151a-4d03-95d9-12b059da178c"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="0" width="70" height="25" uuid="9d3c5268-a83a-4e3a-8ffd-b380ac8444e2"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Severidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="60" height="25" uuid="0dc9ea62-8deb-4ccc-8fc4-2dd7be588489"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alarme de Norm.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="0" width="60" height="25" uuid="283c4830-570c-4a96-a03f-0618f91bd507"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Norm. Manual]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="27" width="799" height="1" uuid="5f9f8cad-8796-4b65-b58b-2d8d97518863">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="100" y="0" width="260" height="15" uuid="e00fcb67-5192-47d5-8c75-be929eec45de"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRICAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="0" width="100" height="15" uuid="ce47168e-4deb-450e-8907-fe67fd5a438a"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NORM_COD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="15" uuid="8ed37a14-5386-421b-8446-7c9f4ed50dca"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="580" y="0" width="130" height="15" uuid="7e1e6a92-dc7a-4b9a-b4a4-fdf6df6c8228"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="710" y="0" width="70" height="15" uuid="2b30cdbb-9254-489d-91b6-23a96d7433a5"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEVERIDADE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="60" height="15" uuid="83c0cd15-3ef5-468b-b590-a63042b0a316"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NORM_ALM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="0" width="60" height="15" uuid="26a2a6a0-a23b-47b9-8a4f-e7eb99ec1f71"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NORM_MAN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="600" y="8" width="100" height="30" uuid="896bd1e6-20f6-412b-85d0-6e06cfa8e46c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="700" y="8" width="100" height="30" uuid="b1a102be-8956-4c1d-8c46-aa3f0f83e65e"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="799" height="1" uuid="9dc4b121-ce66-4d05-be30-2a9d6525db2b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="53" splitType="Stretch"/>
+	</summary>
+</jasperReport>

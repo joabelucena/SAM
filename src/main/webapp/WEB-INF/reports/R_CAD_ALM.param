@@ -1,0 +1,27 @@
+{
+		"items": [
+			{ 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Alarme De:",
+			    "ajaxUrl":	"alarm/load",
+			    "name":		"CodDe"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Alarme Ate:",
+			    "ajaxUrl":	"alarm/load",
+			    "name":		"CodAte"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Tipo. De:",
+			    "ajaxUrl":	"alarm/load/type",
+			    "name":		"TipoDe"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Tipo. Ate:",
+			    "ajaxUrl":	"alarm/load/type",
+			    "name":		"TipoAte"
+            }
+	]
+	
+}
+

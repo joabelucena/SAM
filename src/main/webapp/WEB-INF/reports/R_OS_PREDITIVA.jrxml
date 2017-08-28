@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2017-08-28T16:37:32 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_OS_PREDITIVA" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c379c76-1364-4b7e-9889-cf86d831175a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost:/data/sam/vlts/samdb.fdb"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="CodDe" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CodAte" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Z"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_ttrans" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/joabe/Documents/jasper/TTRANS.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DataDe" class="java.lang.String"/>
+	<parameter name="DataAte" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	SOR_ID														AS "SOR_ID"
+	,COALESCE(LPAD(EXTRACT(DAY FROM SOR_DATETIME),2,'0') || '/' ||LPAD(EXTRACT(MONTH FROM SOR_DATETIME),2,'0') || '/' || EXTRACT(YEAR FROM SOR_DATETIME),'-') AS "SOR_DATETIME"
+	,COALESCE(SOS_DESCRIPTION,'-')			AS "SOS_DESCRIPTION"
+	,COALESCE(ALM_DESCRIPTION,'-')			AS "ALM_DESCRIPTION"
+	,COALESCE(EMO_DESCRIPTION,'-')			AS "EMO_DESCRIPTION"
+	,COALESCE(SIT_DESCRIPTION,'-')				AS "SIT_DESCRIPTION"
+	,COALESCE(SSY_ID,'-')								AS "SSY_ID"
+	,COALESCE(EVE_ID,'-')								AS "EVE_ID"
+	,COALESCE(SOR_EQUIPMENT_ID,'-')		AS "SOR_EQUIPMENT_ID"
+	,COALESCE(SOR_PARENT_ID,'-')				AS "SOR_PARENT_ID"
+	,COALESCE(SOR_TECHNICIAN_ID,'-')		AS "SOR_TECHNICIAN_ID"
+	,COALESCE(TEC_NAME,'-')						AS "TEC_NAME"
+	,COALESCE(LPAD(EXTRACT(DAY FROM SOR_START_FORECAST),2,'0') || '/' ||LPAD(EXTRACT(MONTH FROM SOR_START_FORECAST),2,'0') || '/' || EXTRACT(YEAR FROM SOR_START_FORECAST),'-') AS "SOR_START_FORECAST_DATE"
+	,COALESCE(LPAD(EXTRACT(HOUR FROM SOR_START_FORECAST),2,'0') || ':' ||LPAD(EXTRACT(MINUTE FROM SOR_START_FORECAST),2,'0'),'-') AS "SOR_START_FORECAST_TIME"
+	,COALESCE(LPAD(EXTRACT(DAY FROM SOR_END_FORECAST),2,'0') || '/' ||LPAD(EXTRACT(MONTH FROM SOR_END_FORECAST),2,'0') || '/' || EXTRACT(YEAR FROM SOR_END_FORECAST),'-') AS "SOR_END_FORECAST_DATE"
+	,COALESCE(LPAD(EXTRACT(HOUR FROM SOR_END_FORECAST),2,'0') || ':' ||LPAD(EXTRACT(MINUTE FROM SOR_END_FORECAST),2,'0'),'-') AS "SOR_END_FORECAST_TIME"
+	,COALESCE(LPAD(EXTRACT(DAY FROM SOR_START),2,'0') || '/' ||LPAD(EXTRACT(MONTH FROM SOR_START),2,'0') || '/' || EXTRACT(YEAR FROM SOR_START),'-') AS "SOR_START_DATE"
+	,COALESCE(LPAD(EXTRACT(HOUR FROM SOR_START),2,'0') || ':' ||LPAD(EXTRACT(MINUTE FROM SOR_START),2,'0'),'-') AS "SOR_START_TIME"
+	,COALESCE(LPAD(EXTRACT(DAY FROM SOR_END),2,'0') || '/' ||LPAD(EXTRACT(MONTH FROM SOR_END),2,'0') || '/' || EXTRACT(YEAR FROM SOR_END),'-') AS "SOR_END_DATE"
+	,COALESCE(LPAD(EXTRACT(HOUR FROM SOR_END),2,'0') || ':' ||LPAD(EXTRACT(MINUTE FROM SOR_END),2,'0'),'-') AS "SOR_END_TIME"	
+	,COALESCE(SLE_DESCRIPTION,'-')			AS "SLE_DESCRIPTION"
+	,COALESCE(SOR_REMARKS,'-')					AS "SOR_REMARKS"
+FROM
+    SERVICE_ORDER
+LEFT JOIN SERVICE_ORDER_TYPE 	ON SOR_TYPE_ID = SOT_ID
+LEFT JOIN SERVICE_ORDER_STATUS 	ON SOR_STATUS_ID = SOS_ID
+LEFT JOIN EVENTS 		ON SOR_EVENT_ID = EVE_ID 
+LEFT JOIN TECHNICIAN		ON SOR_TECHNICIAN_ID = TEC_ID
+LEFT JOIN SEVERITY_LEVEL	ON SOR_PRIORITY_ID = SLE_ID
+LEFT JOIN ALARMS		ON EVE_ALARM_ID = ALM_ID
+LEFT JOIN EQUIPMENTS		ON SOR_EQUIPMENT_ID = EQU_ID
+LEFT JOIN EQUIPMENTS_MODEL	ON EQU_MODEL_ID = EMO_ID
+LEFT JOIN SITES			ON EQU_SITE_ID = SIT_ID
+LEFT JOIN SUB_SYSTEM		ON EQU_SYSTEM_ID = SSY_ID
+WHERE
+	SOR_TYPE_ID = 2 -- Preditiva
+	AND SOR_DATETIME BETWEEN CAST($P{DataDe} AS DATE) AND CAST($P{DataAte} AS DATE)
+	AND SOR_EQUIPMENT_ID BETWEEN $P{CodDe} AND $P{CodAte}]]>
+	</queryString>
+	<field name="SOR_ID" class="java.lang.Integer"/>
+	<field name="SOR_DATETIME" class="java.lang.String"/>
+	<field name="SOS_DESCRIPTION" class="java.lang.String"/>
+	<field name="ALM_DESCRIPTION" class="java.lang.String"/>
+	<field name="EMO_DESCRIPTION" class="java.lang.String"/>
+	<field name="SIT_DESCRIPTION" class="java.lang.String"/>
+	<field name="SSY_ID" class="java.lang.String"/>
+	<field name="EVE_ID" class="java.lang.String"/>
+	<field name="SOR_EQUIPMENT_ID" class="java.lang.String"/>
+	<field name="SOR_PARENT_ID" class="java.lang.String"/>
+	<field name="SOR_TECHNICIAN_ID" class="java.lang.String"/>
+	<field name="TEC_NAME" class="java.lang.String"/>
+	<field name="SOR_START_FORECAST_DATE" class="java.lang.String"/>
+	<field name="SOR_START_FORECAST_TIME" class="java.lang.String"/>
+	<field name="SOR_END_FORECAST_DATE" class="java.lang.String"/>
+	<field name="SOR_END_FORECAST_TIME" class="java.lang.String"/>
+	<field name="SOR_START_DATE" class="java.lang.String"/>
+	<field name="SOR_START_TIME" class="java.lang.String"/>
+	<field name="SOR_END_DATE" class="java.lang.String"/>
+	<field name="SOR_END_TIME" class="java.lang.String"/>
+	<field name="SLE_DESCRIPTION" class="java.lang.String"/>
+	<field name="SOR_REMARKS" class="java.lang.String"/>
+	<variable name="V_CURRENT_PAGE_NUMBER" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{PAGE_NUMBER}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="2" width="323" height="37" uuid="9c3208e5-c35f-4fdb-95f9-d67356ad9df3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[SAM - Sistema de Apoio a Manutenção]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="720" y="8" width="80" height="31" uuid="e58e5d1c-67e9-4c3c-a0e7-5bf85c8acc9e"/>
+				<imageExpression><![CDATA[$P{logo_ttrans}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="198" y="13" width="407" height="20" uuid="3eac3d03-25c1-452f-a1b3-1329b1d92b5e"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Relatório de Ordem de Serviço Pendente]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="55" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="52" width="802" height="1" uuid="15f8c3e5-c3bc-41f6-8e4b-3262a6b16d6c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="52" uuid="c8fd4c52-3b7b-4b0a-a261-1a6623217d65"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="47" height="52" uuid="d8eaf831-56bb-4844-abda-35e2a7789a82"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="0" width="47" height="50" uuid="5a44ef70-7527-4e34-bb0c-7f64a0957a9f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alarme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="0" width="94" height="50" uuid="384c8095-9009-469d-82e4-e8c8f6bc030f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="0" width="94" height="50" uuid="2215ab89-2061-4ce4-b513-9bdb8d2aaa78"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="0" width="47" height="50" uuid="417ab27e-008d-43f7-b692-482da0be0852"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="47" height="50" uuid="82c3a60e-5ef3-4828-9760-4476c9fff04b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="473" y="0" width="47" height="50" uuid="8cfac799-e5d2-451b-b512-d5830b5f6f86"/>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[O.S. Origem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="0" width="94" height="50" uuid="5c626a60-4a32-40df-ad2f-b4c763f01910"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Técnico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="614" y="0" width="94" height="30" uuid="8726c544-2c17-484a-9228-df8a9555fdd9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Previsão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="662" y="30" width="46" height="22" uuid="112811ad-11f7-4594-bfd7-70694a50c769"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Término]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="708" y="0" width="94" height="30" uuid="e4f4387f-2467-4b50-b4a3-b7dba1c95cf5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Real]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="0" width="47" height="52" uuid="c93e7027-79cc-4dad-bc89-06240e8408ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sever.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="614" y="30" width="48" height="22" uuid="71c423f0-7334-4b9a-a29d-4ffd95c3a08e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="756" y="30" width="46" height="22" uuid="73e314f6-0c81-44b4-8e39-b25cc6d61f6a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Término]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="708" y="30" width="48" height="22" uuid="19daeeda-4437-4111-96b1-a6ec0e0cdb0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="66" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="65" width="802" height="1" uuid="480e7c7c-e2fb-4eeb-8c98-663ef27c2d53">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="5b32c9bd-1bcc-4be7-881f-d9aae0882b12">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="47" height="40" uuid="1fb189eb-aa75-4cfe-b872-b6d795bac0f6"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOS_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="0" width="47" height="40" uuid="76f05146-df4b-4f99-8896-378e15552b4c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ALM_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="191" y="20" width="94" height="20" uuid="84b22c68-12da-41e9-8a1b-f977238441b4"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMO_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="285" y="0" width="95" height="40" uuid="a889b1ba-88a4-4822-b37d-b36aebe7c59d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SIT_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="47" height="40" uuid="df9ef6e9-735e-4cdf-b81b-289f6a5439b9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SSY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="0" width="47" height="40" uuid="4531f7a2-9e44-40af-802b-a8b5030ec8eb"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EVE_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="191" y="0" width="94" height="20" uuid="9b3e3a72-7f31-4a8e-9df7-45357cc25b5c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_EQUIPMENT_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="0" width="47" height="40" uuid="da04a695-6ff6-47f7-825f-f8e58cc8b1ba"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_PARENT_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="0" width="94" height="20" uuid="c9845fc2-42c8-4dab-b67a-b7b8d4baf048"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_TECHNICIAN_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="0" width="47" height="40" uuid="db00cf4e-0192-487d-89b5-04a5d3d47ca6"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLE_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="550" y="40" width="252" height="24" uuid="7a67beee-4547-480c-863a-ac484bae6eb6"/>
+				<box topPadding="3" leftPadding="2">
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_REMARKS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="521" y="40" width="29" height="24" uuid="cf363886-28ab-4ff9-a129-34b619095dce"/>
+				<box topPadding="3">
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Obs: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="521" y="20" width="94" height="20" uuid="5173e093-a732-4b19-9408-4e9cb2bc4695"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TEC_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="615" y="0" width="48" height="20" uuid="37b012fd-17db-4f72-8157-55bc8d9b40a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_START_FORECAST_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="615" y="20" width="48" height="20" uuid="55bdde3d-c906-499f-82c7-fed1df6dbebf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_START_FORECAST_TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="663" y="0" width="45" height="20" uuid="6f9e3d56-bae2-48d8-b4f9-7eb176177542"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_END_FORECAST_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="663" y="20" width="45" height="20" uuid="7b90eeea-8549-4dbd-9d24-6a3f2add3dce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_END_FORECAST_TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="708" y="0" width="48" height="20" uuid="9e64d858-c330-44e3-852b-f373ecd52d19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_START_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="708" y="20" width="48" height="20" uuid="a2843b34-e25a-4b88-922b-7bda89123815"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_START_TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="756" y="0" width="46" height="20" uuid="964f41f0-7d13-46b5-8bf8-e56774e52c43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_END_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="756" y="20" width="46" height="20" uuid="c29c0b83-3cc3-4521-907b-68e637e35c27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_END_TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="50" height="20" uuid="a60e71af-5844-4e66-8ab5-fb49d918a887"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOR_DATETIME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="600" y="8" width="100" height="30" uuid="896bd1e6-20f6-412b-85d0-6e06cfa8e46c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="700" y="8" width="102" height="30" uuid="b1a102be-8956-4c1d-8c46-aa3f0f83e65e"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" uuid="9dc4b121-ce66-4d05-be30-2a9d6525db2b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="53" splitType="Stretch"/>
+	</summary>
+</jasperReport>

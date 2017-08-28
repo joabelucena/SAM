@@ -159,6 +159,8 @@ public class ReportController {
 		
 		try {
 			
+			logger.debug(params.toString());
+			
 			//Compiles JRXML file
 			JasperReport jasperReport = JasperCompileManager.compileReport(this.getClass().getResourceAsStream(REPORTS_PATH + label + ".jrxml"));
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, ds.getConnection());
@@ -186,7 +188,8 @@ public class ReportController {
 			
 			
 		} catch (Exception e) {
-			logger.error("Erro ao localizar arquivo de relatório Jasper: " + label + ". \n" + e.getMessage());
+			logger.error("Erro ao gerar relatório Jasper: " + label + " - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

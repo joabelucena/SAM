@@ -1,0 +1,47 @@
+{
+	"items": [
+			{ 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Equipam. De:",
+			    "ajaxUrl":	"equipment/load",
+			    "name":		"CodDe"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Equipam. Ate:",
+			    "ajaxUrl":	"equipment/load",
+			    "name":		"CodAte"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Tipo. De:",
+			    "ajaxUrl":	"equipment/load/type",
+			    "name":		"TipoDe"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Tipo. Ate:",
+			    "ajaxUrl":	"equipment/load/type",
+			    "name":		"TipoAte"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Sistem. De:",
+			    "ajaxUrl":	"equipment/load/system",
+			    "name":		"SistemaDe"
+            }, { 
+            	"xtype": 		"smartcombo",
+			    "fieldLabel": "Sistem. Ate:",
+			    "ajaxUrl":	"equipment/load/system",
+			    "name":		"SistemaAte"
+            }, { 
+            	"xtype": 	   "smartcombo",
+			    "fieldLabel": "Modelo De:",
+			    "ajaxUrl":	  "equipment/load/model",
+			    "name":		  "ModeloDe"
+            }, { 
+            	"xtype": 	  "smartcombo",
+			    "fieldLabel": "Modelo Ate:",
+			    "ajaxUrl":	  "equipment/load/model",
+			    "name":		  "ModeloAte"
+            }
+	]
+	
+}
+

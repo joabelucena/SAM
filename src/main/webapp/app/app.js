@@ -6,6 +6,7 @@
 	           ,'Sam.lib.DateTimePicker'
 	           ,'Sam.lib.DateTimeField'
 	           ,'Sam.lib.GroupField'
+	           ,'Sam.lib.SmartCombo'
 	           ,'Sam.lib.AutoGrid'
 	           ,'Sam.lib.AutoStore'
 	           ,'Sam.lib.Util'],

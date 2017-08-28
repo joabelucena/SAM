@@ -1,0 +1,17 @@
+{
+		"items": [
+			{ 
+            	"xtype": 		"datefield",
+			    "fieldLabel": "Data De:",
+			    "name":		"DataDe",
+				"format":	"Y-m-d"
+            }, { 
+            	"xtype": 		"datefield",
+			    "fieldLabel": "Data Ate:",
+			    "name":		"DataAte",
+			    "format":	"Y-m-d"
+            }
+	]
+	
+}
+

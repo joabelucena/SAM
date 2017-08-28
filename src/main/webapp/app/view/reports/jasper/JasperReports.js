@@ -15,27 +15,6 @@ Ext.define('Sam.view.reports.jasper.JasperReports', {
 
 			var data = this.xReportData;
 			
-//			var iframeContainer = new Ext.BoxComponent({
-//			    autoEl: {
-//			        tag: 'iframe',
-//			        frameborder: '0',
-//			        src: 'http://wikipedia.org'
-//			    },
-//			    
-//			    
-//			    listeners: {
-//			        afterrender: function () {
-//			            console.log('rendered');
-//
-//			            this.getEl().on('load', function () {
-//			                console.log('loaded');
-//			            });
-//			        }
-//			    }
-//			});
-//			
-//			me.add(iframeContainer);
-
 			me.add({
 				xtype : 'container',
 				layout : 'fit',

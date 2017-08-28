@@ -69,8 +69,9 @@ public class EquipmentController {
 
 	/*
 	 * Load Data Methods
+	 * 
+	 * Atencao: Esse método é um teste de paginacao. Nao esta em uso
 	 */
-	@RequestMapping("/load")
 	@ResponseBody
 	public Map<String, Object> loadData(@RequestParam(value = "start", required = true) int start,
 			@RequestParam(value = "limit", required = true) int limit) {
@@ -81,6 +82,19 @@ public class EquipmentController {
 
 		result.put("data", data);
 		result.put("total", dao.rowCount(Equipment.class, null));
+
+		return result;
+	}
+	
+	@RequestMapping("/load")
+	@ResponseBody
+	public Map<String, Object> loadData() {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<Equipment> data = equipmentService.loadData();
+
+		result.put("data", data);
 
 		return result;
 	}

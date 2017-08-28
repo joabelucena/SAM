@@ -1,11 +1,13 @@
 Ext.define('Sam.view.reports.jasper.ReportParameter', {
     extend: 'Ext.window.Window',
     xtype: 'form-vboxlayout',
-
-    title: 'Resize Me',
+    
+    requires: ['Sam.lib.SmartCombo'],
+        
+    title: 'Parametros',
     width: 500,
     height: 300,
-
+    
     minWidth: 300,
     minHeight: 220,
     layout: 'fit',
@@ -13,6 +15,8 @@ Ext.define('Sam.view.reports.jasper.ReportParameter', {
     closeAction : 'hide',
 	closable : false,
     
+	scrollable: true,
+	
     items: [{
         xtype: 'form',
         layout: {
@@ -59,33 +63,7 @@ Ext.define('Sam.view.reports.jasper.ReportParameter', {
         text: 'Ok',
         handler: function(button){
         	
-        	sumbitReport(button)
-//        	var mainPanel = Ext.getCmp('viewportpanel'),
-//				menuPanel = Ext.getCmp('viewportmenu'),
-//				window = button.up("window"),
-//				form = window.down('form');
-//        	
-//        	if(form.isValid()){
-//        		
-//	        	var data = form.getValues();
-//	        	
-//	        	data["label"] = window.xReportData.id;
-//	        	
-//				var newTab = mainPanel.add({
-//					xtype: 'jasper',
-//					xReportData: data,
-//					closable: true,
-//					title: "Relatório: " + window.xReportData.desc
-//				});
-//				
-//				
-//				window.close()
-//				
-//				if (newTab){
-//					mainPanel.setActiveTab(newTab);
-//				}
-//				
-//	        }
+        	sumbitReport(button);
         }
         	
     },{
